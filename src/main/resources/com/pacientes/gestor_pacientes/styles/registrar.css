@@ -1,0 +1,33 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+
+}
+
+
+.cajas{
+    -fx-background-color: #ffffff;
+    -fx-border-color: #ffffff #ffffff #C02A00 #ffffff;
+    -fx-border-width: 1px 1px 1px 1px;
+    -fx-border-style: solid;
+}
+
+.botonEntrar{
+     
+    -fx-background-color: #FF9776;
+    -fx-background-radius: 5px 5px 5px 5px;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+    -fx-background-insets: 0,1,2;
+    -fx-border-color: #C02A00;
+     
+    -fx-effect: dropshadow(one-pass-box, gray, 15, 0, 0, 0); 
+}
+
+.botonEntrar:hover{ 
+    -fx-background-color: #C07259;
+    -fx-border-color: #C04B2A;
+    -fx-effect: innershadow(one-pass-box, #FF9776, 30, 0, 0, 0);
+}

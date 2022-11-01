@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" styleClass="root" stylesheets="@styles/menuinicio.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pacientes.gestor_pacientes.controlador.MenuInicioController">
+   <children>
+      <VBox prefHeight="800.0" prefWidth="100.0" styleClass="menuEleccion" stylesheets="@styles/menuinicio.css" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane prefHeight="100.0" prefWidth="150.0" styleClass="elementoMenuEleccion" stylesheets="@styles/menuinicio.css">
+               <children>
+                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="34.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@img/paciente.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="100.0" prefWidth="150.0" styleClass="elementoMenuEleccion" stylesheets="@styles/menuinicio.css">
+               <children>
+                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="34.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" styleClass="imgMenu">
+                     <image>
+                        <Image url="@img/obra_social.png" />
+                     </image>
+                  </ImageView>
+               </children>
+               <VBox.margin>
+                  <Insets top="2.0" />
+               </VBox.margin>
+            </AnchorPane>
+            <AnchorPane prefHeight="100.0" prefWidth="150.0" styleClass="elementoMenuEleccion" stylesheets="@styles/menuinicio.css">
+               <children>
+                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="34.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@img/agenda.png" />
+                     </image>
+                  </ImageView>
+               </children>
+               <VBox.margin>
+                  <Insets top="2.0" />
+               </VBox.margin>
+            </AnchorPane>
+            <AnchorPane prefHeight="100.0" prefWidth="100.0" styleClass="elementoMenuEleccion" stylesheets="@styles/menuinicio.css">
+               <children>
+                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="34.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@img/ajustes.png" />
+                     </image>
+                  </ImageView>
+               </children>
+               <VBox.margin>
+                  <Insets top="2.0" />
+               </VBox.margin>
+            </AnchorPane>
+            <AnchorPane prefHeight="346.0" prefWidth="100.0" styleClass="elementoMenuEleccionInvertCuadrado" stylesheets="@styles/menuinicio.css">
+               <VBox.margin>
+                  <Insets top="48.0" />
+               </VBox.margin>
+            </AnchorPane>
+         </children>
+      </VBox>
+      <AnchorPane layoutX="298.0" layoutY="-63.0" prefHeight="800.0" prefWidth="1095.0" styleClass="apPacientes" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Accordion prefHeight="750.0" prefWidth="1100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+              <panes>
+                <TitledPane animated="false" prefHeight="750.0" prefWidth="1100.0" styleClass="tp" stylesheets="@styles/menuinicio.css" text="Datos principales">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="containerPacientes" stylesheets="@styles/menuinicio.css">
+                           <children>
+                              <VBox layoutX="46.0" layoutY="88.0" prefHeight="604.0" prefWidth="900.0" styleClass="containerPacientes" stylesheets="@styles/menuinicio.css" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0">
+                                 <children>
+                                    <ButtonBar prefHeight="40.0" prefWidth="200.0" />
+                                    <AnchorPane prefHeight="32.0" prefWidth="878.0">
+                                       <children>
+                                          <TextField alignment="BOTTOM_CENTER" layoutX="289.0" layoutY="12.0" prefHeight="24.0" prefWidth="300.0" styleClass="cajas" stylesheets="@styles/menuinicio.css" AnchorPane.topAnchor="20.0" />
+                                          <Label alignment="CENTER" contentDisplay="CENTER" layoutX="413.0" layoutY="-2.0" text="Nombre">
+                                             <font>
+                                                <Font name="Abyssinica SIL" size="13.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets top="100.0" />
+                                       </VBox.margin>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="32.0" prefWidth="878.0">
+                                       <children>
+                                          <TextField alignment="BOTTOM_CENTER" layoutX="289.0" layoutY="12.0" prefHeight="24.0" prefWidth="300.0" styleClass="cajas" stylesheets="@styles/menuinicio.css" AnchorPane.topAnchor="20.0" />
+                                          <Label alignment="CENTER" contentDisplay="CENTER" layoutX="413.0" layoutY="-1.0" text="Apellido">
+                                             <font>
+                                                <Font name="Abyssinica SIL" size="13.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets top="20.0" />
+                                       </VBox.margin>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="32.0" prefWidth="878.0">
+                                       <children>
+                                          <TextField alignment="BOTTOM_CENTER" layoutX="289.0" layoutY="12.0" prefHeight="24.0" prefWidth="300.0" styleClass="cajas" stylesheets="@styles/menuinicio.css" AnchorPane.topAnchor="20.0" />
+                                          <Label alignment="CENTER" contentDisplay="CENTER" layoutX="423.0" layoutY="-8.0" text="Edad">
+                                             <font>
+                                                <Font name="Abyssinica SIL" size="13.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets top="20.0" />
+                                       </VBox.margin>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="32.0" prefWidth="878.0">
+                                       <children>
+                                          <TextField alignment="BOTTOM_CENTER" layoutX="289.0" layoutY="12.0" prefHeight="24.0" prefWidth="300.0" styleClass="cajas" stylesheets="@styles/menuinicio.css" AnchorPane.topAnchor="20.0" />
+                                          <Label alignment="CENTER" contentDisplay="CENTER" layoutX="427.0" text="DNI">
+                                             <font>
+                                                <Font name="Abyssinica SIL" size="13.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets top="20.0" />
+                                       </VBox.margin>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="32.0" prefWidth="878.0">
+                                       <children>
+                                          <TextField alignment="BOTTOM_CENTER" layoutX="289.0" layoutY="12.0" prefHeight="24.0" prefWidth="300.0" styleClass="cajas" stylesheets="@styles/menuinicio.css" AnchorPane.topAnchor="20.0" />
+                                          <Label alignment="CENTER" contentDisplay="CENTER" layoutX="411.0" layoutY="-3.0" text="Telefono">
+                                             <font>
+                                                <Font name="Abyssinica SIL" size="13.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets top="20.0" />
+                                       </VBox.margin>
+                                    </AnchorPane>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </TitledPane>
+                <TitledPane animated="false" styleClass="tp" stylesheets="@styles/menuinicio.css" text="untitled 2">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  </content>
+                </TitledPane>
+                <TitledPane animated="false" styleClass="tp" stylesheets="@styles/menuinicio.css" text="untitled 3">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  </content>
+                </TitledPane>
+                  <TitledPane animated="false" styleClass="tp" stylesheets="@styles/menuinicio.css" text="untitled">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                  </TitledPane>
+              </panes>
+            </Accordion>
+            <ButtonBar layoutX="6.0" layoutY="7.0" prefHeight="40.0" prefWidth="353.0">
+              <buttons>
+                <Button mnemonicParsing="false" prefHeight="20.0" styleClass="botonBuscar" stylesheets="@styles/menuinicio.css" text="Buscar">
+                     <font>
+                        <Font name="Sawasdee Bold Oblique" size="14.0" />
+                     </font>
+                  </Button>
+                  <TextField alignment="BOTTOM_CENTER" prefHeight="26.0" prefWidth="300.0" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
+              </buttons>
+            </ButtonBar>
+            <Label alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="1066.0" layoutY="17.0" onMouseClicked="#salir" prefHeight="20.0" prefWidth="20.0" styleClass="botonEntrar" stylesheets="@styles/iniciarSesion.css" text="x" textFill="WHITE" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font name="DejaVuMathTeXGyre-Regular" size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

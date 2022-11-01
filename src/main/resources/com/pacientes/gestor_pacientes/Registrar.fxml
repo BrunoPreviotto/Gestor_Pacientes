@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: withe;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pacientes.gestor_pacientes.controlador.RegistrarController">
+    <stylesheets>
+        <URL value="@/com/pacientes/gestor_pacientes/styles/registrar.css" />
+    </stylesheets>
+   <children>
+      <Label alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="1003.0" layoutY="14.0" onMouseClicked="#salir" prefHeight="20.0" prefWidth="20.0" styleClass="botonEntrar" stylesheets="@styles/iniciarSesion.css" text="x" textFill="WHITE" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <font>
+            <Font name="DejaVuMathTeXGyre-Regular" size="13.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="297.0" fitWidth="307.0" layoutX="-112.0" layoutY="359.0" pickOnBounds="true" preserveRatio="true" rotate="11.3">
+         <image>
+            <Image url="@img/registrar.png" />
+         </image>
+      </ImageView>
+      <VBox layoutX="174.0" layoutY="20.0" prefHeight="400.0" prefWidth="400.0" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="100.0">
+         <children>
+            <Label text="Nombre">
+               <font>
+                  <Font name="Abyssinica SIL" size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Label>
+            <TextField fx:id="cajaNombre" alignment="CENTER" onKeyTyped="#noNumerosNombre" promptText="Ingresar Nombre" styleClass="cajas" stylesheets="@styles/registrar.css" />
+            <Label fx:id="etiquetaErrorNombre" prefHeight="16.0" prefWidth="153.0" textFill="RED" />
+            <Label text="Apellido">
+               <font>
+                  <Font name="Abyssinica SIL" size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Label>
+            <TextField fx:id="cajaApellido" alignment="CENTER" onKeyTyped="#noNumerosApellido" promptText="Ingresar Apellido" styleClass="cajas" stylesheets="@styles/registrar.css" />
+            <Label fx:id="etiquetaErrorApellido" prefHeight="16.0" prefWidth="145.0" textFill="RED" />
+            <Label text="Usuario">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Abyssinica SIL" size="16.0" />
+               </font>
+            </Label>
+            <TextField fx:id="cajaUusario" alignment="CENTER" promptText="Ingresar Usuario" styleClass="cajas" stylesheets="@styles/registrar.css" />
+            <Label fx:id="etiquetaErrorusuario" prefHeight="16.0" prefWidth="145.0" textFill="RED" />
+            <Label text="Contraseña">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Abyssinica SIL" size="16.0" />
+               </font>
+            </Label>
+            <PasswordField fx:id="cajaContraseña" alignment="CENTER" prefHeight="26.0" prefWidth="199.0" promptText="Ingresar Contraseña" styleClass="cajas" stylesheets="@styles/menuinicio.css">
+               <font>
+                  <Font name="Abyssinica SIL" size="14.0" />
+               </font>
+            </PasswordField>
+            <Label fx:id="etiquetaErrorcontraseña" prefHeight="16.0" prefWidth="145.0" textFill="RED" />
+            <Label text="Repetir contraseña">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Abyssinica SIL" size="16.0" />
+               </font>
+            </Label>
+            <PasswordField fx:id="cajaRepetirContraseña" alignment="CENTER" prefHeight="26.0" prefWidth="199.0" promptText="Repetir Contraseña" styleClass="cajas" stylesheets="@styles/menuinicio.css">
+               <font>
+                  <Font name="Abyssinica SIL" size="14.0" />
+               </font>
+            </PasswordField>
+            <Label fx:id="etiquetaErrorRepetirContraseña" prefHeight="16.0" prefWidth="145.0" textFill="RED" />
+            <Label text="Email">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Abyssinica SIL" size="16.0" />
+               </font>
+            </Label>
+            <TextField fx:id="cajaEmail" alignment="CENTER" promptText="Ingresar Email" styleClass="cajas" stylesheets="@styles/registrar.css" />
+            <Label fx:id="etiquetaErrorEmail" prefHeight="16.0" prefWidth="145.0" textFill="RED" />
+            <Label fx:id="etiquetaError" prefHeight="28.0" prefWidth="277.0" text="ERROR DATOS INCOMPATIBLES" textFill="#e40f0f" visible="false">
+               <padding>
+                  <Insets top="5.0" />
+               </padding>
+               <font>
+                  <Font name="Abyssinica SIL" size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <Button layoutX="686.0" layoutY="550.0" mnemonicParsing="false" onMouseClicked="#registrar" styleClass="botonEntrar" stylesheets="@styles/registrar.css" text="Registrarse" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+      <Label fx:id="reg" layoutX="32.0" layoutY="300.0" text="REGISTRADISIMO" visible="false" />
+   </children>
+</AnchorPane>

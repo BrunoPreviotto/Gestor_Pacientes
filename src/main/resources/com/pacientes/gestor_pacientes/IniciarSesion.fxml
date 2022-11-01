@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" fx:id="container" cacheShape="false" onDragDetected="#dragged" prefHeight="200.0" prefWidth="571.0" style="-fx-background-color: white;" styleClass="root" stylesheets="@styles/iniciarSesion.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pacientes.gestor_pacientes.controlador.IniciarSesionController">
+    
+   <children>
+      <Label alignment="TOP_CENTER" contentDisplay="CENTER" onMouseClicked="#salir" prefHeight="20.0" prefWidth="20.0" styleClass="botonEntrar" stylesheets="@styles/iniciarSesion.css" text="x" textFill="WHITE" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <font>
+            <Font name="DejaVuMathTeXGyre-Regular" size="13.0" />
+         </font>
+      </Label>
+      <VBox layoutX="159.0" layoutY="38.0" prefHeight="148.0" prefWidth="278.0" AnchorPane.topAnchor="38.0">
+         <children>
+            <Label text="Usuario">
+               <padding>
+                  <Insets top="5.0" />
+               </padding>
+               <font>
+                  <Font name="Abyssinica SIL" size="16.0" />
+               </font>
+            </Label>
+            <TextField fx:id="cajaUsuario" alignment="CENTER" cache="true" prefHeight="26.0" prefWidth="201.0" promptText="Ingresar Nombre y Apellido" styleClass="cajas" stylesheets="@styles/iniciarSesion.css">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets top="5.0" />
+               </padding>
+               <font>
+                  <Font name="Abyssinica SIL" size="14.0" />
+               </font>
+            </TextField>
+            <Label text="Contraseña">
+               <padding>
+                  <Insets top="15.0" />
+               </padding>
+               <font>
+                  <Font name="Abyssinica SIL" size="16.0" />
+               </font>
+            </Label>
+            <PasswordField fx:id="cajaContraseña" alignment="CENTER" prefHeight="26.0" prefWidth="199.0" promptText="Ingresar Contraseña" styleClass="cajas" stylesheets="@styles/iniciarSesion.css">
+               <padding>
+                  <Insets top="5.0" />
+               </padding>
+               <font>
+                  <Font name="Abyssinica SIL" size="14.0" />
+               </font>
+            </PasswordField>
+            <Label fx:id="etiquetaError" prefHeight="28.0" prefWidth="277.0" text="ERROR DATOS INCOMPATIBLES" textFill="#e40f0f" visible="false">
+               <padding>
+                  <Insets top="5.0" />
+               </padding>
+               <font>
+                  <Font name="Abyssinica SIL" size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <VBox layoutX="499.0" layoutY="49.0" prefHeight="105.0" prefWidth="96.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
+         <children>
+            <Button fx:id="botonInicioSesion" mnemonicParsing="false" onMouseClicked="#peticionParaIngresar" prefHeight="40.0" prefWidth="112.0" styleClass="botonEntrar" stylesheets="@styles/iniciarSesion.css" text="Entrar" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Sawasdee Bold" size="15.0" />
+               </font>
+            </Button>
+            <Button fx:id="botonInicioSesion1" mnemonicParsing="false" onMouseClicked="#Registrarse" prefHeight="36.0" prefWidth="112.0" styleClass="botonRegistrarse" stylesheets="@styles/iniciarSesion.css" text="Registrarse" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Sawasdee Bold" size="15.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+      <Pane layoutX="7.0" layoutY="28.0" prefHeight="140.0" prefWidth="140.0" styleClass="contenedorImgLogin" stylesheets="@styles/iniciarSesion.css">
+         <children>
+            <ImageView fitHeight="136.0" fitWidth="136.0" layoutX="2.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true" styleClass="contenedorImgLogin">
+               <image>
+                  <Image url="@img/usuario.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+   </children>
+   <cursor>
+      <Cursor fx:constant="DEFAULT" />
+   </cursor>
+   
+</AnchorPane>

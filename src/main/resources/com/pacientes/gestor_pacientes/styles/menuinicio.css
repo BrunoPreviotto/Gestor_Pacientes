@@ -1,0 +1,81 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.root{
+    -fx-background-color: rgba(0, 0, 0, 0, 0.3);
+    -fx-background-radius: 10;
+}
+
+.menuEleccion{
+    -fx-color: transparent;
+    -fx-color: #ffffff;
+}
+
+.elementoMenuEleccion{
+    -fx-background-radius: 0 55 0 55;
+    -fx-border-color: #C02A00;
+    -fx-background-color: #FF9776;
+    -fx-border-radius: 0 50 0 50;
+    -fx-border-width: 3 3 3 3;
+     -fx-background-insets: 0,1,2;
+}
+
+.tp{
+    -fx-color: #C02A00;
+    -fx-border-color: #FF9776;
+    
+}
+
+.botonBuscar{
+     
+    -fx-background-color: #FF9776;
+    -fx-background-radius: 5px 5px 5px 5px;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+    -fx-background-insets: 0,1,2;
+    -fx-border-color: #C02A00;
+     
+    -fx-effect: dropshadow(one-pass-box, gray, 15, 0, 0, 0); 
+}
+
+.botonBuscar:hover{ 
+    -fx-background-color: #C07259;
+    -fx-border-color: #C04B2A;
+    -fx-effect: innershadow(one-pass-box, #FF9776, 30, 0, 0, 0);
+}
+
+
+.imgMenu{
+    -fx-border-radius: 80;
+    -fx-border-color: #ff6337;
+    
+}
+
+
+
+.elementoMenuEleccionInvertCuadrado{
+    -fx-border-color: #C02A00;
+    -fx-background-color: #FF9776;
+    -fx-background-radius: 0 50 0 0;
+    -fx-border-radius: 0 50 0 0;
+    -fx-border-width: 3 3 3 3;
+}
+
+.cajas{
+    -fx-background-color: #ffffff;
+    -fx-border-color: #ffffff #ffffff #C02A00 #ffffff;
+    -fx-border-width: 1px 1px 1px 1px;
+    -fx-border-style: solid;
+}
+
+.containerPacientes{
+    -fx-background-color: #ffffff;
+}
+
+.apPacientes{
+    -fx-background-color: white;
+    -fx-border-color: #ff6337;
+    -fx-background-radius: 10px 10px 10px 10px;
+     -fx-border-radius: 10px 10px 10px 10px;
+}
