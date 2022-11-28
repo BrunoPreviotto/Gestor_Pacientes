@@ -10,5 +10,6 @@ import java.util.List;
  * @author previotto
  */
 public interface IUsuarioDAO extends CRUD<Usuario>{
-    
+    public List<String> existeUsuarioReciente();
+    public Usuario obtenerNombreUsuario();
 }

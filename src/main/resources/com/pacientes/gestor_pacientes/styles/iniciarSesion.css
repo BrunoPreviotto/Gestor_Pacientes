@@ -9,29 +9,27 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 
 .root{
     -fx-background-color: white; 
-    -fx-border-color: #ff6337;
+    -fx-border-color: #C02A00;
     -fx-background-radius: 10px 10px 10px 10px;
      -fx-border-radius: 10px 10px 10px 10px;
+     
 }
 
 
 
 .botonEntrar{
      
-    -fx-background-color: #FF9776;
+    -fx-background-color: #FF6638;
     -fx-background-radius: 5px 5px 5px 5px;
     -fx-border-radius: 3;
     -fx-background-radius: 3;
-    -fx-background-insets: 0,1,2;
+    -fx-background-insets: 1,2,3;
     -fx-border-color: #C02A00;
-     
-    -fx-effect: dropshadow(one-pass-box, gray, 15, 0, 0, 0); 
+    -fx-effect: dropshadow(gaussian, black, 10, 0, 0, 2);
 }
 
 .botonEntrar:hover{ 
-    -fx-background-color: #C07259;
-    -fx-border-color: #C04B2A;
-    -fx-effect: innershadow(one-pass-box, #FF9776, 30, 0, 0, 0);
+     -fx-effect: innershadow(one-pass-box, #C02A00, 30, 0, 0, 5);
 }
 
 .botonRegistrarse{
@@ -40,12 +38,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-border-radius: 3;
     -fx-background-radius: 3;
     -fx-background-insets: 0,1,2;
+    -fx-effect: dropshadow(gaussian, black, 10, 0, 0, 2);
 }
 
 .botonRegistrarse:hover{
-    -fx-background-color: #C07259;
-    -fx-border-color: #C04B2A;
-    -fx-effect: innershadow(one-pass-box, #FF9776, 30, 0, 0, 0);
+    -fx-background-color: #C02A00;
+    
+    -fx-effect: innershadow(one-pass-box, darkred, 30, 0, 0, 5);
 }
 
 

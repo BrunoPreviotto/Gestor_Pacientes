@@ -19,9 +19,18 @@ import java.util.List;
  */
 public class ConexionMariadb {
    
-    List<Usuario> usuario = new ArrayList();
+    private static ConexionMariadb instancia;
     
-    public static Connection conexion(){
+    private ConexionMariadb(){};
+    
+    public static ConexionMariadb getInstacia(){
+        if(instancia == null){
+            instancia = new ConexionMariadb();
+        }
+        return instancia;
+    }
+    
+    public Connection conexion(){
         Connection conexion = null;
         String url = "jdbc:mariadb://localhost:3306/gestion_pacientes";
         String user = "root";

@@ -91,15 +91,11 @@
             </Button>
          </children>
       </VBox>
-      <Pane layoutX="7.0" layoutY="28.0" prefHeight="140.0" prefWidth="140.0" styleClass="contenedorImgLogin" stylesheets="@styles/iniciarSesion.css">
-         <children>
-            <ImageView fitHeight="136.0" fitWidth="136.0" layoutX="2.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true" styleClass="contenedorImgLogin">
-               <image>
-                  <Image url="@img/usuario.png" />
-               </image>
-            </ImageView>
-         </children>
-      </Pane>
+      <ImageView fitHeight="148.0" fitWidth="132.0" layoutX="14.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/usuario.png" />
+         </image>
+      </ImageView>
    </children>
    <cursor>
       <Cursor fx:constant="DEFAULT" />

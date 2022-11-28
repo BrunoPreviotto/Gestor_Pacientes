@@ -13,7 +13,12 @@ import java.security.NoSuchAlgorithmException;
  */
 public class Encriptar {
     
-	
+
+    /**
+     * Encripta la cadena pasada por parametro
+     * @param password
+     * @return devuelve una cadena encriptada en SHA256
+     */
     public static String convertirSHA256(String password) {
         MessageDigest md = null;
         try {

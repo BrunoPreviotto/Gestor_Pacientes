@@ -12,9 +12,10 @@ import java.util.List;
  * @author previotto
  */
 public interface CRUD<T> {
-    public List<T> obtenerClientes();
-    public List<String> obtener(String usuario, String contraseña);
-    public void actualizar(T usuario);
-    public void eliminar(T usuario);
-    public void insertar(T usuario);
+   
+    public List<T> obtenerLista(T objeto);
+    public T obtener(T objeto);
+    public void actualizar(T objeto);
+    public void eliminar(T objeto);
+    public void insertar(T objeto);
 }

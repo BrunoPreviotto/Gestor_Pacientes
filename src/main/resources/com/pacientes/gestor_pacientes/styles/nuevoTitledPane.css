@@ -1,0 +1,63 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 10 nov 2022, 19:03:07
+    Author     : previotto
+*/
+
+.titled-pane 
+{
+   
+-fx-text-fill: white;
+}
+.titled-pane:focused 
+{
+-fx-text-fill: #C02A00;
+}
+.titled-pane > .title 
+{
+-fx-background-color: #C02A00, #FF6638;
+-fx-background-insets: 0, 1, 2;
+-fx-background-radius: 5 5 5 5, 5 5 5 5, 5 5 5 5;
+ /*-fx-pref-width: 100000000;*/
+ -fx-pref-height: 20;
+-fx-effect: innershadow( one-pass-box , #C02A00 , 10 , 0 , 0 , 3 );
+}
+
+.titled-pane:focused > .title 
+{
+-fx-color: blue;
+}
+
+.titled-pane > .title > .arrow-button 
+{
+-fx-background-color: null;
+-fx-background-insets: 0;
+-fx-background-radius: 0;
+}
+
+.titled-pane > .title > .arrow-button .arrow 
+{
+-fx-background-color: white, #C02A00;
+-fx-background-insets: 1 0 -1 0, 0;
+-fx-shape: "M 0 0 h 7 l -3.5 4 z";
+}
+
+.titled-pane:collapsed > .title > .arrow-button .arrow 
+{
+-fx-rotate: -90;
+}
+
+.titled-pane > *.content 
+{
+-fx-background-color: -fx-box-border, linear-gradient(to bottom, derive(-fx-color,-02%), derive(-fx-color,65%) 12%,      derive(-fx-color,23%) 88%, derive(-fx-color,50%) 99%, -fx-box-border);
+-fx-background-insets: 0, 0 1 1 1;
+
+ }
+
+.titled-pane:focused > .title > .arrow-button .arrow 
+{
+-fx-background-color: white;
+}

@@ -4,10 +4,10 @@
  */
 package com.pacientes.gestor_pacientes.controlador;
 
-import com.pacientes.gestor_pacientes.App;
+
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.application.Platform;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -17,21 +17,21 @@ import javafx.stage.Stage;
 
 import com.pacientes.gestor_pacientes.DAO.IUsuarioDAO;
 import com.pacientes.gestor_pacientes.implementacionDAO.UsuarioDAOImplementacion;
-import java.sql.Array;
+import com.pacientes.gestor_pacientes.modelo.Usuario;
+
 import java.util.ArrayList;
-import java.util.List;
+
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import com.pacientes.gestor_pacientes.utilidades.DraggedScene;
 import java.io.IOException;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
+
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.StageStyle;
-import javafx.stage.Window;
+
 
 
 /**
@@ -54,8 +54,10 @@ public class IniciarSesionController extends PadreController implements Initiali
     private AnchorPane container;
     @FXML
     private TextField cajaUsuario;
+    
+    private Usuario usuario;
 
-
+    
     /**
      * Initializes the controller class.
      */
@@ -67,16 +69,21 @@ public class IniciarSesionController extends PadreController implements Initiali
 
     
     
-   
+   /**
+    * permite el ingreso a la aplicacion si es que el usuario esta registrado
+    * @param event
+    * @throws IOException 
+    */
     @FXML
     private void peticionParaIngresar(MouseEvent event) throws IOException{
         if(!cajaUsuario.getText().equals("") || !cajaContraseña.getText().equals("")){
-            IUsuarioDAO usuario = new UsuarioDAOImplementacion();
-            ArrayList<String> us = new ArrayList();
-            us.add(cajaUsuario.getText());
-            us.add(cajaContraseña.getText());
+            IUsuarioDAO usuarioDao = new UsuarioDAOImplementacion();
+            usuario = new Usuario();
+            usuario.setUsuario(cajaUsuario.getText());
+            usuario.setContraseña(cajaContraseña.getText());
+            
 
-            if (!usuario.obtener(us.get(0), us.get(1)).isEmpty()) {
+            if (!usuarioDao.obtener(usuario).getUsuario().equals("")) {
                 etiquetaError.setVisible(false);
                 ((Node) (event.getSource())).getScene().getWindow().hide();
                 Scene scene = new Scene(loadFXML("MenuInicio"));
@@ -86,7 +93,6 @@ public class IniciarSesionController extends PadreController implements Initiali
 
                 newStage.initStyle(StageStyle.TRANSPARENT);
                 newStage.show();
-            
             }
         }else {
             etiquetaError.setVisible(true);
@@ -100,6 +106,11 @@ public class IniciarSesionController extends PadreController implements Initiali
         
     }
 
+    /**
+     * Si se aprieta el boton registrar envia a la ventana de registrar
+     * @param event
+     * @throws IOException 
+     */
     @FXML
     private void Registrarse(MouseEvent event) throws IOException {
         ((Node) (event.getSource())).getScene().getWindow().hide();
@@ -109,5 +120,7 @@ public class IniciarSesionController extends PadreController implements Initiali
         newStage.initStyle(StageStyle.TRANSPARENT);
         newStage.show();
     }
+
+    
     
 }

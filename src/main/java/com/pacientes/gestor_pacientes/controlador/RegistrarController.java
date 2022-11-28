@@ -4,9 +4,11 @@
  */
 package com.pacientes.gestor_pacientes.controlador;
 
-import com.pacientes.gestor_pacientes.modelo.Usuario;
+
 import com.pacientes.gestor_pacientes.implementacionDAO.UsuarioDAOImplementacion;
 import com.pacientes.gestor_pacientes.servicios.InicializarObjeto;
+import com.pacientes.gestor_pacientes.validacion.Validar;
+import static com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -16,7 +18,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import com.pacientes.gestor_pacientes.validacion.ValidarRegistro;
 import java.io.IOException;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -46,21 +47,7 @@ public class RegistrarController extends PadreController implements Initializabl
     @FXML
     private TextField cajaUusario;
     @FXML
-    private Label etiquetaErrorNombre;
-    @FXML
     private Label etiquetaErrorApellido;
-    
-    private  final String CHEQUEAR_DATOS = "Corrigir datos inválidos";
-    private  final String NO_NUMEROS = "Ingresar solo texto";
-    private  final String NOMBRE_EXEDIDO_CARACTERES = "El nombre debe ser menor a 50 caracteres";
-    private  final String APELLIDO_EXEDIDO_CARACTERES = "El apellido debe ser menor a 50 caracteres";
-    private  final String USUARIO_EXEDIDO_CARACTERES = "El usuario debe ser menor a 100 caracteres";
-    private  final String CONTRASEÑA_EXEDIDO_CARACTERES = "La contraseña debe ser menor a 100 caracteres";
-    private  final String CONTRASEÑA_NO_COINCIDEN = "Las contraseñas no coinciden";
-    private  final String EMAIL_EXEDIDO_CARACTERES = "El email debe ser menor a 250 caracteres";
-    private  final String EMAIL_NO_VALIDO = "El email tiene un formato no válido";
-    
-    private ValidarRegistro validar = new ValidarRegistro();
     @FXML
     private Label etiquetaErrorusuario;
     @FXML
@@ -71,8 +58,12 @@ public class RegistrarController extends PadreController implements Initializabl
     private Label etiquetaErrorEmail;
     @FXML
     private Label reg;
+    @FXML
+    private Label etiquetaErrorNombre;
     
-    UsuarioDAOImplementacion usuarioDao = new UsuarioDAOImplementacion();
+    
+    private Validar validar = new Validar();
+    private UsuarioDAOImplementacion usuarioDao = new UsuarioDAOImplementacion();
     
 
     /**
@@ -83,54 +74,63 @@ public class RegistrarController extends PadreController implements Initializabl
         // TODO
     }    
 
-    @FXML
-    private void noNumerosNombre(KeyEvent event) {
-        
-        etiquetaErrorNombre.setText("");
-        if(!Character.isAlphabetic(event.getCharacter().charAt(0))){
-           cajaNombre.setText("");
-           etiquetaErrorNombre.setText(NO_NUMEROS);
-        }
-    }
-
+    /**
+     * No permiten el ingreso de numeros
+     * @param event 
+     */
     
-    @FXML
-    private void noNumerosApellido(KeyEvent event) {
-        
-        etiquetaErrorApellido.setText("");
-        if(!Character.isAlphabetic(event.getCharacter().charAt(0))){
-           cajaApellido.setText("");
-           etiquetaErrorApellido.setText(NO_NUMEROS);
-        }
-    }
 
    
-
+    /**
+     * Permite regitrar a un usuario
+     * @param event
+     * @throws IOException 
+     */
     @FXML
     private void registrar(MouseEvent event) throws IOException {
        
+        validarRegistro();
         
-       if(!validar.validarNombreApellido(cajaNombre.getText())){
-           etiquetaErrorNombre.setText(NOMBRE_EXEDIDO_CARACTERES);
+        if (etiquetaErrorEmail.visibleProperty().get() && etiquetaErrorNombre.visibleProperty().get() && etiquetaErrorApellido.visibleProperty().get() && etiquetaErrorcontraseña.visibleProperty().get() && etiquetaErrorRepetirContraseña.visibleProperty().get()) {
+            usuarioDao.insertar(InicializarObjeto.inicializarUsuario(0, cajaNombre.getText().trim(), cajaApellido.getText().trim(), cajaUusario.getText().trim(), cajaContraseña.getText().trim(), cajaEmail.getText().trim(), true, true));
+            ((Node) (event.getSource())).getScene().getWindow().hide();
+            Scene scene = new Scene(loadFXML("MenuInicio"));
+            Stage newStage = new Stage();
+            scene.setFill(Color.TRANSPARENT);
+            newStage.setScene(scene);
+            newStage.initStyle(StageStyle.TRANSPARENT);
+            newStage.show();
+        } else {
+            etiquetaError.setText(CHEQUEAR_DATOS);
+        }
+       
+    }
+    
+    /**
+     * Valida las entradas. Si no son validas imprime error
+     */
+    public void validarRegistro(){
+        if(!validar.validarCincuenta(cajaNombre.getText())){
+           etiquetaErrorNombre.setText(EXEDIDO_CARACTERES);
            
        }
        
-       if(!validar.validarNombreApellido(cajaApellido.getText())){
-           etiquetaErrorNombre.setText(APELLIDO_EXEDIDO_CARACTERES);
+       if(!validar.validarCincuenta(cajaApellido.getText())){
+           etiquetaErrorApellido.setText(EXEDIDO_CARACTERES);
            
        }
        
-       if(!validar.validarUsuarioContraseña(cajaUusario.getText())){
-           etiquetaErrorusuario.setText(USUARIO_EXEDIDO_CARACTERES);
+        if(!validar.validarCien(cajaUusario.getText())){
+           etiquetaErrorusuario.setText(EXEDIDO_CARACTERES);
           
        }
-       if(!validar.validarUsuarioContraseña(cajaContraseña.getText())){
-           etiquetaErrorcontraseña.setText(CONTRASEÑA_EXEDIDO_CARACTERES);
+       if(!validar.validarCien(cajaContraseña.getText())){
+           etiquetaErrorcontraseña.setText(EXEDIDO_CARACTERES);
           
        }
        
-       if(!validar.validarUsuarioContraseña(cajaRepetirContraseña.getText())){
-           etiquetaErrorRepetirContraseña.setText(CONTRASEÑA_EXEDIDO_CARACTERES);
+       if(!validar.validarCien(cajaRepetirContraseña.getText())){
+           etiquetaErrorRepetirContraseña.setText(EXEDIDO_CARACTERES);
        }
        
        if(!cajaContraseña.getText().equals(cajaRepetirContraseña.getText())){
@@ -139,28 +139,12 @@ public class RegistrarController extends PadreController implements Initializabl
        }
        
        if(!validar.validarLongitudEmail(cajaEmail.getText())){
-           etiquetaErrorRepetirContraseña.setText(EMAIL_EXEDIDO_CARACTERES);
+           etiquetaErrorRepetirContraseña.setText(EXEDIDO_CARACTERES);
        }
        
        if(!validar.validarEmail(cajaEmail.getText())){
            etiquetaErrorRepetirContraseña.setText(EMAIL_NO_VALIDO);
        }
-       
-       if(etiquetaErrorEmail.visibleProperty().get() && etiquetaErrorNombre.visibleProperty().get() && etiquetaErrorApellido.visibleProperty().get() && etiquetaErrorcontraseña.visibleProperty().get() && etiquetaErrorRepetirContraseña.visibleProperty().get()){
-            usuarioDao.insertar(InicializarObjeto.inicializarUsuario(0, cajaNombre.getText().trim(), cajaApellido.getText().trim(), cajaUusario.getText().trim(), cajaContraseña.getText().trim(), cajaEmail.getPromptText().trim(), true, 2));
-            ((Node) (event.getSource())).getScene().getWindow().hide();
-            Scene scene = new Scene(loadFXML("MenuInicio"));
-            Stage newStage = new Stage();
-            scene.setFill(Color.TRANSPARENT);
-            newStage.setScene(scene);
-            newStage.initStyle(StageStyle.TRANSPARENT);
-            newStage.show();
-       }else{
-           etiquetaError.setText(CHEQUEAR_DATOS);
-       }
-       
-       
-       
     }
 
    

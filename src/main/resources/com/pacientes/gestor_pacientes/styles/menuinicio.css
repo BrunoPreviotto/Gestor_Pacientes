@@ -13,37 +13,46 @@
 }
 
 .elementoMenuEleccion{
+    
     -fx-background-radius: 0 55 0 55;
+    -fx-background-color: #FF6638;
     -fx-border-color: #C02A00;
-    -fx-background-color: #FF9776;
     -fx-border-radius: 0 50 0 50;
+    -fx-background-insets: 1,2,3;
+    -fx-effect: innershadow( one-pass-box , #C02A00 , 10 , 0 , 0 , 5 );
     -fx-border-width: 3 3 3 3;
-     -fx-background-insets: 0,1,2;
+
 }
 
-.tp{
-    -fx-color: #C02A00;
-    -fx-border-color: #FF9776;
+.elementoMenuEleccion:hover{
     
+    -fx-effect: innershadow(one-pass-box, #C02A00, 30, 0, 0, 5);
+    -fx-text-fill: #C02A00;
+
 }
+
+
 
 .botonBuscar{
      
-    -fx-background-color: #FF9776;
+    -fx-background-color: #FF6638;
     -fx-background-radius: 5px 5px 5px 5px;
     -fx-border-radius: 3;
     -fx-background-radius: 3;
-    -fx-background-insets: 0,1,2;
+    -fx-background-insets: 1,2,3;
     -fx-border-color: #C02A00;
-     
-    -fx-effect: dropshadow(one-pass-box, gray, 15, 0, 0, 0); 
+    -fx-effect: dropshadow(gaussian, black, 10, 0, 0, 2);
+    -fx-text-fill: white;
 }
 
+
+
 .botonBuscar:hover{ 
-    -fx-background-color: #C07259;
-    -fx-border-color: #C04B2A;
-    -fx-effect: innershadow(one-pass-box, #FF9776, 30, 0, 0, 0);
+    -fx-effect: innershadow(one-pass-box, #C02A00, 30, 0, 0, 5);
+    -fx-text-fill: #C02A00;
 }
+
+
 
 
 .imgMenu{
@@ -52,14 +61,22 @@
     
 }
 
+.paneNombreUsuario{
+    -fx-background-radius: 10 10 10 10;
+    -fx-background-color: #FF6638;
+    -fx-border-color: #C02A00;
+    -fx-border-radius: 10 10 10 10;
+    -fx-border-width: 3;
+}
 
 
 .elementoMenuEleccionInvertCuadrado{
     -fx-border-color: #C02A00;
-    -fx-background-color: #FF9776;
+    -fx-background-color: #FF6638;
     -fx-background-radius: 0 50 0 0;
     -fx-border-radius: 0 50 0 0;
     -fx-border-width: 3 3 3 3;
+    -fx-effect: innershadow( one-pass-box , #C02A00 , 50 , 0 , 0 , 10 );
 }
 
 .cajas{
@@ -70,12 +87,94 @@
 }
 
 .containerPacientes{
-    -fx-background-color: #ffffff;
+   -fx-background-color: #ffffff;
 }
+
+
 
 .apPacientes{
     -fx-background-color: white;
-    -fx-border-color: #ff6337;
+    
     -fx-background-radius: 10px 10px 10px 10px;
-     -fx-border-radius: 10px 10px 10px 10px;
+    
+    
+    
+}
+
+
+.titled-pane 
+{
+   
+-fx-text-fill: white;
+}
+.titled-pane:focused 
+{
+-fx-text-fill: #C02A00;
+}
+.titled-pane > .title 
+{
+-fx-background-color: #C02A00, #FF6638;
+-fx-background-insets: 0, 1, 2;
+-fx-background-radius: 5 5 5 5, 5 5 5 5, 5 5 5 5;
+ /*-fx-pref-width: 100000000;*/
+ -fx-pref-height: 40;
+-fx-effect: innershadow( one-pass-box , #C02A00 , 10 , 0 , 0 , 3 );
+}
+
+.titled-pane:focused > .title 
+{
+-fx-color: blue;
+}
+
+.titled-pane > .title > .arrow-button 
+{
+-fx-background-color: null;
+-fx-background-insets: 0;
+-fx-background-radius: 0;
+}
+
+.titled-pane > .title > .arrow-button .arrow 
+{
+-fx-background-color: white, #C02A00;
+-fx-background-insets: 1 0 -1 0, 0;
+-fx-shape: "M 0 0 h 7 l -3.5 4 z";
+}
+
+.titled-pane:collapsed > .title > .arrow-button .arrow 
+{
+-fx-rotate: -90;
+}
+
+.titled-pane > *.content 
+{
+-fx-background-color: -fx-box-border, linear-gradient(to bottom, derive(-fx-color,-02%), derive(-fx-color,65%) 12%,      derive(-fx-color,23%) 88%, derive(-fx-color,50%) 99%, -fx-box-border);
+-fx-background-insets: 0, 0 1 1 1;
+
+
+ }
+
+.titled-pane:focused > .title > .arrow-button .arrow 
+{
+-fx-background-color: white;
+}
+
+.rectanguloMenu{
+    
+    -fx-background-color: white;
+    
+    
+    -fx-background-radius: 0px 50px 100px 0px;
+    
+    -fx-effect: innershadow( three-pass-box , #C02A00, 1, 0 , -1, -1);
+}
+
+
+.calendario Line {
+  -fx-stroke   : #C02A00;
+}
+
+.calendario {
+    -fx-background-color: #FF6638;
+    
+    
 }

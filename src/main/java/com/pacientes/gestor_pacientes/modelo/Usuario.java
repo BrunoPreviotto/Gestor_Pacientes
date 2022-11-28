@@ -16,13 +16,15 @@ public class Usuario {
     private String contraseña;
     private String mail;
     private boolean es_usuario;
-    private int id_es_ultima_sesion_iniciada;
+    private boolean es_ultima_sesion_iniciada;
     
+    //CONSTRUCTOR 1
     public Usuario(){
         
     }
 
-    public Usuario(int id, String nombre, String apellido, String usuario, String contraseña, String mail, boolean es_usuario, int id_es_ultima_sesion_iniciada) {
+    //CONSTRUCTOR 2
+    public Usuario(int id, String nombre, String apellido, String usuario, String contraseña, String mail, boolean es_usuario, boolean id_es_ultima_sesion_iniciada) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -30,8 +32,21 @@ public class Usuario {
         this.contraseña = contraseña;
         this.mail = mail;
         this.es_usuario = es_usuario;
-        this.id_es_ultima_sesion_iniciada = id_es_ultima_sesion_iniciada;
+        this.es_ultima_sesion_iniciada = id_es_ultima_sesion_iniciada;
     }
+
+    public Usuario(String usuario, String contraseña) {
+        this.usuario = usuario;
+        this.contraseña = contraseña;
+    }
+
+    public Usuario(String usuario) {
+        this.usuario = usuario;
+    }
+    
+    
+    
+    
     
     
 
@@ -43,12 +58,12 @@ public class Usuario {
         this.usuario = usuario;
     }
 
-    public int getId_es_ultima_sesion_iniciada() {
-        return id_es_ultima_sesion_iniciada;
+    public boolean getId_es_ultima_sesion_iniciada() {
+        return es_ultima_sesion_iniciada;
     }
 
-    public void setId_es_ultima_sesion_iniciada(int id_es_ultima_sesion_iniciada) {
-        this.id_es_ultima_sesion_iniciada = id_es_ultima_sesion_iniciada;
+    public void setId_es_ultima_sesion_iniciada(boolean id_es_ultima_sesion_iniciada) {
+        this.es_ultima_sesion_iniciada = id_es_ultima_sesion_iniciada;
     }
 
     

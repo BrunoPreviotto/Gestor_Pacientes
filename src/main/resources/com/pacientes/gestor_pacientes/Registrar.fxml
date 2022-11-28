@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: withe;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pacientes.gestor_pacientes.controlador.RegistrarController">
     <stylesheets>
@@ -41,7 +36,7 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="cajaNombre" alignment="CENTER" onKeyTyped="#noNumerosNombre" promptText="Ingresar Nombre" styleClass="cajas" stylesheets="@styles/registrar.css" />
+            <TextField fx:id="cajaNombre" alignment="CENTER" onKeyTyped="#soloString" promptText="Ingresar Nombre" styleClass="cajas" stylesheets="@styles/registrar.css" />
             <Label fx:id="etiquetaErrorNombre" prefHeight="16.0" prefWidth="153.0" textFill="RED" />
             <Label text="Apellido">
                <font>
@@ -51,7 +46,7 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="cajaApellido" alignment="CENTER" onKeyTyped="#noNumerosApellido" promptText="Ingresar Apellido" styleClass="cajas" stylesheets="@styles/registrar.css" />
+            <TextField fx:id="cajaApellido" alignment="CENTER" onKeyTyped="#soloString" promptText="Ingresar Apellido" styleClass="cajas" stylesheets="@styles/registrar.css" />
             <Label fx:id="etiquetaErrorApellido" prefHeight="16.0" prefWidth="145.0" textFill="RED" />
             <Label text="Usuario">
                <VBox.margin>
