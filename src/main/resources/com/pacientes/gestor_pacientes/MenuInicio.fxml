@@ -1,178 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" styleClass="root" stylesheets="@styles/menuinicio.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pacientes.gestor_pacientes.controlador.MenuInicioController">
+<AnchorPane id="AnchorPane" fx:id="container" prefHeight="800.0" prefWidth="1200.0" styleClass="root" stylesheets="@styles/menuinicio.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pacientes.gestor_pacientes.controlador.MenuInicioController">
    <children>
-      <VBox prefHeight="800.0" prefWidth="100.0" styleClass="menuEleccion" stylesheets="@styles/menuinicio.css" AnchorPane.topAnchor="0.0">
+      <AnchorPane prefHeight="800.0" prefWidth="1100.0" styleClass="apPacientes" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <AnchorPane prefHeight="100.0" prefWidth="150.0" styleClass="elementoMenuEleccion" stylesheets="@styles/menuinicio.css">
+            <Pane layoutX="945.0" layoutY="601.0" prefHeight="178.0" prefWidth="146.0">
                <children>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="34.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="290.0" fitWidth="192.0" layoutX="54.0" layoutY="-85.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@img/paciente.png" />
+                        <Image url="@img/BAMBOO.png" />
                      </image>
                   </ImageView>
                </children>
-            </AnchorPane>
-            <AnchorPane prefHeight="100.0" prefWidth="150.0" styleClass="elementoMenuEleccion" stylesheets="@styles/menuinicio.css">
-               <children>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="34.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" styleClass="imgMenu">
-                     <image>
-                        <Image url="@img/obra_social.png" />
-                     </image>
-                  </ImageView>
-               </children>
-               <VBox.margin>
-                  <Insets top="2.0" />
-               </VBox.margin>
-            </AnchorPane>
-            <AnchorPane prefHeight="100.0" prefWidth="150.0" styleClass="elementoMenuEleccion" stylesheets="@styles/menuinicio.css">
-               <children>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="34.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@img/agenda.png" />
-                     </image>
-                  </ImageView>
-               </children>
-               <VBox.margin>
-                  <Insets top="2.0" />
-               </VBox.margin>
-            </AnchorPane>
-            <AnchorPane prefHeight="100.0" prefWidth="100.0" styleClass="elementoMenuEleccion" stylesheets="@styles/menuinicio.css">
-               <children>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="34.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@img/ajustes.png" />
-                     </image>
-                  </ImageView>
-               </children>
-               <VBox.margin>
-                  <Insets top="2.0" />
-               </VBox.margin>
-            </AnchorPane>
-            <AnchorPane prefHeight="346.0" prefWidth="100.0" styleClass="elementoMenuEleccionInvertCuadrado" stylesheets="@styles/menuinicio.css">
-               <VBox.margin>
-                  <Insets top="48.0" />
-               </VBox.margin>
-            </AnchorPane>
-         </children>
-      </VBox>
-      <AnchorPane layoutX="298.0" layoutY="-63.0" prefHeight="800.0" prefWidth="1095.0" styleClass="apPacientes" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <Accordion prefHeight="750.0" prefWidth="1100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
-              <panes>
-                <TitledPane animated="false" prefHeight="750.0" prefWidth="1100.0" styleClass="tp" stylesheets="@styles/menuinicio.css" text="Datos principales">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="containerPacientes" stylesheets="@styles/menuinicio.css">
-                           <children>
-                              <VBox layoutX="46.0" layoutY="88.0" prefHeight="604.0" prefWidth="900.0" styleClass="containerPacientes" stylesheets="@styles/menuinicio.css" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0">
-                                 <children>
-                                    <ButtonBar prefHeight="40.0" prefWidth="200.0" />
-                                    <AnchorPane prefHeight="32.0" prefWidth="878.0">
-                                       <children>
-                                          <TextField alignment="BOTTOM_CENTER" layoutX="289.0" layoutY="12.0" prefHeight="24.0" prefWidth="300.0" styleClass="cajas" stylesheets="@styles/menuinicio.css" AnchorPane.topAnchor="20.0" />
-                                          <Label alignment="CENTER" contentDisplay="CENTER" layoutX="413.0" layoutY="-2.0" text="Nombre">
-                                             <font>
-                                                <Font name="Abyssinica SIL" size="13.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                       <VBox.margin>
-                                          <Insets top="100.0" />
-                                       </VBox.margin>
-                                    </AnchorPane>
-                                    <AnchorPane prefHeight="32.0" prefWidth="878.0">
-                                       <children>
-                                          <TextField alignment="BOTTOM_CENTER" layoutX="289.0" layoutY="12.0" prefHeight="24.0" prefWidth="300.0" styleClass="cajas" stylesheets="@styles/menuinicio.css" AnchorPane.topAnchor="20.0" />
-                                          <Label alignment="CENTER" contentDisplay="CENTER" layoutX="413.0" layoutY="-1.0" text="Apellido">
-                                             <font>
-                                                <Font name="Abyssinica SIL" size="13.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                       <VBox.margin>
-                                          <Insets top="20.0" />
-                                       </VBox.margin>
-                                    </AnchorPane>
-                                    <AnchorPane prefHeight="32.0" prefWidth="878.0">
-                                       <children>
-                                          <TextField alignment="BOTTOM_CENTER" layoutX="289.0" layoutY="12.0" prefHeight="24.0" prefWidth="300.0" styleClass="cajas" stylesheets="@styles/menuinicio.css" AnchorPane.topAnchor="20.0" />
-                                          <Label alignment="CENTER" contentDisplay="CENTER" layoutX="423.0" layoutY="-8.0" text="Edad">
-                                             <font>
-                                                <Font name="Abyssinica SIL" size="13.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                       <VBox.margin>
-                                          <Insets top="20.0" />
-                                       </VBox.margin>
-                                    </AnchorPane>
-                                    <AnchorPane prefHeight="32.0" prefWidth="878.0">
-                                       <children>
-                                          <TextField alignment="BOTTOM_CENTER" layoutX="289.0" layoutY="12.0" prefHeight="24.0" prefWidth="300.0" styleClass="cajas" stylesheets="@styles/menuinicio.css" AnchorPane.topAnchor="20.0" />
-                                          <Label alignment="CENTER" contentDisplay="CENTER" layoutX="427.0" text="DNI">
-                                             <font>
-                                                <Font name="Abyssinica SIL" size="13.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                       <VBox.margin>
-                                          <Insets top="20.0" />
-                                       </VBox.margin>
-                                    </AnchorPane>
-                                    <AnchorPane prefHeight="32.0" prefWidth="878.0">
-                                       <children>
-                                          <TextField alignment="BOTTOM_CENTER" layoutX="289.0" layoutY="12.0" prefHeight="24.0" prefWidth="300.0" styleClass="cajas" stylesheets="@styles/menuinicio.css" AnchorPane.topAnchor="20.0" />
-                                          <Label alignment="CENTER" contentDisplay="CENTER" layoutX="411.0" layoutY="-3.0" text="Telefono">
-                                             <font>
-                                                <Font name="Abyssinica SIL" size="13.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                       <VBox.margin>
-                                          <Insets top="20.0" />
-                                       </VBox.margin>
-                                    </AnchorPane>
-                                 </children>
-                              </VBox>
-                           </children>
-                        </AnchorPane>
-                  </content>
-                </TitledPane>
-                <TitledPane animated="false" styleClass="tp" stylesheets="@styles/menuinicio.css" text="untitled 2">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                  </content>
-                </TitledPane>
-                <TitledPane animated="false" styleClass="tp" stylesheets="@styles/menuinicio.css" text="untitled 3">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                  </content>
-                </TitledPane>
-                  <TitledPane animated="false" styleClass="tp" stylesheets="@styles/menuinicio.css" text="untitled">
-                    <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                    </content>
-                  </TitledPane>
-              </panes>
-            </Accordion>
-            <ButtonBar layoutX="6.0" layoutY="7.0" prefHeight="40.0" prefWidth="353.0">
-              <buttons>
-                <Button mnemonicParsing="false" prefHeight="20.0" styleClass="botonBuscar" stylesheets="@styles/menuinicio.css" text="Buscar">
-                     <font>
-                        <Font name="Sawasdee Bold Oblique" size="14.0" />
-                     </font>
-                  </Button>
-                  <TextField alignment="BOTTOM_CENTER" prefHeight="26.0" prefWidth="300.0" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
-              </buttons>
-            </ButtonBar>
-            <Label alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="1066.0" layoutY="17.0" onMouseClicked="#salir" prefHeight="20.0" prefWidth="20.0" styleClass="botonEntrar" stylesheets="@styles/iniciarSesion.css" text="x" textFill="WHITE" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+            </Pane>
+            <ImageView fitHeight="60.0" fitWidth="18.0" layoutX="26.0" layoutY="62.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="40.0">
+               <image>
+                  <Image url="@img/flechaMenu.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="60.0" fitWidth="18.0" layoutX="37.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="130.0">
+               <image>
+                  <Image url="@img/flechaMenu.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="60.0" fitWidth="18.0" layoutX="36.0" layoutY="207.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="215.0">
+               <image>
+                  <Image url="@img/flechaMenu.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="60.0" fitWidth="18.0" layoutX="47.0" layoutY="312.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="300.0">
+               <image>
+                  <Image url="@img/flechaMenu.png" />
+               </image>
+            </ImageView>
+            <Label alignment="BASELINE_CENTER" layoutX="41.0" layoutY="26.0" prefHeight="46.0" prefWidth="364.0" styleClass="rectanguloMenu" text="Paciente" AnchorPane.leftAnchor="41.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label alignment="BASELINE_CENTER" layoutX="43.0" layoutY="116.0" prefHeight="46.0" prefWidth="364.0" styleClass="rectanguloMenu" text="Obra social" AnchorPane.leftAnchor="40.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label alignment="BASELINE_CENTER" layoutX="42.0" layoutY="202.0" prefHeight="46.0" prefWidth="364.0" styleClass="rectanguloMenu" text="Agenda" AnchorPane.leftAnchor="40.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label alignment="BASELINE_CENTER" layoutX="41.0" layoutY="287.0" prefHeight="46.0" prefWidth="364.0" styleClass="rectanguloMenu" text="Opciones" AnchorPane.leftAnchor="41.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label alignment="TOP_CENTER" contentDisplay="CENTER" onMouseClicked="#salir" prefHeight="20.0" prefWidth="20.0" styleClass="botonEntrar" stylesheets="@styles/iniciarSesion.css" text="x" textFill="WHITE" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -182,5 +72,1049 @@
             </Label>
          </children>
       </AnchorPane>
+      <AnchorPane fx:id="apObraSocial" prefHeight="800.0" prefWidth="1100.0" styleClass="apPacientes" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="100.0">
+         <children>
+            <ButtonBar layoutX="61.0" layoutY="14.0" prefHeight="40.0" prefWidth="353.0">
+               <buttons>
+                  <Button mnemonicParsing="false" onMouseClicked="#buscarPaciente" prefHeight="20.0" stylesheets="@styles/menuinicio.css" text="Buscar">
+                     <font>
+                        <Font name="Sawasdee Bold Oblique" size="14.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="botonBuscar" />
+                        <String fx:value="b" />
+                     </styleClass>
+                  </Button>
+                  <TextField fx:id="cajaBuscarObraSocial" alignment="BOTTOM_CENTER" prefHeight="26.0" prefWidth="300.0" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
+               </buttons>
+            </ButtonBar>
+            <Label alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="1032.0" layoutY="19.0" onMouseClicked="#salir" prefHeight="20.0" prefWidth="20.0" styleClass="botonEntrar" stylesheets="@styles/iniciarSesion.css" text="x" textFill="WHITE" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font name="DejaVuMathTeXGyre-Regular" size="13.0" />
+               </font>
+            </Label>
+            <VBox layoutX="29.0" layoutY="108.0" prefHeight="346.0" prefWidth="300.0" styleClass="containerPacientes" stylesheets="@styles/menuinicio.css" AnchorPane.rightAnchor="400.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" text="Nombre">
+                     <font>
+                        <Font name="Abyssinica SIL" size="13.0" />
+                     </font>
+                  </Label>
+                  <HBox prefHeight="40.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="cajaNombreObraSocial" alignment="BASELINE_CENTER" onKeyTyped="#soloString" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar nombre" stylesheets="@styles/menuinicio.css">
+                           <styleClass>
+                              <String fx:value="cajas" />
+                              <String fx:value="error" />
+                           </styleClass>
+                        </TextField>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <Label alignment="CENTER" contentDisplay="CENTER" text="Telefono">
+                     <font>
+                        <Font name="Abyssinica SIL" size="13.0" />
+                     </font>
+                  </Label>
+                  <HBox prefHeight="40.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="cajaTelefonoObraSocial" alignment="BOTTOM_CENTER" onKeyTyped="#soloNumero" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar apellido" styleClass="cajas" stylesheets="@styles/menuinicio.css">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin></TextField>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <Label alignment="CENTER" contentDisplay="CENTER" text="Mail">
+                     <font>
+                        <Font name="Abyssinica SIL" size="13.0" />
+                     </font>
+                  </Label>
+                  <HBox prefHeight="40.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="cajaEmailObraSocial" alignment="BOTTOM_CENTER" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar edad" stylesheets="@styles/menuinicio.css">
+                           <styleClass>
+                              <String fx:value="cajas" />
+                              <String fx:value="error" />
+                           </styleClass>
+                        </TextField>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <Label alignment="CENTER" contentDisplay="CENTER" text="Web">
+                     <font>
+                        <Font name="Abyssinica SIL" size="13.0" />
+                     </font>
+                  </Label>
+                  <HBox prefHeight="40.0" prefWidth="200.0">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                     <children>
+                        <TextField fx:id="cajaWebObraSocial" alignment="BOTTOM_CENTER" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar DNI" stylesheets="@styles/menuinicio.css">
+                           <styleClass>
+                              <String fx:value="cajas" />
+                              <String fx:value="error" />
+                           </styleClass>
+                        </TextField>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <ListView layoutX="184.0" layoutY="495.0" prefHeight="200.0" prefWidth="618.0" />
+            <Label fx:id="labelNombreDeUsuario4" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="986.0" layoutY="15.0" prefHeight="20.0" prefWidth="200.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="10.0" />
+            <HBox fx:id="botoneraCrudDatosPrincipales1" layoutX="881.0" layoutY="367.0" prefHeight="30.0" prefWidth="122.0" AnchorPane.rightAnchor="59.0">
+               <children>
+                  <Button fx:id="botonAgregarObraSocial" mnemonicParsing="false" onMouseClicked="#crearObraSocial" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                     <graphic>
+                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@img/agregar_%23path58.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="botonActualizarObraSocial" disable="true" mnemonicParsing="false" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                     <graphic>
+                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@img/actualizar.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="botonEliminarObraSocial" disable="true" mnemonicParsing="false" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                     <graphic>
+                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@img/menos.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="botonRetornarObraSocial" disable="true" mnemonicParsing="false" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                     <graphic>
+                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@img/retornar.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="apAgenda" prefHeight="800.0" prefWidth="1100.0" styleClass="apPacientes" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="100.0">
+         <children>
+            <GridPane fx:id="gpCalendario" gridLinesVisible="true" layoutX="33.0" layoutY="31.0" prefHeight="734.0" prefWidth="1035.0" stylesheets="@styles/menuinicio.css">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <styleClass>
+                  <String fx:value="calendario" />
+                  <String fx:value="hbox" />
+               </styleClass>
+            </GridPane>
+            <Label fx:id="labelNombreDeUsuario3" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="1002.0" layoutY="4.0" prefHeight="20.0" prefWidth="200.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="10.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="apOpciones" prefHeight="800.0" prefWidth="1100.0" styleClass="apPacientes" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="100.0">
+         <children>
+            <TabPane prefHeight="700.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="50.0">
+              <tabs>
+                <Tab text="Usuario">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Button layoutX="116.0" layoutY="103.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="133.0" text="Cerrar sesion" />
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                <Tab text="Untitled Tab 2">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  </content>
+                </Tab>
+              </tabs>
+            </TabPane>
+            <Label fx:id="labelNombreDeUsuario2" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="844.0" layoutY="12.0" prefHeight="20.0" prefWidth="200.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="10.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="apPacientes" layoutX="-12.0" layoutY="-63.0" prefHeight="714.0" prefWidth="1100.0" styleClass="apPacientes" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <ButtonBar layoutX="40.0" layoutY="7.0" prefHeight="40.0" prefWidth="256.0" AnchorPane.leftAnchor="7.0">
+              <buttons>
+                <Button minWidth="63.0" mnemonicParsing="false" onMouseClicked="#buscarPaciente" prefHeight="34.0" prefWidth="20.0" stylesheets="@styles/menuinicio.css" text="Buscar">
+                     <font>
+                        <Font name="Sawasdee Bold Oblique" size="14.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="botonBuscar" />
+                        <String fx:value="b" />
+                     </styleClass>
+                  </Button>
+                  <TextField fx:id="cajaBuscarPaciente" alignment="BOTTOM_CENTER" onKeyPressed="#alDarEnterBuscarBoton" prefHeight="26.0" prefWidth="300.0" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
+              </buttons>
+            </ButtonBar>
+            <Accordion fx:id="acordionPaciente" prefHeight="750.0" prefWidth="1090.0" stylesheets="@styles/menuinicio.css" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="50.0">
+              <panes>
+                <TitledPane fx:id="titlePaneDatosPrincipales" alignment="BASELINE_LEFT" animated="false" onMouseClicked="#expandirTitledPane" prefHeight="750.0" prefWidth="1000.0" text="Datos principales">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="300.0" styleClass="containerPacientes" stylesheets="@styles/menuinicio.css">
+                           <children>
+                              <ImageView fitHeight="297.0" fitWidth="307.0" layoutX="-102.0" layoutY="227.0" pickOnBounds="true" preserveRatio="true" rotate="14.0">
+                                 <image>
+                                    <Image url="@img/registrar.png" />
+                                 </image>
+                              </ImageView>
+                              <HBox fx:id="botoneraCrudDatosPrincipales" layoutX="784.0" layoutY="358.0" prefHeight="30.0" prefWidth="122.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0">
+                                 <children>
+                                    <Button fx:id="botonAgregarDatosPrincipales" mnemonicParsing="false" onMouseClicked="#crearPaciente" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                                       <graphic>
+                                          <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@img/agregar_%23path58.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="botonActualizarDatosPrincipales" disable="true" mnemonicParsing="false" onMouseClicked="#actualizarPaciente" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                                       <graphic>
+                                          <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@img/actualizar.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="botonEliminarDatosPrincipales" disable="true" mnemonicParsing="false" onMouseClicked="#eliminar" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                                       <graphic>
+                                          <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@img/menos.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="botonRetornarDatosPrincipales" disable="true" mnemonicParsing="false" onMouseClicked="#retornarBotonera" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                                       <graphic>
+                                          <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@img/retornar.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                              <VBox layoutX="422.2" layoutY="72.2" prefHeight="382.0" prefWidth="473.0" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="411.0" AnchorPane.rightAnchor="204.0" AnchorPane.topAnchor="61.0">
+                                 <children>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" ellipsisString="" text="Nombre">
+                                       <font>
+                                          <Font name="Abyssinica SIL" size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <HBox fx:id="ola" prefHeight="41.0" prefWidth="200.0">
+                                       <children>
+                                          <TextField fx:id="cajaNombreDatosPrincipales" alignment="BOTTOM_CENTER" onKeyTyped="#soloString" prefHeight="30.0" prefWidth="220.0" promptText="Ingresar nombre" stylesheets="@styles/menuinicio.css">
+                                             <styleClass>
+                                                <String fx:value="cajas" />
+                                                <String fx:value="error" />
+                                             </styleClass>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="Apellido">
+                                       <font>
+                                          <Font name="Abyssinica SIL" size="13.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets top="15.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <HBox prefHeight="40.0" prefWidth="200.0">
+                                       <children>
+                                          <TextField fx:id="cajaApellidoDatosPrincipales" alignment="BOTTOM_CENTER" onKeyTyped="#soloString" prefHeight="24.0" prefWidth="220.0" promptText="Ingresar apellido" stylesheets="@styles/menuinicio.css">
+                                             <styleClass>
+                                                <String fx:value="cajas" />
+                                                <String fx:value="error" />
+                                             </styleClass>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="Edad">
+                                       <font>
+                                          <Font name="Abyssinica SIL" size="13.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets top="15.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <HBox prefHeight="46.0" prefWidth="200.0">
+                                       <children>
+                                          <TextField fx:id="cajaEdadDatosPrincipales" alignment="CENTER" onKeyTyped="#soloNumero" prefHeight="24.0" prefWidth="220.0" promptText="Ingresar edad" stylesheets="@styles/menuinicio.css">
+                                             <styleClass>
+                                                <String fx:value="cajas" />
+                                                <String fx:value="error" />
+                                             </styleClass>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="DNI">
+                                       <font>
+                                          <Font name="Abyssinica SIL" size="13.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets top="15.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <HBox prefHeight="46.0" prefWidth="200.0">
+                                       <children>
+                                          <TextField fx:id="cajaDniDatosPrincipales" alignment="BOTTOM_CENTER" onKeyTyped="#soloNumero" prefHeight="24.0" prefWidth="220.0" promptText="Ingresar DNI" stylesheets="@styles/menuinicio.css">
+                                             <styleClass>
+                                                <String fx:value="cajas" />
+                                                <String fx:value="error" />
+                                             </styleClass>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="Telefono">
+                                       <font>
+                                          <Font name="Abyssinica SIL" size="13.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets top="15.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <HBox prefHeight="61.0" prefWidth="200.0">
+                                       <children>
+                                          <TextField fx:id="cajaTelefonoDatosPrincipales" alignment="BOTTOM_CENTER" onKeyTyped="#soloNumero" prefHeight="28.0" prefWidth="220.0" promptText="Ingresar telefono" stylesheets="@styles/menuinicio.css">
+                                             <styleClass>
+                                                <String fx:value="cajas" />
+                                                <String fx:value="error" />
+                                             </styleClass>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <HBox layoutX="127.0" layoutY="38.0" prefHeight="100.0" prefWidth="200.0" />
+                           </children>
+                        </AnchorPane>
+                  </content>
+                     <padding>
+                        <Insets top="1.0" />
+                     </padding>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                </TitledPane>
+                <TitledPane fx:id="titlePaneSesion" alignment="BASELINE_LEFT" animated="false" onMouseClicked="#expandirTitledPane" text="Sesiones">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="imgr">
+                           <children>
+                              <VBox layoutX="747.0" layoutY="118.0" prefHeight="500.0" prefWidth="400.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="125.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="Datos sesion">
+                                       <font>
+                                          <Font name="Abyssinica SIL" size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="Fecha sesion">
+                                       <font>
+                                          <Font name="Abyssinica SIL" size="13.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <HBox prefHeight="31.0" prefWidth="400.0">
+                                       <children>
+                                          <DatePicker fx:id="cajaFechaSesion" maxWidth="421.0" prefHeight="26.0" prefWidth="421.0" />
+                                       </children>
+                                    </HBox>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="Numero">
+                                       <font>
+                                          <Font name="Abyssinica SIL" size="13.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <HBox prefHeight="40.0" prefWidth="400.0">
+                                       <children>
+                                          <TextField fx:id="cajaNumeroSesion" alignment="BOTTOM_CENTER" onKeyTyped="#soloNumero" prefHeight="28.0" prefWidth="408.0" promptText="Ingresar nombre" stylesheets="@styles/menuinicio.css">
+                                             <styleClass>
+                                                <String fx:value="cajas" />
+                                                <String fx:value="error" />
+                                             </styleClass>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="Trabajo">
+                                       <font>
+                                          <Font name="Abyssinica SIL" size="13.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <HBox prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <TextArea fx:id="cajaTrabajoSesion" prefHeight="52.0" prefWidth="400.0" styleClass="cajas" />
+                                       </children>
+                                    </HBox>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="Observacion">
+                                       <font>
+                                          <Font name="Abyssinica SIL" size="13.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <HBox prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <TextArea fx:id="cajaObservacionSesion" prefHeight="61.0" prefWidth="400.0" styleClass="cajas" />
+                                       </children>
+                                    </HBox>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="Motivos de trabajo emergente">
+                                       <font>
+                                          <Font name="Abyssinica SIL" size="13.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <HBox prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <TextArea fx:id="cajaMotivoTrabajoEmergenteSesion" prefHeight="42.0" prefWidth="400.0" styleClass="cajas" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <VBox layoutX="694.0" layoutY="2.0" prefHeight="500.0" prefWidth="400.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="125.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="Obra social">
+                                       <font>
+                                          <Font name="Abyssinica SIL" size="13.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                    </Label>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="Numero autorizacion">
+                                       <font>
+                                          <Font name="Abyssinica SIL" size="13.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <HBox prefHeight="36.0" prefWidth="400.0">
+                                       <children>
+                                          <TextField fx:id="cajaAutorizacionSesion" alignment="BOTTOM_CENTER" onKeyTyped="#soloNumero" prefHeight="28.0" prefWidth="405.0" promptText="Ingresar telefono" stylesheets="@styles/menuinicio.css">
+                                             <styleClass>
+                                                <String fx:value="cajas" />
+                                                <String fx:value="error" />
+                                             </styleClass>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="Observacion">
+                                       <font>
+                                          <Font name="Abyssinica SIL" size="13.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <HBox prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <TextArea fx:id="cajaObservacionSesionObraSocial" prefHeight="100.0" prefWidth="425.0" styleClass="cajas" />
+                                       </children>
+                                    </HBox>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="Asociacion">
+                                       <font>
+                                          <Font name="Abyssinica SIL" size="13.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <HBox prefHeight="36.0" prefWidth="400.0">
+                                       <children>
+                                          <DatePicker fx:id="cajaAsociacionSesionObraSocial" maxWidth="417.0" prefHeight="26.0" prefWidth="417.0" />
+                                       </children>
+                                    </HBox>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="Copago">
+                                       <font>
+                                          <Font name="Abyssinica SIL" size="13.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <HBox prefHeight="34.0" prefWidth="400.0">
+                                       <children>
+                                          <TextField fx:id="cajaCopagoSesionObraSocial" alignment="BOTTOM_CENTER" onKeyTyped="#soloNumero" prefHeight="28.0" prefWidth="409.0" promptText="Ingresar telefono" stylesheets="@styles/menuinicio.css">
+                                             <styleClass>
+                                                <String fx:value="cajas" />
+                                                <String fx:value="error" />
+                                             </styleClass>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="Codigo facturacion">
+                                       <font>
+                                          <Font name="Abyssinica SIL" size="13.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <HBox prefHeight="32.0" prefWidth="400.0">
+                                       <children>
+                                          <ChoiceBox fx:id="choiseCodigoFactSesionObraSocial" prefHeight="26.0" prefWidth="438.0" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <HBox fx:id="botoneraCrudSesiones" layoutX="907.0" layoutY="449.0" prefHeight="30.0" prefWidth="122.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0">
+                                 <children>
+                                    <Button fx:id="botonAgregarSesiones" mnemonicParsing="false" onMouseClicked="#crearSesion" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                                       <graphic>
+                                          <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@img/agregar_%23path58.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="botonActualizarSesiones" disable="true" mnemonicParsing="false" onMouseClicked="#actualizarPaciente" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                                       <graphic>
+                                          <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@img/actualizar.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="botonEliminarSesiones" disable="true" mnemonicParsing="false" onMouseClicked="#eliminar" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                                       <graphic>
+                                          <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@img/menos.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="botonRetornarSesiones" disable="true" mnemonicParsing="false" onMouseClicked="#retornarBotonera" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                                       <graphic>
+                                          <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@img/retornar.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                              <TableView fx:id="tableSesiones" layoutX="14.0" layoutY="192.0" prefHeight="200.0" prefWidth="1065.0" AnchorPane.leftAnchor="0.0">
+                                <columns>
+                                  <TableColumn fx:id="ColumnaSesionNumero" minWidth="15.0" prefWidth="90.00000309944153" text="Numero" />
+                                  <TableColumn fx:id="ColumnaSesionFecha" minWidth="15.0" prefWidth="99.0" text="Fecha" />
+                                    <TableColumn fx:id="ColumnaSesionTrabajo" minWidth="15.0" prefWidth="95.99998474121094" text="Trabajo sesion" />
+                                    <TableColumn fx:id="ColumnaSesionObservacion" minWidth="15.0" prefWidth="107.0" text="Observacion" />
+                                    <TableColumn fx:id="ColumnaSesionMotivoTRabajoEmergente" minWidth="15.0" prefWidth="143.0" text="Motivos de trabajo emergente" />
+                                    <TableColumn fx:id="columnaAutorizacionNumero" minWidth="15.0" prefWidth="107.0" text="Nº Autorizacion" />
+                                    <TableColumn fx:id="columnaAutorizacionObservacion" minWidth="15.0" prefWidth="107.0" text="Observacion" />
+                                    <TableColumn fx:id="columnaAutorizacionAsociacion" minWidth="15.0" prefWidth="107.0" text="Asociacion" />
+                                    <TableColumn fx:id="columnaAutorizacionCopago" minWidth="15.0" prefWidth="98.0" text="Copago" />
+                                    <TableColumn fx:id="columnaAutorizacionCodigoFacturacion" minWidth="15.0" prefWidth="116.00006103515625" text="Codigo facturacion" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                     <padding>
+                        <Insets top="1.0" />
+                     </padding>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                </TitledPane>
+                  <TitledPane fx:id="titlePanePlan" animated="false" onMouseClicked="#expandirTitledPane" text="Plan de tratamiento">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox layoutX="804.0" layoutY="152.0" prefHeight="400.0" prefWidth="200.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="400.0" AnchorPane.topAnchor="50.0">
+                                 <children>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="Frecuencia de sesiones">
+                                       <font>
+                                          <Font name="Abyssinica SIL" size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <HBox prefHeight="38.0" prefWidth="268.0">
+                                       <children>
+                                          <TextField fx:id="cajaFrecuenciaSesiones" alignment="BOTTOM_CENTER" onKeyTyped="#soloString" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar nombre" stylesheets="@styles/menuinicio.css">
+                                             <styleClass>
+                                                <String fx:value="cajas" />
+                                                <String fx:value="error" />
+                                             </styleClass>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                    <Separator prefWidth="200.0" style="-fx-background-color: grey;">
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Separator>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="Tipo de sesion">
+                                       <font>
+                                          <Font name="Abyssinica SIL" size="13.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="Nombre">
+                                       <font>
+                                          <Font name="Abyssinica SIL" size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <HBox prefHeight="36.0" prefWidth="268.0">
+                                       <children>
+                                          <TextField fx:id="cajaNombreTipoSesionPlan" alignment="BOTTOM_CENTER" onKeyTyped="#soloString" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar apellido" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
+                                       </children>
+                                    </HBox>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="Descripcion">
+                                       <font>
+                                          <Font name="Abyssinica SIL" size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <HBox prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <TextArea fx:id="cajaDescripcionTipoSesionPlan" prefHeight="50.0" prefWidth="268.0" styleClass="cajas" />
+                                       </children>
+                                    </HBox>
+                                    <Separator prefWidth="200.0" style="-fx-background-color: grey;">
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Separator>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="estrategia">
+                                       <font>
+                                          <Font name="Abyssinica SIL" size="13.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <HBox prefHeight="46.0" prefWidth="268.0">
+                                       <children>
+                                          <TextField fx:id="cajaEstrategiaPlan" alignment="BOTTOM_CENTER" onKeyTyped="#soloString" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar edad" stylesheets="@styles/menuinicio.css">
+                                             <styleClass>
+                                                <String fx:value="cajas" />
+                                                <String fx:value="error" />
+                                             </styleClass>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <HBox fx:id="botoneraCrudPlanTratamiento" layoutX="936.0" layoutY="453.0" prefHeight="30.0" prefWidth="122.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0">
+                                 <children>
+                                    <Button fx:id="botonAgregarPlanTratamiento" mnemonicParsing="false" onMouseClicked="#crearPlanTratamiento" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                                       <graphic>
+                                          <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@img/agregar_%23path58.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="botonActualizarPlanTratamiento" disable="true" mnemonicParsing="false" onMouseClicked="#actualizarPaciente" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                                       <graphic>
+                                          <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@img/actualizar.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="botonEliminarPlanTratamiento" disable="true" mnemonicParsing="false" onMouseClicked="#eliminar" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                                       <graphic>
+                                          <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@img/menos.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="botonRetornarPlanTratamiento" disable="true" mnemonicParsing="false" onMouseClicked="#retornarBotonera" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                                       <graphic>
+                                          <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@img/retornar.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                              <ChoiceBox fx:id="choiseTipoSesion" layoutX="225.0" layoutY="184.0" prefWidth="150.0" />
+                           </children>
+                        </AnchorPane>
+                    </content>
+                     <padding>
+                        <Insets top="1.0" />
+                     </padding>
+                  </TitledPane>
+                <TitledPane fx:id="titlePaneDiagnostico" alignment="BASELINE_LEFT" animated="false" onMouseClicked="#expandirTitledPane" styleClass="titled-pane-l" stylesheets="@styles/menuinicio.css" text="Diagnostico">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox layoutX="768.0" layoutY="123.0" prefHeight="400.0" prefWidth="200.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="400.0" AnchorPane.topAnchor="50.0">
+                                 <children>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="Diagnostico">
+                                       <font>
+                                          <Font name="Abyssinica SIL" size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <TextArea fx:id="cajaDiagnosticoDiagnostico" prefHeight="200.0" prefWidth="200.0" styleClass="cajas" />
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="Observacion">
+                                       <font>
+                                          <Font name="Abyssinica SIL" size="13.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets top="20.0" />
+                                       </padding>
+                                    </Label>
+                                    <TextArea fx:id="cajaObservacionDiagnostico" prefHeight="200.0" prefWidth="200.0" styleClass="cajas" />
+                                 </children>
+                              </VBox>
+                              <HBox fx:id="botoneraCrudDiagnostico" layoutX="848.0" layoutY="439.0" prefHeight="30.0" prefWidth="122.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0">
+                                 <children>
+                                    <Button fx:id="botonAgregarDiagnostico" mnemonicParsing="false" onMouseClicked="#crearDiagnostico" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                                       <graphic>
+                                          <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@img/agregar_%23path58.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="botonActualizarDiagnostico" disable="true" mnemonicParsing="false" onMouseClicked="#actualizarPaciente" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                                       <graphic>
+                                          <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@img/actualizar.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="botonEliminarDiagnostico" disable="true" mnemonicParsing="false" onMouseClicked="#eliminar" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                                       <graphic>
+                                          <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@img/menos.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="botonRetornarDiagnostico" disable="true" mnemonicParsing="false" onMouseClicked="#retornarBotonera" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                                       <graphic>
+                                          <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@img/retornar.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                     <padding>
+                        <Insets top="1.0" />
+                     </padding>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                </TitledPane>
+                  <TitledPane fx:id="titlePaneGenograma" animated="false" onMouseClicked="#expandirTitledPane" text="Genograma">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TableView fx:id="tablaGenograma" layoutX="276.0" layoutY="102.0" prefHeight="200.0" prefWidth="200.0" />
+                           </children></AnchorPane>
+                    </content>
+                     <padding>
+                        <Insets top="1.0" />
+                     </padding>
+                  </TitledPane>
+                  <TitledPane fx:id="titlePaneObraSocial" alignment="BASELINE_LEFT" animated="false" onMouseClicked="#expandirTitledPane" text="Obra social">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox layoutX="826.0" layoutY="113.0" prefHeight="400.0" prefWidth="200.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="400.0" AnchorPane.topAnchor="50.0">
+                                 <children>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="Nombre">
+                                       <font>
+                                          <Font name="Abyssinica SIL" size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="cajaNombreObraSocialPaciente" alignment="BOTTOM_CENTER" onKeyTyped="#soloString" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar apellido" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
+                                    <ChoiceBox fx:id="choiseNombreObraSocialPaciente" prefHeight="26.0" prefWidth="270.0" />
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="Plan">
+                                       <font>
+                                          <Font name="Abyssinica SIL" size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <HBox prefHeight="38.0" prefWidth="266.0">
+                                       <children>
+                                          <TextField fx:id="cajaPlanObraSocialPaciente" alignment="BOTTOM_CENTER" onKeyTyped="#soloString" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar apellido" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
+                                       </children>
+                                    </HBox>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="Nº Afiliado">
+                                       <font>
+                                          <Font name="Abyssinica SIL" size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <HBox prefHeight="45.0" prefWidth="266.0">
+                                       <children>
+                                          <TextField fx:id="cajaNAfiliadoObraSocialPaciente" alignment="BOTTOM_CENTER" onKeyTyped="#soloNumero" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar edad" stylesheets="@styles/menuinicio.css">
+                                             <styleClass>
+                                                <String fx:value="cajas" />
+                                                <String fx:value="error" />
+                                             </styleClass>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <HBox fx:id="botoneraCrudObraSocialPaciente" layoutX="884.0" layoutY="426.0" prefHeight="30.0" prefWidth="122.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0">
+                                 <children>
+                                    <Button fx:id="botonAgregarObraSocialPaciente" mnemonicParsing="false" onMouseClicked="#crearObraSocialPaciente" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                                       <graphic>
+                                          <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@img/agregar_%23path58.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="botonActualizarObraSocialPaciente" disable="true" mnemonicParsing="false" onMouseClicked="#actualizarPaciente" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                                       <graphic>
+                                          <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@img/actualizar.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="botonEliminarObraSocialPaciente" disable="true" mnemonicParsing="false" onMouseClicked="#eliminar" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                                       <graphic>
+                                          <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@img/menos.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="botonRetornarObraSocialPaciente" disable="true" mnemonicParsing="false" onMouseClicked="#retornarBotonera" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                                       <graphic>
+                                          <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@img/retornar.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                     <padding>
+                        <Insets top="1.0" />
+                     </padding>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TitledPane>
+              </panes>
+            </Accordion>
+            <Label alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="1066.0" layoutY="17.0" onMouseClicked="#salir" prefHeight="20.0" prefWidth="20.0" styleClass="botonEntrar" stylesheets="@styles/iniciarSesion.css" text="x" textFill="WHITE" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font name="DejaVuMathTeXGyre-Regular" size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="labelNombreDeUsuario1" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="830.0" layoutY="4.0" prefHeight="20.0" prefWidth="200.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="10.0" />
+         </children>
+      </AnchorPane>
+      <VBox layoutY="33.0" prefHeight="800.0" prefWidth="100.0" styleClass="menuEleccion" stylesheets="@styles/menuinicio.css" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane fx:id="pestanaPaciente" onMouseClicked="#eleccionMenu" prefHeight="80.0" prefWidth="100.0" styleClass="elementoMenuEleccion">
+               <children>
+                  <QuadCurve controlX="52.945186614990234" controlY="8.58984661102295" endX="73.7116928100586" endY="18.25029754638672" fill="#c02a00" layoutX="9.0" layoutY="8.0" opacity="0.8" rotate="37.0" startX="-19.045976638793945" startY="20.874231338500977" stroke="#ff6638b5" strokeType="INSIDE" />
+                  <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="36.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="15.0">
+                     <image>
+                        <Image url="@img/paciente.png" />
+                     </image>
+                  </ImageView>
+               </children>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </AnchorPane>
+            <AnchorPane fx:id="pestanaObraSocial" onMouseClicked="#eleccionMenu" prefHeight="80.0" prefWidth="100.0" styleClass="elementoMenuEleccion">
+               <children>
+                  <QuadCurve controlX="52.945186614990234" controlY="8.58984661102295" endX="73.7116928100586" endY="18.25029754638672" fill="#c02a00" layoutX="9.0" layoutY="8.0" opacity="0.8" rotate="37.0" startX="-19.045976638793945" startY="20.874231338500977" stroke="#ff6638b5" strokeType="INSIDE" />
+                  <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="30.0" layoutY="18.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="imgMenu" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="15.0">
+                     <image>
+                        <Image url="@img/obra_social.png" />
+                     </image>
+                  </ImageView>
+               </children>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </AnchorPane>
+            <AnchorPane fx:id="pestanaAgenda" onMouseClicked="#eleccionMenu" prefHeight="80.0" prefWidth="100.0" styleClass="elementoMenuEleccion">
+               <children>
+                  <QuadCurve controlX="52.945186614990234" controlY="8.58984661102295" endX="73.7116928100586" endY="18.25029754638672" fill="#c02a00" layoutX="9.0" layoutY="8.0" opacity="0.8" rotate="37.0" startX="-19.045976638793945" startY="20.874231338500977" stroke="#ff6638b5" strokeType="INSIDE" />
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="35.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="20.0">
+                     <image>
+                        <Image url="@img/agenda.png" />
+                     </image>
+                  </ImageView>
+               </children>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </AnchorPane>
+            <AnchorPane fx:id="pestanaOpciones" onMouseClicked="#eleccionMenu" prefHeight="80.0" prefWidth="100.0" styleClass="elementoMenuEleccion">
+               <children>
+                  <QuadCurve controlX="52.945186614990234" controlY="8.58984661102295" endX="73.7116928100586" endY="18.25029754638672" fill="#c02a00" layoutX="9.0" layoutY="8.0" opacity="0.8" rotate="37.0" startX="-19.045976638793945" startY="20.874231338500977" stroke="#ff6638b5" strokeType="INSIDE" />
+                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="33.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="15.0">
+                     <image>
+                        <Image url="@img/ajustes.png" />
+                     </image>
+                  </ImageView>
+               </children>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </AnchorPane>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>
