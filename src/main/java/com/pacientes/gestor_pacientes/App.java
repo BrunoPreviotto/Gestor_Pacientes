@@ -42,6 +42,7 @@ public class App extends Application {
         
         if(esUsuario.get(1).equals("1")){
             scene = new Scene(loadFXML("MenuInicio"));
+            
         }else{
             scene = new Scene(loadFXML("IniciarSesion"));
             
@@ -57,7 +58,7 @@ public class App extends Application {
         
        
         
-        
+        System.out.println("ola");
             
          
             

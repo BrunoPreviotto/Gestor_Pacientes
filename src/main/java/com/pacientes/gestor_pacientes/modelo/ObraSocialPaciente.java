@@ -18,6 +18,12 @@ public class ObraSocialPaciente {
     public ObraSocialPaciente() {
     }
 
+    public ObraSocialPaciente(String nombre) {
+        this.nombre = nombre;
+    }
+    
+    
+
     public ObraSocialPaciente(Integer numeroAfiliado, String nombre, PlanObraSocial plan) {
         this.numeroAfiliado = numeroAfiliado;
         this.nombre = nombre;

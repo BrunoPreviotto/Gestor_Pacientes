@@ -61,12 +61,12 @@ public class UsuarioDAOImplementacion implements IUsuarioDAO{
        
 
     @Override
-    public void actualizar(Usuario cliente) {
+    public void actualizar(Usuario cliente, int numeroFuncion) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void eliminar(Usuario cliente) {
+    public void eliminar(Usuario cliente, int numeroFucion) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
@@ -76,7 +76,7 @@ public class UsuarioDAOImplementacion implements IUsuarioDAO{
      * @param usuario 
      */
     @Override
-    public void insertar(Usuario usuario) {
+    public void insertar(Usuario usuario, int numeroFucion) {
         String sqlNombre = "INSERT INTO nombres(id_nombre, nombre, apellido) VALUES(?,?,?)";
         String sqlEmail = "INSERT INTO emails(id_email, email) VALUES(?,?)";
         String sqlUsuario = "INSERT INTO usuarios(id_usuario, usuario, contraseña, es_usuario, es_ultima_sesion_iniciada, id_nombre, id_email) VALUES(?, ?, ?, ?, ?, ?, ?)";

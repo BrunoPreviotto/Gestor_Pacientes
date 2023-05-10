@@ -21,6 +21,7 @@ import javafx.scene.input.MouseEvent;
 import java.io.IOException;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -30,7 +31,7 @@ import javafx.stage.StageStyle;
  *
  * @author previotto
  */
-public class RegistrarController extends PadreController implements Initializable {
+public class RegistrarController extends ClasePadreController implements Initializable {
 
     @FXML
     private TextField cajaNombre;
@@ -92,7 +93,7 @@ public class RegistrarController extends PadreController implements Initializabl
         validarRegistro();
         
         if (etiquetaErrorEmail.visibleProperty().get() && etiquetaErrorNombre.visibleProperty().get() && etiquetaErrorApellido.visibleProperty().get() && etiquetaErrorcontraseña.visibleProperty().get() && etiquetaErrorRepetirContraseña.visibleProperty().get()) {
-            usuarioDao.insertar(InicializarObjeto.inicializarUsuario(0, cajaNombre.getText().trim(), cajaApellido.getText().trim(), cajaUusario.getText().trim(), cajaContraseña.getText().trim(), cajaEmail.getText().trim(), true, true));
+            usuarioDao.insertar(InicializarObjeto.inicializarUsuario(0, cajaNombre.getText().trim(), cajaApellido.getText().trim(), cajaUusario.getText().trim(), cajaContraseña.getText().trim(), cajaEmail.getText().trim(), true, true), 1);
             ((Node) (event.getSource())).getScene().getWindow().hide();
             Scene scene = new Scene(loadFXML("MenuInicio"));
             Stage newStage = new Stage();
@@ -146,6 +147,20 @@ public class RegistrarController extends PadreController implements Initializabl
            etiquetaErrorRepetirContraseña.setText(EMAIL_NO_VALIDO);
        }
     }
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+   
+    
 
    
     

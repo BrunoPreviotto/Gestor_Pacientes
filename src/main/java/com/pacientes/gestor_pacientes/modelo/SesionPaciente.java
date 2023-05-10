@@ -12,6 +12,15 @@ import java.util.Date;
  * @author previotto
  */
 public class SesionPaciente {
+    private int idSesion;
+
+    public int getIdSesion() {
+        return idSesion;
+    }
+
+    public void setIdSesion(int idSesion) {
+        this.idSesion = idSesion;
+    }
     private Integer numeroSesion;
     private LocalDate fecha;
     private String trabajoSesion;

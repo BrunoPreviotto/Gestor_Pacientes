@@ -66,6 +66,17 @@ public class Paciente {
         this.obraSocialPaciente = obraSocialPaciente;
     }
 
+    public Paciente(int id, String nombre, String apellido, int edad, Integer dni, Telefono telefono) {
+        this.id = id;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.edad = edad;
+        this.dni = dni;
+        this.telefono = telefono;
+    }
+    
+    
+
     public String getApellido() {
         return apellido;
     }

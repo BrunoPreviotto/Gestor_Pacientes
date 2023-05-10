@@ -18,9 +18,16 @@ public class ObraSocial {
     private boolean es_obra_social;
     private Email email;
     private List<String> planes;
+    private String plan;
 
     public ObraSocial() {
     }
+
+    public ObraSocial(String nombre) {
+        this.nombre = nombre;
+    }
+    
+    
 
     public ObraSocial(String nombre, Telefono telefono, Web web, boolean es_obra_social, Email email) {
         this.nombre = nombre;
@@ -29,6 +36,16 @@ public class ObraSocial {
         this.es_obra_social = es_obra_social;
         this.email = email;
     }
+
+    public String getPlan() {
+        return plan;
+    }
+
+    public void setPlan(String plan) {
+        this.plan = plan;
+    }
+    
+    
 
     public int getId() {
         return id;

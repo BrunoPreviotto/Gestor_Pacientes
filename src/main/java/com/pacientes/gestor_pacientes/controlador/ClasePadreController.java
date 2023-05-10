@@ -5,8 +5,9 @@
 package com.pacientes.gestor_pacientes.controlador;
 
 import com.pacientes.gestor_pacientes.App;
-
-import static com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas.*;
+import static com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas.EXEDIDO_CARACTERES;
+import static com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas.NO_NUMEROS;
+import static com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas.NO_TEXTO;
 import com.pacientes.gestor_pacientes.validacion.Validar;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -23,11 +24,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.InputMethodEvent;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -36,7 +36,7 @@ import javafx.stage.StageStyle;
  *
  * @author previotto
  */
-public abstract class PadreController {
+public class ClasePadreController {
     
     protected String cssNuevo = getClass().getResource("/com/pacientes/gestor_pacientes/styles/cambio.css").toExternalForm();
     protected String imagenErrorRuta = getClass().getResource("/com/pacientes/gestor_pacientes/img/error.png").toExternalForm();
@@ -45,6 +45,7 @@ public abstract class PadreController {
     private Image imgOk = new Image(imagenOkRuta);
     @FXML
     private Label etiquetaMensaje;
+    
     @FXML
     protected void salir(MouseEvent event) {
         Platform.exit();
@@ -151,9 +152,27 @@ public abstract class PadreController {
         }
     }
    
-   
-   
-
+    public void mensaje(String mensaje, Object obj, String imagen){
+        try {
+            FXMLLoader Loader = new FXMLLoader(App.class.getResource( "MensajeAdvertencia.fxml"));
+            Parent root = Loader.load();
+            MensajeAdvertenciaController controller = Loader.getController();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.TRANSPARENT);
+            controller.mensajeAdvertencia(mensaje, stage, obj, imagen);
+            stage.showAndWait();
+            
+            
+            
+           
+        
+        } catch (IOException ex) {
+            Logger.getLogger(MensajeAdvertenciaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     
 }

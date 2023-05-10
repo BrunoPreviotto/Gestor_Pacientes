@@ -36,7 +36,7 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="cajaNombre" alignment="CENTER" onKeyTyped="#soloString" promptText="Ingresar Nombre" styleClass="cajas" stylesheets="@styles/registrar.css" />
+            <TextField fx:id="cajaNombre" alignment="CENTER" promptText="Ingresar Nombre" styleClass="cajas" stylesheets="@styles/registrar.css" />
             <Label fx:id="etiquetaErrorNombre" prefHeight="16.0" prefWidth="153.0" textFill="RED" />
             <Label text="Apellido">
                <font>
@@ -46,7 +46,7 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="cajaApellido" alignment="CENTER" onKeyTyped="#soloString" promptText="Ingresar Apellido" styleClass="cajas" stylesheets="@styles/registrar.css" />
+            <TextField fx:id="cajaApellido" alignment="CENTER" promptText="Ingresar Apellido" styleClass="cajas" stylesheets="@styles/registrar.css" />
             <Label fx:id="etiquetaErrorApellido" prefHeight="16.0" prefWidth="145.0" textFill="RED" />
             <Label text="Usuario">
                <VBox.margin>
@@ -94,7 +94,7 @@
                   <Font name="Abyssinica SIL" size="16.0" />
                </font>
             </Label>
-            <TextField fx:id="cajaEmail" alignment="CENTER" promptText="Ingresar Email" styleClass="cajas" stylesheets="@styles/registrar.css" />
+            <TextField fx:id="cajaEmail" alignment="CENTER" onKeyTyped="#soloString" promptText="Ingresar Email" styleClass="cajas" stylesheets="@styles/registrar.css" />
             <Label fx:id="etiquetaErrorEmail" prefHeight="16.0" prefWidth="145.0" textFill="RED" />
             <Label fx:id="etiquetaError" prefHeight="28.0" prefWidth="277.0" text="ERROR DATOS INCOMPATIBLES" textFill="#e40f0f" visible="false">
                <padding>

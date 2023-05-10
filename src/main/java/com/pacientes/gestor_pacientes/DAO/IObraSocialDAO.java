@@ -11,4 +11,5 @@ import java.util.List;
  */
 public interface IObraSocialDAO extends CRUD<ObraSocial>{
     public List<String> obtenerListaNombresObrasSociales();
+    public void agregarPlan(ObraSocial obraSocial);
 }

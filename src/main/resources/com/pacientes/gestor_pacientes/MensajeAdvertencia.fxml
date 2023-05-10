@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="204.0" prefWidth="520.0" style="-fx-border-color: C02A00;" styleClass="root" stylesheets="@styles/mensajeError.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pacientes.gestor_pacientes.controlador.MensajeAdvertenciaController">
+   <children>
+      <Label alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="486.0" layoutY="14.0" onMouseClicked="#salir" prefHeight="20.0" prefWidth="20.0" styleClass="botonEntrar" stylesheets="@styles/iniciarSesion.css" text="x" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <font>
+            <Font name="DejaVuMathTeXGyre-Regular" size="13.0" />
+         </font>
+      </Label>
+      <Label fx:id="etiquetaMensaje" alignment="CENTER" layoutX="50.0" layoutY="121.0" prefHeight="44.0" prefWidth="420.0">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <ImageView fx:id="imgMensaje" fitHeight="53.0" fitWidth="73.0" layoutX="224.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true" />
+   </children>
+</AnchorPane>

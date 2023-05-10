@@ -39,7 +39,7 @@ import javafx.stage.StageStyle;
  *
  * @author previotto
  */
-public class IniciarSesionController extends PadreController implements Initializable, DraggedScene {
+public class IniciarSesionController extends ClasePadreController implements Initializable, DraggedScene {
 
     @FXML
     private Button botonInicioSesion;

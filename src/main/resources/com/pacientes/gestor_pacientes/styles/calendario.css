@@ -1,0 +1,27 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 2 ene 2023, 15:51:09
+    Author     : previotto
+*/
+
+.calendario Line {
+  -fx-stroke   : #C02A00;
+}
+
+.calendarioPar {
+   -fx-background-color: #FF6638;
+   -fx-pref-width: 130;
+   -fx-pref-height: 150;
+   -fx-border-color: #C02A00;
+   
+    
+}
+
+calendarioImpar {
+    -fx-background-color: #FF6638;
+    
+    
+}

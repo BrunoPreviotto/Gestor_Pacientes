@@ -15,7 +15,7 @@ public interface CRUD<T> {
    
     public List<T> obtenerLista(T objeto);
     public T obtener(T objeto);
-    public void actualizar(T objeto);
-    public void eliminar(T objeto);
-    public void insertar(T objeto);
+    public void actualizar(T objeto, int numeroFucion);
+    public void eliminar(T objeto, int numeroFuncion);
+    public void insertar(T objeto, int numeroFucion);
 }

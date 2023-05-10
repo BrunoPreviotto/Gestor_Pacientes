@@ -4,8 +4,7 @@
  */
 package com.pacientes.gestor_pacientes.controlador;
 
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.collections.FXCollections;
+// PROYECTO
 import com.pacientes.gestor_pacientes.implementacionDAO.*;
 import com.pacientes.gestor_pacientes.modelo.*;
 import com.pacientes.gestor_pacientes.utilidades.MetodosComoParametros;
@@ -13,12 +12,21 @@ import static com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas.*;
 import static com.pacientes.gestor_pacientes.servicios.InicializarObjeto.*;
 import com.pacientes.gestor_pacientes.validacion.Validar;
 import com.pacientes.gestor_pacientes.utilidades.DraggedScene;
-import com.google.common.collect.ImmutableMap;
 import com.pacientes.gestor_pacientes.utilidades.TablaSesiones;
+
+// EXTERNAS
+import com.google.common.base.Splitter;
+import com.google.common.collect.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.collections.FXCollections;
+import com.google.common.collect.ImmutableMap;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.sql.Array;
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.chrono.Chronology;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -31,10 +39,12 @@ import javafx.animation.TranslateTransition;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Control;
@@ -44,34 +54,42 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputControl;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableColumn.CellDataFeatures;
 import javafx.scene.control.TreeTableView;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TouchEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import javafx.util.Duration;
+import javafx.util.converter.LocalDateTimeStringConverter;
 
 /**
  * FXML Controller class
  *
  * @author previotto
  */
-public class MenuInicioController extends PadreController implements Initializable, DraggedScene {
+public class MenuInicioController extends ClasePadreController implements Initializable, DraggedScene {
 
+    //DENTRO DE CLASE
     private String cssNuevo = getClass().getResource("/com/pacientes/gestor_pacientes/styles/nuevoTitledPane.css").toExternalForm();
     private String cssViejo = getClass().getResource("/com/pacientes/gestor_pacientes/styles/menuinicio.css").toExternalForm();
     private PacienteDAOImplementacion pacienteDao;
     private Paciente paciente;
     private Validar validar = new Validar();
-    private SesionPaciente sesion;
+    
     private PlanTratamiento planTratamiento;
     private DiagnosticoPaciente diagnostico;
     private ObraSocialPaciente obraSocialPaciente;
@@ -79,7 +97,18 @@ public class MenuInicioController extends PadreController implements Initializab
     private UsuarioDAOImplementacion usuarioDao;
     private ObraSocialDAOImplementacion obraSocialDao;
     private ObraSocial obraSocial;
+    private String valorInicialNombreObraSocialPaciente;
+    private List<String> listaPlanesObrasSociales;
+            
+    
 
+    private BiMap<TextInputControl, String> valoresBUsquedaDatosPrincipales = HashBiMap.create();
+    private BiMap<TextInputControl, String> valoresBUsquedaSesiones = HashBiMap.create();
+    private BiMap<TextInputControl, String> valoresBUsquedaPlanes = HashBiMap.create();
+    private BiMap<TextInputControl, String> valoresBUsquedaDiagnostico = HashBiMap.create();
+    private BiMap<TextInputControl, String> valoresBUsquedaObraSocial = HashBiMap.create();
+    
+    //FXML
     @FXML
     private TitledPane titlePaneDatosPrincipales;
     @FXML
@@ -227,6 +256,8 @@ public class MenuInicioController extends PadreController implements Initializab
     @FXML
     private TableColumn<TablaSesiones, String> columnaAutorizacionCodigoFacturacion;
     @FXML
+    private TableColumn<TablaSesiones, String> columnaNumeroSecionAutorizacion;
+    @FXML
     private HBox ola;
     @FXML
     private ChoiceBox<String> choiseNombreObraSocialPaciente;
@@ -269,13 +300,48 @@ public class MenuInicioController extends PadreController implements Initializab
     private TableView<Cliente> tablaGenograma;
     @FXML
     private ChoiceBox<String> choiseCodigoFactSesionObraSocial;
+    
     @FXML
     private TableView<TablaSesiones> tableSesiones;
     @FXML
+    private TableView<TablaSesiones> tablaAutorizacion;
+    
+    @FXML
     private TextField cajaNombreObraSocialPaciente;
+    private TextField cajaPlanesObraSocial;
+    @FXML
+    private TextField cajaVerPlanes;
+    @FXML
+    private TextField cajaAgregarPlan;
+    @FXML
+    private Button botonAgregarPlanesObraSocial;
+    @FXML
+    private Button botonActualizarPlanesObraSocial;
+    @FXML
+    private ChoiceBox<String> choisePlanesObraSocialPacientePlan;
+    @FXML
+    private VBox vBoxSesiones;
+    @FXML
+    private VBox vBoxAutorizacion;
+    
+    
+    
 
+    
+    //                          ****
+    //                          ****
+    //                          ****
+    //      INICIALIZADORES  
+    //                          ****
+    //                          ****
+    //                          ****
+    
+    
     /**
-     * Initializes the controller class.
+     * Inicializa:
+     * El nombre del usuario que ha iniciado sesion
+     * Los choise list 
+     * La agenda
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -287,31 +353,34 @@ public class MenuInicioController extends PadreController implements Initializab
         labelNombreDeUsuario3.setText(usuario.getNombre() + " " + usuario.getApellido());
         labelNombreDeUsuario4.setText(usuario.getNombre() + " " + usuario.getApellido());
         iniciarChoiseList();
+        
+        AgendaController agenda = new AgendaController(gpCalendario);
+        agenda.rellenarAgenda();
+        
+        choiseTipoSesion.setOnAction(this::cambiarCategoria);
+        
+        choiseNombreObraSocialPaciente.setOnAction(this::cambiarPlanesObraSocial);
 
     }
 
     private void iniciarChoiseList() {
-        LocalDate local = LocalDate.of(2022, 2, 2);
-
-        sesion = new SesionPaciente(1, local, "asdasdasd", "<dsdsad", "sdsadsad", new AutorizacionesSesionesObraSociales(1, "fddasf", local, 600.0, new CodigoFacturacion("codigo", 54541)));
         pacienteDao = new PacienteDAOImplementacion();
         obraSocialDao = new ObraSocialDAOImplementacion();
-
-        ObservableList<Cliente> cli = FXCollections.observableArrayList(new Cliente("Bruno", "Previotto"));
-        tablaGenograma.setItems(cli);
-
-        TableColumn<Cliente, String> col1 = new TableColumn<>("Nombre");
-        TableColumn<Cliente, String> col2 = new TableColumn<>("Apellido");
-        col1.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        col2.setCellValueFactory(new PropertyValueFactory<>("apellido"));
-
-        tablaGenograma.getColumns().addAll(col1, col2);
-
         List<String> listaCodigosFacturacion = pacienteDao.obtenerListaCodigosFacturacion();
         List<String> listaTiposSesiones = pacienteDao.obtenerListaTiposSesion();
         List<String> listaNombreObrasSociales = obraSocialDao.obtenerListaNombresObrasSociales();
+        
+        
         if (!Objects.isNull(listaNombreObrasSociales)) {
             choiseNombreObraSocialPaciente.getItems().addAll(listaNombreObrasSociales);
+            choiseNombreObraSocialPaciente.setValue(listaNombreObrasSociales.get(0));
+        }
+        
+        listaPlanesObrasSociales = obraSocialDao.obtenerListaPlanesObrasSociales(new ObraSocial(choiseNombreObraSocialPaciente.getValue()));
+        valorInicialNombreObraSocialPaciente = choiseNombreObraSocialPaciente.getValue();
+        
+        if(!Objects.isNull(listaPlanesObrasSociales)){
+            choisePlanesObraSocialPacientePlan.getItems().addAll(listaPlanesObrasSociales);
         }
         if (!Objects.isNull(listaTiposSesiones)) {
             choiseTipoSesion.getItems().addAll(listaTiposSesiones);
@@ -320,6 +389,14 @@ public class MenuInicioController extends PadreController implements Initializab
             choiseCodigoFactSesionObraSocial.getItems().addAll(listaCodigosFacturacion);
         }
     }
+    
+    //                  ****
+    //                  ****
+    //                  ****
+    //      CREAR   
+    //                  ****
+    //                  ****
+    //                  ****
 
     @FXML
     private void crearPaciente(MouseEvent event) {
@@ -327,7 +404,7 @@ public class MenuInicioController extends PadreController implements Initializab
         pacienteDao = new PacienteDAOImplementacion();
         List<TextField> listaCajas = new ArrayList<TextField>(Arrays.asList(cajaNombreDatosPrincipales, cajaApellidoDatosPrincipales, cajaEdadDatosPrincipales, cajaDniDatosPrincipales, cajaTelefonoDatosPrincipales));
         if (esCajaValida(listaCajas)) {
-            pacienteDao.insertar(inicializarPacienteRegistroDatosPrincipales(cajaNombreDatosPrincipales.getText(), cajaApellidoDatosPrincipales.getText(), Integer.parseInt(cajaEdadDatosPrincipales.getText()), Integer.parseInt(cajaDniDatosPrincipales.getText()), new Telefono(cajaTelefonoDatosPrincipales.getText())));
+            pacienteDao.insertar(inicializarPacienteRegistroDatosPrincipales(cajaNombreDatosPrincipales.getText(), cajaApellidoDatosPrincipales.getText(), Integer.parseInt(cajaEdadDatosPrincipales.getText()), Integer.parseInt(cajaDniDatosPrincipales.getText()), new Telefono(cajaTelefonoDatosPrincipales.getText())), 1);
             cajaNombreDatosPrincipales.setText("");
             cajaApellidoDatosPrincipales.setText("");
             cajaEdadDatosPrincipales.setText("");
@@ -335,94 +412,80 @@ public class MenuInicioController extends PadreController implements Initializab
             cajaTelefonoDatosPrincipales.setText("");
         }
     }
-
-    @FXML
-    private void actualizarPaciente(MouseEvent event) {
-
-    }
-
-    @FXML
-    private void buscarPaciente() {
-        Paciente paciente = new Paciente();
-        pacienteDao = new PacienteDAOImplementacion();
-        paciente.setDni(Integer.parseInt(cajaBuscarPaciente.getText()));
-        paciente.setId(pacienteDao.obtenerIdPaciente(new Paciente(Integer.valueOf(cajaBuscarPaciente.getText()))).getId());
-        Paciente pacienteResultado = pacienteDao.obtener(paciente);
-
-        
-
-        ObservableList<TablaSesiones> ol = FXCollections.observableArrayList();
-        if (!Objects.isNull(paciente)) {
-            
-            if (Objects.nonNull(pacienteResultado.getDni())) {
-                cajaNombreDatosPrincipales.setText(pacienteResultado.getNombre());
-                cajaApellidoDatosPrincipales.setText(pacienteResultado.getApellido());
-                cajaEdadDatosPrincipales.setText(String.valueOf(pacienteResultado.getEdad()));
-                cajaDniDatosPrincipales.setText(String.valueOf(pacienteResultado.getDni()));
-                cajaTelefonoDatosPrincipales.setText(pacienteResultado.getTelefono().getTelefono());
-                botonRetornarDatosPrincipales.setDisable(false);
-                botonActualizarDatosPrincipales.setDisable(false);
-                botonAgregarDatosPrincipales.setDisable(true);
-                botonEliminarDatosPrincipales.setDisable(false);
-            }
-            
-            
-            if (Objects.nonNull(pacienteResultado.getSesiones())) {
-                for (SesionPaciente sp : pacienteResultado.getSesiones()) {
-
-                    ol.add(new TablaSesiones(String.valueOf(sp.getNumeroSesion()), sp.getFecha().toString(), sp.getTrabajoSesion(), sp.getObservacion(), sp.getMotivoTrabajoEmergente(), String.valueOf(sp.getAutorizacion().getNumeroAutorizacion()), sp.getAutorizacion().getObservacion(), sp.getAutorizacion().getAsociacion().toString(), String.valueOf(sp.getAutorizacion().getCopago()), sp.getAutorizacion().getCodigoFacturacion().getNombre()));
-                }
-                tableSesiones.setItems(ol);
-                ColumnaSesionNumero.setCellValueFactory(new PropertyValueFactory<>("numeroSesion"));
-                ColumnaSesionFecha.setCellValueFactory(new PropertyValueFactory<>("fechaSesion"));
-                ColumnaSesionTrabajo.setCellValueFactory(new PropertyValueFactory<>("trabajoSesion"));
-                ColumnaSesionObservacion.setCellValueFactory(new PropertyValueFactory<>("observacionSesion"));
-                ColumnaSesionMotivoTRabajoEmergente.setCellValueFactory(new PropertyValueFactory<>("motivoTrabajoEmergente"));
-                columnaAutorizacionNumero.setCellValueFactory(new PropertyValueFactory<>("numeroAutorizacion"));
-                columnaAutorizacionObservacion.setCellValueFactory(new PropertyValueFactory<>("observacionAutorizacion"));
-                columnaAutorizacionAsociacion.setCellValueFactory(new PropertyValueFactory<>("asociacion"));
-                columnaAutorizacionCopago.setCellValueFactory(new PropertyValueFactory<>("copago"));
-                columnaAutorizacionCodigoFacturacion.setCellValueFactory(new PropertyValueFactory<>("nombreCodigo"));
-            }
-
-            if (Objects.nonNull(pacienteResultado.getPlanTratamiento())) {
-                cajaFrecuenciaSesiones.setText(pacienteResultado.getPlanTratamiento().getFrecuenciaSesion());
-                cajaNombreTipoSesionPlan.setText(pacienteResultado.getPlanTratamiento().getTipoSEsion().getNombre());
-                cajaDescripcionTipoSesionPlan.setText(pacienteResultado.getPlanTratamiento().getTipoSEsion().getDecripcion());
-                cajaEstrategiaPlan.setText(pacienteResultado.getPlanTratamiento().getEstrategia());
-            }
-            
-            if(Objects.nonNull(pacienteResultado.getDiagnostico())){
-                cajaDiagnosticoDiagnostico.setText(pacienteResultado.getDiagnostico().getDiagnostico());
-                cajaObservacionDiagnostico.setText(pacienteResultado.getDiagnostico().getObservacion());
-            }
-            
-            if(Objects.nonNull(pacienteResultado.getObraSocialPaciente())){
-               cajaNombreObraSocialPaciente.setText(pacienteResultado.getObraSocialPaciente().getNombre());
-               cajaPlanObraSocialPaciente.setText(pacienteResultado.getObraSocialPaciente().getPlan().getNombre());
-               cajaNAfiliadoObraSocialPaciente.setText(pacienteResultado.getObraSocialPaciente().getNumeroAfiliado().toString());
-            }
-        }
-
-    }
-
-    @FXML
-    private void eliminar(MouseEvent event) {
-        pacienteDao.eliminar(new Paciente(Integer.parseInt(cajaDniDatosPrincipales.getText())));
-    }
-
+    
     @FXML
     private void crearSesion(MouseEvent event) {
-        pacienteDao = new PacienteDAOImplementacion();
-        paciente = new Paciente();
-        sesion = new SesionPaciente(Integer.valueOf(cajaNumeroSesion.getText()), cajaFechaSesion.getValue(), cajaTrabajoSesion.getText(), cajaObservacionSesion.getText(), cajaMotivoTrabajoEmergenteSesion.getText(), new AutorizacionesSesionesObraSociales(Integer.valueOf(cajaAutorizacionSesion.getText()), cajaObservacionSesionObraSocial.getText(), cajaAsociacionSesionObraSocial.getValue(), Double.valueOf(cajaCopagoSesionObraSocial.getText()), new CodigoFacturacion(choiseCodigoFactSesionObraSocial.getValue())));
+        
+        tablaAutorizacion.setVisible(false);
+        tableSesiones.setVisible(false);
+        botonAgregarSesiones.setDisable(false);
+        botonEliminarSesiones.setDisable(true);
+        botonActualizarSesiones.setDisable(true);
+        botonRetornarSesiones.setDisable(false);
+        vBoxAutorizacion.setVisible(true);
+        vBoxSesiones.setVisible(true);
+        
+        if (!botonAgregarSesiones.getId().equals("1")) {
+            
+            cajaFechaSesion.setValue(LocalDate.now());
+            int ultimaSesion = pacienteDao.obtenerultimaSesion(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText()))) +1;
+            cajaNumeroSesion.setText(String.valueOf(ultimaSesion));
+            cajaTrabajoSesion.setText("");
+            cajaObservacionSesion.setText("");
+            cajaMotivoTrabajoEmergenteSesion.setText("");
 
-        paciente.setDni(Integer.parseInt(cajaDniDatosPrincipales.getText()));
-        if (!cajaDniDatosPrincipales.getText().isEmpty()) {
-            pacienteDao.insertarSesion(pacienteDao.obtenerIdPaciente(paciente).getId(), sesion);
-        } else {
+            cajaAutorizacionSesion.setText("");
+            cajaObservacionSesionObraSocial.setText("");
+            cajaAsociacionSesionObraSocial.setValue(LocalDate.now());
+            cajaCopagoSesionObraSocial.setText("");
+            choiseCodigoFactSesionObraSocial.setValue("");
 
+        }else{
+            pacienteDao = new PacienteDAOImplementacion();
+            paciente = new Paciente();
+            AutorizacionesSesionesObraSociales  autorizacionesSesionesObraSociales;
+            
+            
+            
+            if(!cajaAutorizacionSesion.getText().equals("")){
+                autorizacionesSesionesObraSociales = new AutorizacionesSesionesObraSociales(
+                    Integer.valueOf(cajaAutorizacionSesion.getText()), 
+                         cajaObservacionSesionObraSocial.getText(), cajaAsociacionSesionObraSocial.getValue(), 
+                            Double.valueOf(cajaCopagoSesionObraSocial.getText()), 
+                                  new CodigoFacturacion(choiseCodigoFactSesionObraSocial.getValue()));
+            }else{
+                autorizacionesSesionesObraSociales = new AutorizacionesSesionesObraSociales(
+                    0, 
+                         "", LocalDate.MAX, 
+                            0.0, 
+                                  new CodigoFacturacion(""));
+            }
+            
+                    SesionPaciente sesion = new SesionPaciente(Integer.valueOf(cajaNumeroSesion.getText()),
+                    cajaFechaSesion.getValue(),
+                    cajaTrabajoSesion.getText(),
+                    cajaObservacionSesion.getText(),
+                    cajaMotivoTrabajoEmergenteSesion.getText(), 
+                    autorizacionesSesionesObraSociales);
+                    
+            paciente.setSesion(sesion);
+            paciente.setDni(Integer.parseInt(cajaDniDatosPrincipales.getText()));
+            paciente.setId(pacienteDao.obtenerIdPaciente(paciente).getId());
+            
+            if (!cajaDniDatosPrincipales.getText().isEmpty()) {
+                pacienteDao.insertar(paciente, 3);
+                vBoxSesiones.setVisible(false);
+                vBoxAutorizacion.setVisible(false);
+                tableSesiones.setVisible(true);
+                tablaAutorizacion.setVisible(true);
+                buscarPaciente();
+            } else {
+
+            }
         }
+        botonAgregarSesiones.setId("1");
+
+
     }
 
     @FXML
@@ -432,8 +495,10 @@ public class MenuInicioController extends PadreController implements Initializab
         TipoSesion ts = new TipoSesion(cajaNombreTipoSesionPlan.getText(), cajaDescripcionTipoSesionPlan.getText());
         planTratamiento = new PlanTratamiento(cajaEstrategiaPlan.getText(), cajaFrecuenciaSesiones.getText(), ts);
         paciente.setDni(Integer.parseInt(cajaDniDatosPrincipales.getText()));
+        paciente.setId(pacienteDao.obtenerIdPaciente(paciente).getId());
+        paciente.setPlanTratamiento(planTratamiento);
         if (!cajaDniDatosPrincipales.getText().isEmpty()) {
-            pacienteDao.insertarPlanTratamiento(pacienteDao.obtenerIdPaciente(paciente).getId(), planTratamiento);
+            pacienteDao.insertar(paciente, 5);
         } else {
 
         }
@@ -445,21 +510,29 @@ public class MenuInicioController extends PadreController implements Initializab
         paciente = new Paciente();
         diagnostico = new DiagnosticoPaciente(cajaDiagnosticoDiagnostico.getText(), cajaObservacionDiagnostico.getText());
         paciente.setDni(Integer.parseInt(cajaDniDatosPrincipales.getText()));
+        paciente.setId(pacienteDao.obtenerIdPaciente(paciente).getId());
+        paciente.setDiagnostico(diagnostico);
         if (!cajaDniDatosPrincipales.getText().isEmpty()) {
-            pacienteDao.insertarDiagnostico(pacienteDao.obtenerIdPaciente(paciente).getId(), diagnostico);
+            pacienteDao.insertar(paciente, 4);
         } else {
 
         }
     }
 
+    
     @FXML
     private void crearObraSocialPaciente(MouseEvent event) {
         pacienteDao = new PacienteDAOImplementacion();
         paciente = new Paciente();
-        obraSocialPaciente = new ObraSocialPaciente(Integer.parseInt(cajaNAfiliadoObraSocialPaciente.getText()), choiseNombreObraSocialPaciente.getValue().toString(), new PlanObraSocial(cajaPlanObraSocialPaciente.getText(), "Sin descripcion"));
+        obraSocialPaciente = new ObraSocialPaciente(Integer.parseInt(cajaNAfiliadoObraSocialPaciente.getText()), choiseNombreObraSocialPaciente.getValue().toString(), new PlanObraSocial(choisePlanesObraSocialPacientePlan.getValue().toString(), "Sin descripcion"));
         paciente.setDni(Integer.parseInt(cajaDniDatosPrincipales.getText()));
+        paciente.setId(pacienteDao.obtenerIdPaciente(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText()))).getId());
+        paciente.setObraSocialPaciente(obraSocialPaciente);
+        
+        
+        
         if (!cajaDniDatosPrincipales.getText().isEmpty()) {
-            pacienteDao.insertarObraSocialPaciente(pacienteDao.obtenerIdPaciente(paciente).getId(), obraSocialPaciente);
+            pacienteDao.insertar(paciente, 2);
         } else {
 
         }
@@ -469,8 +542,239 @@ public class MenuInicioController extends PadreController implements Initializab
     private void crearObraSocial(MouseEvent event) {
         obraSocialDao = new ObraSocialDAOImplementacion();
         obraSocial = new ObraSocial(cajaNombreObraSocial.getText(), new Telefono(cajaTelefonoObraSocial.getText()), new Web(cajaWebObraSocial.getText()), true, new Email(cajaEmailObraSocial.getText()));
-        obraSocialDao.insertar(obraSocial);
+        obraSocialDao.insertar(obraSocial, 1);
     }
+    
+    @FXML
+    private void agregarPlan(MouseEvent event) {
+        botonAgregarPlanesObraSocial.setDisable(true);
+        cajaVerPlanes.setDisable(true);
+        cajaAgregarPlan.setDisable(false);
+        botonActualizarPlanesObraSocial.setDisable(false);
+    }
+    
+    @FXML
+    private void actualizarPlanesObrasSocial(MouseEvent event) {
+        obraSocialDao = new ObraSocialDAOImplementacion();
+        obraSocial = new ObraSocial();
+        if(!cajaAgregarPlan.getText().isEmpty()){
+            obraSocial.setNombre(cajaBuscarObraSocial.getText());
+            obraSocial.setPlan(cajaAgregarPlan.getText());
+            obraSocialDao.agregarPlan(obraSocial);
+        }
+        cajaAgregarPlan.setText("");
+        cajaAgregarPlan.setDisable(true);
+        botonActualizarPlanesObraSocial.setDisable(true);
+        cajaVerPlanes.setDisable(false);
+        botonAgregarPlanesObraSocial.setDisable(false);
+    }
+    
+    //                  ****
+    //                  ****
+    //                  ****
+    //      ACTUALIZAR   
+    //                  ****
+    //                  ****
+    //                  ****
+    
+    @FXML
+    private void actualizarDiagnostico(MouseEvent event) {
+        Paciente paciente = new Paciente();
+        pacienteDao = new PacienteDAOImplementacion();
+        
+        pacienteDao.actualizar(paciente.setDiagnostico(new DiagnosticoPaciente(cajaDiagnosticoDiagnostico.getText(), cajaObservacionDiagnostico.getText())).setId(pacienteDao.obtenerIdPaciente(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText()))).getId()), 1);
+    
+        
+    }
+
+    
+    @FXML
+    private void actualizarPlan(MouseEvent event) {
+        Paciente paciente = new Paciente();
+        pacienteDao = new PacienteDAOImplementacion();
+        List<TextField> listaCajasPlan = new ArrayList<TextField>(Arrays.asList(cajaNombreDatosPrincipales, cajaApellidoDatosPrincipales, cajaEdadDatosPrincipales, cajaDniDatosPrincipales, cajaTelefonoDatosPrincipales));
+        //List<TextField> listaCajasDatosPrincipales = new ArrayList<TextField>(Arrays.asList(cajaFrecuenciaSesiones, cajaNombreTipoSesionPlan, cajaDescripcionTipoSesionPlan, cajaEstrategiaPlan));
+        if(esCajaValida(listaCajasPlan)){
+            pacienteDao.actualizar(paciente.setPlanTratamiento(new PlanTratamiento(cajaEstrategiaPlan.getText(), cajaFrecuenciaSesiones.getText(), new TipoSesion(choiseTipoSesion.getValue(), "Sin descripcion"))).setId(pacienteDao.obtenerIdPaciente(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText()))).getId()), 2);
+        }
+    }
+
+    @FXML
+    private void actualizarPaciente(MouseEvent event) {
+        Paciente paciente = new Paciente();
+        pacienteDao = new PacienteDAOImplementacion();
+        List<TextField> listaCajasDatosPrincipales = new ArrayList<TextField>(Arrays.asList(cajaNombreDatosPrincipales, cajaApellidoDatosPrincipales, cajaEdadDatosPrincipales, cajaDniDatosPrincipales, cajaTelefonoDatosPrincipales));
+        
+        if(esCajaValida(listaCajasDatosPrincipales)){
+            pacienteDao.actualizar(paciente.setNombre(cajaNombreDatosPrincipales.getText()).setApellido(cajaApellidoDatosPrincipales.getText()).setEdad(Integer.parseInt(cajaEdadDatosPrincipales.getText())).setDni(Integer.parseInt(cajaDniDatosPrincipales.getText())).setId(pacienteDao.obtenerIdPaciente(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText()))).getId()).setTelefono(new Telefono(cajaTelefonoDatosPrincipales.getText())), 3);
+        }
+    }
+
+    //                  ****
+    //                  ****
+    //                  ****
+    //      BUSCAR  
+    //                  ****
+    //                  ****
+    //                  ****
+    
+    @FXML
+    private void buscarPaciente() {
+        Paciente paciente = new Paciente();
+        pacienteDao = new PacienteDAOImplementacion();
+        
+        cajaNombreObraSocialPaciente.setText("");
+        cajaPlanObraSocialPaciente.setText("");
+        cajaNAfiliadoObraSocialPaciente.setText("");
+        
+        botonActualizarSesiones.setDisable(false);
+        botonAgregarSesiones.setDisable(false);
+        botonEliminarSesiones.setDisable(false);
+        
+        
+            if (!cajaBuscarPaciente.getText().isEmpty()) {
+            paciente.setDni(Integer.parseInt(cajaBuscarPaciente.getText()));
+            paciente.setId(pacienteDao.obtenerIdPaciente(new Paciente(Integer.valueOf(cajaBuscarPaciente.getText()))).getId());
+
+            if (paciente.getId() != 0) {
+                Paciente pacienteResultado = pacienteDao.obtener(paciente);
+
+                ObservableList<TablaSesiones> ol = FXCollections.observableArrayList();
+                
+                if (Objects.nonNull(pacienteResultado)) {
+                   
+                    if (!Objects.isNull(paciente)) {
+
+                        if (Objects.nonNull(pacienteResultado.getDni())) {
+                            cajaNombreDatosPrincipales.setText(pacienteResultado.getNombre());
+                            cajaApellidoDatosPrincipales.setText(pacienteResultado.getApellido());
+                            cajaEdadDatosPrincipales.setText(String.valueOf(pacienteResultado.getEdad()));
+                            cajaDniDatosPrincipales.setText(String.valueOf(pacienteResultado.getDni()));
+                            cajaTelefonoDatosPrincipales.setText(pacienteResultado.getTelefono().getTelefono());
+
+                            valoresBUsquedaDatosPrincipales = ImmutableBiMap.of(cajaNombreDatosPrincipales, cajaNombreDatosPrincipales.getText(),
+                                    cajaApellidoDatosPrincipales, cajaApellidoDatosPrincipales.getText(),
+                                    cajaEdadDatosPrincipales, cajaEdadDatosPrincipales.getText(),
+                                    cajaDniDatosPrincipales, cajaDniDatosPrincipales.getText(),
+                                    cajaTelefonoDatosPrincipales, cajaTelefonoDatosPrincipales.getText());
+
+                            botonRetornarDatosPrincipales.setDisable(false);
+                            botonActualizarDatosPrincipales.setDisable(true);
+                            botonAgregarDatosPrincipales.setDisable(true);
+                            botonEliminarDatosPrincipales.setDisable(false);
+
+                        }
+
+                        if (Objects.nonNull(pacienteResultado.getSesiones())) {
+                            for (SesionPaciente sp : pacienteResultado.getSesiones()) {
+                                
+                                ol.add(new TablaSesiones(String.valueOf(sp.getNumeroSesion()), sp.getFecha().toString(), sp.getTrabajoSesion(), sp.getObservacion(), sp.getMotivoTrabajoEmergente(), String.valueOf(sp.getAutorizacion().getNumeroAutorizacion()), sp.getAutorizacion().getObservacion(), sp.getAutorizacion().getAsociacion().toString(), String.valueOf(sp.getAutorizacion().getCopago()), sp.getAutorizacion().getCodigoFacturacion().getNombre()));
+                            }
+                            
+                            tablaAutorizacion.setItems(ol);
+                            tableSesiones.setItems(ol);
+                            ColumnaSesionNumero.setCellValueFactory(new PropertyValueFactory<>("numeroSesion"));
+                            ColumnaSesionFecha.setCellValueFactory(new PropertyValueFactory<>("fechaSesion"));
+                            ColumnaSesionTrabajo.setCellValueFactory(new PropertyValueFactory<>("trabajoSesion"));
+                            ColumnaSesionObservacion.setCellValueFactory(new PropertyValueFactory<>("observacionSesion"));
+                            ColumnaSesionMotivoTRabajoEmergente.setCellValueFactory(new PropertyValueFactory<>("motivoTrabajoEmergente"));
+                            columnaAutorizacionNumero.setCellValueFactory(new PropertyValueFactory<>("numeroAutorizacion"));
+                            columnaAutorizacionObservacion.setCellValueFactory(new PropertyValueFactory<>("observacionAutorizacion"));
+                            columnaAutorizacionAsociacion.setCellValueFactory(new PropertyValueFactory<>("asociacion"));
+                            columnaAutorizacionCopago.setCellValueFactory(new PropertyValueFactory<>("copago"));
+                            columnaAutorizacionCodigoFacturacion.setCellValueFactory(new PropertyValueFactory<>("nombreCodigo"));
+                            columnaNumeroSecionAutorizacion.setCellValueFactory(new PropertyValueFactory<>("numeroSesion"));
+
+                        }
+
+                        if (Objects.nonNull(pacienteResultado.getPlanTratamiento())) {
+                            cajaFrecuenciaSesiones.setText(pacienteResultado.getPlanTratamiento().getFrecuenciaSesion());
+                            cajaNombreTipoSesionPlan.setText(pacienteResultado.getPlanTratamiento().getTipoSEsion().getNombre());
+                            cajaDescripcionTipoSesionPlan.setText(pacienteResultado.getPlanTratamiento().getTipoSEsion().getDecripcion());
+                            cajaEstrategiaPlan.setText(pacienteResultado.getPlanTratamiento().getEstrategia());
+                            choiseTipoSesion.setValue(pacienteResultado.getPlanTratamiento().getTipoSEsion().getNombre());
+                            cajaNombreTipoSesionPlan.setText(pacienteResultado.getPlanTratamiento().getTipoSEsion().getNombre());
+
+                            valoresBUsquedaPlanes = ImmutableBiMap.of(cajaFrecuenciaSesiones, cajaFrecuenciaSesiones.getText(),
+                                    cajaNombreTipoSesionPlan, cajaNombreTipoSesionPlan.getText(),
+                                    cajaDescripcionTipoSesionPlan, cajaDescripcionTipoSesionPlan.getText(),
+                                    cajaEstrategiaPlan, cajaEstrategiaPlan.getText());
+                        }
+
+                        if (Objects.nonNull(pacienteResultado.getDiagnostico())) {
+                            cajaDiagnosticoDiagnostico.setText(pacienteResultado.getDiagnostico().getDiagnostico());
+                            cajaObservacionDiagnostico.setText(pacienteResultado.getDiagnostico().getObservacion());
+                            valoresBUsquedaDiagnostico = ImmutableBiMap.of(cajaDiagnosticoDiagnostico, cajaDiagnosticoDiagnostico.getText(),
+                                    cajaObservacionDiagnostico, cajaObservacionDiagnostico.getText());
+                        }
+
+                        if (Objects.nonNull(pacienteResultado.getObraSocialPaciente())) {
+
+                            cajaNombreObraSocialPaciente.setText(pacienteResultado.getObraSocialPaciente().getNombre());
+                            choiseNombreObraSocialPaciente.setValue(pacienteResultado.getObraSocialPaciente().getNombre());
+                            cajaPlanObraSocialPaciente.setText(pacienteResultado.getObraSocialPaciente().getPlan().getNombre());
+                            cajaNAfiliadoObraSocialPaciente.setText(pacienteResultado.getObraSocialPaciente().getNumeroAfiliado().toString());
+                        }
+                    }
+                }else{
+                    mensaje("Paciente no encontrado", this, "/com/pacientes/gestor_pacientes/img/PacienteNoEncontrado.png");
+                }
+                    
+            }else{
+                mensaje("Paciente no encontrado", this, "/com/pacientes/gestor_pacientes/img/PacienteNoEncontrado.png");
+            }
+                
+
+        } else {
+
+            cajaNombreDatosPrincipales.setText("");
+            cajaApellidoDatosPrincipales.setText("");
+            cajaEdadDatosPrincipales.setText("");
+            cajaDniDatosPrincipales.setText("");
+            cajaTelefonoDatosPrincipales.setText("");
+
+        }
+        
+    }
+    
+    @FXML
+    private void buscarObraSocia(MouseEvent event) {
+        
+        ObraSocial obraSocial = new ObraSocial();
+        obraSocialDao = new ObraSocialDAOImplementacion();
+        obraSocial = obraSocialDao.obtener(new ObraSocial(cajaBuscarObraSocial.getText()));
+        
+        String planes = "";
+        for (String plan : obraSocial.getPlanes()) {
+            planes += plan + " | ";
+        }
+        
+        cajaVerPlanes.setText(planes);
+        
+    }
+    
+    
+    
+    //                  ****
+    //                  ****
+    //                  ****
+    //      ELIMINAR    ****
+    //                  ****
+    //                  ****
+    //                  ****
+
+    @FXML
+    private void eliminarPaciente(MouseEvent event) {
+        pacienteDao.eliminar(new Paciente(Integer.parseInt(cajaDniDatosPrincipales.getText())), 1);
+    }
+
+    //                  ****
+    //                  ****
+    //                  ****
+    //      VALIDAR   
+    //                  ****
+    //                  ****
+    //                  ****
 
     public void validarSesion() {
 
@@ -483,22 +787,23 @@ public class MenuInicioController extends PadreController implements Initializab
                 cajaEdadDatosPrincipales, mcp.retornarMetodosValidar(1), cajaDniDatosPrincipales, mcp.retornarMetodosValidar(3),
                 cajaTelefonoDatosPrincipales, mcp.retornarMetodosValidar(3));
 
-        validarCajasExedidasCaracteres(mapValidar);
+        //validarCajasExedidasCaracteres(mapValidar);
 
     }
 
     private boolean esCajaValida(List<TextField> cajas) {
         HBox hb;
-        ImageView img;
+        ImageView img = new ImageView();
         for (TextField caja : cajas) {
             hb = (HBox) caja.getParent();
-            if (hb.getChildren().size() < 2) {
-                return false;
+            
+            if(hb.getChildren().size() > 1){
+                img = (ImageView) hb.getChildren().get(1);
+                if (img.getId().equals("imgError") || img.getId().equals("imgVacio")) {
+                    return false;
+                }
             }
-            img = (ImageView) hb.getChildren().get(1);
-            if (img.getId().equals("imgError") || img.getId().equals("imgVacio")) {
-                return false;
-            }
+            
         }
         return true;
     }
@@ -522,13 +827,17 @@ public class MenuInicioController extends PadreController implements Initializab
         Map<Control, Boolean> botones;
         if (botonRetornar.getId().equals("botonRetornarDatosPrincipales")) {
             listaCajas = Arrays.asList(cajaNombreDatosPrincipales, cajaApellidoDatosPrincipales, cajaEdadDatosPrincipales, cajaDniDatosPrincipales, cajaTelefonoDatosPrincipales);
-            botones = ImmutableMap.of(botonRetornarDatosPrincipales, true, botonAgregarDatosPrincipales, false, botonActualizarDatosPrincipales, true, botonEliminarDatosPrincipales, true);
+            botones = ImmutableMap.of(botonRetornarDatosPrincipales, true, botonAgregarDatosPrincipales, false, botonActualizarDatosPrincipales, false, botonEliminarDatosPrincipales, true);
             setearVisibilidad(botones);
             blanquearCajas(listaCajas);
         }
 
     }
 
+    /***
+     * SELECCIONAR CADA UNA DE LAS OPCIONES DEL MENU
+     * @param event 
+     */
     @FXML
     private void eleccionMenu(MouseEvent event) {
         Pane pane = (Pane) event.getSource();
@@ -619,19 +928,22 @@ public class MenuInicioController extends PadreController implements Initializab
         if (tp.expandedProperty().get() && acordionPaciente.getStylesheets().get(0).equals(cssViejo)) {
             acordionPaciente.getStylesheets().remove(cssViejo);
             acordionPaciente.getStylesheets().add(cssNuevo);
-            System.out.println(acordionPaciente.getStylesheets().get(0));
+           
 
         } else if (!tp.expandedProperty().get() && acordionPaciente.getStylesheets().get(0).equals(cssNuevo)) {
             acordionPaciente.getStylesheets().remove(cssNuevo);
             acordionPaciente.getStylesheets().add(cssViejo);
-            System.out.println(acordionPaciente.getStylesheets().get(0));
+           
         }
 
     }
 
    
-
-    @FXML
+    /***
+     * AL DAR AL BOTON BUSCAR BUSCA AL PACIENTE SEGUN EL DOCUMENTO
+     * @param event 
+     */
+    @FXML   
     private void alDarEnterBuscarBoton(KeyEvent event) {
         
         if(event.getCode() == KeyCode.ENTER){
@@ -640,6 +952,414 @@ public class MenuInicioController extends PadreController implements Initializab
             }
         }
     }
+
+    
+
+    @FXML
+    private void cambiarAcrearActualizarBorrar(KeyEvent event) {
+        Node accessibleTextCajas = (Node) event.getSource();
+        
+        List<Boolean> listaCajasLLenasOVacias;
+        
+        Map <String, Button> listaBotones;
+        
+        
+        switch (accessibleTextCajas.getAccessibleText()) {
+            case "datosPrincipales":
+                listaCajasLLenasOVacias = Arrays.asList(
+                        cajaNombreDatosPrincipales.getText().isEmpty(),
+                        cajaApellidoDatosPrincipales.getText().isEmpty(),
+                        cajaEdadDatosPrincipales.getText().isEmpty(),
+                        cajaDniDatosPrincipales.getText().isEmpty(),
+                        cajaTelefonoDatosPrincipales.getText().isEmpty());
+
+                listaBotones = ImmutableMap.of(
+                        "agregar", botonAgregarDatosPrincipales,
+                        "eliminar", botonEliminarDatosPrincipales,
+                        "retornar", botonRetornarDatosPrincipales,
+                        "actualizar", botonActualizarDatosPrincipales);
+
+                accionarCambiarAcrearActualizarBorrar(listaCajasLLenasOVacias,
+                        listaBotones,
+                        valoresBUsquedaDatosPrincipales,
+                        event);
+                break;
+            case "planTratamiento":
+                
+                listaCajasLLenasOVacias = Arrays.asList(
+                        cajaFrecuenciaSesiones.getText().isEmpty(),
+                        cajaNombreTipoSesionPlan.getText().isEmpty(),
+                        cajaDescripcionTipoSesionPlan.getText().isEmpty(),
+                        cajaEstrategiaPlan.getText().isEmpty());
+
+                listaBotones = ImmutableMap.of(
+                        "agregar", botonAgregarPlanTratamiento,
+                        "eliminar", botonEliminarPlanTratamiento,
+                        "retornar", botonRetornarPlanTratamiento,
+                        "actualizar", botonActualizarPlanTratamiento);
+
+                accionarCambiarAcrearActualizarBorrar(listaCajasLLenasOVacias,
+                        listaBotones,
+                        valoresBUsquedaPlanes,
+                        event);
+
+                break;
+            case "diagnostico":
+                
+                listaCajasLLenasOVacias = Arrays.asList(
+                        cajaDiagnosticoDiagnostico.getText().isEmpty(),
+                        cajaObservacionDiagnostico.getText().isEmpty());
+                listaBotones = ImmutableMap.of(
+                        "agregar", botonAgregarDiagnostico,
+                        "eliminar", botonEliminarDiagnostico,
+                        "retornar", botonRetornarDiagnostico,
+                        "actualizar", botonActualizarDiagnostico);
+                
+                accionarCambiarAcrearActualizarBorrar(
+                  listaCajasLLenasOVacias, 
+                        listaBotones, 
+                          valoresBUsquedaDiagnostico, 
+                                 event);
+        }
+        
+        
+       
+    }
+    
+    public void accionarCambiarAcrearActualizarBorrar(List<Boolean> cajasVaciasOLLenas, Map<String, Button> mapBotones, Map<TextInputControl, String> mapCajas, KeyEvent event){
+        TextInputControl caja = (TextInputControl) event.getSource();
+        HBox hb = (HBox) caja.getParent();
+        VBox vb = (VBox) hb.getParent();
+        List<TextInputControl> textFieldCajasObtenidas = new ArrayList();
+        
+        
+        
+        boolean verdadero = true;
+        for (Boolean c : cajasVaciasOLLenas) {
+            
+            if(!c){
+                verdadero = false;
+                break;
+            }
+        }
+        
+        if(verdadero){
+            for (Map.Entry<String, Button> e : mapBotones.entrySet()) {
+                switch (e.getKey()) {
+                    case "agregar":
+                        e.getValue().setDisable(false);
+                        break;
+                    case "eliminar":
+                        e.getValue().setDisable(true);
+                        break;
+                    case "retornar":
+                        e.getValue().setDisable(true);
+                        break;
+                }
+                
+            }
+        }
+        
+         for (Node node : vb.getChildren()) {
+            if(node.getTypeSelector().equals("HBox")){
+                HBox h = (HBox) node;
+                TextInputControl t = (TextInputControl) h.getChildren().get(0);
+                textFieldCajasObtenidas.add(t);
+            }
+            
+        }
+        
+        
+        boolean noIgual = false;
+        int i = 0;
+        for (Map.Entry<TextInputControl, String> entry : mapCajas.entrySet()) {
+            
+            if(entry.getKey().getId().equals(textFieldCajasObtenidas.get(i).getId())){
+                if(!entry.getValue().equals(textFieldCajasObtenidas.get(i).getText())){
+                    noIgual = true;
+                    break;
+                }
+                i++;
+            }
+            
+        }
+        
+        if(noIgual){
+            mapBotones.get("actualizar").setDisable(false);
+            mapBotones.get("eliminar").setDisable(true);
+            
+        }else{
+            mapBotones.get("actualizar").setDisable(true);
+            mapBotones.get("eliminar").setDisable(false);
+        }
+        
+        
+    }
+
+   
+
+    private void cambiarCategoria(ActionEvent event) {
+        ChoiceBox cb = (ChoiceBox)event.getSource();
+        if(cb.getAccessibleText().equals("planTratamiento")){
+            if (!choiseTipoSesion.getValue().equals(cajaNombreTipoSesionPlan.getText())) {
+                cajaNombreTipoSesionPlan.setText(choiseTipoSesion.getValue());
+               
+            }
+            if (!cb.getValue().equals(valoresBUsquedaPlanes.get(cajaNombreTipoSesionPlan)) && valoresBUsquedaPlanes.get(cajaNombreTipoSesionPlan) != null) {
+                botonActualizarPlanTratamiento.setDisable(false);
+                
+            } else {
+                botonActualizarPlanTratamiento.setDisable(true);
+            }
+        }
+    }
+    
+    
+
+    private void cambiarPlanesObraSocial(ActionEvent event) {
+        ChoiceBox cb = (ChoiceBox) event.getSource();
+        obraSocialDao = new ObraSocialDAOImplementacion();
+         List<String> listaNuevaPlanes = obraSocialDao.obtenerListaPlanesObrasSociales(new ObraSocial(choiseNombreObraSocialPaciente.getValue()));
+        if (!choiseNombreObraSocialPaciente.getValue().equals(valorInicialNombreObraSocialPaciente)) {
+            choisePlanesObraSocialPacientePlan.getItems().setAll(obraSocialDao.obtenerListaPlanesObrasSociales(new ObraSocial(choiseNombreObraSocialPaciente.getValue())));
+            valorInicialNombreObraSocialPaciente = choiseNombreObraSocialPaciente.getValue();
+        }
+
+    }
+
+    
+
+    
+
+    
+    
+
+    @FXML
+    private void actualizarSesion(MouseEvent event) {
+       
+        MensajeAdvertenciaController mensajeAdvertencia = new MensajeAdvertenciaController();
+        
+        if(tableSesiones.getSelectionModel().isEmpty()){
+            mensaje("Seleccione sesion para pode actualizar", this, "/com/pacientes/gestor_pacientes/img/warning.png");
+            
+            
+            
+        }else{
+            LocalDate ldAutorizacion = LocalDate.parse(tableSesiones.getSelectionModel().getSelectedItem().getAsociacion());
+            LocalDate ldSesion = LocalDate.parse(tableSesiones.getSelectionModel().getSelectedItem().getFechaSesion());
+            Paciente pacienteSesion = new Paciente();
+            SesionPaciente sesion = new SesionPaciente();
+            AutorizacionesSesionesObraSociales autorizacion = new AutorizacionesSesionesObraSociales();
+            CodigoFacturacion codigo = new CodigoFacturacion();
+            
+            Paciente pacienteBuscar = new Paciente();
+            SesionPaciente sesionBuscar = new SesionPaciente();
+            AutorizacionesSesionesObraSociales autorizacionBuscar = new AutorizacionesSesionesObraSociales();
+            
+            
+            
+            if(botonActualizarSesiones.getId().equals("1")){
+                
+            pacienteBuscar.setDni(Integer.parseInt(cajaBuscarPaciente.getText()));
+            pacienteBuscar.setId(pacienteDao.obtenerIdPaciente(pacienteBuscar).getId());
+            
+            autorizacionBuscar.setNumeroAutorizacion(Integer.parseInt(cajaAutorizacionSesion.getText()));
+            autorizacionBuscar.setAsociacion(ldAutorizacion);
+            sesionBuscar.setAutorizacion(autorizacionBuscar);
+            sesionBuscar.setFecha(ldSesion);
+            sesionBuscar.setNumeroSesion(Integer.parseInt(cajaNumeroSesion.getText()));
+            pacienteBuscar.setSesion(sesionBuscar);
+            
+            
+            
+            int idSesion = pacienteDao.obtenerIdSesionAutorizacion(pacienteBuscar).getSesion().getIdSesion();
+            int idAutorizacion = pacienteDao.obtenerIdSesionAutorizacion(pacienteBuscar).getSesion().getAutorizacion().getId();
+               
+                
+                
+                LocalDate ldsNuevo = LocalDate.parse(cajaFechaSesion.getValue().toString());
+                LocalDate ldsaNuevo = LocalDate.parse(cajaAsociacionSesionObraSocial.getValue().toString());
+                
+                if(cajaAutorizacionSesion.getText().equals("0") && cajaCopagoSesionObraSocial.getText().equals("0.0") && cajaAsociacionSesionObraSocial.getValue().toString().equals("1700-01-01") && cajaObservacionSesionObraSocial.getText().trim().toString().equals("-")){
+                    sesion.setAutorizacion(rellenarAutorizacionVacia());
+                }else{
+                    
+                    autorizacion.setId(idAutorizacion);
+                    autorizacion.setNumeroAutorizacion(Integer.parseInt(cajaAutorizacionSesion.getText()));
+                    autorizacion.setAsociacion(ldsaNuevo);
+                    autorizacion.setObservacion(cajaObservacionSesionObraSocial.getText());
+                    autorizacion.setCopago(Double.parseDouble(cajaCopagoSesionObraSocial.getText()));
+                    codigo.setNombre(choiseCodigoFactSesionObraSocial.getValue());
+                    autorizacion.setCodigoFacturacion(codigo);
+                    sesion.setAutorizacion(autorizacion);
+                }
+                
+                sesion.setIdSesion(idSesion);
+                sesion.setNumeroSesion(Integer.parseInt(cajaNumeroSesion.getText()));
+                sesion.setFecha(ldsNuevo);
+                sesion.setTrabajoSesion(cajaTrabajoSesion.getText());
+                sesion.setObservacion(cajaObservacionSesion.getText());
+                sesion.setMotivoTrabajoEmergente(cajaMotivoTrabajoEmergenteSesion.getText());
+                pacienteSesion.setSesion(sesion);
+                pacienteSesion.setDni(Integer.parseInt(cajaBuscarPaciente.getText()));
+                pacienteSesion.setId(pacienteDao.obtenerIdPaciente(pacienteSesion).getId());
+                
+               
+                
+                pacienteDao.actualizar(pacienteSesion, 4);
+            }else{
+                //BOTONERA
+                tablaAutorizacion.setVisible(false);
+                tableSesiones.setVisible(false);
+                botonAgregarSesiones.setDisable(true);
+                botonEliminarSesiones.setDisable(true);
+                botonRetornarSesiones.setDisable(false);
+                vBoxAutorizacion.setVisible(true);
+                vBoxSesiones.setVisible(true);
+
+                //SESION
+                cajaFechaSesion.setValue(ldSesion);
+                cajaNumeroSesion.setText(tableSesiones.getSelectionModel().getSelectedItem().getNumeroSesion());
+                cajaTrabajoSesion.setText(tableSesiones.getSelectionModel().getSelectedItem().getTrabajoSesion());
+                cajaObservacionSesion.setText(tableSesiones.getSelectionModel().getSelectedItem().getObservacionSesion());
+                cajaMotivoTrabajoEmergenteSesion.setText(tableSesiones.getSelectionModel().getSelectedItem().getMotivoTrabajoEmergente());
+
+                //AUTORIZACION
+                cajaAutorizacionSesion.setText(tableSesiones.getSelectionModel().getSelectedItem().getNumeroAutorizacion());
+                cajaObservacionSesionObraSocial.setText(tableSesiones.getSelectionModel().getSelectedItem().getObservacionAutorizacion());
+                cajaAsociacionSesionObraSocial.setValue(ldAutorizacion);
+                cajaCopagoSesionObraSocial.setText(tableSesiones.getSelectionModel().getSelectedItem().getCopago());
+                choiseCodigoFactSesionObraSocial.setValue(tableSesiones.getSelectionModel().getSelectedItem().getNombreCodigo());
+            }
+            botonActualizarSesiones.setId("1");
+        }
+        
+        
+       
+    }
+
+    @FXML
+    private void eliminarSesion(MouseEvent event) {
+    }
+
+    @FXML
+    private void retornarTablaSesion(MouseEvent event) {
+        tablaAutorizacion.setVisible(true);
+        tableSesiones.setVisible(true);
+        botonActualizarSesiones.setDisable(false);
+        botonAgregarSesiones.setDisable(false);
+        botonEliminarSesiones.setDisable(false);
+        botonRetornarSesiones.setDisable(true);
+        vBoxAutorizacion.setVisible(false);
+        vBoxSesiones.setVisible(false);
+        botonActualizarSesiones.setId("botonActualizarSesiones");
+        botonAgregarSesiones.setId("botonAgregarSesiones");
+    }
+
+    
+
+    
+
+    @FXML
+    private void fucusSesionAutorizacion(MouseEvent event) {
+        
+        tablaAutorizacion.requestFocus();
+        tablaAutorizacion.getSelectionModel().select(tableSesiones.getSelectionModel().getFocusedIndex());
+        
+    }
+    
+    
+    public AutorizacionesSesionesObraSociales rellenarAutorizacionVacia(){
+        
+        AutorizacionesSesionesObraSociales autorizacion = new AutorizacionesSesionesObraSociales();
+        LocalDate ld = LocalDate.parse("1700-01-01");
+        CodigoFacturacion codigo = new CodigoFacturacion();
+        autorizacion.setId(5);
+        autorizacion.setNumeroAutorizacion(0);
+        autorizacion.setObservacion("-");
+        autorizacion.setAsociacion(ld);
+        autorizacion.setCopago(0.0);
+        codigo.setCodigo(5);
+        autorizacion.setCodigoFacturacion(codigo);
+        
+        return autorizacion;
+    }
+
+    
+
+   
+   
+    
+
+    
+
+    
+
+    
+
+    
+    
+    
+    
+
+   
+   
+    
+
+    
+    
+    
+
+    
+    
+   
+
+    
+
+    
+
+    
+
+   
+
+   
+
+    
+
+   
+    
+
+   
+
+    
+
+    
+   
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+   
+
+    
 
    
    
