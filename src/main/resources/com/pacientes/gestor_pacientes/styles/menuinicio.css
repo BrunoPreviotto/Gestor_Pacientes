@@ -80,11 +80,15 @@
 }
 
 .cajas{
-    -fx-background-color: #ffffff;
+    -fx-effect: innershadow( gaussian , rgba(240, 202, 192, 0.8) , 10 , 0 , 5 , -5 );
+    -fx-background-color: #FFFFFF;
     -fx-border-color: #ffffff #ffffff #C02A00 #ffffff;
+    -fx-border-radius: 0 0 0 0;
     -fx-border-width: 1px 1px 1px 1px;
     -fx-border-style: solid;
 }
+
+
 
 .containerPacientes{
    -fx-background-color: #ffffff;
@@ -168,4 +172,11 @@
     -fx-effect: innershadow( three-pass-box , #C02A00, 1, 0 , -1, -1);
 }
 
+.cajasARellenar{
+    -fx-background-color: pink;
+    -fx-control-inner-background: pink;
+}
 
+.cajasAEsconder{
+    
+}

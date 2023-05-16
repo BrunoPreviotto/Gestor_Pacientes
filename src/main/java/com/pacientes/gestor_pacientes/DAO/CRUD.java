@@ -5,6 +5,7 @@
 package com.pacientes.gestor_pacientes.DAO;
 
 import com.pacientes.gestor_pacientes.modelo.Usuario;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ public interface CRUD<T> {
    
     public List<T> obtenerLista(T objeto);
     public T obtener(T objeto);
-    public void actualizar(T objeto, int numeroFucion);
-    public void eliminar(T objeto, int numeroFuncion);
-    public void insertar(T objeto, int numeroFucion);
+    public void actualizar(T objeto, int numeroFucion) throws SQLException;
+    public void eliminar(T objeto, int numeroFuncion)throws SQLException;
+    public void insertar(T objeto, int numeroFucion)throws SQLException;
 }

@@ -20,7 +20,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
@@ -32,7 +31,7 @@ import javafx.collections.ObservableList;
  * @author previotto
  */
 public class PacienteDAOImplementacion implements IPacienteDAO {
-
+    
     protected ConexionMariadb conexion = ConexionMariadb.getInstacia();
     
      @Override
@@ -69,11 +68,11 @@ public class PacienteDAOImplementacion implements IPacienteDAO {
     }
     
     @Override
-    public void actualizar(Paciente paciente, int numeroFuncion) {
+    public void actualizar(Paciente paciente, int numeroFucion) throws SQLException {
         AcutualizarPaciente actualizarPaciente = new AcutualizarPaciente();
         MenuInicioController menuInicio = new MenuInicioController();
         
-        switch (numeroFuncion) {
+        switch (numeroFucion) {
             case 1:
                 actualizarPaciente.actualizarDiagnostico(paciente);
                 break;
@@ -87,15 +86,13 @@ public class PacienteDAOImplementacion implements IPacienteDAO {
                 actualizarPaciente.actualizarSesion(paciente);
                 break;
             case 5:
-                //OBRA SOCIAL
+                actualizarPaciente.actualizarObraSocialPaciente(paciente);
                 break;
         }
-        
-        
     }
-
+    
     @Override
-    public void eliminar(Paciente paciente, int numeroFuncion) {
+    public void eliminar(Paciente paciente, int numeroFuncion) throws SQLException{
         
         EliminarPaciente eliminar = new EliminarPaciente();
         
@@ -107,16 +104,19 @@ public class PacienteDAOImplementacion implements IPacienteDAO {
                 //DATOS PRINCIPALES
                 break;
             case 3:
-                //DIAGNOSTICO
+                eliminar.eliminarDiagnostico(paciente);
                 break;
             case 4:
-                //SESIONES
+                eliminar.eliminarSesion(paciente);
                 break;
             case 5:
-                //OBRA SOCIAL
+                eliminar.eliminarObraSocialPaciente(paciente);
                 break;
             case 6:
-                //PLAN
+                eliminar.eliminarPlanTratamiento(paciente);
+                break;
+            case 7:
+                eliminar.eliminarAutorizacion(paciente);
                 break;
         }
         
@@ -125,7 +125,7 @@ public class PacienteDAOImplementacion implements IPacienteDAO {
     }
 
     @Override
-    public void insertar(Paciente paciente, int numeroFucion) {
+    public void insertar(Paciente paciente, int numeroFucion) throws SQLException{
         InsertarPaciente insertarPaciente = new InsertarPaciente();
         switch (numeroFucion) {
             case 1:
@@ -141,7 +141,13 @@ public class PacienteDAOImplementacion implements IPacienteDAO {
                 insertarPaciente.insertarDiagnostico(paciente);
                 break;
             case 5:
-                insertarPaciente.insertarDiagnostico(paciente);
+                insertarPaciente.insertarPlanTratamiento(paciente);
+                break;
+            case 6:
+                insertarPaciente.insertarTipoPlan(paciente);
+                break;
+            case 7:
+                insertarPaciente.insertarFrecuenciaPlan(paciente);
                 break;
                 
         }
@@ -173,6 +179,27 @@ public class PacienteDAOImplementacion implements IPacienteDAO {
         }
         return null;
     }
+    
+    
+    public List<String> obtenerListaFrecuencia() {
+        String sqlListaFrecuencia = "SELECT frecuencia  FROM frecuencias_sesiones";
+        List<String> ts = new ArrayList();
+
+        try {
+            PreparedStatement psFrecuencia = conexion.conexion().prepareStatement(sqlListaFrecuencia);
+            ResultSet rsFrecuencia = psFrecuencia.executeQuery();
+            while (rsFrecuencia.next()) {
+                ts.add(rsFrecuencia.getString("frecuencia"));
+            }
+            psFrecuencia.close();
+            rsFrecuencia.close();
+            return ts;
+
+        } catch (SQLException e) {
+        }
+        return null;
+    }
+    
 
     public List<String> obtenerListaCodigosFacturacion() {
         String sqlListaCodigos = "SELECT nombre FROM codigos_facturaciones";
@@ -298,11 +325,193 @@ public class PacienteDAOImplementacion implements IPacienteDAO {
         return pacienteResult;
     }
     
+    public int obtenerIdObraSocia(Paciente pacienteParametro){
+        String sqlObtenerIdObraSocial = "SELECT id_obra_social FROM obras_sociales WHERE nombre = ?;";
+        
+        try {
+            
+            //BUSCAR ID DE OBRA SOCIAL  
+            PreparedStatement psBuscarIdObraSocial = conexion.conexion().prepareStatement(sqlObtenerIdObraSocial);
+            psBuscarIdObraSocial.setString(1, pacienteParametro.getObraSocialPaciente().getNombre());
+            ResultSet rsBuscarIdObraSocial= psBuscarIdObraSocial.executeQuery();
+            if(rsBuscarIdObraSocial.next()){
+                
+                return rsBuscarIdObraSocial.getInt("id_obra_social");
+            } 
+            
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+    
+     public int obtenerIdPlanObraSocial(Paciente pacienteParametro){
+        String sqlObtenerIdObraSocial = "SELECT id_plan_obra_social FROM planes_obras_sociales WHERE nombre = ?;";
+        
+        try {
+            
+            //BUSCAR ID DE PLAN OBRA SOCIAL  
+            PreparedStatement psBuscarIdPlanObraSocial = conexion.conexion().prepareStatement(sqlObtenerIdObraSocial);
+            psBuscarIdPlanObraSocial.setString(1, pacienteParametro.getObraSocialPaciente().getPlan().getNombre());
+            ResultSet rsBuscarIdPlanObraSocial= psBuscarIdPlanObraSocial.executeQuery();
+            if(rsBuscarIdPlanObraSocial.next()){
+                return rsBuscarIdPlanObraSocial.getInt("id_plan_obra_social");
+            } 
+            
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+     
+     
+    public int obtenerIdAfiliadoObraSocial(Paciente pacienteParametro){
+        String sqlObtenerIdAfiliadoObraSocial = "SELECT id_afiliado_obra_social FROM afiliados_obras_sociales WHERE numero_afiliado = ?;";
+        
+        try {
+            
+            //BUSCAR ID DE AFILIADO OBRA SOCIAL  
+            PreparedStatement psBuscarIdAfiliadoObraSocial = conexion.conexion().prepareStatement(sqlObtenerIdAfiliadoObraSocial);
+            psBuscarIdAfiliadoObraSocial.setInt(1, pacienteParametro.getObraSocialPaciente().getAfiliado().getNumero());
+            ResultSet rsBuscarIdAfiliadoObraSocial= psBuscarIdAfiliadoObraSocial.executeQuery();
+            if(rsBuscarIdAfiliadoObraSocial.next()){
+                return rsBuscarIdAfiliadoObraSocial.getInt("id_afiliado_obra_social");
+            } 
+            
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+    
+    
+    public int obtenerIdFrecuenciaSesion(Paciente pacienteParametro){
+        String sqlObtenerIdAFrecuencia = "SELECT id_frecuencia_sesion FROM frecuencias_sesiones WHERE frecuencia LIKE ?;";
+        try {
+            
+            //BUSCAR ID DE AFILIADO OBRA SOCIAL  
+            PreparedStatement psBuscarIdFrecuencia = conexion.conexion().prepareStatement(sqlObtenerIdAFrecuencia);
+            psBuscarIdFrecuencia.setString(1, pacienteParametro.getPlanTratamiento().getFrecuenciaSesion());
+            ResultSet rsBuscarIdFrecuencia= psBuscarIdFrecuencia.executeQuery();
+            if(rsBuscarIdFrecuencia.next()){
+                return rsBuscarIdFrecuencia.getInt("id_frecuencia_sesion");
+            } 
+            
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+    
+    
+    public int obtenerIdTipoSesion(Paciente pacienteParametro){
+        String sqlObtenerIdATipoSesion = "SELECT id_tipo_sesion FROM tipos_sesiones WHERE nombre=?;";
+        try {
+            
+            //BUSCAR ID DE AFILIADO OBRA SOCIAL  
+            PreparedStatement psBuscarIdTipoSesion = conexion.conexion().prepareStatement(sqlObtenerIdATipoSesion);
+            psBuscarIdTipoSesion.setString(1, pacienteParametro.getPlanTratamiento().getTipoSEsion().getNombre());
+            ResultSet rsBuscarIdTipoSesion= psBuscarIdTipoSesion.executeQuery();
+            if(rsBuscarIdTipoSesion.next()){
+                return rsBuscarIdTipoSesion.getInt("id_tipo_sesion");
+            } 
+            
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+    
+    public int obtenerIdSesion(Paciente pacienteParametro){
+        String sqlObtenerIdSesion = "SELECT sp.id_sesion_paciente  \n" +
+                                         "FROM sesiones_pacientes sp \n" +
+                                         "WHERE sp.numero_sesion  = ? \n" +
+                                         "AND sp.fecha = ? \n" +
+                                         "AND sp.id_paciente = ?;";
+        try {
+            
+            //BUSCAR ID DE AFILIADO OBRA SOCIAL  
+            PreparedStatement psBuscarIdSesion = conexion.conexion().prepareStatement(sqlObtenerIdSesion);
+            psBuscarIdSesion.setInt(1, pacienteParametro.getSesion().getNumeroSesion());
+            psBuscarIdSesion.setDate(2, Date.valueOf(pacienteParametro.getSesion().getFecha()));
+            psBuscarIdSesion.setInt(3, pacienteParametro.getId());
+            ResultSet rsBuscarSesion= psBuscarIdSesion.executeQuery();
+            if(rsBuscarSesion.next()){
+                return rsBuscarSesion.getInt("id_sesion_paciente");
+            } 
+            
+            
+            
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+    
+    public int obtenerIdNombre(Paciente pacienteParametro){
+       
+        String sqlSNombre = "SELECT id_nombre FROM nombres WHERE nombre=? AND apellido=?;";
+        try {
+            
+            PreparedStatement pSNombre = conexion.conexion().prepareStatement(sqlSNombre);
+            pSNombre.setString(1, pacienteParametro.getNombre());
+            pSNombre.setString(2, pacienteParametro.getApellido());
+            ResultSet rsSNombre = pSNombre.executeQuery();
+            if(rsSNombre.next()){
+                return rsSNombre.getInt("id_nombre");
+            }
+            
+           pSNombre.close();
+           rsSNombre.close();
+            
+            
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+    
+    public int obtenerIdTelefono(Paciente pacienteParametro){
+       
+        String sqlSTelefono = "SELECT id_telefono_paciente FROM telefonos_pacientes WHERE numero_telefono=?;";
+        try {
+            
+            
+            
+            PreparedStatement pSTelefono = conexion.conexion().prepareStatement(sqlSTelefono);
+            pSTelefono.setString(1, pacienteParametro.getTelefono().getTelefono());
+            ResultSet rsSTelefono = pSTelefono.executeQuery();
+            
+            
+            if(rsSTelefono.next()){
+                return rsSTelefono.getInt("id_telefono_paciente");
+            }
+            
+           pSTelefono.close();
+           rsSTelefono.close();
+            
+            
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+    
    
 
     
 
-    
+    public int obtenerIdUsuario(){
+       
+        String sqlIdUsuario = "SELECT id_usuario FROM usuarios u WHERE es_usuario = 1 AND es_ultima_sesion_iniciada = 1";
+        try {
+            PreparedStatement psIdUsuario = conexion.conexion().prepareStatement(sqlIdUsuario);
+            ResultSet rsIdUsuario = psIdUsuario.executeQuery();
+            
+            if(rsIdUsuario.next()){
+                return rsIdUsuario.getInt("id_usuario");
+            }
+            
+           psIdUsuario.close();
+           rsIdUsuario.close();
+            
+            
+        } catch (Exception e) {
+        }
+        return 0;
+    }
 
     
 

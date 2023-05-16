@@ -4,7 +4,20 @@
  */
 package com.pacientes.gestor_pacientes.utilidades;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputControl;
 
 /**
  *
@@ -19,6 +32,39 @@ public class VariablesEstaticas {
     public static final String EXEDIDO_CARACTERES = "Exedido de caracteres";
     public static final String CONTRASEÑA_NO_COINCIDEN = "Las contraseñas no coinciden";
     public static final String EMAIL_NO_VALIDO = "El email tiene un formato no válido";
+    
+    public static BiMap<List<CheckBox>, Boolean> valoresElimenarSesion = HashBiMap.create();
+    
+    //PACIENTE
+    
+    //LISTAS CONTROLES
+    //LISTA CAJAS
+    public static List<TextField> cajasDatosPrincipales;
+    public static List<TextField> cajasSesiones;
+    public static List<TextField> cajasPlanes;
+    public static List<TextField> cajasObraSocialPaciente;
+    //LISTA TEXTAREA
+    public static List<TextArea> cajasAreaSesion;
+    public static List<TextArea> cajasAreaPlan;
+    public static List<TextArea> cajasAreaDiagnostico;
+    //LISTA TABLES
+    public static List<TableView> tableSesiones;
+    //LISTA CHOISE
+    public static List<ChoiceBox> choiseSesiones;
+    public static List<ChoiceBox> choisePlan;
+    public static List<ChoiceBox> choiseObraSocialPaciente;
+    //LISTA DATEPICKER
+    public static List<DatePicker> datePickerSesiones;
+    
+    
+    //LISTAS VALORES PACIENTE ACTUAL
+    public static Map<String, String> valoresBUsquedaDatosPrincipales;
+    public static Map<String, String> valoresBUsquedaSesiones;
+    public static Map<String, String> valoresBUsquedaListaSesiones;
+    public static Map<String, String> valoresBUsquedaPlanes;
+    public static Map<String, String> valoresBUsquedaDiagnostico;
+    public static Map<String, String> valoresBUsquedaObraSocialPaciente;
+    
     
     
 }

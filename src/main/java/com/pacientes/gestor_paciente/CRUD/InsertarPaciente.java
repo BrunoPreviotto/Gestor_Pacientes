@@ -25,25 +25,23 @@ public class InsertarPaciente extends PacienteDAOImplementacion {
     
     
     
-    public void insertarPaciente(Paciente pacienteParametro){
+    public void insertarPaciente(Paciente pacienteParametro) throws SQLException{
         
         String sqlNombre = "INSERT INTO nombres(id_nombre, nombre, apellido) VALUES(?,?,?)";
 
         String sqlPaciente = "INSERT INTO pacientes(id_paciente, edad, dni, es_paciente, id_nombre, id_honorario, id_telefono_paciente) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
-        String sqlTelefono = "INSERT INTO telefonos_pacientes(id_telefono, numero_telefono) VALUES(?,?)";
+        String sqlTelefono = "INSERT INTO telefonos_pacientes(id_telefono_paciente, numero_telefono) VALUES(?,?)";
+        
+        String sqlAsociarPacienteConUsuario = "INSERT INTO usuarios_pacientes (id_usuario, id_paciente) VALUES (?, ?)";
+        
         try {
 
             PreparedStatement pst;
-            //selecciona id nombre si el nombre existe
-            String sqlSNombre = "SELECT id_nombre FROM nombres WHERE nombre=? AND apellido=?;";
-            PreparedStatement pSNombre = conexion.conexion().prepareStatement(sqlSNombre);
-            pSNombre.setString(1, pacienteParametro.getNombre());
-            pSNombre.setString(2, pacienteParametro.getApellido());
-            ResultSet rsSNombre = pSNombre.executeQuery();
+            
 
             //si no existe lo crea
-            if (!rsSNombre.next()) {
+            if (obtenerIdNombre(pacienteParametro) == 0) {
                 pst = conexion.conexion().prepareStatement(sqlNombre);
                 pst.setInt(1, 0);
                 pst.setString(2, pacienteParametro.getNombre());
@@ -51,21 +49,9 @@ public class InsertarPaciente extends PacienteDAOImplementacion {
                 pst.executeUpdate();
             }
 
-            //
-            sqlSNombre = "SELECT id_nombre FROM nombres WHERE nombre=? AND apellido=?;";
-            pSNombre = conexion.conexion().prepareStatement(sqlSNombre);
-            pSNombre.setString(1, pacienteParametro.getNombre());
-            pSNombre.setString(2, pacienteParametro.getApellido());
-            rsSNombre = pSNombre.executeQuery();
-
-           
-
-            String sqlSTelefono = "SELECT id_telefono FROM telefonos_pacientes WHERE numero_telefono=?;";
-            PreparedStatement pSTelefono = conexion.conexion().prepareStatement(sqlSTelefono);
-            pSTelefono.setString(1, pacienteParametro.getTelefono().getTelefono());
-            ResultSet rsSTelefono = pSTelefono.executeQuery();
             
-            if (!rsSTelefono.next()) {
+           //si no existe lo crea
+           if (obtenerIdTelefono(pacienteParametro) == 0) {
                 pst = conexion.conexion().prepareStatement(sqlTelefono);
                 pst.setInt(1, 0);
                 pst.setString(2, pacienteParametro.getTelefono().getTelefono());
@@ -73,41 +59,24 @@ public class InsertarPaciente extends PacienteDAOImplementacion {
             }
             
             
-            pSTelefono = conexion.conexion().prepareStatement(sqlSTelefono);
-            pSTelefono.setString(1, pacienteParametro.getTelefono().getTelefono());
-            rsSTelefono = pSTelefono.executeQuery();
-            
-            
-             //crea el paciente
+            //crea el paciente
             pst = conexion.conexion().prepareStatement(sqlPaciente);
             pst.setInt(1, 0);
             pst.setInt(2, pacienteParametro.getEdad());
             pst.setInt(3, pacienteParametro.getDni());
             pst.setBoolean(4, true);
-            
-            
-            if (rsSNombre.next()) {
-                pst.setInt(5, rsSNombre.getInt("id_nombre"));
-            }
-            
+            pst.setInt(5, obtenerIdNombre(pacienteParametro));
             pst.setInt(6, 1);
-            
-            if(rsSTelefono.next()){
-                pst.setInt(7, rsSTelefono.getInt("id_telefono"));
-            }
-
-            
+            pst.setInt(7, obtenerIdTelefono(pacienteParametro));
             pst.executeUpdate();
            
-
+            //ASOCIAR PACIENTE CON USUARIO
+            //crea el paciente
+            pst = conexion.conexion().prepareStatement(sqlAsociarPacienteConUsuario);
+            pst.setInt(1, obtenerIdUsuario());
+            pst.setInt(2, obtenerIdPaciente(pacienteParametro).getId());
+            pst.executeUpdate();
             
-
-            pSNombre.close();
-            
-            pSTelefono.close();
-
-            rsSTelefono.close();
-            rsSNombre.close();
             
 
             pst.close();
@@ -117,7 +86,7 @@ public class InsertarPaciente extends PacienteDAOImplementacion {
     }
     
     
-    public void insertarObraSocialPaciente(Paciente pacienteParametro) {
+    public void insertarObraSocialPaciente(Paciente pacienteParametro) throws SQLException{
         String sqlAfiliado = "INSERT INTO afiliados_obras_sociales (id_afiliado_obra_social, numero_afiliado, id_paciente, id_obra_social, id_plan_obra_social) VALUES (?,?,?,?,?)";
         String sqlIdObraSocial = "SELECT id_obra_social FROM obras_sociales WHERE nombre=?";
         //String sqlExistePlan = "SELECT nombre FROM planes_obras_sociales WHERE nombre=?";
@@ -197,7 +166,7 @@ public class InsertarPaciente extends PacienteDAOImplementacion {
              //CREAR NUEVO AFILIADO
             PreparedStatement psAfiliado = conexion.conexion().prepareStatement(sqlAfiliado);
             psAfiliado.setInt(1, 0);
-            psAfiliado.setInt(2, pacienteParametro.getObraSocialPaciente().getNumeroAfiliado());
+            psAfiliado.setInt(2, pacienteParametro.getObraSocialPaciente().getAfiliado().getNumero());
             psAfiliado.setInt(3, pacienteParametro.getId());
             if (rsObraSocial.next()) {
                 
@@ -221,7 +190,7 @@ public class InsertarPaciente extends PacienteDAOImplementacion {
         }
     }
     
-    public void insertarSesion(Paciente pacienteParametro) {
+    public void insertarSesion(Paciente pacienteParametro) throws SQLException{
         
         String sqlSesion = "INSERT INTO sesiones_pacientes (id_sesion_paciente, fecha, trabajo_sesion, observacion, motivo_trabajo_emergente, id_paciente, numero_sesion) VALUES(?,?,?,?,?,?,?)";
         
@@ -330,7 +299,7 @@ public class InsertarPaciente extends PacienteDAOImplementacion {
     }
     
     
-    public void insertarDiagnostico(Paciente paciente) {
+    public void insertarDiagnostico(Paciente paciente) throws SQLException{
         String sqlDiagnostico = "INSERT INTO diagnosticos (id_diagnostico, diagnostico, observacion, id_paciente) VALUES(?,?,?,?)";
         try {
             PreparedStatement pst = conexion.conexion().prepareStatement(sqlDiagnostico);
@@ -344,63 +313,88 @@ public class InsertarPaciente extends PacienteDAOImplementacion {
         }
     }
     
-    public void insertarPlanTratamiento(Paciente pacienteParametro) {
+    public void insertarPlanTratamiento(Paciente pacienteParametro) throws SQLException{
         String sqlPlanTratamiento = "INSERT INTO planes_tratamientos (id_plan_tratamiento, estrategia, id_frecuencia_sesion, id_paciente, id_tipo_sesion) VALUES (?,?,?,?,?)";
-        String sqlFrecuenciaSesion = "INSERT INTO frecuencias_sesiones (id_frecuencia_sesion, frecuencia) VALUES (?,?)";
-        String sqlTipoSesion = "INSERT INTO tipos_sesiones (id_tipo_sesion, nombre, descripcion) VALUES (?,?,?)";
-        String sqlIdFrecuencia = "SELECT id_frecuencia_sesion FROM frecuencias_sesiones WHERE frecuencia=?";
-        String sqlIdTipoSesion = "SELECT id_tipo_sesion FROM tipos_sesiones WHERE nombre=?";
-
+        
+        
+        
         try {
             
-            PreparedStatement pSidFrecuencia = conexion.conexion().prepareStatement(sqlIdFrecuencia);
-            pSidFrecuencia.setString(1, pacienteParametro.getPlanTratamiento().getFrecuenciaSesion());
-            ResultSet rsSidIdFrecuencia = pSidFrecuencia.executeQuery();
+            int idFrecuencia = obtenerIdFrecuenciaSesion(pacienteParametro);
             
-            PreparedStatement pstFs = conexion.conexion().prepareStatement(sqlFrecuenciaSesion);
-            pstFs.setInt(1, 0);
-            if(!rsSidIdFrecuencia.next()){
-                pstFs.setString(2, pacienteParametro.getPlanTratamiento().getFrecuenciaSesion());
-            }
-            pstFs.executeUpdate();
+            
+            
+            int idTipoSesion = obtenerIdTipoSesion(pacienteParametro);
 
-            PreparedStatement pstTs = conexion.conexion().prepareStatement(sqlTipoSesion);
-            pstTs.setInt(1, 0);
-            pstTs.setString(2, pacienteParametro.getPlanTratamiento().getTipoSEsion().getNombre());
-            pstTs.setString(3, pacienteParametro.getPlanTratamiento().getTipoSEsion().getDecripcion());
-            pstTs.executeUpdate();
+            
 
-            rsSidIdFrecuencia = pSidFrecuencia.executeQuery();
-
-            PreparedStatement pSidTipo = conexion.conexion().prepareStatement(sqlIdTipoSesion);
-            pSidTipo.setString(1, pacienteParametro.getPlanTratamiento().getTipoSEsion().getNombre());
-            ResultSet rsSidIdTipo = pSidTipo.executeQuery();
-
+            
+            //INSERTAR PLAN PACIENTE
             PreparedStatement pstPt = conexion.conexion().prepareStatement(sqlPlanTratamiento);
             pstPt.setInt(1, 0);
             pstPt.setString(2, pacienteParametro.getPlanTratamiento().getEstrategia());
 
-            if (rsSidIdFrecuencia.next()) {
-                pstPt.setInt(3, rsSidIdFrecuencia.getInt(1));
-            }
+            pstPt.setInt(3, idFrecuencia);
+            
 
             pstPt.setInt(4, pacienteParametro.getId());
 
-            if (rsSidIdTipo.next()) {
-                pstPt.setInt(5, rsSidIdTipo.getInt(1));
-            }
+            pstPt.setInt(5, idTipoSesion);
+            
             pstPt.executeUpdate();
 
-            pstFs.close();
+            
             pstPt.close();
-            pstTs.close();
-            rsSidIdFrecuencia.close();
-            rsSidIdTipo.close();
+            
+           
+           
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
+    }
+    
+    public void insertarFrecuenciaPlan(Paciente pacienteParametro){
+        String sqlFrecuenciaSesion = "INSERT INTO frecuencias_sesiones (id_frecuencia_sesion, frecuencia) VALUES (?,?)";
+        
+        try {
+            int idFrecuencia = obtenerIdFrecuenciaSesion(pacienteParametro);
+            
+            //INSERTAR FRECUENCIA SI NO EXISTE
+            PreparedStatement pstFs = conexion.conexion().prepareStatement(sqlFrecuenciaSesion);
+            pstFs.setInt(1, 0);
+            pstFs.setString(2, pacienteParametro.getPlanTratamiento().getFrecuenciaSesion());
+            if(idFrecuencia == 0){
+                pstFs.executeUpdate();
+            }
+            
+            pstFs.close();
+        } catch (Exception e) {
+        }
+        
+    }
+    
+    
+    public void insertarTipoPlan(Paciente pacienteParametro){
+        String sqlTipoSesion = "INSERT INTO tipos_sesiones (id_tipo_sesion, nombre, descripcion) VALUES (?,?,?)";
+        
+        try {
+            int idTipoSesion = obtenerIdTipoSesion(pacienteParametro);
+
+            //INSERTAR SESION SI NO EXISTE
+            PreparedStatement pstTs = conexion.conexion().prepareStatement(sqlTipoSesion);
+            pstTs.setInt(1, 0);
+            pstTs.setString(2, pacienteParametro.getPlanTratamiento().getTipoSEsion().getNombre());
+            pstTs.setString(3, pacienteParametro.getPlanTratamiento().getTipoSEsion().getDecripcion());
+            if(idTipoSesion == 0){
+                pstTs.executeUpdate();
+            }
+            
+            pstTs.close();
+        } catch (Exception e) {
+        }
+        
     }
     
     

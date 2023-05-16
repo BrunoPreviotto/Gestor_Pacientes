@@ -5,6 +5,7 @@
 package com.pacientes.gestor_paciente.CRUD;
 
 import com.pacientes.gestor_pacientes.implementacionDAO.PacienteDAOImplementacion;
+import com.pacientes.gestor_pacientes.modelo.Afiliado;
 import com.pacientes.gestor_pacientes.modelo.AutorizacionesSesionesObraSociales;
 import com.pacientes.gestor_pacientes.modelo.CodigoFacturacion;
 import com.pacientes.gestor_pacientes.modelo.DiagnosticoPaciente;
@@ -44,6 +45,7 @@ public class ObtenerPaciente extends PacienteDAOImplementacion {
             ResultSet rsSPaciente = pSDni.executeQuery();
             if (rsSPaciente.next()) {
                 telefono = new Telefono(rsSPaciente.getNString(5));
+                System.out.println(telefono);
                 paciente = new Paciente(rsSPaciente.getString(1), rsSPaciente.getString(2), rsSPaciente.getInt(3), rsSPaciente.getInt(4), telefono);
                 pSDni.close();
                 rsSPaciente.close();
@@ -168,13 +170,32 @@ public class ObtenerPaciente extends PacienteDAOImplementacion {
             ResultSet rsObraSocial = psObraSocial.executeQuery();
             
             if(rsObraSocial.next()){
-                paciente.setObraSocialPaciente(new ObraSocialPaciente(rsObraSocial.getInt("numero_afiliado"), rsObraSocial.getString("nombreObraSocial"), new PlanObraSocial(rsObraSocial.getString("nombrePlan"), "")));
+                paciente.setObraSocialPaciente(new ObraSocialPaciente(new Afiliado(rsObraSocial.getInt("numero_afiliado")), rsObraSocial.getString("nombreObraSocial"), new PlanObraSocial(rsObraSocial.getString("nombrePlan"), "")));
             }
             return paciente;
             
         } catch (SQLException e) {
             return paciente;
         }
+    }
+    
+    public String obtenerDescripcionTipoSesionPlan(String tipoSesion) throws SQLException{
+        Paciente paciente = new Paciente();
+        try {
+            String sqlDescripcionTipoSesionPlan = "SELECT descripcion  FROM tipos_sesiones ts WHERE ts.nombre = ?";
+            PreparedStatement psDescripcionTipoSesionPlan = conexion.conexion().prepareStatement(sqlDescripcionTipoSesionPlan);
+            psDescripcionTipoSesionPlan.setString(1, tipoSesion);
+            ResultSet rsDescripcionTipoSesionPlan = psDescripcionTipoSesionPlan.executeQuery();
+            
+            if(rsDescripcionTipoSesionPlan.next()){
+                return rsDescripcionTipoSesionPlan.getString("descripcion");
+            }
+            
+            
+        } catch (SQLException e) {
+           
+        }
+        return "";
     }
     
     

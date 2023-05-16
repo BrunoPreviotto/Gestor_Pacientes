@@ -5,23 +5,30 @@
 package com.pacientes.gestor_pacientes.controlador;
 
 import com.pacientes.gestor_pacientes.App;
+import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 import static com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas.EXEDIDO_CARACTERES;
 import static com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas.NO_NUMEROS;
 import static com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas.NO_TEXTO;
 import com.pacientes.gestor_pacientes.validacion.Validar;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter.Change;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -57,31 +64,73 @@ public class ClasePadreController {
     }
     
     
+    @FXML
+    protected void soloString(KeyEvent event) {
+        TextField tf = (TextField) event.getSource();
+        String character = event.getCharacter();
+        if (character.matches("[0-9]")) {
+            tf.deletePreviousChar();
+        }
+    }
+    
+    
     
     @FXML
-    private void soloString(KeyEvent event) {
-        TextField caja = (TextField) event.getSource();
-        HBox v = (HBox) ((Node)(event.getSource())).getParent();
-        if( !(Character.isAlphabetic(event.getCharacter().charAt(0))) && !(Character.isSpaceChar(event.getCharacter().charAt(0))) && event.getCharacter().codePointAt(0) != 8){
-           agregarImg(v, 1, NO_NUMEROS);
-        }else if(caja.getText() == ""){
-            agregarImg(v, 2, "");
-        }else{
-           agregarImg(v, 0, "");
+    protected void volverCajaALaNormalidad(KeyEvent event) {
+        //TextField tf = (TextField) event.getSource();
+        Control tf = (Control) event.getSource();
+        tf.getStyleClass().remove("cajasARellenar");
+        
+        
+    }
+    
+    @FXML
+    protected void volverChoiceALaNormalidad(MouseEvent event) {
+        Control tf = (Control) event.getSource();
+        tf.getStyleClass().remove("cajasARellenar");
+    }
+    
+    
+    @FXML
+    protected void soloNumero(KeyEvent event) {
+        TextField tf = (TextField) event.getSource();
+        String character = event.getCharacter();
+        if (!character.matches("[0-9]")) {
+            tf.deletePreviousChar();
         }
     }
     
     @FXML
-    protected void soloNumero(KeyEvent event) {
-        TextField caja = (TextField) event.getSource();
-        HBox v = (HBox) ((Node) (event.getSource())).getParent();
-        if( !(Character.isDigit(event.getCharacter().charAt(0))) && !(Character.isSpaceChar(event.getCharacter().charAt(0))) && event.getCharacter().codePointAt(0) != 8){
-           agregarImg(v, 1, NO_TEXTO);
-        }else if(caja.getText() == ""){
-            agregarImg(v, 2, "");
+    protected void soloNumeroFlotantes(KeyEvent event) {
+        
+        TextField tf = (TextField) event.getSource();
+        String character = event.getCharacter();
+        if(tf.getText().length() == 1 || existeComa(tf.getText())){
+            if (!character.matches("[0-9]")) {
+               
+                tf.deletePreviousChar();
+            }
         }else{
-          agregarImg(v, 0, "");
+            if (!character.matches(",") && !character.matches("[0-9]")) {
+                tf.deletePreviousChar();
+            }
         }
+        
+        
+    }
+    
+    public boolean existeComa(String coma){
+        int cantidadComas = 0;
+        for (int i = 0; i < coma.length(); i++) {
+            
+            if(coma.charAt(i) == 44){
+                cantidadComas++;
+                if(cantidadComas > 1){
+                   return true; 
+                }
+            }
+        }
+        return false;
     }
     
     
@@ -152,8 +201,16 @@ public class ClasePadreController {
         }
     }
    
+   
+   
+   
+   
+   
+   
+   
     public void mensaje(String mensaje, Object obj, String imagen){
         try {
+            
             FXMLLoader Loader = new FXMLLoader(App.class.getResource( "MensajeAdvertencia.fxml"));
             Parent root = Loader.load();
             MensajeAdvertenciaController controller = Loader.getController();
@@ -164,7 +221,6 @@ public class ClasePadreController {
             stage.initStyle(StageStyle.TRANSPARENT);
             controller.mensajeAdvertencia(mensaje, stage, obj, imagen);
             stage.showAndWait();
-            
             
             
            

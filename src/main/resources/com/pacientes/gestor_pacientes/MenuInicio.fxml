@@ -174,7 +174,7 @@
                         <Font name="Abyssinica SIL" size="13.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="cajaVerPlanes" alignment="BOTTOM_CENTER" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar DNI" stylesheets="@styles/menuinicio.css">
+                  <TextField fx:id="cajaVerPlanesObraSocial" alignment="BOTTOM_CENTER" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar DNI" stylesheets="@styles/menuinicio.css">
                      <styleClass>
                         <String fx:value="cajas" />
                         <String fx:value="error" />
@@ -185,7 +185,7 @@
                         <Font name="Abyssinica SIL" size="13.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="cajaAgregarPlan" alignment="BOTTOM_CENTER" disable="true" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar plan" stylesheets="@styles/menuinicio.css">
+                  <TextField fx:id="cajaAgregarPlanObraSocial" alignment="BOTTOM_CENTER" disable="true" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar plan" stylesheets="@styles/menuinicio.css">
                      <styleClass>
                         <String fx:value="cajas" />
                         <String fx:value="error" />
@@ -195,7 +195,7 @@
             </VBox>
             <ListView layoutX="184.0" layoutY="495.0" prefHeight="200.0" prefWidth="618.0" />
             <Label fx:id="labelNombreDeUsuario4" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="986.0" layoutY="15.0" prefHeight="20.0" prefWidth="200.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="10.0" />
-            <HBox fx:id="botoneraCrudDatosPrincipales1" layoutX="881.0" layoutY="367.0" prefHeight="30.0" prefWidth="122.0" AnchorPane.rightAnchor="59.0">
+            <HBox fx:id="botoneraCRUDObraSocial" layoutX="881.0" layoutY="367.0" prefHeight="30.0" prefWidth="122.0" AnchorPane.rightAnchor="59.0">
                <children>
                   <Button fx:id="botonAgregarObraSocial" mnemonicParsing="false" onMouseClicked="#crearObraSocial" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
                      <graphic>
@@ -320,9 +320,9 @@
       </AnchorPane>
       <AnchorPane fx:id="apPacientes" layoutX="-12.0" layoutY="-63.0" prefHeight="714.0" prefWidth="1100.0" styleClass="apPacientes" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <ButtonBar layoutX="40.0" layoutY="7.0" prefHeight="40.0" prefWidth="256.0" AnchorPane.leftAnchor="7.0">
+            <ButtonBar layoutX="6.0" layoutY="10.0" prefHeight="40.0" prefWidth="400.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="5.0">
               <buttons>
-                <Button minWidth="63.0" mnemonicParsing="false" onMouseClicked="#buscarPaciente" prefHeight="34.0" prefWidth="20.0" stylesheets="@styles/menuinicio.css" text="Buscar">
+                <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="30.0" maxWidth="100.0" mnemonicParsing="false" onMouseClicked="#buscarPaciente" stylesheets="@styles/menuinicio.css" text="Buscar">
                      <font>
                         <Font name="Sawasdee Bold Oblique" size="14.0" />
                      </font>
@@ -330,8 +330,16 @@
                         <String fx:value="botonBuscar" />
                         <String fx:value="b" />
                      </styleClass>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
                   </Button>
-                  <TextField fx:id="cajaBuscarPaciente" alignment="BOTTOM_CENTER" onKeyPressed="#alDarEnterBuscarBoton" prefHeight="26.0" prefWidth="300.0" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
+                  <TextField fx:id="cajaBuscarPaciente" alignment="BASELINE_RIGHT" maxHeight="30.0" maxWidth="200.0" onKeyPressed="#alDarEnterBuscarBoton" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
+                  <AnchorPane maxWidth="10.0">
+                     <children>
+                        <Circle cache="true" fill="#ff6638" layoutX="41.0" layoutY="24.0" radius="5.0" stroke="#c02a00" strokeType="INSIDE" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" />
+                     </children>
+                  </AnchorPane>
               </buttons>
             </ButtonBar>
             <Accordion fx:id="acordionPaciente" prefHeight="750.0" prefWidth="1090.0" stylesheets="@styles/menuinicio.css" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="50.0">
@@ -359,7 +367,7 @@
                                           <Insets left="5.0" />
                                        </HBox.margin>
                                     </Button>
-                                    <Button fx:id="botonActualizarDatosPrincipales" disable="true" mnemonicParsing="false" onMouseClicked="#actualizarPaciente" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                                    <Button fx:id="botonActualizarDatosPrincipales" mnemonicParsing="false" onMouseClicked="#actualizarPaciente" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
                                        <graphic>
                                           <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -371,7 +379,7 @@
                                           <Insets left="5.0" />
                                        </HBox.margin>
                                     </Button>
-                                    <Button fx:id="botonEliminarDatosPrincipales" disable="true" mnemonicParsing="false" onMouseClicked="#eliminarPaciente" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                                    <Button fx:id="botonEliminarDatosPrincipales" mnemonicParsing="false" onMouseClicked="#eliminarPaciente" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
                                        <graphic>
                                           <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -404,14 +412,9 @@
                                           <Font name="Abyssinica SIL" size="13.0" />
                                        </font>
                                     </Label>
-                                    <HBox fx:id="ola" accessibleRoleDescription="HBox" prefHeight="41.0" prefWidth="200.0">
+                                    <HBox accessibleRoleDescription="HBox" prefHeight="41.0" prefWidth="200.0">
                                        <children>
-                                          <TextField fx:id="cajaNombreDatosPrincipales" accessibleText="datosPrincipales" alignment="BOTTOM_CENTER" onKeyReleased="#cambiarAcrearActualizarBorrar" onKeyTyped="#soloString" prefHeight="30.0" prefWidth="220.0" promptText="Ingresar nombre" stylesheets="@styles/menuinicio.css">
-                                             <styleClass>
-                                                <String fx:value="cajas" />
-                                                <String fx:value="error" />
-                                             </styleClass>
-                                          </TextField>
+                                          <TextField fx:id="cajaNombreDatosPrincipales" accessibleHelp="controlImportante" accessibleText="datosPrincipales" alignment="BOTTOM_CENTER" onKeyPressed="#volverCajaALaNormalidad" onKeyTyped="#soloString" prefHeight="30.0" prefWidth="220.0" promptText="Ingresar nombre" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
                                        </children>
                                     </HBox>
                                     <Label alignment="CENTER" contentDisplay="CENTER" text="Apellido">
@@ -424,7 +427,7 @@
                                     </Label>
                                     <HBox accessibleRoleDescription="HBox" prefHeight="40.0" prefWidth="200.0">
                                        <children>
-                                          <TextField fx:id="cajaApellidoDatosPrincipales" accessibleText="datosPrincipales" alignment="BOTTOM_CENTER" onKeyReleased="#cambiarAcrearActualizarBorrar" onKeyTyped="#soloString" prefHeight="24.0" prefWidth="220.0" promptText="Ingresar apellido" stylesheets="@styles/menuinicio.css">
+                                          <TextField fx:id="cajaApellidoDatosPrincipales" accessibleHelp="controlImportante" accessibleText="datosPrincipales" alignment="BOTTOM_CENTER" onKeyPressed="#volverCajaALaNormalidad" onKeyTyped="#soloString" prefHeight="24.0" prefWidth="220.0" promptText="Ingresar apellido" stylesheets="@styles/menuinicio.css">
                                              <styleClass>
                                                 <String fx:value="cajas" />
                                                 <String fx:value="error" />
@@ -442,7 +445,7 @@
                                     </Label>
                                     <HBox accessibleRoleDescription="HBox" prefHeight="46.0" prefWidth="200.0">
                                        <children>
-                                          <TextField fx:id="cajaEdadDatosPrincipales" accessibleText="datosPrincipales" alignment="CENTER" onKeyReleased="#cambiarAcrearActualizarBorrar" onKeyTyped="#soloNumero" prefHeight="24.0" prefWidth="220.0" promptText="Ingresar edad" stylesheets="@styles/menuinicio.css">
+                                          <TextField fx:id="cajaEdadDatosPrincipales" accessibleRoleDescription="num" accessibleText="datosPrincipales" alignment="CENTER" onKeyTyped="#onKeyTyped" prefHeight="24.0" prefWidth="220.0" promptText="Ingresar edad" stylesheets="@styles/menuinicio.css">
                                              <styleClass>
                                                 <String fx:value="cajas" />
                                                 <String fx:value="error" />
@@ -460,7 +463,7 @@
                                     </Label>
                                     <HBox accessibleRoleDescription="HBox" prefHeight="46.0" prefWidth="200.0">
                                        <children>
-                                          <TextField fx:id="cajaDniDatosPrincipales" accessibleText="datosPrincipales" alignment="BOTTOM_CENTER" onKeyReleased="#cambiarAcrearActualizarBorrar" onKeyTyped="#soloNumero" prefHeight="24.0" prefWidth="220.0" promptText="Ingresar DNI" stylesheets="@styles/menuinicio.css">
+                                          <TextField fx:id="cajaDniDatosPrincipales" accessibleHelp="controlImportante" accessibleRoleDescription="num" accessibleText="datosPrincipales" alignment="BOTTOM_CENTER" onKeyPressed="#volverCajaALaNormalidad" onKeyTyped="#onKeyTyped" prefHeight="24.0" prefWidth="220.0" promptText="Ingresar DNI" stylesheets="@styles/menuinicio.css">
                                              <styleClass>
                                                 <String fx:value="cajas" />
                                                 <String fx:value="error" />
@@ -478,7 +481,7 @@
                                     </Label>
                                     <HBox accessibleRoleDescription="HBox" prefHeight="40.0" prefWidth="451.0">
                                        <children>
-                                          <TextField fx:id="cajaTelefonoDatosPrincipales" accessibleText="datosPrincipales" alignment="BOTTOM_CENTER" onKeyReleased="#cambiarAcrearActualizarBorrar" onKeyTyped="#soloNumero" prefHeight="28.0" prefWidth="220.0" promptText="Ingresar telefono" stylesheets="@styles/menuinicio.css">
+                                          <TextField fx:id="cajaTelefonoDatosPrincipales" accessibleRoleDescription="num" accessibleText="datosPrincipales" alignment="BOTTOM_CENTER" onKeyTyped="#onKeyTyped" prefHeight="28.0" prefWidth="220.0" promptText="Ingresar telefono" stylesheets="@styles/menuinicio.css">
                                              <styleClass>
                                                 <String fx:value="cajas" />
                                                 <String fx:value="error" />
@@ -520,7 +523,7 @@
                                     </Label>
                                     <HBox prefHeight="31.0" prefWidth="400.0">
                                        <children>
-                                          <DatePicker fx:id="cajaFechaSesion" maxWidth="421.0" prefHeight="26.0" prefWidth="421.0" />
+                                          <DatePicker fx:id="cajaFechaSesion" accessibleHelp="controlImportante" maxWidth="421.0" onMouseClicked="#volverChoiceALaNormalidad" prefHeight="26.0" prefWidth="421.0" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
                                        </children>
                                     </HBox>
                                     <Label alignment="CENTER" contentDisplay="CENTER" text="Numero">
@@ -551,7 +554,7 @@
                                     </Label>
                                     <HBox prefHeight="100.0" prefWidth="200.0">
                                        <children>
-                                          <TextArea fx:id="cajaTrabajoSesion" prefHeight="52.0" prefWidth="400.0" styleClass="cajas" />
+                                          <TextArea fx:id="cajaTrabajoSesion" accessibleHelp="controlImportante" onKeyPressed="#volverCajaALaNormalidad" prefHeight="52.0" prefWidth="400.0" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
                                        </children>
                                     </HBox>
                                     <Label alignment="CENTER" contentDisplay="CENTER" text="Observacion">
@@ -564,7 +567,7 @@
                                     </Label>
                                     <HBox prefHeight="100.0" prefWidth="200.0">
                                        <children>
-                                          <TextArea fx:id="cajaObservacionSesion" prefHeight="61.0" prefWidth="400.0" styleClass="cajas" />
+                                          <TextArea fx:id="cajaObservacionSesion" prefHeight="61.0" prefWidth="400.0" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
                                        </children>
                                     </HBox>
                                     <Label alignment="CENTER" contentDisplay="CENTER" text="Motivos de trabajo emergente">
@@ -577,7 +580,7 @@
                                     </Label>
                                     <HBox prefHeight="100.0" prefWidth="200.0">
                                        <children>
-                                          <TextArea fx:id="cajaMotivoTrabajoEmergenteSesion" prefHeight="42.0" prefWidth="400.0" styleClass="cajas" />
+                                          <TextArea fx:id="cajaMotivoTrabajoEmergenteSesion" prefHeight="42.0" prefWidth="400.0" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -602,7 +605,7 @@
                                     </Label>
                                     <HBox prefHeight="36.0" prefWidth="400.0">
                                        <children>
-                                          <TextField fx:id="cajaAutorizacionSesion" alignment="BOTTOM_CENTER" onKeyTyped="#soloNumero" prefHeight="28.0" prefWidth="405.0" promptText="Ingresar telefono" stylesheets="@styles/menuinicio.css">
+                                          <TextField fx:id="cajaAutorizacionSesion" alignment="BOTTOM_CENTER" onKeyPressed="#volverCajaALaNormalidad" onKeyTyped="#soloNumero" prefHeight="28.0" prefWidth="405.0" promptText="Ingresar telefono" stylesheets="@styles/menuinicio.css">
                                              <styleClass>
                                                 <String fx:value="cajas" />
                                                 <String fx:value="error" />
@@ -620,7 +623,7 @@
                                     </Label>
                                     <HBox prefHeight="100.0" prefWidth="200.0">
                                        <children>
-                                          <TextArea fx:id="cajaObservacionSesionObraSocial" prefHeight="100.0" prefWidth="425.0" styleClass="cajas" />
+                                          <TextArea fx:id="cajaObservacionSesionObraSocial" prefHeight="100.0" prefWidth="425.0" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
                                        </children>
                                     </HBox>
                                     <Label alignment="CENTER" contentDisplay="CENTER" text="Asociacion">
@@ -633,7 +636,7 @@
                                     </Label>
                                     <HBox prefHeight="36.0" prefWidth="400.0">
                                        <children>
-                                          <DatePicker fx:id="cajaAsociacionSesionObraSocial" maxWidth="417.0" prefHeight="26.0" prefWidth="417.0" />
+                                          <DatePicker fx:id="cajaAsociacionSesionObraSocial" accessibleHelp="controlImportante" maxWidth="417.0" onKeyPressed="#volverCajaALaNormalidad" onMouseClicked="#volverChoiceALaNormalidad" prefHeight="26.0" prefWidth="417.0" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
                                        </children>
                                     </HBox>
                                     <Label alignment="CENTER" contentDisplay="CENTER" text="Copago">
@@ -646,7 +649,7 @@
                                     </Label>
                                     <HBox prefHeight="34.0" prefWidth="400.0">
                                        <children>
-                                          <TextField fx:id="cajaCopagoSesionObraSocial" alignment="BOTTOM_CENTER" onKeyTyped="#soloNumero" prefHeight="28.0" prefWidth="409.0" promptText="Ingresar telefono" stylesheets="@styles/menuinicio.css">
+                                          <TextField fx:id="cajaCopagoSesionObraSocial" alignment="BOTTOM_CENTER" onKeyTyped="#soloNumeroFlotantes" prefHeight="28.0" prefWidth="409.0" promptText="Ingresar telefono" stylesheets="@styles/menuinicio.css">
                                              <styleClass>
                                                 <String fx:value="cajas" />
                                                 <String fx:value="error" />
@@ -664,14 +667,14 @@
                                     </Label>
                                     <HBox prefHeight="32.0" prefWidth="400.0">
                                        <children>
-                                          <ChoiceBox fx:id="choiseCodigoFactSesionObraSocial" prefHeight="26.0" prefWidth="438.0" />
+                                          <ChoiceBox fx:id="choiseCodigoFactSesionObraSocial" accessibleHelp="controlImportante" onMouseClicked="#volverChoiceALaNormalidad" prefHeight="26.0" prefWidth="438.0" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
                                        </children>
                                     </HBox>
                                  </children>
                               </VBox>
                               <HBox fx:id="botoneraCrudSesiones" layoutX="907.0" layoutY="449.0" prefHeight="30.0" prefWidth="122.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0">
                                  <children>
-                                    <Button fx:id="botonAgregarSesiones" disable="true" mnemonicParsing="false" onMouseClicked="#crearSesion" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                                    <Button fx:id="botonAgregarSesiones" mnemonicParsing="false" onMouseClicked="#crearSesion" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
                                        <graphic>
                                           <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -683,7 +686,7 @@
                                           <Insets left="5.0" />
                                        </HBox.margin>
                                     </Button>
-                                    <Button fx:id="botonActualizarSesiones" disable="true" mnemonicParsing="false" onMouseClicked="#actualizarSesion" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                                    <Button fx:id="botonActualizarSesiones" mnemonicParsing="false" onMouseClicked="#actualizarSesion" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
                                        <graphic>
                                           <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -695,7 +698,7 @@
                                           <Insets left="5.0" />
                                        </HBox.margin>
                                     </Button>
-                                    <Button fx:id="botonEliminarSesiones" disable="true" mnemonicParsing="false" onMouseClicked="#eliminarSesion" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                                    <Button fx:id="botonEliminarSesiones" mnemonicParsing="false" onMouseClicked="#eliminarSesion" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
                                        <graphic>
                                           <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -761,12 +764,18 @@
                                           <Font name="Abyssinica SIL" size="13.0" />
                                        </font>
                                     </Label>
+                                    <ChoiceBox fx:id="choiseFrecuenciaSesionPlan" accessibleHelp="controlImportante" accessibleText="planTratamiento" onMouseClicked="#volverChoiceALaNormalidad" prefHeight="24.0" prefWidth="272.0" stylesheets="@styles/menuinicio.css">
+                                       <styleClass>
+                                          <String fx:value="cajas" />
+                                          <String fx:value="cajasAEsconder" />
+                                       </styleClass></ChoiceBox>
                                     <HBox prefHeight="38.0" prefWidth="268.0">
                                        <children>
-                                          <TextField fx:id="cajaFrecuenciaSesiones" accessibleText="planTratamiento" alignment="BOTTOM_CENTER" onKeyReleased="#cambiarAcrearActualizarBorrar" onKeyTyped="#soloString" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar nombre" stylesheets="@styles/menuinicio.css">
+                                          <TextField fx:id="cajaPlanFrecuenciaSesiones" accessibleText="planTratamiento" alignment="BOTTOM_CENTER" onKeyTyped="#soloString" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar nombre" stylesheets="@styles/menuinicio.css" visible="false">
                                              <styleClass>
                                                 <String fx:value="cajas" />
                                                 <String fx:value="error" />
+                                                <String fx:value="cajasAEsconder" />
                                              </styleClass>
                                           </TextField>
                                        </children>
@@ -792,10 +801,18 @@
                                           <Font name="Abyssinica SIL" size="13.0" />
                                        </font>
                                     </Label>
-                                    <ChoiceBox fx:id="choiseTipoSesion" accessibleText="planTratamiento" prefHeight="24.0" prefWidth="272.0" />
+                                    <ChoiceBox fx:id="choiseTipoSesionPlan" accessibleHelp="controlImportante" accessibleText="planTratamiento" onMouseClicked="#volverChoiceALaNormalidad" prefHeight="24.0" prefWidth="272.0" stylesheets="@styles/menuinicio.css">
+                                       <styleClass>
+                                          <String fx:value="cajas" />
+                                          <String fx:value="cajasAEsconder" />
+                                       </styleClass></ChoiceBox>
                                     <HBox accessibleText="planTratamiento" prefHeight="36.0" prefWidth="268.0">
                                        <children>
-                                          <TextField fx:id="cajaNombreTipoSesionPlan" accessibleText="planTratamiento" alignment="BOTTOM_CENTER" onKeyTyped="#soloString" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar apellido" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
+                                          <TextField fx:id="cajaNombreTipoSesionPlan" accessibleText="planTratamiento" alignment="BOTTOM_CENTER" onKeyTyped="#soloString" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar apellido" stylesheets="@styles/menuinicio.css" visible="false">
+                                             <styleClass>
+                                                <String fx:value="cajas" />
+                                                <String fx:value="cajasAEsconder" />
+                                             </styleClass></TextField>
                                        </children>
                                     </HBox>
                                     <Label alignment="CENTER" contentDisplay="CENTER" text="Descripcion">
@@ -805,7 +822,7 @@
                                     </Label>
                                     <HBox prefHeight="100.0" prefWidth="200.0">
                                        <children>
-                                          <TextArea fx:id="cajaDescripcionTipoSesionPlan" accessibleText="planTratamiento" disable="true" onKeyReleased="#cambiarAcrearActualizarBorrar" prefHeight="50.0" prefWidth="268.0" styleClass="cajas" />
+                                          <TextArea fx:id="cajaDescripcionTipoSesionPlan" accessibleText="planTratamiento" disable="true" prefHeight="50.0" prefWidth="268.0" styleClass="cajas" />
                                        </children>
                                     </HBox>
                                     <Separator prefWidth="200.0" style="-fx-background-color: grey;">
@@ -826,7 +843,7 @@
                                     </Label>
                                     <HBox prefHeight="46.0" prefWidth="268.0">
                                        <children>
-                                          <TextField fx:id="cajaEstrategiaPlan" accessibleText="planTratamiento" alignment="BOTTOM_CENTER" onKeyReleased="#cambiarAcrearActualizarBorrar" onKeyTyped="#soloString" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar edad" stylesheets="@styles/menuinicio.css">
+                                          <TextField fx:id="cajaEstrategiaPlan" accessibleText="planTratamiento" alignment="BOTTOM_CENTER" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar edad" stylesheets="@styles/menuinicio.css">
                                              <styleClass>
                                                 <String fx:value="cajas" />
                                                 <String fx:value="error" />
@@ -850,7 +867,7 @@
                                           <Insets left="5.0" />
                                        </HBox.margin>
                                     </Button>
-                                    <Button fx:id="botonActualizarPlanTratamiento" disable="true" mnemonicParsing="false" onMouseClicked="#actualizarPlan" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                                    <Button fx:id="botonActualizarPlanTratamiento" mnemonicParsing="false" onMouseClicked="#actualizarPlan" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
                                        <graphic>
                                           <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -862,7 +879,7 @@
                                           <Insets left="5.0" />
                                        </HBox.margin>
                                     </Button>
-                                    <Button fx:id="botonEliminarPlanTratamiento" disable="true" mnemonicParsing="false" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                                    <Button fx:id="botonEliminarPlanTratamiento" mnemonicParsing="false" onMouseClicked="#eliminarPlan" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
                                        <graphic>
                                           <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -888,7 +905,8 @@
                                     </Button>
                                  </children>
                               </HBox>
-                              <Button layoutX="359.0" layoutY="177.0" mnemonicParsing="false" styleClass="botonBuscar" stylesheets="@styles/menuinicio.css" text="+" />
+                              <Button fx:id="botonAgregarPlanTipoSesion" layoutX="359.0" layoutY="194.0" mnemonicParsing="false" onMouseClicked="#insertarTipoPlan" styleClass="botonBuscar" stylesheets="@styles/menuinicio.css" text="+" />
+                              <Button fx:id="botonAgregarPlanFrecuencia" layoutX="360.0" layoutY="77.0" mnemonicParsing="false" onMouseClicked="#insertarFrecuenciaPlan" styleClass="botonBuscar" stylesheets="@styles/menuinicio.css" text="+" />
                            </children>
                         </AnchorPane>
                     </content>
@@ -898,7 +916,7 @@
                   </TitledPane>
                 <TitledPane fx:id="titlePaneDiagnostico" alignment="BASELINE_LEFT" animated="false" onMouseClicked="#expandirTitledPane" styleClass="titled-pane-l" stylesheets="@styles/menuinicio.css" text="Diagnostico">
                   <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="¡">
                            <children>
                               <VBox layoutX="768.0" layoutY="123.0" prefHeight="400.0" prefWidth="200.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="400.0" AnchorPane.topAnchor="50.0">
                                  <children>
@@ -909,7 +927,7 @@
                                     </Label>
                                     <HBox prefHeight="160.0" prefWidth="266.0">
                                        <children>
-                                          <TextArea fx:id="cajaDiagnosticoDiagnostico" accessibleText="diagnostico" onKeyReleased="#cambiarAcrearActualizarBorrar" prefHeight="150.0" prefWidth="270.0" styleClass="cajas" />
+                                          <TextArea fx:id="cajaDiagnosticoDiagnostico" accessibleHelp="controlImportante" accessibleText="diagnostico" onKeyPressed="#volverCajaALaNormalidad" prefHeight="150.0" prefWidth="270.0" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
                                        </children>
                                     </HBox>
                                     <Label alignment="CENTER" contentDisplay="CENTER" text="Observacion">
@@ -922,7 +940,7 @@
                                     </Label>
                                     <HBox prefHeight="160.0" prefWidth="200.0">
                                        <children>
-                                          <TextArea fx:id="cajaObservacionDiagnostico" accessibleText="diagnostico" onKeyReleased="#cambiarAcrearActualizarBorrar" prefHeight="200.0" prefWidth="270.0" styleClass="cajas" />
+                                          <TextArea fx:id="cajaObservacionDiagnostico" accessibleText="diagnostico" prefHeight="200.0" prefWidth="270.0" styleClass="cajas" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -941,7 +959,7 @@
                                           <Insets left="5.0" />
                                        </HBox.margin>
                                     </Button>
-                                    <Button fx:id="botonActualizarDiagnostico" disable="true" mnemonicParsing="false" onMouseClicked="#actualizarDiagnostico" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                                    <Button fx:id="botonActualizarDiagnostico" mnemonicParsing="false" onMouseClicked="#actualizarDiagnostico" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
                                        <graphic>
                                           <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -953,7 +971,7 @@
                                           <Insets left="5.0" />
                                        </HBox.margin>
                                     </Button>
-                                    <Button fx:id="botonEliminarDiagnostico" disable="true" mnemonicParsing="false" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                                    <Button fx:id="botonEliminarDiagnostico" mnemonicParsing="false" onMouseClicked="#eliminarDiagnostico" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
                                        <graphic>
                                           <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -1011,25 +1029,57 @@
                                           <Font name="Abyssinica SIL" size="13.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="cajaNombreObraSocialPaciente" alignment="BOTTOM_CENTER" onKeyTyped="#soloString" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar apellido" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
-                                    <ChoiceBox fx:id="choiseNombreObraSocialPaciente" prefHeight="26.0" prefWidth="270.0" />
+                                    <ChoiceBox fx:id="choiseNombreObraSocialPaciente" accessibleHelp="controlImportante" onMouseClicked="#volverChoiceALaNormalidad" prefHeight="26.0" prefWidth="270.0" stylesheets="@styles/menuinicio.css">
+                                       <styleClass>
+                                          <String fx:value="cajas" />
+                                          <String fx:value="cajasAEsconder" />
+                                       </styleClass></ChoiceBox>
+                                    <HBox prefHeight="43.0" prefWidth="266.0">
+                                       <children>
+                                          <TextField fx:id="cajaNombreObraSocialPaciente" prefHeight="24.0" prefWidth="300.0" stylesheets="@styles/menuinicio.css" visible="false">
+                                             <styleClass>
+                                                <String fx:value="cajas" />
+                                                <String fx:value="cajasAEsconder" />
+                                             </styleClass>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
                                     <Label alignment="CENTER" contentDisplay="CENTER" text="Plan">
                                        <font>
                                           <Font name="Abyssinica SIL" size="13.0" />
                                        </font>
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
                                     </Label>
                                     <HBox prefHeight="38.0" prefWidth="266.0">
                                        <children>
-                                          <TextField fx:id="cajaPlanObraSocialPaciente" alignment="BOTTOM_CENTER" onKeyTyped="#soloString" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar apellido" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
+                                          <ChoiceBox fx:id="choisePlanesObraSocialPacientePlan" accessibleHelp="controlImportante" onMouseClicked="#volverChoiceALaNormalidad" prefHeight="26.0" prefWidth="270.0" stylesheets="@styles/menuinicio.css">
+                                             <styleClass>
+                                                <String fx:value="cajas" />
+                                                <String fx:value="cajasAEsconder" />
+                                             </styleClass></ChoiceBox>
                                        </children>
                                     </HBox>
-                                    <ChoiceBox fx:id="choisePlanesObraSocialPacientePlan" prefHeight="26.0" prefWidth="270.0" />
+                                    <HBox prefHeight="52.0" prefWidth="266.0">
+                                       <children>
+                                          <TextField fx:id="cajaPlanObraSocialPaciente" prefHeight="24.0" prefWidth="300.0" stylesheets="@styles/menuinicio.css" visible="false">
+                                             <styleClass>
+                                                <String fx:value="cajas" />
+                                                <String fx:value="cajasAEsconder" />
+                                             </styleClass>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
                                     <HBox prefHeight="45.0" prefWidth="266.0">
                                        <children>
                                           <Label alignment="CENTER" contentDisplay="CENTER" text="Nº Afiliado">
                                              <font>
                                                 <Font name="Abyssinica SIL" size="13.0" />
                                              </font>
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
                                           </Label>
                                        </children>
                                        <opaqueInsets>
@@ -1041,7 +1091,7 @@
                                     </HBox>
                                     <HBox prefHeight="100.0" prefWidth="200.0">
                                        <children>
-                                          <TextField fx:id="cajaNAfiliadoObraSocialPaciente" alignment="BOTTOM_CENTER" onKeyTyped="#soloNumero" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar edad" stylesheets="@styles/menuinicio.css">
+                                          <TextField fx:id="cajaNAfiliadoObraSocialPaciente" accessibleHelp="controlImportante" accessibleRoleDescription="num" alignment="BOTTOM_CENTER" onKeyPressed="#volverCajaALaNormalidad" onKeyTyped="#onKeyTyped" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar edad" stylesheets="@styles/menuinicio.css">
                                              <styleClass>
                                                 <String fx:value="cajas" />
                                                 <String fx:value="error" />
@@ -1068,7 +1118,7 @@
                                           <Insets left="5.0" />
                                        </HBox.margin>
                                     </Button>
-                                    <Button fx:id="botonActualizarObraSocialPaciente" disable="true" mnemonicParsing="false" onMouseClicked="#actualizarPaciente" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                                    <Button fx:id="botonActualizarObraSocialPaciente" mnemonicParsing="false" onMouseClicked="#actualizarObraSocialPaciente" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
                                        <graphic>
                                           <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -1080,7 +1130,7 @@
                                           <Insets left="5.0" />
                                        </HBox.margin>
                                     </Button>
-                                    <Button fx:id="botonEliminarObraSocialPaciente" disable="true" mnemonicParsing="false" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                                    <Button fx:id="botonEliminarObraSocialPaciente" mnemonicParsing="false" onMouseClicked="#eliminarObraSocialPaciente" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
                                        <graphic>
                                           <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                                              <image>

@@ -20,7 +20,7 @@ public class AcutualizarPaciente extends PacienteDAOImplementacion {
     
     
     
-    public void actualizarDiagnostico(Paciente pacienteParametro){
+    public void actualizarDiagnostico(Paciente pacienteParametro) throws SQLException{
         String sqlDiagnostico = "UPDATE diagnosticos SET diagnostico=?, observacion=? WHERE id_paciente=?";
         
         try {
@@ -38,7 +38,7 @@ public class AcutualizarPaciente extends PacienteDAOImplementacion {
            
     }
     
-    public void actualizarPlan(Paciente pacienteParametro) {
+    public void actualizarPlan(Paciente pacienteParametro) throws SQLException{
         
         //UPDATE planes
         String sqlPlanesTratamientos = "UPDATE planes_tratamientos SET estrategia=?, id_frecuencia_sesion=?, id_tipo_sesion=? WHERE id_paciente=?";
@@ -165,7 +165,7 @@ public class AcutualizarPaciente extends PacienteDAOImplementacion {
     
     }
     
-    public void actualizarPaciente(Paciente pacienteParametro) {
+    public void actualizarPaciente(Paciente pacienteParametro) throws SQLException{
         
         String sqlPaciente = "UPDATE pacientes SET edad=?, dni=?, id_nombre=?, id_telefono_paciente=? WHERE id_paciente=?";
         
@@ -261,7 +261,7 @@ public class AcutualizarPaciente extends PacienteDAOImplementacion {
         }
     }
     
-    public void actualizarSesion(Paciente pacienteParametro){
+    public void actualizarSesion(Paciente pacienteParametro) throws SQLException{
         
         String buscarCodigo = "SELECT id_codigo_facturacion \n" +
                               "FROM codigos_facturaciones \n" +
@@ -321,6 +321,27 @@ public class AcutualizarPaciente extends PacienteDAOImplementacion {
         
     }
     
-    
+    public void actualizarObraSocialPaciente (Paciente pacienteParametro) throws SQLException{
+        Paciente pacienteActualizado = new Paciente();
+        
+        String sqlActualizarObraSocialPaciente = "UPDATE afiliados_obras_sociales \n" +
+                                                 "SET id_obra_social = ?, id_plan_obra_social = ?, numero_afiliado = ?\n" +
+                                                 "WHERE id_obra_social = ? AND id_plan_obra_social = ? AND id_afiliado_obra_social = ?";
+        
+        try {
+            
+            //ACTUALIZAR OBRA SOCIAL PACIENTE
+            PreparedStatement psBuscarIdCodigo= conexion.conexion().prepareStatement(sqlActualizarObraSocialPaciente);
+            psBuscarIdCodigo.setInt(1, obtenerIdObraSocia(pacienteParametro));
+            psBuscarIdCodigo.setInt(2, obtenerIdPlanObraSocial(pacienteParametro));
+            psBuscarIdCodigo.setInt(3, pacienteParametro.getObraSocialPaciente().getAfiliado().getNumero());
+            
+            psBuscarIdCodigo.setInt(4, pacienteParametro.getObraSocialPaciente().getId());
+            psBuscarIdCodigo.setInt(5, pacienteParametro.getObraSocialPaciente().getPlan().getId());
+            psBuscarIdCodigo.setInt(6, pacienteParametro.getObraSocialPaciente().getAfiliado().getId());
+            psBuscarIdCodigo.executeUpdate();
+        } catch (Exception e) {
+        }
+    }
     
 }

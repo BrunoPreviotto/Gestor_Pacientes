@@ -11,7 +11,8 @@ import java.util.List;
  * @author previotto
  */
 public class ObraSocialPaciente {
-    private Integer numeroAfiliado;
+    private Integer id;
+    private Afiliado afiliado;
     private String nombre;
     private PlanObraSocial plan;
 
@@ -24,22 +25,30 @@ public class ObraSocialPaciente {
     
     
 
-    public ObraSocialPaciente(Integer numeroAfiliado, String nombre, PlanObraSocial plan) {
-        this.numeroAfiliado = numeroAfiliado;
+    public ObraSocialPaciente(Afiliado afiliado, String nombre, PlanObraSocial plan) {
+        this.afiliado = afiliado;
         this.nombre = nombre;
         this.plan = plan;
     }
 
-    
-    
-    
-
-    public Integer getNumeroAfiliado() {
-        return numeroAfiliado;
+    public Integer getId() {
+        return id;
     }
 
-    public void setNumeroAfiliado(Integer numeroAfiliado) {
-        this.numeroAfiliado = numeroAfiliado;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    
+    
+    
+
+    public Afiliado getAfiliado() {
+        return afiliado;
+    }
+
+    public void setAfiliado(Afiliado afiliado) {
+        this.afiliado = afiliado;
     }
 
     public String getNombre() {
