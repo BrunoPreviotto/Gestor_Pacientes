@@ -9,6 +9,7 @@ import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableMap;
 import com.pacientes.gestor_paciente.CRUD.ObtenerPaciente;
 import com.pacientes.gestor_pacientes.App;
+import com.pacientes.gestor_pacientes.implementacionDAO.AgendaDAOImplementacion;
 import com.pacientes.gestor_pacientes.implementacionDAO.ObraSocialDAOImplementacion;
 import com.pacientes.gestor_pacientes.implementacionDAO.PacienteDAOImplementacion;
 import com.pacientes.gestor_pacientes.implementacionDAO.UsuarioDAOImplementacion;
@@ -21,7 +22,9 @@ import com.pacientes.gestor_pacientes.modelo.ObraSocialPaciente;
 import com.pacientes.gestor_pacientes.modelo.Paciente;
 import com.pacientes.gestor_pacientes.modelo.PlanTratamiento;
 import com.pacientes.gestor_pacientes.modelo.Usuario;
+import com.pacientes.gestor_pacientes.servicios.ServicioObraSocial;
 import com.pacientes.gestor_pacientes.servicios.ServicioPaciente;
+import com.pacientes.gestor_pacientes.utilidades.TablaObrasSociales;
 import com.pacientes.gestor_pacientes.utilidades.TablaSesiones;
 import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 import com.pacientes.gestor_pacientes.validacion.Validar;
@@ -31,11 +34,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -56,6 +63,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyCode;
@@ -80,14 +88,17 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     protected String cssNuevo = getClass().getResource("/com/pacientes/gestor_pacientes/styles/nuevoTitledPane.css").toExternalForm();
     protected String cssViejo = getClass().getResource("/com/pacientes/gestor_pacientes/styles/menuinicio.css").toExternalForm();
     protected PacienteDAOImplementacion pacienteDao = new PacienteDAOImplementacion();
+    
     //protected Paciente paciente;
     protected Validar validar = new Validar();
     protected ServicioPaciente servicioPaciente = new ServicioPaciente();
+    protected ServicioObraSocial servicioObraSocial = new ServicioObraSocial();
     
     
     protected Usuario usuario;
     protected UsuarioDAOImplementacion usuarioDao;
     protected ObraSocialDAOImplementacion obraSocialDao;
+    protected AgendaDAOImplementacion agendaDao = new AgendaDAOImplementacion();
     
     protected String valorInicialNombreObraSocialPaciente;
     protected List<String> listaPlanesObrasSociales;
@@ -159,6 +170,8 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     protected TextField cajaDniDatosPrincipales;
     @FXML
     protected TextField cajaTelefonoDatosPrincipales;
+    @FXML
+    protected TextField cajaHonorariosDatosPrincipales;
     
     //BOTONES
     @FXML
@@ -183,11 +196,25 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     
     */
     
+    //LABEL
+    @FXML
+    protected Label etiquetaActualizarCodigoFacturacion;
+    
     //VERTICALBOX
     @FXML
     protected VBox vBoxSesiones;
     @FXML
     protected VBox vBoxAutorizacion;
+    @FXML
+    protected VBox vbTablasSesionesAtorizaciones;
+    
+    //HORIZONTALBOX
+    @FXML
+    protected HBox botoneraCrudSesiones;
+    @FXML
+    protected HBox hboxEtiquetasCodigosFacturacion;
+    @FXML
+    protected HBox hboxCajasCodigosFacturacion;
     
     //TITLEPANE
     @FXML
@@ -208,10 +235,20 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     protected TextArea cajaTrabajoSesion;
     @FXML
     protected TextArea cajaObservacionSesion;
-    @FXML
-    protected TextArea cajaMotivoTrabajoEmergenteSesion;
+    
     @FXML
     protected TextArea cajaObservacionSesionObraSocial;
+    @FXML
+    protected TextField cajaEstadoFacturacionSesionObraSocial;
+    @FXML
+    protected TextField cajaAtualizarCodigoFacturacionSesionObraSocial;
+    @FXML
+    protected TextField cajaAtualizarNombreCodigoFacturacionSesionObraSocial;
+    @FXML
+    protected TextField cajaCodigoFacturacion;
+    @FXML
+    protected TextField cajaHonorariosPorSesion;
+    
     
     
     //BOTONES
@@ -224,7 +261,13 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     @FXML
     protected Button botonRetornarSesiones;
     @FXML
-    protected HBox botoneraCrudSesiones;
+    protected Button botonActualizarCodigoFacturacion;
+    @FXML
+    protected Button botonAgregarCodigoFacturacion;
+    @FXML
+    protected Button botonActualizarAgregarCodigoFacturacion;
+    
+            
     
     //TABLE
     @FXML
@@ -241,7 +284,9 @@ public class ClasePadreMenuInicio extends ClasePadreController{
         @FXML
         protected TableColumn<TablaSesiones, String> ColumnaSesionObservacion;
         @FXML
-        protected TableColumn<TablaSesiones, String> ColumnaSesionMotivoTRabajoEmergente;
+        protected TableColumn<TablaSesiones, String> ColumnaSesionHonorarioPorSesion;
+        @FXML
+        protected TableColumn<TablaSesiones, String> ColumnaSesionEstadoFacturacion;
         @FXML
         protected TableColumn<TablaSesiones, AutorizacionesSesionesObraSociales> columnaAutorizacionNumero;
         @FXML
@@ -298,6 +343,10 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     protected Button botonEliminarPlanTratamiento;
     @FXML
     protected Button botonRetornarPlanTratamiento;
+    @FXML
+    protected Button botonActualizarPlanFrecuencia;
+    @FXML
+    protected Button botonActualizarPlanTipoSesion;
     
     //CHOISE
     @FXML
@@ -367,7 +416,9 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     
     */
     
-    
+    //LABEL
+    @FXML
+    protected Label labelAgregarPlan;
     
     //TITLEPANE
     @FXML
@@ -436,6 +487,29 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     @FXML
     protected TextField cajaWebObraSocial;
     
+    //CHOISE
+    @FXML
+    protected ChoiceBox<String> choiceVerPlanesObraSocial;
+    
+    
+    //TABLE
+    @FXML
+    protected TableView<TablaObrasSociales> tablaObraSocial;
+        //COLUMN
+        @FXML
+        protected TableColumn<TablaObrasSociales, String> ColumnaObraSocialNombre;
+        @FXML
+        protected TableColumn<TablaObrasSociales, String> ColumnaObraSocialTelefono;
+        @FXML
+        protected TableColumn<TablaObrasSociales, String> ColumnaObraSocialMail;
+        @FXML
+        protected TableColumn<TablaObrasSociales, String> ColumnaObraSocialWeb;
+        @FXML
+        protected TableColumn<TablaObrasSociales, String> ColumnaObraSocialPlanes;
+        
+    
+    
+    
     //BOTONES
     @FXML
     protected Button botonAgregarPlanesObraSocial;
@@ -498,7 +572,8 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     protected AnchorPane pestanaOpciones;
     @FXML
     protected AnchorPane apOpciones;
-    
+    @FXML
+    protected Button botonCerrarSesion;
     
     /*
         <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -514,11 +589,16 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     
     */
     
+    
+            
+            
     //ANCHOR PANE
     @FXML
     protected AnchorPane pestanaAgenda;
     @FXML
-    protected AnchorPane apAgenda;
+    protected AnchorPane apAgendaPrincipal;
+    @FXML
+    protected AnchorPane apAgendaAgenda;
     
    //GRIDPANE
    @FXML
@@ -608,17 +688,17 @@ public class ClasePadreMenuInicio extends ClasePadreController{
 
                 apPacientes.setVisible(true);
                 apObraSocial.setVisible(false);
-                apAgenda.setVisible(false);
+                apAgendaPrincipal.setVisible(false);
                 apOpciones.setVisible(false);
                 break;
             case "pestanaObraSocial":
                 apObraSocial.setVisible(true);
                 apPacientes.setVisible(false);
-                apAgenda.setVisible(false);
+                apAgendaPrincipal.setVisible(false);
                 apOpciones.setVisible(false);
                 break;
             case "pestanaAgenda":
-                apAgenda.setVisible(true);
+                apAgendaPrincipal.setVisible(true);
                 apObraSocial.setVisible(false);
 
                 apPacientes.setVisible(false);
@@ -626,7 +706,7 @@ public class ClasePadreMenuInicio extends ClasePadreController{
                 break;
             case "pestanaOpciones":
                 apOpciones.setVisible(true);
-                apAgenda.setVisible(false);
+                apAgendaPrincipal.setVisible(false);
                 apObraSocial.setVisible(false);
                 apPacientes.setVisible(false);
                 break;
@@ -835,18 +915,14 @@ public class ClasePadreMenuInicio extends ClasePadreController{
    
 
     protected void cambiarCategoria(ActionEvent event) {
-        ChoiceBox cb = (ChoiceBox)event.getSource();
+        ChoiceBox cb = (ChoiceBox) event.getSource();
         ObtenerPaciente obtenerDescripcion = new ObtenerPaciente();
-        if(cb.getAccessibleText().equals("planTratamiento")){
-            if (!choiseTipoSesionPlan.getValue().equals(cajaNombreTipoSesionPlan.getText())) {
-                cajaNombreTipoSesionPlan.setText(choiseTipoSesionPlan.getValue());
-               
-            }
-            if (!cb.getValue().equals(VariablesEstaticas.valoresBUsquedaPlanes.get(cajaNombreTipoSesionPlan)) && VariablesEstaticas.valoresBUsquedaPlanes.get(cajaNombreTipoSesionPlan) != null) {
-                botonActualizarPlanTratamiento.setDisable(false);
-                
-            } else {
-                botonActualizarPlanTratamiento.setDisable(true);
+        if (cb.getAccessibleText().equals("planTratamiento")) {
+            if (Objects.nonNull(choiseTipoSesionPlan.getValue())) {
+                if (!choiseTipoSesionPlan.getValue().equals(cajaNombreTipoSesionPlan.getText())) {
+                    cajaNombreTipoSesionPlan.setText(choiseTipoSesionPlan.getValue());
+
+                }
             }
         }
         try {
@@ -860,20 +936,31 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     protected void cambiarPlanesObraSocial(ActionEvent event) {
         ChoiceBox cb = (ChoiceBox) event.getSource();
         obraSocialDao = new ObraSocialDAOImplementacion();
-         List<String> listaNuevaPlanes = obraSocialDao.obtenerListaPlanesObrasSociales(new ObraSocial(choiseNombreObraSocialPaciente.getValue()));
-        if (!choiseNombreObraSocialPaciente.getValue().equals(valorInicialNombreObraSocialPaciente)) {
-            choisePlanesObraSocialPacientePlan.getItems().setAll(obraSocialDao.obtenerListaPlanesObrasSociales(new ObraSocial(choiseNombreObraSocialPaciente.getValue())));
-            valorInicialNombreObraSocialPaciente = choiseNombreObraSocialPaciente.getValue();
+        List<String> listaNuevaPlanes = obraSocialDao.obtenerListaPlanesObrasSociales(new ObraSocial(choiseNombreObraSocialPaciente.getValue()));
+        if (Objects.nonNull(choiseNombreObraSocialPaciente.getValue())) {
+            if (!choiseNombreObraSocialPaciente.getValue().equals(valorInicialNombreObraSocialPaciente)) {
+                choisePlanesObraSocialPacientePlan.getItems().setAll(obraSocialDao.obtenerListaPlanesObrasSociales(new ObraSocial(choiseNombreObraSocialPaciente.getValue())));
+                valorInicialNombreObraSocialPaciente = choiseNombreObraSocialPaciente.getValue();
+            }
         }
 
+    }
+    
+    
+    protected void cambiarCodigoFacturacion(ActionEvent event) {
+        ChoiceBox cb = (ChoiceBox) event.getSource();
+        try {
+           
+            cajaCodigoFacturacion.setText(pacienteDao.obtenerStringCodigoFacturacion(cb.getValue().toString()));
+        } catch (Exception e) {
+        }
     }
     
    
     
      @FXML
     protected void retornarTablaSesion(MouseEvent event) {
-        tablaAutorizacion.setVisible(true);
-        tableSesiones.setVisible(true);
+        vbTablasSesionesAtorizaciones.setVisible(true);
         botonActualizarSesiones.setDisable(false);
         botonAgregarSesiones.setDisable(false);
         botonEliminarSesiones.setDisable(false);
@@ -926,23 +1013,7 @@ public class ClasePadreMenuInicio extends ClasePadreController{
         botonActualizarPlanesObraSocial.setDisable(false);
     }
     
-     @FXML
-     private void onKeyTyped(KeyEvent event){
-         Control control = (Control) event.getSource();
-         switch (control.getAccessibleRoleDescription()) {
-             case "num":
-                 soloNumero(event);
-                 break;
-             
-         }
-         if(
-                 control.getId().equals("cajaEdadDatosPrincipales") || 
-                 control.getId().equals("cajaDniDatosPrincipales") ||
-                 control.getId().equals("cajaTelefonoDatosPrincipales")){
-             
-             comprobarTamañoStringDatosPrincipales(event);
-         }
-     }
+     
     
     
     public BiMap<List<CheckBox>, Boolean> mensajeEliminarSesion(Object obj){
@@ -968,6 +1039,62 @@ public class ClasePadreMenuInicio extends ClasePadreController{
         }
         return null;
     }
+    
+    
+    @FXML
+     private void onKeyTyped(KeyEvent event){
+         Control control = (Control) event.getSource();
+         switch (control.getAccessibleRoleDescription()) {
+             case "num":
+                 soloNumero(event);
+                 break;
+             
+         }
+         if(
+                 control.getId().equals("cajaEdadDatosPrincipales") || 
+                 control.getId().equals("cajaDniDatosPrincipales") ||
+                 control.getId().equals("cajaTelefonoDatosPrincipales")){
+             
+             comprobarTamañoStringDatosPrincipales(event);
+         }
+     }
+     
+     @FXML
+     protected void cerrarSesionUsuario(MouseEvent event){
+         try {
+            
+           usuarioDao.cerrarSesion();
+            
+            Node source = (Node) event.getSource();
+            Stage stageg = (Stage) source.getScene().getWindow();
+            stageg.close();
+            
+            
+            
+            
+            FXMLLoader Loader = new FXMLLoader(App.class.getResource( "IniciarSesion.fxml"));
+            Parent root = Loader.load();
+            IniciarSesionController controller = Loader.getController();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.TRANSPARENT);
+           
+            stage.showAndWait();
+            
+            
+            /*App reabrir = new App();
+            Stage newPrimaryStage = new Stage();
+            
+            reabrir.start(newPrimaryStage);*/
+             
+            
+             
+         } catch (Exception e) {
+         }
+     }
+    
     
     @FXML
     public void comprobarTamañoStringDatosPrincipales(KeyEvent event) {
@@ -1010,6 +1137,36 @@ public class ClasePadreMenuInicio extends ClasePadreController{
 
         }
 
+    }
+    
+    protected void inicializarTableObraSocial(){
+        try {
+            //Inicializar lista de obras sociales
+            List<ObraSocial> listaObraSocial = new ArrayList();
+            listaObraSocial = obraSocialDao.obtenerLista();
+            ObservableList<TablaObrasSociales> olObraSocial = FXCollections.observableArrayList();
+            if (Objects.nonNull(listaObraSocial)) {
+
+                for (ObraSocial o : listaObraSocial) {
+                    olObraSocial.add(new TablaObrasSociales(
+                            o.getNombre(),
+                            o.getTelefono().getTelefono(),
+                            o.getEmail().getEmail(),
+                            o.getWeb().getWeb(),
+                            o.setListaPlanesToString().getListaPlanesToString()));
+                }
+
+                tablaObraSocial.setItems(olObraSocial);
+
+                ColumnaObraSocialNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+                ColumnaObraSocialTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
+                ColumnaObraSocialMail.setCellValueFactory(new PropertyValueFactory<>("email"));
+                ColumnaObraSocialWeb.setCellValueFactory(new PropertyValueFactory<>("web"));
+                ColumnaObraSocialPlanes.setCellValueFactory(new PropertyValueFactory<>("planes"));
+
+        }
+        } catch (Exception e) {
+        }
     }
     
     

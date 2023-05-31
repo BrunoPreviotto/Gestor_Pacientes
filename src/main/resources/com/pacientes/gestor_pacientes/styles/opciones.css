@@ -1,0 +1,72 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 26 may 2023, 9:19:39
+    Author     : previotto
+*/
+
+
+.tab-pane
+{
+    -fx-tab-min-width:90px;
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-opacity: 0;
+    
+}
+
+
+
+.tab{
+    -fx-background-insets: 0 1 0 1,0,0;
+    
+}
+.tab-pane .tab
+{
+    -fx-background-color: rgba(255, 236, 231, 0.5);
+    -fx-border-color: rgba(224, 139, 116, 0.5);
+    
+    
+
+}
+
+
+
+.tab-pane .tab:selected
+{
+   -fx-background-color: rgba(255, 179, 156, 0.5);
+    -fx-border-color: #C02A00;
+    -fx-border-radius: 2 2 0 0;
+     -fx-background-insets: 0.0;
+     -fx-focus-color: transparent;
+}
+
+.tab-pane .tab:focused
+{
+   -fx-focus-color: transparent;
+    
+}
+
+
+.tab-pane *.tab-header-background{
+    -fx-background-color:transparent;
+}
+
+
+
+.tab .tab-label { 
+    -fx-alignment: CENTER;
+    -fx-text-fill: #C02A00;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+/*#828282*/
+.tab:selected .tab-label { 
+    -fx-alignment: CENTER;
+    -fx-text-fill: #C02A00;
+    -fx-font-size: 12px;
+     -fx-font-weight: bold;
+}

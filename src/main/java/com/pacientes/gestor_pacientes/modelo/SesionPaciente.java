@@ -13,37 +13,61 @@ import java.util.Date;
  */
 public class SesionPaciente {
     private int idSesion;
-
-    public int getIdSesion() {
-        return idSesion;
-    }
-
-    public void setIdSesion(int idSesion) {
-        this.idSesion = idSesion;
-    }
     private Integer numeroSesion;
     private LocalDate fecha;
     private String trabajoSesion;
     private String observacion;
     private String motivoTrabajoEmergente;
     private AutorizacionesSesionesObraSociales autorizacion;
+    private EstadoFacturacion estado;
+    private Double honorarioPorSesion;
+
+   
 
     public SesionPaciente() {
     }
 
-    public SesionPaciente(Integer numeroSesion, LocalDate fecha, String trabajoSesion, String observacion, String motivoTrabajoEmergente, AutorizacionesSesionesObraSociales autorizacion) {
+    public SesionPaciente(Integer numeroSesion, LocalDate fecha, String trabajoSesion, String observacion, Double honorarioPorSesion, AutorizacionesSesionesObraSociales autorizacion, EstadoFacturacion estado) {
         this.numeroSesion = numeroSesion;
         this.fecha = fecha;
         this.trabajoSesion = trabajoSesion;
         this.observacion = observacion;
-        this.motivoTrabajoEmergente = motivoTrabajoEmergente;
+        this.honorarioPorSesion = honorarioPorSesion;
         this.autorizacion = autorizacion;
+        this.estado = estado;
     }
+
+    public Double getHonorarioPorSesion() {
+        return honorarioPorSesion;
+    }
+
+    public void setHonorarioPorSesion(Double honorarioPorSesion) {
+        this.honorarioPorSesion = honorarioPorSesion;
+    }
+
+        
 
     public SesionPaciente(String observacion) {
         this.observacion = observacion;
     }
 
+    
+     public int getIdSesion() {
+        return idSesion;
+    }
+
+    public void setIdSesion(int idSesion) {
+        this.idSesion = idSesion;
+    }
+
+    public EstadoFacturacion getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoFacturacion estado) {
+        this.estado = estado;
+    }
+    
     
     
     

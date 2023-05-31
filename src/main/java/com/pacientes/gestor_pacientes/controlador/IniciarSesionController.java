@@ -5,6 +5,7 @@
 package com.pacientes.gestor_pacientes.controlador;
 
 
+import com.pacientes.gestor_pacientes.App;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -25,11 +26,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import com.pacientes.gestor_pacientes.utilidades.DraggedScene;
+import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 import java.io.IOException;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.StageStyle;
 
 
@@ -76,14 +81,18 @@ public class IniciarSesionController extends ClasePadreController implements Ini
     */
     @FXML
     private void peticionParaIngresar(MouseEvent event) throws IOException{
-        if(!cajaUsuario.getText().equals("") || !cajaContraseña.getText().equals("")){
-            IUsuarioDAO usuarioDao = new UsuarioDAOImplementacion();
+        UsuarioDAOImplementacion usuarioDao = new UsuarioDAOImplementacion();
+        
+        try {
+            if(!cajaUsuario.getText().equals("") || !cajaContraseña.getText().equals("")){
+            
             usuario = new Usuario();
             usuario.setUsuario(cajaUsuario.getText());
             usuario.setContraseña(cajaContraseña.getText());
-            
+              
 
             if (!usuarioDao.obtener(usuario).getUsuario().equals("")) {
+                usuarioDao.abrirSesion(usuario);
                 etiquetaError.setVisible(false);
                 ((Node) (event.getSource())).getScene().getWindow().hide();
                 Scene scene = new Scene(loadFXML("MenuInicio"));
@@ -93,9 +102,18 @@ public class IniciarSesionController extends ClasePadreController implements Ini
 
                 newStage.initStyle(StageStyle.TRANSPARENT);
                 newStage.show();
+                
+            
+                
+            }else{
+                mensaje("Usuario no encontrado", this, VariablesEstaticas.imgenError);
             }
         }else {
-            etiquetaError.setVisible(true);
+                mensaje("Hay campos vacios", this, VariablesEstaticas.imgenAdvertencia);
+            //etiquetaError.setVisible(true);
+        }
+        } catch (Exception e) {
+            mensaje("Error al iniciar sesión", this, VariablesEstaticas.imgenError);
         }
     }
     
@@ -120,6 +138,8 @@ public class IniciarSesionController extends ClasePadreController implements Ini
         newStage.initStyle(StageStyle.TRANSPARENT);
         newStage.show();
     }
+
+    
 
     
     

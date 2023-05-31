@@ -30,12 +30,12 @@ import javafx.collections.ObservableList;
  *
  * @author previotto
  */
-public class PacienteDAOImplementacion implements IPacienteDAO {
+public class PacienteDAOImplementacion extends PadreDAOImplementacion implements IPacienteDAO {
     
     protected ConexionMariadb conexion = ConexionMariadb.getInstacia();
     
      @Override
-    public Paciente obtener(Paciente pacienteParametro) {
+    public Paciente obtener(Paciente pacienteParametro) throws SQLException{
         ObtenerPaciente obtenerPaciente = new ObtenerPaciente();
         Paciente paciente = new Paciente();
         Paciente pacienteResultado = new Paciente();
@@ -45,7 +45,14 @@ public class PacienteDAOImplementacion implements IPacienteDAO {
             if (!Objects.isNull(pacienteParametro)) {
                 if (!Objects.isNull(pacienteParametro.getDni())) {
                     pacienteResultado = obtenerPaciente.obtenerPaciente(pacienteParametro);
-                    paciente.setNombre(pacienteResultado.getNombre()).setApellido(pacienteResultado.getApellido()).setEdad(pacienteResultado.getEdad()).setDni(pacienteResultado.getDni()).setTelefono(pacienteResultado.getTelefono());
+                    paciente.setNombre(
+                            pacienteResultado.
+                                    getNombre()).
+                            setApellido(pacienteResultado.getApellido()).
+                            setEdad(pacienteResultado.getEdad()).
+                            setDni(pacienteResultado.getDni()).
+                            setTelefono(pacienteResultado.getTelefono()).
+                            setHonorarios(pacienteResultado.getHonorarios());
                 }
                 if (!Objects.isNull(pacienteParametro.getId())) {
                     pacienteResultado = obtenerPaciente.obtenerSesiones(pacienteParametro.getId());
@@ -91,6 +98,27 @@ public class PacienteDAOImplementacion implements IPacienteDAO {
         }
     }
     
+    public void actualizarFrecuenciaPlan(PlanTratamiento plan) throws SQLException{
+        String sqlActualizarFrecuencia = "UPDATE frecuencias_sesiones SET frecuencia = ? WHERE id_frecuencia_sesion = ?;";
+        
+        PreparedStatement psFrecuencia = conexion.conexion().prepareStatement(sqlActualizarFrecuencia);
+        psFrecuencia.setString(1, plan.getFrecuenciaSesion());
+        psFrecuencia.setInt(2, plan.getIdPlan());
+        psFrecuencia.executeUpdate();
+        
+    }
+    
+    public void actualizarTipoSesion(TipoSesion tipo) throws SQLException{
+        String sqlActualizarTipoSesion = "UPDATE tipos_sesiones SET nombre = ?, descripcion = ? WHERE id_tipo_sesion = ?;";
+        
+        PreparedStatement psTipoSesion = conexion.conexion().prepareStatement(sqlActualizarTipoSesion);
+        psTipoSesion.setString(1, tipo.getNombre());
+        psTipoSesion.setString(2, tipo.getDecripcion());
+        psTipoSesion.setInt(3, tipo.getId());
+        psTipoSesion.executeUpdate();
+        
+    }
+    
     @Override
     public void eliminar(Paciente paciente, int numeroFuncion) throws SQLException{
         
@@ -125,7 +153,7 @@ public class PacienteDAOImplementacion implements IPacienteDAO {
     }
 
     @Override
-    public void insertar(Paciente paciente, int numeroFucion) throws SQLException{
+    public void insertar(Paciente paciente, int numeroFucion) throws Exception{
         InsertarPaciente insertarPaciente = new InsertarPaciente();
         switch (numeroFucion) {
             case 1:
@@ -157,7 +185,7 @@ public class PacienteDAOImplementacion implements IPacienteDAO {
     }
 
     @Override
-    public List<Paciente> obtenerLista(Paciente objeto) {
+    public List<Paciente> obtenerLista() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
       
@@ -180,6 +208,47 @@ public class PacienteDAOImplementacion implements IPacienteDAO {
         return null;
     }
     
+    public void insertarCodigoFacturacion(CodigoFacturacion codigo) throws SQLException{
+        
+        String sqlCodigoFacturacion = "INSERT INTO codigos_facturaciones (id_codigo_facturacion, nombre, codigo) VALUES (0, ?, ?);";
+        
+        int idCodigo = obtenerIdCodigoFacturacion(codigo);
+        System.out.println(idCodigo);
+        
+        if(idCodigo == 0){
+            PreparedStatement psCodigo = conexion.conexion().prepareStatement(sqlCodigoFacturacion);
+            psCodigo.setString(1, codigo.getNombre());
+            psCodigo.setInt(2, codigo.getCodigo());
+            psCodigo.executeUpdate();
+        }
+    }
+    
+    public void actualizarCodigoFacturacion(CodigoFacturacion codigo) throws SQLException{
+        String sqlActualizarCodigoFacturacion = "UPDATE codigos_facturaciones SET nombre = ?, codigo = ? WHERE id_codigo_facturacion = ?;";
+    
+        System.out.println(codigo.getId());
+        System.out.println(codigo.getNombre());
+        System.out.println(codigo.getCodigo());
+        PreparedStatement psCodigo = conexion.conexion().prepareStatement(sqlActualizarCodigoFacturacion);
+        psCodigo.setString(1, codigo.getNombre());
+        psCodigo.setInt(2, codigo.getCodigo());
+        psCodigo.setInt(3, codigo.getId());
+        psCodigo.executeUpdate();
+        
+    
+    }
+    
+    public String obtenerStringCodigoFacturacion(String nombreCodigo) throws SQLException{
+        String sqlCodigo = "SELECT cf.codigo  FROM codigos_facturaciones cf WHERE nombre = ?";
+        PreparedStatement psCodigo = conexion.conexion().prepareStatement(sqlCodigo);
+        psCodigo.setString(1, nombreCodigo);
+        ResultSet rsCodigo = psCodigo.executeQuery();
+        if(rsCodigo.next()){
+            return rsCodigo.getString("codigo");
+        }else{
+            return "";
+        }
+    }
     
     public List<String> obtenerListaFrecuencia() {
         String sqlListaFrecuencia = "SELECT frecuencia  FROM frecuencias_sesiones";
@@ -242,9 +311,16 @@ public class PacienteDAOImplementacion implements IPacienteDAO {
     public int obtenerultimaSesion(Paciente pacienteParametro){
         String sqlUltimaSesion = "SELECT MAX(numero_sesion) AS numeroSesion FROM sesiones_pacientes WHERE id_paciente = ?;";
         try {
+            int idPaciente = obtenerIdPaciente(pacienteParametro);
+            
             PreparedStatement psUltimaSesion = conexion.conexion().prepareStatement(sqlUltimaSesion);
             
-            psUltimaSesion.setInt(1, obtenerIdPaciente(pacienteParametro).getId());
+            if(idPaciente != 0){
+                psUltimaSesion.setInt(1, idPaciente);
+            }else{
+                throw sqlException;
+            }
+            
             ResultSet rsUltimaSesion = psUltimaSesion.executeQuery();
             if(rsUltimaSesion.next()){
                 return rsUltimaSesion.getInt("numeroSesion");
@@ -255,29 +331,7 @@ public class PacienteDAOImplementacion implements IPacienteDAO {
         return 0;
     }
 
-    public Paciente obtenerIdPaciente(Paciente pacienteParametro) {
-        Paciente paciente = new Paciente();
-        
-        try {
-            String sqlDni = "SELECT id_paciente FROM pacientes WHERE dni=?";
-            PreparedStatement pSDni = conexion.conexion().prepareStatement(sqlDni);
-            pSDni.setInt(1, pacienteParametro.getDni());
-            ResultSet rsSPaciente = pSDni.executeQuery();
-            if (rsSPaciente.next()) {
-                paciente.setId(rsSPaciente.getInt(1));
-                pSDni.close();
-                rsSPaciente.close();
-                return paciente;
-            }else{
-                paciente.setDni(0);
-                return paciente;
-            }
-
-        } catch (SQLException e) {
-            paciente.setDni(0);
-            return paciente;
-        }
-    }
+    
 
     public boolean existeAutorizacion(Paciente pacienteParametro){
        
@@ -287,43 +341,7 @@ public class PacienteDAOImplementacion implements IPacienteDAO {
                && pacienteParametro.getSesion().getAutorizacion().getCopago() == 0;
     }
     
-    public Paciente obtenerIdSesionAutorizacion(Paciente pacienteParametro){
-        Paciente pacienteResult = new Paciente();
-        SesionPaciente sesion =  new SesionPaciente();
-        AutorizacionesSesionesObraSociales autorizacion = new AutorizacionesSesionesObraSociales();
-        String buscarIdSesion = "SELECT sp.id_sesion_paciente, a.id_autorizacion \n" +
-                                             "FROM sesiones_pacientes sp \n" +
-                                             "JOIN sesiones_pacientes_autorizaciones spa ON sp.id_sesion_paciente = spa.id_sesion_paciente \n" +
-                                             "JOIN autorizaciones a ON spa.id_autorizacion = a.id_autorizacion\n" +
-                                             "WHERE sp.fecha = ? \n" +
-                                             "AND sp.id_paciente = ?\n" +
-                                             "AND sp.numero_sesion = ?\n" +
-                                             "AND a.numero_autorizacion = ?\n" +
-                                             "AND a.asociacion = ?";
-        
-        try {
-            //BUSCAR ID DE SESION Y AUTORIZACION
-            PreparedStatement psBuscarIdSesionYAutorizacion = conexion.conexion().prepareStatement(buscarIdSesion);
-            psBuscarIdSesionYAutorizacion.setDate(1, Date.valueOf(pacienteParametro.getSesion().getFecha().toString()));
-            psBuscarIdSesionYAutorizacion.setInt(2, pacienteParametro.getId());
-            psBuscarIdSesionYAutorizacion.setInt(3, pacienteParametro.getSesion().getNumeroSesion());
-            psBuscarIdSesionYAutorizacion.setInt(4, pacienteParametro.getSesion().getAutorizacion().getNumeroAutorizacion());
-            psBuscarIdSesionYAutorizacion.setDate(5, Date.valueOf(pacienteParametro.getSesion().getAutorizacion().getAsociacion()));
-            ResultSet rsBuscarIdSesionYAutorizacion = psBuscarIdSesionYAutorizacion.executeQuery();
-            
-            if(rsBuscarIdSesionYAutorizacion.next()){
-                autorizacion.setId(rsBuscarIdSesionYAutorizacion.getInt("id_autorizacion"));
-                sesion.setAutorizacion(autorizacion);
-                sesion.setIdSesion(rsBuscarIdSesionYAutorizacion.getInt("id_sesion_paciente"));
-                pacienteResult.setSesion(sesion);
-            }
-            
-            return pacienteResult;
-            
-        } catch (Exception e) {
-        }
-        return pacienteResult;
-    }
+    
     
     public int obtenerIdObraSocia(Paciente pacienteParametro){
         String sqlObtenerIdObraSocial = "SELECT id_obra_social FROM obras_sociales WHERE nombre = ?;";
@@ -344,23 +362,7 @@ public class PacienteDAOImplementacion implements IPacienteDAO {
         return 0;
     }
     
-     public int obtenerIdPlanObraSocial(Paciente pacienteParametro){
-        String sqlObtenerIdObraSocial = "SELECT id_plan_obra_social FROM planes_obras_sociales WHERE nombre = ?;";
-        
-        try {
-            
-            //BUSCAR ID DE PLAN OBRA SOCIAL  
-            PreparedStatement psBuscarIdPlanObraSocial = conexion.conexion().prepareStatement(sqlObtenerIdObraSocial);
-            psBuscarIdPlanObraSocial.setString(1, pacienteParametro.getObraSocialPaciente().getPlan().getNombre());
-            ResultSet rsBuscarIdPlanObraSocial= psBuscarIdPlanObraSocial.executeQuery();
-            if(rsBuscarIdPlanObraSocial.next()){
-                return rsBuscarIdPlanObraSocial.getInt("id_plan_obra_social");
-            } 
-            
-        } catch (Exception e) {
-        }
-        return 0;
-    }
+     
      
      
     public int obtenerIdAfiliadoObraSocial(Paciente pacienteParametro){
@@ -382,40 +384,10 @@ public class PacienteDAOImplementacion implements IPacienteDAO {
     }
     
     
-    public int obtenerIdFrecuenciaSesion(Paciente pacienteParametro){
-        String sqlObtenerIdAFrecuencia = "SELECT id_frecuencia_sesion FROM frecuencias_sesiones WHERE frecuencia LIKE ?;";
-        try {
-            
-            //BUSCAR ID DE AFILIADO OBRA SOCIAL  
-            PreparedStatement psBuscarIdFrecuencia = conexion.conexion().prepareStatement(sqlObtenerIdAFrecuencia);
-            psBuscarIdFrecuencia.setString(1, pacienteParametro.getPlanTratamiento().getFrecuenciaSesion());
-            ResultSet rsBuscarIdFrecuencia= psBuscarIdFrecuencia.executeQuery();
-            if(rsBuscarIdFrecuencia.next()){
-                return rsBuscarIdFrecuencia.getInt("id_frecuencia_sesion");
-            } 
-            
-        } catch (Exception e) {
-        }
-        return 0;
-    }
     
     
-    public int obtenerIdTipoSesion(Paciente pacienteParametro){
-        String sqlObtenerIdATipoSesion = "SELECT id_tipo_sesion FROM tipos_sesiones WHERE nombre=?;";
-        try {
-            
-            //BUSCAR ID DE AFILIADO OBRA SOCIAL  
-            PreparedStatement psBuscarIdTipoSesion = conexion.conexion().prepareStatement(sqlObtenerIdATipoSesion);
-            psBuscarIdTipoSesion.setString(1, pacienteParametro.getPlanTratamiento().getTipoSEsion().getNombre());
-            ResultSet rsBuscarIdTipoSesion= psBuscarIdTipoSesion.executeQuery();
-            if(rsBuscarIdTipoSesion.next()){
-                return rsBuscarIdTipoSesion.getInt("id_tipo_sesion");
-            } 
-            
-        } catch (Exception e) {
-        }
-        return 0;
-    }
+    
+   
     
     public int obtenerIdSesion(Paciente pacienteParametro){
         String sqlObtenerIdSesion = "SELECT sp.id_sesion_paciente  \n" +
@@ -423,6 +395,8 @@ public class PacienteDAOImplementacion implements IPacienteDAO {
                                          "WHERE sp.numero_sesion  = ? \n" +
                                          "AND sp.fecha = ? \n" +
                                          "AND sp.id_paciente = ?;";
+        
+         
         try {
             
             //BUSCAR ID DE AFILIADO OBRA SOCIAL  
@@ -442,27 +416,7 @@ public class PacienteDAOImplementacion implements IPacienteDAO {
         return 0;
     }
     
-    public int obtenerIdNombre(Paciente pacienteParametro){
-       
-        String sqlSNombre = "SELECT id_nombre FROM nombres WHERE nombre=? AND apellido=?;";
-        try {
-            
-            PreparedStatement pSNombre = conexion.conexion().prepareStatement(sqlSNombre);
-            pSNombre.setString(1, pacienteParametro.getNombre());
-            pSNombre.setString(2, pacienteParametro.getApellido());
-            ResultSet rsSNombre = pSNombre.executeQuery();
-            if(rsSNombre.next()){
-                return rsSNombre.getInt("id_nombre");
-            }
-            
-           pSNombre.close();
-           rsSNombre.close();
-            
-            
-        } catch (Exception e) {
-        }
-        return 0;
-    }
+    
     
     public int obtenerIdTelefono(Paciente pacienteParametro){
        

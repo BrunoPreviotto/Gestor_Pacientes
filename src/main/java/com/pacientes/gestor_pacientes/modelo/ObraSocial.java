@@ -5,6 +5,7 @@
 package com.pacientes.gestor_pacientes.modelo;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -19,15 +20,45 @@ public class ObraSocial {
     private Email email;
     private List<String> planes;
     private String plan;
+    private String listaPlanesToString = ""; 
+
+    
 
     public ObraSocial() {
     }
+
+    public ObraSocial(String nombre, Telefono telefono, Web web, Email email) {
+        this.nombre = nombre;
+        this.telefono = telefono;
+        this.web = web;
+        this.email = email;
+    }
+    
+    
+
+    public ObraSocial(String nombre, Telefono telefono, Web web, Email email, List<String> planes) {
+        this.nombre = nombre;
+        this.telefono = telefono;
+        this.web = web;
+        this.email = email;
+        this.planes = planes;
+    }
+    
+    
 
     public ObraSocial(String nombre) {
         this.nombre = nombre;
     }
     
-    
+    public ObraSocial(int id, String nombre, Telefono telefono, Web web, boolean es_obra_social, Email email, List<String> planes) {
+        this.id = id;
+        this.nombre = nombre;
+        this.telefono = telefono;
+        this.web = web;
+        this.es_obra_social = es_obra_social;
+        this.email = email;
+        this.planes = planes;
+    }
 
     public ObraSocial(String nombre, Telefono telefono, Web web, boolean es_obra_social, Email email) {
         this.nombre = nombre;
@@ -103,7 +134,20 @@ public class ObraSocial {
         this.planes = planes;
     }
 
-    
+    public String getListaPlanesToString() {
+        return listaPlanesToString;
+    }
+
+    public ObraSocial setListaPlanesToString() {
+        if (Objects.nonNull(planes)) {
+            for (String plan : planes) {
+                if(Objects.nonNull(plan)){
+                    listaPlanesToString += plan + "; ";
+                }
+            }
+        }
+        return this;
+    }
     
     
     

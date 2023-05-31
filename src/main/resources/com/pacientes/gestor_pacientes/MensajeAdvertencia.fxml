@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.*?>
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="204.0" prefWidth="520.0" style="-fx-border-color: C02A00;" styleClass="root" stylesheets="@styles/mensajeError.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pacientes.gestor_pacientes.controlador.MensajeAdvertenciaController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="500.0" style="-fx-border-color: C02A00;" styleClass="root" stylesheets="@styles/mensajeError.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pacientes.gestor_pacientes.controlador.MensajeAdvertenciaController">
    <children>
-      <Label alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="486.0" layoutY="14.0" onMouseClicked="#salir" prefHeight="20.0" prefWidth="20.0" styleClass="botonEntrar" stylesheets="@styles/iniciarSesion.css" text="x" textFill="WHITE">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <font>
-            <Font name="DejaVuMathTeXGyre-Regular" size="13.0" />
-         </font>
-      </Label>
-      <Label fx:id="etiquetaMensaje" alignment="CENTER" layoutX="50.0" layoutY="121.0" prefHeight="44.0" prefWidth="420.0">
+      <Label fx:id="etiquetaMensaje" alignment="CENTER" layoutX="50.0" layoutY="121.0" prefHeight="44.0" prefWidth="400.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
          <font>
             <Font size="16.0" />
          </font></Label>
-      <ImageView fx:id="imgMensaje" fitHeight="53.0" fitWidth="73.0" layoutX="224.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgMensaje" fitHeight="100.0" fitWidth="100.0" layoutX="224.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="10.0" />
+      <Button layoutX="438.0" layoutY="13.0" maxHeight="55.0" maxWidth="75.0" mnemonicParsing="false" onMouseClicked="#salir" prefHeight="55.0" prefWidth="75.0" stylesheets="@styles/mensajeError.css" text="X" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="12.0">
+         <styleClass>
+            <String fx:value="botonBuscar" />
+            <String fx:value="botonBuscarChico" />
+         </styleClass>
+         <graphic>
+            <Label stylesheets="@styles/menuinicio.css" text="X" />
+         </graphic>
+      </Button>
    </children>
 </AnchorPane>

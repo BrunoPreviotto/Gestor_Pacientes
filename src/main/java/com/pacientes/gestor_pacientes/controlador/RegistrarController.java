@@ -6,7 +6,11 @@ package com.pacientes.gestor_pacientes.controlador;
 
 
 import com.pacientes.gestor_pacientes.implementacionDAO.UsuarioDAOImplementacion;
+import com.pacientes.gestor_pacientes.modelo.Email;
+import com.pacientes.gestor_pacientes.modelo.Usuario;
 import com.pacientes.gestor_pacientes.servicios.InicializarObjeto;
+import com.pacientes.gestor_pacientes.servicios.ServicioRegistrar;
+import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 import com.pacientes.gestor_pacientes.validacion.Validar;
 import static com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas.*;
 import java.net.URL;
@@ -19,6 +23,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import java.io.IOException;
+import java.util.Arrays;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
@@ -65,6 +70,7 @@ public class RegistrarController extends ClasePadreController implements Initial
     
     private Validar validar = new Validar();
     private UsuarioDAOImplementacion usuarioDao = new UsuarioDAOImplementacion();
+    private ServicioRegistrar servicioRegistrar = new ServicioRegistrar();
     
 
     /**
@@ -72,7 +78,14 @@ public class RegistrarController extends ClasePadreController implements Initial
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        VariablesEstaticas.cajasRegistrar = 
+                Arrays.asList(
+                        cajaNombre, 
+                        cajaApellido,
+                        cajaUusario,
+                        cajaContraseña,
+                        cajaRepetirContraseña,
+                        cajaEmail);
     }    
 
     /**
@@ -89,87 +102,48 @@ public class RegistrarController extends ClasePadreController implements Initial
      */
     @FXML
     private void registrar(MouseEvent event) throws IOException {
-       
-        validarRegistro();
-        
-        if (etiquetaErrorEmail.visibleProperty().get() && etiquetaErrorNombre.visibleProperty().get() && etiquetaErrorApellido.visibleProperty().get() && etiquetaErrorcontraseña.visibleProperty().get() && etiquetaErrorRepetirContraseña.visibleProperty().get()) {
-            usuarioDao.insertar(InicializarObjeto.inicializarUsuario(0, cajaNombre.getText().trim(), cajaApellido.getText().trim(), cajaUusario.getText().trim(), cajaContraseña.getText().trim(), cajaEmail.getText().trim(), true, true), 1);
-            ((Node) (event.getSource())).getScene().getWindow().hide();
-            Scene scene = new Scene(loadFXML("MenuInicio"));
-            Stage newStage = new Stage();
-            scene.setFill(Color.TRANSPARENT);
-            newStage.setScene(scene);
-            newStage.initStyle(StageStyle.TRANSPARENT);
-            newStage.show();
-        } else {
-            etiquetaError.setText(CHEQUEAR_DATOS);
+
+        if (!cajaNombre.getText().isBlank()
+                || !cajaApellido.getText().isBlank()
+                || !cajaUusario.getText().isBlank()
+                || !cajaContraseña.getText().isBlank()
+                || !cajaRepetirContraseña.getText().isBlank()) {
+            
+            if(cajaEmail.getText().isBlank()){
+                cajaEmail.setText("Sin email");
+            }
+            
+            if (cajaContraseña.getText().equals(cajaRepetirContraseña.getText())) {
+                Usuario usuarioCrear = new Usuario(
+                        cajaNombre.getText().trim(), 
+                        cajaApellido.getText().trim(), 
+                        cajaUusario.getText().trim(), 
+                        cajaContraseña.getText().trim(), 
+                        new Email(cajaEmail.getText().trim()), 
+                        true, 
+                        true);
+                
+                usuarioDao.insertar(usuarioCrear, 1);
+                
+                
+                ((Node) (event.getSource())).getScene().getWindow().hide();
+                Scene scene = new Scene(loadFXML("MenuInicio"));
+                Stage newStage = new Stage();
+                scene.setFill(Color.TRANSPARENT);
+                newStage.setScene(scene);
+                newStage.initStyle(StageStyle.TRANSPARENT);
+                newStage.show();
+            }else{
+                mensaje("Las contraseñas no coinciden",  this, VariablesEstaticas.imgenAdvertencia);
+            }
+
+        }else{
+            mensaje("Hay campos vacios",  this, VariablesEstaticas.imgenAdvertencia);
+            servicioRegistrar.pintarCajaVaciaImportante(VariablesEstaticas.cajasRegistrar);
         }
-       
+
+
     }
-    
-    /**
-     * Valida las entradas. Si no son validas imprime error
-     */
-    public void validarRegistro(){
-        if(!validar.validarCincuenta(cajaNombre.getText())){
-           etiquetaErrorNombre.setText(EXEDIDO_CARACTERES);
-           
-       }
-       
-       if(!validar.validarCincuenta(cajaApellido.getText())){
-           etiquetaErrorApellido.setText(EXEDIDO_CARACTERES);
-           
-       }
-       
-        if(!validar.validarCien(cajaUusario.getText())){
-           etiquetaErrorusuario.setText(EXEDIDO_CARACTERES);
-          
-       }
-       if(!validar.validarCien(cajaContraseña.getText())){
-           etiquetaErrorcontraseña.setText(EXEDIDO_CARACTERES);
-          
-       }
-       
-       if(!validar.validarCien(cajaRepetirContraseña.getText())){
-           etiquetaErrorRepetirContraseña.setText(EXEDIDO_CARACTERES);
-       }
-       
-       if(!cajaContraseña.getText().equals(cajaRepetirContraseña.getText())){
-           etiquetaErrorRepetirContraseña.setText(CONTRASEÑA_NO_COINCIDEN);
-          
-       }
-       
-       if(!validar.validarLongitudEmail(cajaEmail.getText())){
-           etiquetaErrorRepetirContraseña.setText(EXEDIDO_CARACTERES);
-       }
-       
-       if(!validar.validarEmail(cajaEmail.getText())){
-           etiquetaErrorRepetirContraseña.setText(EMAIL_NO_VALIDO);
-       }
-    }
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-   
-    
-
-   
-    
-   
-
-    
-
-    
-    
     
     
 }

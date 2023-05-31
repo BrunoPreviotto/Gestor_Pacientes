@@ -16,7 +16,8 @@ public class TablaSesiones {
     private String fechaSesion;
     private String trabajoSesion;
     private String observacionSesion;
-    private String motivoTrabajoEmergente;
+    private String honorariosPorSesion;
+    private String estadoFacturacion;
    
     private String numeroAutorizacion;
     private String observacionAutorizacion;
@@ -25,12 +26,13 @@ public class TablaSesiones {
     
     private String nombreCodigo;
 
-    public TablaSesiones(String numeroSesion, String fechaSesion, String trabajoSesion, String observacionSesion, String motivoTrabajoEmergente, String numeroAutorizacion, String observacionAutorizacion, String asociacion, String copago, String nombreCodigo) {
+    public TablaSesiones(String numeroSesion, String fechaSesion, String trabajoSesion, String observacionSesion, String honorariosPorSesion, String estadoFacturacion, String numeroAutorizacion, String observacionAutorizacion, String asociacion, String copago, String nombreCodigo) {
         this.numeroSesion = numeroSesion;
         this.fechaSesion = fechaSesion;
         this.trabajoSesion = trabajoSesion;
         this.observacionSesion = observacionSesion;
-        this.motivoTrabajoEmergente = motivoTrabajoEmergente;
+        this.honorariosPorSesion = honorariosPorSesion;
+        this.estadoFacturacion = estadoFacturacion;
         this.numeroAutorizacion = numeroAutorizacion;
         this.observacionAutorizacion = observacionAutorizacion;
         this.asociacion = asociacion;
@@ -73,14 +75,22 @@ public class TablaSesiones {
         this.observacionSesion = observacionSesion;
     }
 
-    public String getMotivoTrabajoEmergente() {
-        return motivoTrabajoEmergente;
+    public String getHonorariosPorSesion() {
+        return honorariosPorSesion;
     }
 
-    public void setMotivoTrabajoEmergente(String motivoTrabajoEmergente) {
-        this.motivoTrabajoEmergente = motivoTrabajoEmergente;
+    public void setHonorariosPorSesion(String motivoTrabajoEmergente) {
+        this.honorariosPorSesion = motivoTrabajoEmergente;
     }
 
+    public String getEstadoFacturacion() {
+        return estadoFacturacion;
+    }
+
+    public void setEstadoFacturacion(String estadoFacturacion) {
+        this.estadoFacturacion = estadoFacturacion;
+    }
+    
     public String getNumeroAutorizacion() {
         return numeroAutorizacion;
     }

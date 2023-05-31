@@ -16,6 +16,14 @@ public class TipoSesion {
     public TipoSesion() {
     }
 
+    public TipoSesion(int id, String nombre, String decripcion) {
+        this.id = id;
+        this.nombre = nombre;
+        this.decripcion = decripcion;
+    }
+    
+    
+
     public TipoSesion(String nombre, String decripcion) {
         this.nombre = nombre;
         this.decripcion = decripcion;
@@ -35,6 +43,14 @@ public class TipoSesion {
 
     public void setDecripcion(String decripcion) {
         this.decripcion = decripcion;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
     
     

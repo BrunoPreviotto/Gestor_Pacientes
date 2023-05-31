@@ -14,9 +14,9 @@ import java.util.List;
  */
 public interface CRUD<T> {
    
-    public List<T> obtenerLista(T objeto);
-    public T obtener(T objeto);
+    public List<T> obtenerLista() throws SQLException;
+    public T obtener(T objeto)throws SQLException;
     public void actualizar(T objeto, int numeroFucion) throws SQLException;
     public void eliminar(T objeto, int numeroFuncion)throws SQLException;
-    public void insertar(T objeto, int numeroFucion)throws SQLException;
+    public void insertar(T objeto, int numeroFucion)throws Exception;
 }

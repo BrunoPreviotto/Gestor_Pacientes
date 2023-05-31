@@ -18,12 +18,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 }
 .titled-pane > .title 
 {
--fx-background-color: #C02A00, #FF6638;
+-fx-background-color: rgba(255, 179, 156);
 -fx-background-insets: 0, 1, 2;
--fx-background-radius: 5 5 5 5, 5 5 5 5, 5 5 5 5;
+-fx-background-radius: 1 1 1 1;
  /*-fx-pref-width: 100000000;*/
  -fx-pref-height: 20;
--fx-effect: innershadow( one-pass-box , #C02A00 , 10 , 0 , 0 , 3 );
+-fx-effect: innershadow( one-pass-box , rgba(224, 111, 78) , 10 , 0 , 0 , 3 );
 }
 
 .titled-pane:focused > .title 

@@ -2,6 +2,7 @@ package com.pacientes.gestor_pacientes;
 
 
 import com.pacientes.gestor_pacientes.implementacionDAO.UsuarioDAOImplementacion;
+import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -25,10 +26,10 @@ import java.util.List;
  */
 public class App extends Application {
     
-    List<String> esUsuario = new ArrayList();
+    
     UsuarioDAOImplementacion usuarioImp = new UsuarioDAOImplementacion();
     
-    private static Scene scene;
+    private static Scene scenePrincipal;
     
     @Override
     public void init(){
@@ -38,27 +39,27 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException, SQLException {
         
-        esUsuario = usuarioImp.existeUsuarioReciente();
+       
         
-        if(esUsuario.get(1).equals("1")){
-            scene = new Scene(loadFXML("MenuInicio"));
+        if(usuarioImp.existeUsuarioReciente() == 1){
+            scenePrincipal = new Scene(loadFXML("MenuInicio"));
             
         }else{
-            scene = new Scene(loadFXML("IniciarSesion"));
+            scenePrincipal = new Scene(loadFXML("IniciarSesion"));
             
         }
         
         
         
-        scene.setFill(Color.TRANSPARENT);
-        stage.setScene(scene);
+        scenePrincipal.setFill(Color.TRANSPARENT);
+        stage.setScene(scenePrincipal);
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.isResizable();
         stage.show();
         
-       
+        VariablesEstaticas.scenePrincipalVar = scenePrincipal;
         
-        System.out.println("ola");
+       
             
          
             

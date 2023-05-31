@@ -16,7 +16,7 @@ import java.sql.SQLException;
  */
 public class EliminarPaciente extends PacienteDAOImplementacion {
     
-    public void eliminarPaciente(Paciente pacienteParametro){
+    public void eliminarPaciente(Paciente pacienteParametro) throws SQLException{
         try {
             String sqlEliminar = "UPDATE pacientes SET es_paciente = false WHERE dni=?";
             PreparedStatement pSeliminar = conexion.conexion().prepareStatement(sqlEliminar);
@@ -33,7 +33,7 @@ public class EliminarPaciente extends PacienteDAOImplementacion {
         
         String sqlEliminarDiagnostico = "DELETE FROM diagnosticos WHERE id_paciente = ?;";
         PreparedStatement psEliminarDiagnostico = conexion.conexion().prepareStatement(sqlEliminarDiagnostico);
-        psEliminarDiagnostico.setInt(1, obtenerIdPaciente(pacienteParametro).getId());
+        psEliminarDiagnostico.setInt(1, obtenerIdPaciente(pacienteParametro));
         psEliminarDiagnostico.executeUpdate();
         
         
@@ -45,7 +45,7 @@ public class EliminarPaciente extends PacienteDAOImplementacion {
         
         String sqlEliminarObraSocialPaciente = "DELETE FROM afiliados_obras_sociales  WHERE id_paciente = ?;";
         PreparedStatement psEliminarObraSocialPaciente = conexion.conexion().prepareStatement(sqlEliminarObraSocialPaciente);
-        psEliminarObraSocialPaciente.setInt(1, obtenerIdPaciente(pacienteParametro).getId());
+        psEliminarObraSocialPaciente.setInt(1, obtenerIdPaciente(pacienteParametro));
         psEliminarObraSocialPaciente.executeUpdate();
         
         
@@ -56,7 +56,7 @@ public class EliminarPaciente extends PacienteDAOImplementacion {
         
         String sqlEliminarPlanTratamiento = "DELETE FROM planes_tratamientos  WHERE id_paciente = ?;";
         PreparedStatement psEliminarPlanTratamiento = conexion.conexion().prepareStatement(sqlEliminarPlanTratamiento);
-        psEliminarPlanTratamiento.setInt(1, obtenerIdPaciente(pacienteParametro).getId());
+        psEliminarPlanTratamiento.setInt(1, obtenerIdPaciente(pacienteParametro));
         psEliminarPlanTratamiento.executeUpdate();
         
         

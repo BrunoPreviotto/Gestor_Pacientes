@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pacientes.gestor_pacientes.controlador.AgendaController">
+   <children>
+      <Button layoutX="1096.0" layoutY="12.0" minHeight="10.0" minWidth="10.0" mnemonicParsing="false" onMouseClicked="#salir" prefHeight="10.0" prefWidth="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <stylesheets>
+            <URL value="@styles/calendario.css" />
+            <URL value="@styles/menuinicio.css" />
+         </stylesheets>
+         <styleClass>
+            <String fx:value="botonBuscar" />
+            <String fx:value="botonBuscarChico" />
+         </styleClass>
+         <font>
+            <Font name="Khmer OS System" size="22.0" />
+         </font>
+         <graphic>
+            <Label styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="x">
+               <font>
+                  <Font name="Ubuntu Bold" size="20.0" />
+               </font>
+            </Label>
+         </graphic>
+      </Button>
+      <TextArea fx:id="cajaAreaVerAccionAgenda" accessibleHelp="controlImportante" layoutX="200.0" layoutY="100.0" onKeyPressed="#volverCajaALaNormalidad" prefHeight="300.0" prefWidth="500.0" styleClass="cajas" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" />
+      <HBox layoutX="428.0" layoutY="364.0" prefHeight="22.0" prefWidth="122.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="50.0">
+         <children>
+            <Button fx:id="botonCrearAccionAgenda" mnemonicParsing="false" onMouseClicked="#crearAccionAgenda" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@img/agregar_%23path58.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+               <styleClass>
+                  <String fx:value="botonBuscar" />
+                  <String fx:value="botonBuscarChico" />
+               </styleClass>
+            </Button>
+            <Button fx:id="botonActualizarAccionAgenda" disable="true" mnemonicParsing="false" onMouseClicked="#actualizarAccionAgenda" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@img/actualizar.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+               <styleClass>
+                  <String fx:value="botonBuscar" />
+                  <String fx:value="botonBuscarChico" />
+               </styleClass>
+            </Button>
+            <Button fx:id="botonEliminarAccionAgenda" disable="true" mnemonicParsing="false" onMouseClicked="#eliminarAccionAgenda" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@img/menos.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+               <styleClass>
+                  <String fx:value="botonBuscar" />
+                  <String fx:value="botonBuscarChico" />
+               </styleClass>
+            </Button>
+            <Button fx:id="botonRetornarAccionAgenda" disable="true" mnemonicParsing="false" onMouseClicked="#retornarAccionAgenda" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@img/retornar.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+               <styleClass>
+                  <String fx:value="botonBuscar" />
+                  <String fx:value="botonBuscarChico" />
+               </styleClass>
+            </Button>
+         </children>
+      </HBox>
+      <CheckBox fx:id="checkRecordar" layoutX="50.0" layoutY="364.0" mnemonicParsing="false" stylesheets="@styles/calendario.css" text="Recordar" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="50.0" />
+   </children>
+</AnchorPane>

@@ -14,7 +14,7 @@ public class Usuario {
     private String apellido;
     private String usuario;
     private String contraseña;
-    private String mail;
+    private Email email;
     private boolean es_usuario;
     private boolean es_ultima_sesion_iniciada;
     
@@ -23,14 +23,28 @@ public class Usuario {
         
     }
 
+    public Usuario(String nombre, String apellido, String usuario, String contraseña, Email email, boolean es_usuario, boolean es_ultima_sesion_iniciada) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.usuario = usuario;
+        this.contraseña = contraseña;
+        this.email = email;
+        this.es_usuario = es_usuario;
+        this.es_ultima_sesion_iniciada = es_ultima_sesion_iniciada;
+    }
+
+    
+    
+    
+
     //CONSTRUCTOR 2
-    public Usuario(int id, String nombre, String apellido, String usuario, String contraseña, String mail, boolean es_usuario, boolean id_es_ultima_sesion_iniciada) {
+    public Usuario(int id, String nombre, String apellido, String usuario, String contraseña, Email email, boolean es_usuario, boolean id_es_ultima_sesion_iniciada) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.usuario = usuario;
         this.contraseña = contraseña;
-        this.mail = mail;
+        this.email = email;
         this.es_usuario = es_usuario;
         this.es_ultima_sesion_iniciada = id_es_ultima_sesion_iniciada;
     }
@@ -43,13 +57,16 @@ public class Usuario {
     public Usuario(String usuario) {
         this.usuario = usuario;
     }
-    
-    
-    
-    
-    
-    
 
+    public Email getEmail() {
+        return email;
+    }
+
+    public void setEmail(Email email) {
+        this.email = email;
+    }
+    
+    
     public String getUsuario() {
         return usuario;
     }
@@ -100,13 +117,7 @@ public class Usuario {
         this.contraseña = contraseña;
     }
 
-    public String getMail() {
-        return mail;
-    }
-
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
+   
 
     public boolean isEs_usuario() {
         return es_usuario;
@@ -119,12 +130,12 @@ public class Usuario {
     
     
 
-    public Usuario(int id, String nombre, String apellido, String contraseña, String mail, boolean es_usuario) {
+    public Usuario(int id, String nombre, String apellido, String contraseña, Email mail, boolean es_usuario) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.contraseña = contraseña;
-        this.mail = mail;
+        this.email = email;
         this.es_usuario = es_usuario;
     }
     

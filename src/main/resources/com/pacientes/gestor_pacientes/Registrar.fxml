@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import java.net.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.*?>
@@ -13,22 +14,26 @@
         <URL value="@/com/pacientes/gestor_pacientes/styles/registrar.css" />
     </stylesheets>
    <children>
-      <Label alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="1003.0" layoutY="14.0" onMouseClicked="#salir" prefHeight="20.0" prefWidth="20.0" styleClass="botonEntrar" stylesheets="@styles/iniciarSesion.css" text="x" textFill="WHITE" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+      <ImageView fitHeight="297.0" fitWidth="307.0" layoutX="-112.0" layoutY="359.0" pickOnBounds="true" preserveRatio="true" rotate="5.0" AnchorPane.bottomAnchor="-5.0" AnchorPane.leftAnchor="-135.0">
+         <image>
+            <Image url="@img/registrar.png" />
+         </image>
+      </ImageView>
+      <Label alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="1003.0" layoutY="14.0" onMouseClicked="#salir" prefHeight="20.0" prefWidth="20.0" stylesheets="@styles/menuinicio.css" text="x" textFill="WHITE" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
          <font>
             <Font name="DejaVuMathTeXGyre-Regular" size="13.0" />
          </font>
+         <styleClass>
+            <String fx:value="botonBuscar" />
+            <String fx:value="botonBuscarChico" />
+         </styleClass>
       </Label>
-      <ImageView fitHeight="297.0" fitWidth="307.0" layoutX="-112.0" layoutY="359.0" pickOnBounds="true" preserveRatio="true" rotate="11.3">
-         <image>
-            <Image url="@img/registrar.png" />
-         </image>
-      </ImageView>
       <VBox layoutX="174.0" layoutY="20.0" prefHeight="400.0" prefWidth="400.0" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="100.0">
          <children>
-            <Label text="Nombre">
+            <Label styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Nombre">
                <font>
                   <Font name="Abyssinica SIL" size="16.0" />
                </font>
@@ -36,9 +41,9 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="cajaNombre" alignment="CENTER" promptText="Ingresar Nombre" styleClass="cajas" stylesheets="@styles/registrar.css" />
+            <TextField fx:id="cajaNombre" accessibleHelp="controlImportante" alignment="CENTER" onKeyPressed="#volverCajaALaNormalidad" onKeyTyped="#soloString" promptText="Ingresar Nombre" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
             <Label fx:id="etiquetaErrorNombre" prefHeight="16.0" prefWidth="153.0" textFill="RED" />
-            <Label text="Apellido">
+            <Label styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Apellido">
                <font>
                   <Font name="Abyssinica SIL" size="16.0" />
                </font>
@@ -46,9 +51,9 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="cajaApellido" alignment="CENTER" promptText="Ingresar Apellido" styleClass="cajas" stylesheets="@styles/registrar.css" />
+            <TextField fx:id="cajaApellido" accessibleHelp="controlImportante" alignment="CENTER" onKeyPressed="#volverCajaALaNormalidad" onKeyTyped="#soloString" promptText="Ingresar Apellido" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
             <Label fx:id="etiquetaErrorApellido" prefHeight="16.0" prefWidth="145.0" textFill="RED" />
-            <Label text="Usuario">
+            <Label styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Usuario">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
@@ -56,9 +61,9 @@
                   <Font name="Abyssinica SIL" size="16.0" />
                </font>
             </Label>
-            <TextField fx:id="cajaUusario" alignment="CENTER" promptText="Ingresar Usuario" styleClass="cajas" stylesheets="@styles/registrar.css" />
+            <TextField fx:id="cajaUusario" accessibleHelp="controlImportante" alignment="CENTER" onKeyPressed="#volverCajaALaNormalidad" promptText="Ingresar Usuario" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
             <Label fx:id="etiquetaErrorusuario" prefHeight="16.0" prefWidth="145.0" textFill="RED" />
-            <Label text="Contraseña">
+            <Label styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Contraseña">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
@@ -66,13 +71,13 @@
                   <Font name="Abyssinica SIL" size="16.0" />
                </font>
             </Label>
-            <PasswordField fx:id="cajaContraseña" alignment="CENTER" prefHeight="26.0" prefWidth="199.0" promptText="Ingresar Contraseña" styleClass="cajas" stylesheets="@styles/menuinicio.css">
+            <PasswordField fx:id="cajaContraseña" accessibleHelp="controlImportante" alignment="CENTER" onKeyPressed="#volverCajaALaNormalidad" prefHeight="26.0" prefWidth="199.0" promptText="Ingresar Contraseña" styleClass="cajas" stylesheets="@styles/menuinicio.css">
                <font>
                   <Font name="Abyssinica SIL" size="14.0" />
                </font>
             </PasswordField>
             <Label fx:id="etiquetaErrorcontraseña" prefHeight="16.0" prefWidth="145.0" textFill="RED" />
-            <Label text="Repetir contraseña">
+            <Label styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Repetir contraseña">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
@@ -80,13 +85,13 @@
                   <Font name="Abyssinica SIL" size="16.0" />
                </font>
             </Label>
-            <PasswordField fx:id="cajaRepetirContraseña" alignment="CENTER" prefHeight="26.0" prefWidth="199.0" promptText="Repetir Contraseña" styleClass="cajas" stylesheets="@styles/menuinicio.css">
+            <PasswordField fx:id="cajaRepetirContraseña" accessibleHelp="controlImportante" alignment="CENTER" onKeyPressed="#volverCajaALaNormalidad" prefHeight="26.0" prefWidth="199.0" promptText="Repetir Contraseña" styleClass="cajas" stylesheets="@styles/menuinicio.css">
                <font>
                   <Font name="Abyssinica SIL" size="14.0" />
                </font>
             </PasswordField>
             <Label fx:id="etiquetaErrorRepetirContraseña" prefHeight="16.0" prefWidth="145.0" textFill="RED" />
-            <Label text="Email">
+            <Label styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Email">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
@@ -94,7 +99,7 @@
                   <Font name="Abyssinica SIL" size="16.0" />
                </font>
             </Label>
-            <TextField fx:id="cajaEmail" alignment="CENTER" onKeyTyped="#soloString" promptText="Ingresar Email" styleClass="cajas" stylesheets="@styles/registrar.css" />
+            <TextField fx:id="cajaEmail" alignment="CENTER" onKeyTyped="#soloString" promptText="Ingresar Email" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
             <Label fx:id="etiquetaErrorEmail" prefHeight="16.0" prefWidth="145.0" textFill="RED" />
             <Label fx:id="etiquetaError" prefHeight="28.0" prefWidth="277.0" text="ERROR DATOS INCOMPATIBLES" textFill="#e40f0f" visible="false">
                <padding>
@@ -106,7 +111,10 @@
             </Label>
          </children>
       </VBox>
-      <Button layoutX="686.0" layoutY="550.0" mnemonicParsing="false" onMouseClicked="#registrar" styleClass="botonEntrar" stylesheets="@styles/registrar.css" text="Registrarse" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+      <Button layoutX="686.0" layoutY="550.0" mnemonicParsing="false" onMouseClicked="#registrar" styleClass="botonRegistrarse" stylesheets="@styles/registrar.css" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
+         <graphic>
+            <Label text="Registrar" />
+         </graphic></Button>
       <Label fx:id="reg" layoutX="32.0" layoutY="300.0" text="REGISTRADISIMO" visible="false" />
    </children>
 </AnchorPane>

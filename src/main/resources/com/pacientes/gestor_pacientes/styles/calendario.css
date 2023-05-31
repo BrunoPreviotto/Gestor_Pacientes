@@ -7,21 +7,112 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     Author     : previotto
 */
 
-.calendario Line {
-  -fx-stroke   : #C02A00;
+.calendario{
+    
+     -fx-effect: dropshadow( gaussian , rgba(192, 192, 192, 0.8) , 10, 0, -5, -5);
+     
 }
 
-.calendarioPar {
-   -fx-background-color: #FF6638;
-   -fx-pref-width: 130;
+.calendario Line {
+     
+  -fx-stroke   :  rgba(255, 255, 255);
+  
+}
+
+.check-box{
+    -fx-text-fill: #C02A00;
+    -fx-font-family: "Sawasdee";
+     -fx-font-weight: bold;
+}
+
+.check-box .box{
+    -fx-background-color: rgba(255, 179, 156, 0.5);
+    -fx-border-color: rgba(224, 111, 78, 0.5);
+    
+}
+
+.check-box:selected .mark{
+    -fx-background-color: #C02A00;
+}
+
+.calendarioCeldaPar {
+   -fx-background-color: rgba(255, 179, 156, 0.5);
+   -fx-border-color: rgba(224, 111, 78, 0.5);
+   -fx-pref-width: 100;
    -fx-pref-height: 150;
-   -fx-border-color: #C02A00;
+    
+}
+
+.calendarioCeldaDistintomes {
+   -fx-background-color: rgba(158, 158, 158, 0.5);
+   -fx-pref-width: 100;
+   -fx-pref-height: 150;
+   -fx-border-color: rgba(109, 109, 109, 0.5);
    
     
 }
 
-calendarioImpar {
-    -fx-background-color: #FF6638;
-    
+.botonVerCambiar{
+    -fx-background-color: rgba(255, 179, 156);
+    -fx-border-color: rgba(224, 111, 78, 0.5);
+    -fx-text-fill: rgba(224, 111, 78);
+}
+
+
+
+.mesCalendario{
+    -fx-font-weight: bold; 
+    -fx-font-style: italic;
+    -fx-font-size: 30px;
+}
+
+.anoCalendario{
+    -fx-font-weight: bold; 
+    -fx-font-style: italic;
+    -fx-font-size: 50px;
+}
+
+
+.cal{
+    -fx-background-color: #FFB39C;
+}
+
+.calendarioCeldaImpar {
+    -fx-pref-width: 130;
+   -fx-pref-height: 150;
+    -fx-background-color: rgba(255, 236, 231, 0.5);
+    -fx-border-color: rgba(224, 139, 116, 0.5);
     
 }
+
+.etiquetaDia{
+    
+}
+
+
+
+.AnchorHojas{
+    
+   -fx-background-color: rgb(252, 237, 233);
+   -fx-border-color: rgba(192, 192, 192, 0.8);
+   -fx-border-width: 1 1 0 1;
+   -fx-effect: dropshadow( gaussian , rgba(192, 192, 192, 0.8) , 10, 0, -5, -5);
+}
+
+.AnchorBorde{
+    -fx-border-radius: 0 50 0 0;
+   -fx-effect: dropshadow( gaussian , rgba(192, 192, 192, 0.8) , 10, 0, -5, -5);
+   -fx-border-color: gray;
+   -fx-border-width: 1 1 1 1;
+   
+}
+
+.paneCalendarios{
+    -fx-border-radius: 50 50 50 50;
+}
+
+.labelDiaDeOtroMes{
+     -fx-text-fill: gray;
+}
+
+

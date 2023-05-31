@@ -4,6 +4,7 @@
  */
 package com.pacientes.gestor_pacientes.DAO;
 import com.pacientes.gestor_pacientes.modelo.ObraSocial;
+import java.sql.SQLException;
 import java.util.List;
 /**
  *
@@ -11,5 +12,5 @@ import java.util.List;
  */
 public interface IObraSocialDAO extends CRUD<ObraSocial>{
     public List<String> obtenerListaNombresObrasSociales();
-    public void agregarPlan(ObraSocial obraSocial);
+    public void agregarPlan(ObraSocial obraSocial) throws SQLException;
 }

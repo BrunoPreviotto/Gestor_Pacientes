@@ -20,13 +20,14 @@ public class Paciente {
     private Integer dni;
     private List<Telefono> listaTelefonos;
     private boolean es_paciente;
-    private double honorarios;
+    private Honorario honorarios;
     private DiagnosticoPaciente diagnostico;
     private PlanTratamiento planTratamiento;
     private SesionPaciente sesion;
     private List<SesionPaciente> sesiones;
     private ObraSocialPaciente obraSocialPaciente;
     private Telefono telefono;
+    
 
     public Paciente() {
     }
@@ -49,10 +50,21 @@ public class Paciente {
         this.dni = dni;
         this.telefono = telefono;
     }
+
+    public Paciente(String nombre, String apellido, int edad, Integer dni, Honorario honorarios, Telefono telefono) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.edad = edad;
+        this.dni = dni;
+        this.honorarios = honorarios;
+        this.telefono = telefono;
+    }
+    
+    
     
     
 
-    public Paciente(int id, String nombre, int edad, Integer dni, List<Telefono> telefono, boolean es_paciente, double honorarios, DiagnosticoPaciente diagnostico, PlanTratamiento planTratamiento, List<SesionPaciente> sesiones, ObraSocialPaciente obraSocialPaciente) {
+    public Paciente(int id, String nombre, int edad, Integer dni, List<Telefono> telefono, boolean es_paciente, Honorario honorarios, DiagnosticoPaciente diagnostico, PlanTratamiento planTratamiento, List<SesionPaciente> sesiones, ObraSocialPaciente obraSocialPaciente) {
         this.id = id;
         this.nombre = nombre;
         this.edad = edad;
@@ -162,11 +174,11 @@ public class Paciente {
         return this;
     }
 
-    public double getHonorarios() {
+    public Honorario getHonorarios() {
         return honorarios;
     }
 
-    public Paciente setHonorarios(double honorarios) {
+    public Paciente setHonorarios(Honorario honorarios) {
         this.honorarios = honorarios;
         return this;
     }

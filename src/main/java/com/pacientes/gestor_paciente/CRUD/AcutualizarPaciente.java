@@ -44,120 +44,22 @@ public class AcutualizarPaciente extends PacienteDAOImplementacion {
         String sqlPlanesTratamientos = "UPDATE planes_tratamientos SET estrategia=?, id_frecuencia_sesion=?, id_tipo_sesion=? WHERE id_paciente=?";
         
         
-        
-        //UPDATE frecuencia
-        String chequearFrecuencia = "SELECT frecuencia FROM frecuencias_sesiones WHERE frecuencia LIKE ?";
-        
-        String insertFrecuencia = "INSERT INTO frecuencias_sesiones (id_frecuencia_sesion, frecuencia) VALUES (?, ?)";
-        
-        String buscarIdFrecuencia = "SELECT id_frecuencia_sesion FROM frecuencias_sesiones WHERE frecuencia = ?";
-        
-        //UPDATE tipo sesion
-        String chequearTipoSesion = "SELECT nombre FROM tipos_sesiones WHERE nombre LIKE ?";
-        
-        String insertSesion = "INSERT INTO tipos_sesiones (id_tipo_sesion, id_tipo_sesion, id_tipo_sesion) VALUES (?, ?, ?)";
-        
-        String buscarIdSesion = "SELECT id_tipo_sesion FROM tipos_sesiones WHERE nombre = ?";
-        
-        
         try {
             
-            
-            
-            /*PreparedStatement pSidFrecuencia = conexion.conexion().prepareStatement(sqlIdFrecuencia);
-            pSidFrecuencia.setString(1, pacienteParametro.getPlanTratamiento().getFrecuenciaSesion());
-            ResultSet rsSidIdFrecuencia = pSidFrecuencia.executeQuery();*/
-
-           
-           
-            
-            
-
-            //chequear si la frecuencia existe
-            PreparedStatement psCheckFrecuencia = conexion.conexion().prepareStatement(chequearFrecuencia);
-            psCheckFrecuencia.setString(1, pacienteParametro.getPlanTratamiento().getFrecuenciaSesion());
-            ResultSet rsCheckFrecuencia = psCheckFrecuencia.executeQuery();
-            
-            //Actualiza frecuencia
-            PreparedStatement psIdFrecuencia;
-            ResultSet rsIdFrecuencia;
-            
-            if(rsCheckFrecuencia.next()){
-                psIdFrecuencia = conexion.conexion().prepareStatement(buscarIdFrecuencia);
-                psIdFrecuencia.setString(1, pacienteParametro.getPlanTratamiento().getFrecuenciaSesion());
-                rsIdFrecuencia = psIdFrecuencia.executeQuery();
-            }else{
-                PreparedStatement psInsertarFrecuencia = conexion.conexion().prepareStatement(insertFrecuencia);
-                psInsertarFrecuencia.setInt(1, 0);
-                psInsertarFrecuencia.setString(2, pacienteParametro.getPlanTratamiento().getFrecuenciaSesion());
-                psInsertarFrecuencia.executeQuery();
-                psIdFrecuencia = conexion.conexion().prepareStatement(buscarIdFrecuencia);
-                psIdFrecuencia.setString(1, pacienteParametro.getPlanTratamiento().getFrecuenciaSesion());
-                rsIdFrecuencia = psIdFrecuencia.executeQuery();
-                psInsertarFrecuencia.close();
-            }
-            
-            
-            //chequear si la tipo sesion existe
-            PreparedStatement psCheckTipoSesion = conexion.conexion().prepareStatement(chequearTipoSesion);
-            psCheckTipoSesion.setString(1, pacienteParametro.getPlanTratamiento().getTipoSEsion().getNombre());
-            ResultSet rsCheckTipoSesion = psCheckTipoSesion.executeQuery();
-            
-            //Actualiza tipo sesion
-            PreparedStatement psIdTipoSesion;
-            ResultSet rsIdTipoSesion;
-            
-            if(rsCheckTipoSesion.next()){
-                psIdTipoSesion = conexion.conexion().prepareStatement(buscarIdSesion);
-                psIdTipoSesion.setString(1, pacienteParametro.getPlanTratamiento().getTipoSEsion().getNombre());
-                rsIdTipoSesion = psIdTipoSesion.executeQuery();
-            }else{
-                PreparedStatement psInsertarSesion = conexion.conexion().prepareStatement(insertSesion);
-                psInsertarSesion.setInt(1, 0);
-                psInsertarSesion.setString(2, pacienteParametro.getPlanTratamiento().getTipoSEsion().getNombre());
-                psInsertarSesion.executeQuery();
-                psIdTipoSesion = conexion.conexion().prepareStatement(buscarIdSesion);
-                psIdTipoSesion.setString(1, pacienteParametro.getPlanTratamiento().getTipoSEsion().getNombre());
-                rsIdTipoSesion = psIdTipoSesion.executeQuery();
-                psInsertarSesion.close();
-            }
-            
+            int idFrecuencia = obtenerIdFrecuenciaSesion(pacienteParametro.getPlanTratamiento());
+            int idTipoSesion = obtenerIdTipoSesion(pacienteParametro.getPlanTratamiento().getTipoSEsion());
             
             //Actualiza Planes
             PreparedStatement psPlanes = conexion.conexion().prepareStatement(sqlPlanesTratamientos);
             psPlanes.setString(1, pacienteParametro.getPlanTratamiento().getEstrategia());
-            if(rsIdFrecuencia.next()){
-                psPlanes.setInt(2, rsIdFrecuencia.getInt("id_frecuencia_sesion"));
-            }
-            
-            if(rsIdTipoSesion.next()){
-                psPlanes.setInt(3, rsIdTipoSesion.getInt("id_tipo_sesion"));
-            }
-            
+            psPlanes.setInt(2, idFrecuencia);
+            psPlanes.setInt(3, idTipoSesion);
             psPlanes.setInt(4, pacienteParametro.getId());
             psPlanes.executeQuery();
             
-            
-             
-            psIdTipoSesion.close();
-            
-            psCheckTipoSesion.close();
-
-            psCheckFrecuencia.close();
-            
-            psIdTipoSesion.close();
-
             psPlanes.close();
             
-            psIdFrecuencia.close();
-            
-            rsIdFrecuencia.close();
-            
-            rsCheckFrecuencia.close();
-
-            rsCheckTipoSesion.close();
-            
-            rsIdTipoSesion.close();
+           
            
         } catch (SQLException e) {
             
@@ -167,29 +69,38 @@ public class AcutualizarPaciente extends PacienteDAOImplementacion {
     
     public void actualizarPaciente(Paciente pacienteParametro) throws SQLException{
         
-        String sqlPaciente = "UPDATE pacientes SET edad=?, dni=?, id_nombre=?, id_telefono_paciente=? WHERE id_paciente=?";
+        String sqlPaciente = "UPDATE pacientes SET edad=?, dni=?, id_nombre=?, id_telefono_paciente=?, es_paciente = true, id_honorario=? WHERE id_paciente=?;";
         
-        String sqlIdNombre = "SELECT id_nombre FROM nombres WHERE nombre = ? AND apellido = ?";
+        //String sqlIdNombre = "SELECT id_nombre FROM nombres WHERE nombre = ? AND apellido = ?";
         
         String sqlNombre = "INSERT INTO nombres(id_nombre, nombre, apellido) VALUES(?,?,?)";
         
-        String sqlIdTelefono = "SELECT id_telefono_paciente FROM telefonos_pacientes WHERE numero_telefono = ?";
+        //String sqlIdTelefono = "SELECT id_telefono_paciente FROM telefonos_pacientes WHERE numero_telefono = ?";
 
         String sqlTelefono = "INSERT INTO telefonos_pacientes(id_telefono_paciente, numero_telefono) VALUES(?,?)";
         
+        String sqlHonorario = "INSERT INTO honorarios (id_honorario, honorario) VALUES (?, ?);";
+        
         try {
 
-            PreparedStatement pst;
-            //selecciona id nombre si el nombre existe
+            int idNombre = obtenerIdNombre(pacienteParametro.getNombre(), pacienteParametro.getApellido());
+            int idTelefono = obtenerIdTelefono(pacienteParametro);
+            int idHonorario = obtenerIdHonorario(pacienteParametro);
             
-            PreparedStatement pSIdNombre = conexion.conexion().prepareStatement(sqlIdNombre);
-            pSIdNombre.setString(1, pacienteParametro.getNombre());
-            pSIdNombre.setString(2, pacienteParametro.getApellido());
-            ResultSet rsIdNombre = pSIdNombre.executeQuery();
+            PreparedStatement pst;
+            
            
+            //si no existe honorario lo crea
+            if(idHonorario == 0){
+                pst = conexion.conexion().prepareStatement(sqlHonorario);
+                pst.setInt(1, 0);
+                pst.setDouble(2, pacienteParametro.getHonorarios().getHonorario());
+                pst.executeUpdate();
+            }
+            
 
-            //si no existe lo crea
-            if (!rsIdNombre.next()) {
+            //si no existe nombre lo crea
+            if (idNombre == 0) {
                 pst = conexion.conexion().prepareStatement(sqlNombre);
                 pst.setInt(1, 0);
                 pst.setString(2, pacienteParametro.getNombre());
@@ -197,30 +108,16 @@ public class AcutualizarPaciente extends PacienteDAOImplementacion {
                 pst.executeUpdate();
             }
 
-            //
             
-            pSIdNombre = conexion.conexion().prepareStatement(sqlIdNombre);
-            pSIdNombre.setString(1, pacienteParametro.getNombre());
-            pSIdNombre.setString(2, pacienteParametro.getApellido());
-            rsIdNombre = pSIdNombre.executeQuery();
-
-           
-            PreparedStatement pSIdTelefono = conexion.conexion().prepareStatement(sqlIdTelefono);
-            pSIdTelefono.setString(1, pacienteParametro.getTelefono().getTelefono());
-            ResultSet rsIdTelefono = pSIdTelefono.executeQuery();
-            
-            if (!rsIdTelefono.next()) {
+            if (idTelefono == 0) {
                 pst = conexion.conexion().prepareStatement(sqlTelefono);
                 pst.setInt(1, 0);
                 pst.setString(2, pacienteParametro.getTelefono().getTelefono());
                 pst.executeUpdate();
             }
             
+           
             
-            
-            pSIdTelefono = conexion.conexion().prepareStatement(sqlIdTelefono);
-            pSIdTelefono.setString(1, pacienteParametro.getTelefono().getTelefono());
-            rsIdTelefono = pSIdTelefono.executeQuery();
             
             
              //crea el paciente
@@ -228,22 +125,11 @@ public class AcutualizarPaciente extends PacienteDAOImplementacion {
             
             pst.setInt(1, pacienteParametro.getEdad());
             pst.setInt(2, pacienteParametro.getDni());
+            pst.setInt(3, obtenerIdNombre(pacienteParametro.getNombre(), pacienteParametro.getApellido()));
+            pst.setInt(4, obtenerIdTelefono(pacienteParametro));
+            pst.setInt(5, obtenerIdHonorario(pacienteParametro));
+            pst.setInt(6, pacienteParametro.getId());
             
-            
-            
-            if (rsIdNombre.next()) {
-                pst.setInt(3, rsIdNombre.getInt("id_nombre"));
-                
-            }
-            
-            
-            
-            if(rsIdTelefono.next()){
-                pst.setInt(4, rsIdTelefono.getInt("id_telefono_paciente"));
-               
-            }
-            
-            pst.setInt(5, pacienteParametro.getId());
 
             
             pst.executeUpdate();
@@ -251,10 +137,10 @@ public class AcutualizarPaciente extends PacienteDAOImplementacion {
 
             
 
-            pSIdNombre.close();
+            /*pSIdNombre.close();
             pSIdTelefono.close();
             rsIdTelefono.close();
-            rsIdTelefono.close();
+            rsIdTelefono.close();*/
             pst.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -263,18 +149,14 @@ public class AcutualizarPaciente extends PacienteDAOImplementacion {
     
     public void actualizarSesion(Paciente pacienteParametro) throws SQLException{
         
-        String buscarCodigo = "SELECT id_codigo_facturacion \n" +
-                              "FROM codigos_facturaciones \n" +
-                              "WHERE nombre = ? ";
         
-   
-        
-        String sqlActualizarSesion = "UPDATE sesiones_pacientes SET \n" +
-                                     "fecha = ?, \n" +
-                                     "trabajo_sesion = ?,\n" +
-                                     "observacion = ?,\n" +
-                                     "motivo_trabajo_emergente = ?\n" +
-                                     "WHERE id_sesion_paciente = ?;";
+        String sqlActualizarSesion = "UPDATE sesiones_pacientes SET\n" +
+                                    "fecha = ?, \n" +
+                                    "trabajo_sesion = ?, \n" +
+                                    "observacion = ?, \n" +
+                                    "honorarios_por_sesion = ?,\n" +
+                                    "id_estado_facturacion = ?\n" +
+                                    "WHERE id_sesion_paciente = ? AND id_paciente=?;";
         
         String sqlActualizarAutorizacion = "UPDATE autorizaciones SET \n" +
                                            "numero_autorizacion = ?,\n" +
@@ -284,20 +166,28 @@ public class AcutualizarPaciente extends PacienteDAOImplementacion {
                                            "id_codigo_facturacion = ?\n" +
                                            "WHERE id_autorizacion = ?";
         
+        String sqlEstadoFacturacion = "INSERT INTO estados_facturacion (id_estado_facturacion, estado) VALUES (0, ?);";
+        
         try {
+            int idEstadoFacturacion = obtenerIdEstadoFacturacion(pacienteParametro);
+            int idCodigoFacturacion = obtenerIdCodigoFacturacion(pacienteParametro.getSesion().getAutorizacion().getCodigoFacturacion());
             
-            //OBTENER ID CODIGO FACTURACION
-            PreparedStatement psBuscarIdCodigo= conexion.conexion().prepareStatement(buscarCodigo);
-            psBuscarIdCodigo.setString(1, pacienteParametro.getSesion().getAutorizacion().getCodigoFacturacion().getNombre());
-            ResultSet rsIdCodigo = psBuscarIdCodigo.executeQuery();
+             if(idEstadoFacturacion == 0){
+                PreparedStatement pstEstado = conexion.conexion().prepareStatement(sqlEstadoFacturacion);
+                pstEstado.setString(1, pacienteParametro.getSesion().getEstado().getEstado());
+                pstEstado.executeUpdate();
+            }
+            
             
             //ACTUALIZAR SESION
             PreparedStatement psActualizarSesion= conexion.conexion().prepareStatement(sqlActualizarSesion);
             psActualizarSesion.setDate(1, Date.valueOf(pacienteParametro.getSesion().getFecha().toString()));
             psActualizarSesion.setString(2, pacienteParametro.getSesion().getTrabajoSesion());
             psActualizarSesion.setString(3, pacienteParametro.getSesion().getObservacion());
-            psActualizarSesion.setString(4, pacienteParametro.getSesion().getMotivoTrabajoEmergente());
-            psActualizarSesion.setInt(5, pacienteParametro.getSesion().getIdSesion());
+            psActualizarSesion.setDouble(4, pacienteParametro.getSesion().getHonorarioPorSesion());
+            psActualizarSesion.setInt(5, obtenerIdEstadoFacturacion(pacienteParametro));
+            psActualizarSesion.setInt(6, pacienteParametro.getSesion().getIdSesion());
+            psActualizarSesion.setInt(6, pacienteParametro.getId());
             
             psActualizarSesion.executeQuery();
             
@@ -308,9 +198,7 @@ public class AcutualizarPaciente extends PacienteDAOImplementacion {
                 psActualizarAutorizacion.setString(2, pacienteParametro.getSesion().getAutorizacion().getObservacion());
                 psActualizarAutorizacion.setDate(3, Date.valueOf(pacienteParametro.getSesion().getAutorizacion().getAsociacion().toString()));
                 psActualizarAutorizacion.setDouble(4, pacienteParametro.getSesion().getAutorizacion().getCopago());
-                if(rsIdCodigo.next()){
-                    psActualizarAutorizacion.setInt(5, rsIdCodigo.getInt("id_codigo_facturacion"));
-                }
+                psActualizarAutorizacion.setInt(5, idCodigoFacturacion);
                 psActualizarAutorizacion.setInt(6, pacienteParametro.getSesion().getAutorizacion().getId());
                 psActualizarAutorizacion.executeUpdate();
             }
@@ -326,20 +214,36 @@ public class AcutualizarPaciente extends PacienteDAOImplementacion {
         
         String sqlActualizarObraSocialPaciente = "UPDATE afiliados_obras_sociales \n" +
                                                  "SET id_obra_social = ?, id_plan_obra_social = ?, numero_afiliado = ?\n" +
-                                                 "WHERE id_obra_social = ? AND id_plan_obra_social = ? AND id_afiliado_obra_social = ?";
+                                                 "WHERE id_obra_social = ? AND id_plan_obra_social = ? AND id_afiliado_obra_social = ? AND id_paciente = ?";
         
         try {
             
             //ACTUALIZAR OBRA SOCIAL PACIENTE
             PreparedStatement psBuscarIdCodigo= conexion.conexion().prepareStatement(sqlActualizarObraSocialPaciente);
+            
+            
             psBuscarIdCodigo.setInt(1, obtenerIdObraSocia(pacienteParametro));
+            
+            
             psBuscarIdCodigo.setInt(2, obtenerIdPlanObraSocial(pacienteParametro));
+            
+             
             psBuscarIdCodigo.setInt(3, pacienteParametro.getObraSocialPaciente().getAfiliado().getNumero());
             
+            
             psBuscarIdCodigo.setInt(4, pacienteParametro.getObraSocialPaciente().getId());
+            
+            
             psBuscarIdCodigo.setInt(5, pacienteParametro.getObraSocialPaciente().getPlan().getId());
+            
+            
             psBuscarIdCodigo.setInt(6, pacienteParametro.getObraSocialPaciente().getAfiliado().getId());
-            psBuscarIdCodigo.executeUpdate();
+            
+            psBuscarIdCodigo.setInt(7, pacienteParametro.getId());
+            
+            
+            
+//psBuscarIdCodigo.executeUpdate();
         } catch (Exception e) {
         }
     }

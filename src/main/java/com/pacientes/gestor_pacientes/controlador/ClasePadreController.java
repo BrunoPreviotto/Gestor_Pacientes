@@ -184,6 +184,8 @@ public class ClasePadreController {
    }
    
    
+   
+   
    public void validarCajasExedidasCaracteres(Map<TextField, Method> mapValidar) {
         Validar v = new Validar();
         HBox hb;

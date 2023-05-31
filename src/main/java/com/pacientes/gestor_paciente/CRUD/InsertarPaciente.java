@@ -11,6 +11,7 @@ import com.pacientes.gestor_pacientes.modelo.Paciente;
 import com.pacientes.gestor_pacientes.modelo.PlanTratamiento;
 import com.pacientes.gestor_pacientes.modelo.SesionPaciente;
 import com.pacientes.gestor_pacientes.servicios.ConexionMariadb;
+import com.pacientes.gestor_pacientes.utilidades.Exepciones;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -33,25 +34,39 @@ public class InsertarPaciente extends PacienteDAOImplementacion {
 
         String sqlTelefono = "INSERT INTO telefonos_pacientes(id_telefono_paciente, numero_telefono) VALUES(?,?)";
         
+        String sqlHonorario = "INSERT INTO honorarios (id_honorario, honorario) VALUES (?, ?);";
+        
         String sqlAsociarPacienteConUsuario = "INSERT INTO usuarios_pacientes (id_usuario, id_paciente) VALUES (?, ?)";
         
         try {
 
             PreparedStatement pst;
             
-
-            //si no existe lo crea
-            if (obtenerIdNombre(pacienteParametro) == 0) {
-                pst = conexion.conexion().prepareStatement(sqlNombre);
-                pst.setInt(1, 0);
-                pst.setString(2, pacienteParametro.getNombre());
-                pst.setString(3, pacienteParametro.getApellido());
-                pst.executeUpdate();
-            }
-
+            int idPaciente = obtenerIdPaciente(pacienteParametro);
+            int idNombre = obtenerIdNombre(pacienteParametro.getNombre(), pacienteParametro.getApellido());
+            int idTelefono = obtenerIdTelefono(pacienteParametro);
+            int idHonorario = obtenerIdHonorario(pacienteParametro);
             
-           //si no existe lo crea
-           if (obtenerIdTelefono(pacienteParametro) == 0) {
+            //si no existe honorario lo crea
+            if (idHonorario == 0) {
+                    pst = conexion.conexion().prepareStatement(sqlHonorario);
+                    pst.setInt(1, 0);
+                    pst.setDouble(2, pacienteParametro.getHonorarios().getHonorario());
+                    pst.executeUpdate();
+            }
+            
+            
+            //si no existe nombre lo crea
+            if (idNombre == 0) {
+                    pst = conexion.conexion().prepareStatement(sqlNombre);
+                    pst.setInt(1, 0);
+                    pst.setString(2, pacienteParametro.getNombre());
+                    pst.setString(3, pacienteParametro.getApellido());
+                    pst.executeUpdate();
+            }
+            
+            //si no existe telefono lo crea
+           if (idTelefono == 0) {
                 pst = conexion.conexion().prepareStatement(sqlTelefono);
                 pst.setInt(1, 0);
                 pst.setString(2, pacienteParametro.getTelefono().getTelefono());
@@ -60,21 +75,26 @@ public class InsertarPaciente extends PacienteDAOImplementacion {
             
             
             //crea el paciente
-            pst = conexion.conexion().prepareStatement(sqlPaciente);
-            pst.setInt(1, 0);
-            pst.setInt(2, pacienteParametro.getEdad());
-            pst.setInt(3, pacienteParametro.getDni());
-            pst.setBoolean(4, true);
-            pst.setInt(5, obtenerIdNombre(pacienteParametro));
-            pst.setInt(6, 1);
-            pst.setInt(7, obtenerIdTelefono(pacienteParametro));
-            pst.executeUpdate();
+            if(idPaciente == 0){
+                pst = conexion.conexion().prepareStatement(sqlPaciente);
+                pst.setInt(1, 0);
+                pst.setInt(2, pacienteParametro.getEdad());
+                pst.setInt(3, pacienteParametro.getDni());
+                pst.setBoolean(4, true);
+                pst.setInt(5, obtenerIdNombre(pacienteParametro.getNombre(), pacienteParametro.getApellido()));
+                pst.setInt(6, obtenerIdHonorario(pacienteParametro));
+                pst.setInt(7, obtenerIdTelefono(pacienteParametro));
+                pst.executeUpdate();
+            }else{
+                actualizar(pacienteParametro, 3);
+            }
+            
            
             //ASOCIAR PACIENTE CON USUARIO
             //crea el paciente
             pst = conexion.conexion().prepareStatement(sqlAsociarPacienteConUsuario);
             pst.setInt(1, obtenerIdUsuario());
-            pst.setInt(2, obtenerIdPaciente(pacienteParametro).getId());
+            pst.setInt(2, obtenerIdPaciente(pacienteParametro));
             pst.executeUpdate();
             
             
@@ -86,151 +106,74 @@ public class InsertarPaciente extends PacienteDAOImplementacion {
     }
     
     
-    public void insertarObraSocialPaciente(Paciente pacienteParametro) throws SQLException{
+    public void insertarObraSocialPaciente(Paciente pacienteParametro) throws Exception {
         String sqlAfiliado = "INSERT INTO afiliados_obras_sociales (id_afiliado_obra_social, numero_afiliado, id_paciente, id_obra_social, id_plan_obra_social) VALUES (?,?,?,?,?)";
-        String sqlIdObraSocial = "SELECT id_obra_social FROM obras_sociales WHERE nombre=?";
+        //String sqlIdObraSocial = "SELECT id_obra_social FROM obras_sociales WHERE nombre=?";
         //String sqlExistePlan = "SELECT nombre FROM planes_obras_sociales WHERE nombre=?";
         //String sqlPlanes = "INSERT INTO planes_obras_sociales (id_plan_obra_social, nombre, descripcion) VALUES (?,?,?)";
-        String sqlIdPlan = "SELECT id_plan_obra_social FROM planes_obras_sociales WHERE nombre=?";
-        String sqlExistePlanObraSocial = "SELECT id_obra_social, id_plan_obra_social FROM obras_sociales_planes_obras_sociales WHERE id_obra_social=? AND id_plan_obra_social=?";
+
+        //String sqlExistePlanObraSocial = "SELECT id_obra_social, id_plan_obra_social FROM obras_sociales_planes_obras_sociales WHERE id_obra_social=? AND id_plan_obra_social=?";
         String sqlObrasSocialesPlanesObrasSociales = "INSERT INTO obras_sociales_planes_obras_sociales (id_obra_social, id_plan_obra_social) VALUES (?,?)";
 
-        try {
+        
+        int idPlan = obtenerIdPlanObraSocial(pacienteParametro);
+        int idObraSocia = obtenerIdObraSocia(pacienteParametro);
             
-            //BUSCAR ID OBRA SOCIAL
-            PreparedStatement pSidObraSocial = conexion.conexion().prepareStatement(sqlIdObraSocial);
-            pSidObraSocial.setString(1, pacienteParametro.getObraSocialPaciente().getNombre());
-            ResultSet rsObraSocial = pSidObraSocial.executeQuery();
-            
-           
+        //CREAR NUEVO AFILIADO
+        PreparedStatement psAfiliado = conexion.conexion().prepareStatement(sqlAfiliado);
+        psAfiliado.setInt(1, 0);
+        psAfiliado.setInt(2, pacienteParametro.getObraSocialPaciente().getAfiliado().getNumero());
+        psAfiliado.setInt(3, pacienteParametro.getId());
+        psAfiliado.setInt(4, idObraSocia);
 
-            /*PreparedStatement pSexistePlan = conexion.conexion().prepareStatement(sqlExistePlan);
-            pSexistePlan.setString(1, paciente.getObraSocialPaciente().getPlan().getNombre());
-            ResultSet rsExistePlan = pSexistePlan.executeQuery();
+        psAfiliado.setInt(5, idPlan);
 
-            if (!rsExistePlan.next()) {
-                PreparedStatement psPlanes = conexion.conexion().prepareStatement(sqlPlanes);
-                psPlanes.setInt(1, 0);
-                psPlanes.setString(2, paciente.getObraSocialPaciente().getPlan().getNombre());
-                psPlanes.setString(3, paciente.getObraSocialPaciente().getPlan().getDescripcion());
-                psPlanes.executeUpdate();
-            }*/
-            
-            //BUSCA ID PLAN
-            PreparedStatement pSIdPlan = conexion.conexion().prepareStatement(sqlIdPlan);
-            System.out.println(pacienteParametro.getObraSocialPaciente().getPlan().getNombre());
-            pSIdPlan.setString(1, pacienteParametro.getObraSocialPaciente().getPlan().getNombre());
-            ResultSet rsIdPlan = pSIdPlan.executeQuery();
-
-            PreparedStatement pSExisteObraSocialPlan = conexion.conexion().prepareStatement(sqlExistePlanObraSocial);
-            if(rsObraSocial.next()){
-               pSExisteObraSocialPlan.setInt(1, rsObraSocial.getInt("id_obra_social")); 
-            }
-            
-            if(rsIdPlan.next()){
-                pSExisteObraSocialPlan.setInt(2, rsIdPlan.getInt("id_plan_obra_social"));
-            }
-            
-            ResultSet rsExisteObraSocialPlan = pSExisteObraSocialPlan.executeQuery();
-            
-            //BUSCAR ID OBRA SOCIAL
-            pSidObraSocial = conexion.conexion().prepareStatement(sqlIdObraSocial);
-            pSidObraSocial.setString(1, pacienteParametro.getObraSocialPaciente().getNombre());
-            rsObraSocial = pSidObraSocial.executeQuery();
-            
-            
-            
-            //CREA PLAN PARA EL USUARIO
-            if (!rsExisteObraSocialPlan.next()) {
-                PreparedStatement psObraSocialPlan = conexion.conexion().prepareStatement(sqlObrasSocialesPlanesObrasSociales);
-                if(rsObraSocial.next()){
-                    psObraSocialPlan.setInt(1, rsObraSocial.getInt("id_obra_social"));
-                }
-                psObraSocialPlan.setInt(2, rsIdPlan.getInt("id_plan_obra_social"));
-                psObraSocialPlan.executeUpdate();
-            }
-            
-            
-            //BUSCA ID PLAN
-            pSIdPlan = conexion.conexion().prepareStatement(sqlIdPlan);
-            pSIdPlan.setString(1, pacienteParametro.getObraSocialPaciente().getPlan().getNombre());
-            rsIdPlan = pSIdPlan.executeQuery();
-
-            
-            //BUSCAR ID OBRA SOCIAL
-            pSidObraSocial = conexion.conexion().prepareStatement(sqlIdObraSocial);
-            pSidObraSocial.setString(1, pacienteParametro.getObraSocialPaciente().getNombre());
-            rsObraSocial = pSidObraSocial.executeQuery();
-            
-            
-             //CREAR NUEVO AFILIADO
-            PreparedStatement psAfiliado = conexion.conexion().prepareStatement(sqlAfiliado);
-            psAfiliado.setInt(1, 0);
-            psAfiliado.setInt(2, pacienteParametro.getObraSocialPaciente().getAfiliado().getNumero());
-            psAfiliado.setInt(3, pacienteParametro.getId());
-            if (rsObraSocial.next()) {
+        psAfiliado.executeQuery();
                 
-                psAfiliado.setInt(4, rsObraSocial.getInt("id_obra_social"));
-            }
-            if(rsIdPlan.next()){
-                psAfiliado.setInt(5, rsIdPlan.getInt("id_plan_obra_social"));
-            }
-            psAfiliado.executeUpdate();
-
-            pSIdPlan.close();
-            //pSexistePlan.close();
-            pSidObraSocial.close();
-            psAfiliado.close();
-            rsExisteObraSocialPlan.close();
-            //rsExistePlan.close();
-            rsIdPlan.close();
-            rsObraSocial.close();
-
-        } catch (SQLException e) {
-        }
     }
     
     public void insertarSesion(Paciente pacienteParametro) throws SQLException{
         
-        String sqlSesion = "INSERT INTO sesiones_pacientes (id_sesion_paciente, fecha, trabajo_sesion, observacion, motivo_trabajo_emergente, id_paciente, numero_sesion) VALUES(?,?,?,?,?,?,?)";
+        String sqlSesion = "INSERT INTO sesiones_pacientes (id_sesion_paciente, fecha, trabajo_sesion, observacion, honorarios_por_sesion, id_paciente, numero_sesion, id_estado_facturacion) VALUES(?,?,?,?,?,?,?,?)";
         
         String sqlAutorizacion = "INSERT INTO autorizaciones  (id_autorizacion, numero_autorizacion, observacion, asociacion, copago, id_codigo_facturacion) VALUES(?,?,?,?,?,?)";
 
-        String sqlIdSesion = "SELECT id_sesion_paciente FROM sesiones_pacientes WHERE fecha=? AND id_paciente=? AND numero_sesion=?";
-
-        String sqlIdAutorizacion = "SELECT id_autorizacion FROM autorizaciones WHERE numero_autorizacion=? AND asociacion=?";
-        
         String sqlSesionAutorizacion = "INSERT INTO sesiones_pacientes_autorizaciones (id_sesion_paciente, id_autorizacion) VALUES (?, ?)";
         
-        String sqlIdCodFacturacion = "SELECT id_codigo_facturacion FROM codigos_facturaciones WHERE nombre =?";
+        String sqlEstadoFacturacion = "INSERT INTO estados_facturacion (id_estado_facturacion, estado) VALUES (0, ?);";
+        
         try {
-
-            //crea el sesion
+            
+            int idEstadoFacturacion = obtenerIdEstadoFacturacion(pacienteParametro);
+            
+            int idAutorizacion = obtenerIdAutorizacion(pacienteParametro);
+            int idCodigoFacturacion = obtenerIdCodigoFacturacion(pacienteParametro.getSesion().getAutorizacion().getCodigoFacturacion());
+            
+            System.out.println(idCodigoFacturacion);
+            
+            if(idEstadoFacturacion == 0){
+                PreparedStatement pstEstado = conexion.conexion().prepareStatement(sqlEstadoFacturacion);
+                pstEstado.setString(1, pacienteParametro.getSesion().getEstado().getEstado());
+                pstEstado.executeUpdate();
+            }
+            
+            //crea sesion
             PreparedStatement pst = conexion.conexion().prepareStatement(sqlSesion);
             pst.setInt(1, 0);
             pst.setDate(2, Date.valueOf(pacienteParametro.getSesion().getFecha().toString()));
             pst.setString(3, pacienteParametro.getSesion().getTrabajoSesion());
             pst.setString(4, pacienteParametro.getSesion().getObservacion());
-            pst.setString(5, pacienteParametro.getSesion().getMotivoTrabajoEmergente());
+            pst.setDouble(5, pacienteParametro.getSesion().getHonorarioPorSesion());
             pst.setInt(6, pacienteParametro.getId());
             pst.setInt(7, pacienteParametro.getSesion().getNumeroSesion());
-
+            pst.setInt(8, obtenerIdEstadoFacturacion(pacienteParametro));
             pst.executeUpdate();
+            
+            int idSesion = obtenerIdSesion(pacienteParametro);
 
             //crea sesion
-            if (pacienteParametro.getSesion().getAutorizacion().getNumeroAutorizacion()!=0) {
+            if (idAutorizacion == 0) {
                 
-                //OBTENER ID SESION
-                PreparedStatement pSidSesion = conexion.conexion().prepareStatement(sqlIdSesion);
-                pSidSesion.setDate(1, Date.valueOf(pacienteParametro.getSesion().getFecha().toString()));
-                pSidSesion.setInt(2, pacienteParametro.getId());
-                pSidSesion.setInt(3, pacienteParametro.getSesion().getNumeroSesion());
-                ResultSet rsSidIdSesion = pSidSesion.executeQuery();
-                
-                //OBTENER ID CODIGO FACTURACION
-                PreparedStatement pSidCodFacturacion = conexion.conexion().prepareStatement(sqlIdCodFacturacion);
-                pSidCodFacturacion.setString(1, pacienteParametro.getSesion().getAutorizacion().getCodigoFacturacion().getNombre());
-                ResultSet rsSidIdCodFacturacion = pSidCodFacturacion.executeQuery();
                 
                 //INSERTAR AUTORIZACION
                 PreparedStatement pstA = conexion.conexion().prepareStatement(sqlAutorizacion);
@@ -239,53 +182,26 @@ public class InsertarPaciente extends PacienteDAOImplementacion {
                 pstA.setString(3, pacienteParametro.getSesion().getAutorizacion().getObservacion());
                 pstA.setDate(4, Date.valueOf(pacienteParametro.getSesion().getAutorizacion().getAsociacion().toString()));
                 pstA.setDouble(5, pacienteParametro.getSesion().getAutorizacion().getCopago());
-                if (rsSidIdCodFacturacion.next()) {
-                    pstA.setInt(6, rsSidIdCodFacturacion.getInt(1));
-                }
+                pstA.setInt(6, idCodigoFacturacion);
                 pstA.executeUpdate();
 
+                idAutorizacion = obtenerIdAutorizacion(pacienteParametro);
                 
-                //OBTENER ID AUTORIZACION
-                PreparedStatement pSidAutorizacion = conexion.conexion().prepareStatement(sqlIdAutorizacion);
-                
-                pSidAutorizacion.setInt(1, pacienteParametro.getSesion().getAutorizacion().getNumeroAutorizacion());
-                
-                pSidAutorizacion.setDate(2, Date.valueOf(pacienteParametro.getSesion().getAutorizacion().getAsociacion().toString()));
-                ResultSet rsSidIdAutorizacion = pSidAutorizacion.executeQuery();
-
-                
-                //ASOCIAR AUTORIZACION CON SESION
+               //ASOCIAR AUTORIZACION CON SESION
                 PreparedStatement psSesionAutorizacion = conexion.conexion().prepareStatement(sqlSesionAutorizacion);
-                if(rsSidIdSesion.next()){
-                    
-                    psSesionAutorizacion.setInt(1, rsSidIdSesion.getInt("id_sesion_paciente"));
-                }
-                if(rsSidIdAutorizacion.next()){
-                    
-                    psSesionAutorizacion.setInt(2, rsSidIdAutorizacion.getInt("id_autorizacion"));
-                }
+                psSesionAutorizacion.setInt(1, idSesion);
+                psSesionAutorizacion.setInt(2, idAutorizacion);
+                
                 psSesionAutorizacion.executeUpdate();
                 
-                
-                
                 pstA.close();
-                pSidCodFacturacion.close();
-                pSidSesion.close();
-                rsSidIdCodFacturacion.close();
-                rsSidIdSesion.close();
+                
+                
             }else{
-                //OBTENER ID SESION
-                PreparedStatement pSidSesion = conexion.conexion().prepareStatement(sqlIdSesion);
-                pSidSesion.setDate(1, Date.valueOf(pacienteParametro.getSesion().getFecha().toString()));
-                pSidSesion.setInt(2, pacienteParametro.getId());
-                pSidSesion.setInt(3, pacienteParametro.getSesion().getNumeroSesion());
-                ResultSet rsSidIdSesion = pSidSesion.executeQuery();
                 
                 //ASOCIAR AUTORIZACION VACIA CON SESION
                 PreparedStatement psSesionAutorizacion = conexion.conexion().prepareStatement(sqlSesionAutorizacion);
-                if(rsSidIdSesion.next()){
-                    psSesionAutorizacion.setInt(1, rsSidIdSesion.getInt("id_sesion_paciente"));
-                }
+                psSesionAutorizacion.setInt(1, idSesion);
                 psSesionAutorizacion.setInt(2, 5);
                 psSesionAutorizacion.executeUpdate();
             }
@@ -320,15 +236,12 @@ public class InsertarPaciente extends PacienteDAOImplementacion {
         
         try {
             
-            int idFrecuencia = obtenerIdFrecuenciaSesion(pacienteParametro);
+            int idFrecuencia = obtenerIdFrecuenciaSesion(pacienteParametro.getPlanTratamiento());
             
             
             
-            int idTipoSesion = obtenerIdTipoSesion(pacienteParametro);
+            int idTipoSesion = obtenerIdTipoSesion(pacienteParametro.getPlanTratamiento().getTipoSEsion());
 
-            
-
-            
             //INSERTAR PLAN PACIENTE
             PreparedStatement pstPt = conexion.conexion().prepareStatement(sqlPlanTratamiento);
             pstPt.setInt(1, 0);
@@ -359,7 +272,7 @@ public class InsertarPaciente extends PacienteDAOImplementacion {
         String sqlFrecuenciaSesion = "INSERT INTO frecuencias_sesiones (id_frecuencia_sesion, frecuencia) VALUES (?,?)";
         
         try {
-            int idFrecuencia = obtenerIdFrecuenciaSesion(pacienteParametro);
+            int idFrecuencia = obtenerIdFrecuenciaSesion(pacienteParametro.getPlanTratamiento());
             
             //INSERTAR FRECUENCIA SI NO EXISTE
             PreparedStatement pstFs = conexion.conexion().prepareStatement(sqlFrecuenciaSesion);
@@ -380,7 +293,7 @@ public class InsertarPaciente extends PacienteDAOImplementacion {
         String sqlTipoSesion = "INSERT INTO tipos_sesiones (id_tipo_sesion, nombre, descripcion) VALUES (?,?,?)";
         
         try {
-            int idTipoSesion = obtenerIdTipoSesion(pacienteParametro);
+            int idTipoSesion = obtenerIdTipoSesion(pacienteParametro.getPlanTratamiento().getTipoSEsion());
 
             //INSERTAR SESION SI NO EXISTE
             PreparedStatement pstTs = conexion.conexion().prepareStatement(sqlTipoSesion);

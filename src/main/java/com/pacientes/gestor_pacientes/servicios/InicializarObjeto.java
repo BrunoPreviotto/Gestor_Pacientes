@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.pacientes.gestor_pacientes.servicios;
+import com.pacientes.gestor_pacientes.modelo.Email;
 import com.pacientes.gestor_pacientes.modelo.Paciente;
 import com.pacientes.gestor_pacientes.modelo.Usuario;
 import com.pacientes.gestor_pacientes.modelo.Usuario;
@@ -27,7 +28,7 @@ public class InicializarObjeto {
     * @param id_es_ultima_sesion_iniciada
     * @return Usuario 
     */
-   public static Usuario inicializarUsuario(int id_usuario, String nombre, String apellido, String usuario, String contraseña, String mail, boolean es_usuario, boolean es_ultima_sesion_iniciada){
+   public static Usuario inicializarUsuario(int id_usuario, String nombre, String apellido, String usuario, String contraseña, Email mail, boolean es_usuario, boolean es_ultima_sesion_iniciada){
        usuarioIniciado = new Usuario(id_usuario, nombre, apellido, usuario, contraseña, mail, es_usuario, es_ultima_sesion_iniciada);
        return usuarioIniciado;
    }

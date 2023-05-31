@@ -12,12 +12,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  *
  * @author previotto
  */
-public class UsuarioDAOImplementacion implements IUsuarioDAO{
+public class UsuarioDAOImplementacion extends PadreDAOImplementacion implements IUsuarioDAO{
     
     private Usuario usuarioGlobal;
     private ConexionMariadb conexion = ConexionMariadb.getInstacia();
@@ -53,9 +54,27 @@ public class UsuarioDAOImplementacion implements IUsuarioDAO{
         }
         return null;
     }
+    
+    public int obtenerIdUsuario() {
+        String sqlIdUsuario = "SELECT u.id_usuario FROM usuarios u WHERE u.es_ultima_sesion_iniciada = 1;";
+
+        try {
+            PreparedStatement pstIdUsuario = conexion.conexion().prepareStatement(sqlIdUsuario);
+            ResultSet rsIdUsuario = pstIdUsuario.executeQuery();
+            if (rsIdUsuario.next()) {
+                return rsIdUsuario.getInt("id_usuario");
+            } else {
+                return 0;
+            }
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+    
+   
         
     @Override
-    public List<Usuario> obtenerLista(Usuario objeto) {
+    public List<Usuario> obtenerLista() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }   
        
@@ -81,23 +100,18 @@ public class UsuarioDAOImplementacion implements IUsuarioDAO{
         String sqlEmail = "INSERT INTO emails(id_email, email) VALUES(?,?)";
         String sqlUsuario = "INSERT INTO usuarios(id_usuario, usuario, contraseña, es_usuario, es_ultima_sesion_iniciada, id_nombre, id_email) VALUES(?, ?, ?, ?, ?, ?, ?)";
         String sqlUpdate = "UPDATE usuarios SET es_ultima_sesion_iniciada = false WHERE es_ultima_sesion_iniciada = true";
+        String sqlCrearAgenda = "INSERT INTO agendas (id_agenda, id_usuario) VALUES (0 , ?)";
         try {
             PreparedStatement pst = conexion.conexion().prepareStatement(sqlUpdate);
             pst.executeUpdate();
             
+            int idNombre = obtenerIdNombre(usuario.getNombre(), usuario.getApellido());
             
-            String sqlSNombre = "SELECT id_nombre FROM nombres WHERE nombre=? AND apellido=?;";
-            PreparedStatement pSNombre = conexion.conexion().prepareStatement(sqlSNombre);
-            pSNombre.setString(1, usuario.getNombre());
-            pSNombre.setString(2, usuario.getApellido());
-            ResultSet rsSNombre = pSNombre.executeQuery();
+            int idEmail =  obtenerIdEmail(usuario.getEmail());
             
-            String sqlSEmail = "SELECT id_email FROM emails WHERE email=?;";
-            PreparedStatement pSEmail = conexion.conexion().prepareStatement(sqlSEmail);
-            pSEmail.setString(1, usuario.getMail());
-            ResultSet rsSEmail = pSEmail.executeQuery();
+           
             
-            if(!rsSNombre.next()){
+            if(idNombre == 0){
                 pst = conexion.conexion().prepareStatement(sqlNombre);
                 pst.setInt(1, 0);
                 pst.setString(2,usuario.getNombre());
@@ -105,48 +119,34 @@ public class UsuarioDAOImplementacion implements IUsuarioDAO{
                 pst.executeUpdate();
             }
             
-            if(!rsSEmail.next()){
+            if(idEmail == 0 && Objects.nonNull(usuario.getEmail())){
                 pst = conexion.conexion().prepareStatement(sqlEmail);
                 pst.setInt(1, 0);
-                pst.setString(2, usuario.getMail());
+                pst.setString(2, usuario.getEmail().getEmail());
                 pst.executeUpdate();
             }
             
-            sqlSNombre = "SELECT id_nombre FROM nombres WHERE nombre=? AND apellido=?;";
-            pSNombre = conexion.conexion().prepareStatement(sqlSNombre);
-            pSNombre.setString(1, usuario.getNombre());
-            pSNombre.setString(2, usuario.getApellido());
-            rsSNombre = pSNombre.executeQuery();
-            
-            sqlSEmail = "SELECT id_email FROM emails WHERE email=?;";
-            pSEmail = conexion.conexion().prepareStatement(sqlSEmail);
-            pSEmail.setString(1, usuario.getMail());
-            rsSEmail = pSEmail.executeQuery();
-                
+           idNombre = obtenerIdNombre(usuario.getNombre(), usuario.getApellido());
+           idEmail =  obtenerIdEmail(usuario.getEmail());  
+           
             pst = conexion.conexion().prepareStatement(sqlUsuario);
             pst.setInt(1, 0);
             pst.setString(2, usuario.getUsuario());
             pst.setString(3, Encriptar.convertirSHA256(usuario.getContraseña()));
             pst.setBoolean(4, usuario.isEs_usuario());
             pst.setBoolean(5, usuario.getId_es_ultima_sesion_iniciada());
-            
-            if(rsSNombre.next()){
-                pst.setInt(6, rsSNombre.getInt(1));
-            }
-            
-            if(rsSEmail.next()){
-                pst.setInt(7, rsSEmail.getInt(1));
-            }
-            
-            
-            
-            
-            
+            pst.setInt(6, idNombre);
+            pst.setInt(7, idEmail);
             pst.executeUpdate();
-            pSEmail.close();
-            pSNombre.close();
-            rsSEmail.close();
-            rsSNombre.close();
+            
+            
+            int idUsuario = obtenerIdUsuario();
+            pst = conexion.conexion().prepareStatement(sqlCrearAgenda);
+            pst.setInt(1, idUsuario);
+            pst.executeUpdate();
+            
+            
+            
             pst.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -154,7 +154,7 @@ public class UsuarioDAOImplementacion implements IUsuarioDAO{
     }
 
     @Override
-    public List<String> existeUsuarioReciente() {
+    public int existeUsuarioReciente() {
          try{
             String sql = "SELECT id_usuario , es_ultima_sesion_iniciada FROM usuarios WHERE es_ultima_sesion_iniciada = true;";
             PreparedStatement pst = conexion.conexion().prepareStatement(sql);
@@ -162,18 +162,17 @@ public class UsuarioDAOImplementacion implements IUsuarioDAO{
             ResultSet rs = pst.executeQuery();
             List<String> esUsuario = new ArrayList();
             if(rs.next()){
-                esUsuario.add(rs.getString(1));
-                esUsuario.add(rs.getString(2));
+                return 1;
+            }else{
+                return 0;
             }
-            rs.close();
-            pst.close();
-           
             
-            return esUsuario;
+            
+            
         }catch(SQLException e){
             e.printStackTrace();
         }
-        return null;
+        return 0;
     }
 
     @Override
@@ -193,6 +192,19 @@ public class UsuarioDAOImplementacion implements IUsuarioDAO{
             e.printStackTrace();
         }
         return null;
+    }
+    
+    public void cerrarSesion()throws SQLException{
+        String sqlCerrarSesion = "UPDATE usuarios SET es_ultima_sesion_iniciada = 0 WHERE es_ultima_sesion_iniciada = 1";
+        PreparedStatement pSNombre = conexion.conexion().prepareStatement(sqlCerrarSesion);
+        pSNombre.executeUpdate();
+    }
+    
+     public void abrirSesion(Usuario usuario)throws SQLException{
+        String sqlAbrirSesion = "UPDATE usuarios SET es_ultima_sesion_iniciada = 1 WHERE usuario=?";
+        PreparedStatement pSAbrir = conexion.conexion().prepareStatement(sqlAbrirSesion);
+        pSAbrir.setString(1, usuario.getUsuario());
+        pSAbrir.executeUpdate();
     }
 
     

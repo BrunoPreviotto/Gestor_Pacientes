@@ -9,6 +9,8 @@ import com.pacientes.gestor_pacientes.modelo.Afiliado;
 import com.pacientes.gestor_pacientes.modelo.AutorizacionesSesionesObraSociales;
 import com.pacientes.gestor_pacientes.modelo.CodigoFacturacion;
 import com.pacientes.gestor_pacientes.modelo.DiagnosticoPaciente;
+import com.pacientes.gestor_pacientes.modelo.EstadoFacturacion;
+import com.pacientes.gestor_pacientes.modelo.Honorario;
 import com.pacientes.gestor_pacientes.modelo.ObraSocialPaciente;
 import com.pacientes.gestor_pacientes.modelo.Paciente;
 import com.pacientes.gestor_pacientes.modelo.PlanObraSocial;
@@ -36,17 +38,25 @@ public class ObtenerPaciente extends PacienteDAOImplementacion {
     
     public Paciente obtenerPaciente(Paciente pacienteParametro) {
         Telefono telefono;
+        Honorario honorario;
         Paciente paciente;
         Paciente pacienteNull = new Paciente();
         try {
-            String sqlDni = "SELECT n.nombre, n.apellido, p.edad, p.dni, t.numero_telefono FROM pacientes AS p JOIN nombres AS n ON p.id_nombre = n.id_nombre JOIN telefonos_pacientes AS t ON p.id_telefono_paciente = t.id_telefono_paciente WHERE dni=? AND es_paciente=true;";
+            String sqlDni = "SELECT n.nombre, n.apellido, p.edad, p.dni, t.numero_telefono, h.honorario  \n" +
+                            "FROM pacientes p \n" +
+                            "JOIN nombres n ON p.id_nombre = n.id_nombre \n" +
+                            "JOIN telefonos_pacientes t ON p.id_telefono_paciente = t.id_telefono_paciente \n" +
+                            "JOIN honorarios h ON p.id_honorario = h.id_honorario \n" +
+                            "WHERE dni=? AND es_paciente=true;";
+            
             PreparedStatement pSDni = conexion.conexion().prepareStatement(sqlDni);
             pSDni.setInt(1, pacienteParametro.getDni());
             ResultSet rsSPaciente = pSDni.executeQuery();
             if (rsSPaciente.next()) {
                 telefono = new Telefono(rsSPaciente.getNString(5));
-                System.out.println(telefono);
-                paciente = new Paciente(rsSPaciente.getString(1), rsSPaciente.getString(2), rsSPaciente.getInt(3), rsSPaciente.getInt(4), telefono);
+                honorario = new Honorario(rsSPaciente.getDouble("honorario"));
+                paciente = new Paciente(rsSPaciente.getString(1), rsSPaciente.getString(2), rsSPaciente.getInt(3), rsSPaciente.getInt(4), honorario, telefono);
+                
                 pSDni.close();
                 rsSPaciente.close();
                 return paciente;
@@ -61,11 +71,12 @@ public class ObtenerPaciente extends PacienteDAOImplementacion {
     
     public Paciente obtenerSesiones(int idPaciente) {
         String sqlListaSesiones = "SELECT sp.numero_sesion, sp.fecha, sp.trabajo_sesion, sp.observacion  AS obsevacionSesion, \n" +
-                                  "sp.motivo_trabajo_emergente, a.numero_autorizacion, a.observacion AS observacionAutorizacion, \n" +
-                                  "a.asociacion, a.copago, cf.nombre  \n" +
+                                  "sp.honorarios_por_sesion , a.numero_autorizacion, a.observacion AS observacionAutorizacion,\n" +
+                                  "a.asociacion, a.copago, cf.nombre, ef.estado \n" +
                                   "FROM autorizaciones a JOIN sesiones_pacientes_autorizaciones spa ON a.id_autorizacion = spa.id_autorizacion\n" +
-                                  "JOIN sesiones_pacientes sp ON spa.id_sesion_paciente = sp.id_sesion_paciente \n" +
-                                  "JOIN codigos_facturaciones cf ON a.id_codigo_facturacion = cf.id_codigo_facturacion \n" +
+                                  "JOIN sesiones_pacientes sp ON spa.id_sesion_paciente = sp.id_sesion_paciente\n" +
+                                  "JOIN codigos_facturaciones cf ON a.id_codigo_facturacion = cf.id_codigo_facturacion\n" +
+                                  "JOIN estados_facturacion ef ON ef.id_estado_facturacion = sp.id_estado_facturacion \n" +
                                   "WHERE id_paciente=?";
         List<SesionPaciente> ts = new ArrayList();
          Paciente paciente = new Paciente();
@@ -80,26 +91,13 @@ public class ObtenerPaciente extends PacienteDAOImplementacion {
                         LocalDate.parse(rsSesiones.getString("fecha")), 
                         rsSesiones.getString("trabajo_sesion"), 
                         rsSesiones.getString("obsevacionSesion"), 
-                        rsSesiones.getString("motivo_trabajo_emergente"), 
+                        Double.parseDouble(rsSesiones.getString("honorarios_por_sesion")), 
                         new AutorizacionesSesionesObraSociales(rsSesiones.getInt("numero_autorizacion"), 
                                 rsSesiones.getString("observacionAutorizacion"), 
                                 LocalDate.parse(rsSesiones.getString("asociacion")), 
-                                rsSesiones.getDouble("copago"), new CodigoFacturacion(rsSesiones.getString("nombre")))));
+                                rsSesiones.getDouble("copago"), new CodigoFacturacion(rsSesiones.getString("nombre"))), 
+                        new EstadoFacturacion(rsSesiones.getString("estado"))));
                 
-                
-                /*if(rsSesiones.getInt("numero_autorizacion") == 0 && rsSesiones.getString("observacionAutorizacion").equals("-") && rsSesiones.getDouble("copago") == 0.0){
-                    ts.add(new SesionPaciente(rsSesiones.getInt("numero_sesion"), 
-                        LocalDate.parse(rsSesiones.getString("fecha")), 
-                        rsSesiones.getString("trabajo_sesion"), 
-                        rsSesiones.getString("obsevacionSesion"), 
-                        rsSesiones.getString("motivo_trabajo_emergente"), 
-                        new AutorizacionesSesionesObraSociales(0, 
-                                "-", 
-                                LocalDate.MIN, 
-                                0.0, new CodigoFacturacion("sin codigo"))));
-                }else{
-                    
-                }*/
                 
             }
             if(!Objects.isNull(ts)){

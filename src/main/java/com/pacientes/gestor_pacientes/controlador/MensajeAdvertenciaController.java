@@ -50,12 +50,16 @@ public class MensajeAdvertenciaController extends ClasePadreController implement
         // TODO
     }    
     
+    
+    
     public void mensajeAdvertencia(String mensaje, Stage stage , Object obj, String imagen){
         Image img = new Image(getClass().getResourceAsStream(imagen));
         try {
             etiquetaMensaje.setText(mensaje);
             
             imgMensaje.setImage(img);
+            
+          
             this.menu = obj;
             this.stage = stage;
         } catch (Exception ex) {
