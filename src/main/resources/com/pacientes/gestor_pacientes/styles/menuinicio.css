@@ -7,9 +7,9 @@
     -fx-background-radius: 5;
     -fx-border-radius: 5;
     -fx-border-color: #C02A00;
-    -fx-min-height: 700px;
+    -fx-min-height: 600px;
 
-    -fx-max-height: 700px;
+    -fx-max-height: 650px;
 }
 
 .menuEleccion{
@@ -27,10 +27,7 @@
     -fx-border-color: #C02A00;
    
     
-    -fx-min-width: 1110px;
-   -fx-min-height: 700px;
-   -fx-max-width: 1110px;
-   -fx-max-height: 700px;
+    
 }
 
 
@@ -173,6 +170,10 @@
     -fx-effect: innershadow( one-pass-box , #C02A00 , 50 , 0 , 0 , 10 );
 }
 
+.text-field{
+    
+}
+
 .cajas{
     -fx-effect: innershadow( one-pass-box , rgba(224, 111, 78, 0.5) , 5 , 0 , 0 , -4);
     -fx-background-color: #FFFFFF;
@@ -181,13 +182,36 @@
     -fx-background-radius: 0 0 1 1;
     -fx-border-width: 0px 0px 1px 0px;
     
+  
+    
     
     
 }
 
+.cajasChicas{
+     -fx-min-width: 400px;
+   -fx-min-height: 25px;
+   -fx-max-width: 400px;
+   -fx-max-height: 25px;
+   -fx-pref-height: 25px;
+   -fx-pref-width: 400px;
+}
+
 .cajasArea{
-    -fx-min-height: 25px;
-    -fx-max-height: 25px;
+     -fx-effect: innershadow( one-pass-box , rgba(224, 111, 78, 0.5) , 5 , 0 , 0 , -4);
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #ffffff #ffffff rgba(224, 111, 78) #ffffff;
+    -fx-border-radius: 0 0 1 1;
+    -fx-background-radius: 0 0 1 1;
+    -fx-border-width: 0px 0px 1px 0px;
+     -fx-min-width: 400px;
+   -fx-min-height: 85px;
+   -fx-max-width: 400px;
+   -fx-max-height: 85px;
+   -fx-pref-height: 85px;
+   -fx-pref-width: 400px;
+    
+    
 }
 
 .cajas .open-button .arrow {
@@ -370,6 +394,17 @@
     
     -fx-font-family: Sawasdee;  
     -fx-font-size: 14px; /* Cambia el tamaño de fuente */
+    
+    -fx-font-weight: bold; /* Cambia el grosor de la fuente (negrita) */
+    
+    
+}
+
+.labelTitulo{
+    -fx-text-fill:  #C02A00;
+    
+     
+    -fx-font-size: 16px; /* Cambia el tamaño de fuente */
     
     -fx-font-weight: bold; /* Cambia el grosor de la fuente (negrita) */
     

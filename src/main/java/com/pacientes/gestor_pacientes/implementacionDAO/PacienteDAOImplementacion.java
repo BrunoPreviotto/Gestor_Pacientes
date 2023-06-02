@@ -40,10 +40,10 @@ public class PacienteDAOImplementacion extends PadreDAOImplementacion implements
         Paciente paciente = new Paciente();
         Paciente pacienteResultado = new Paciente();
        
-        if (esPacienteDeUsuarioActual(pacienteParametro)) {
+        
             
             if (!Objects.isNull(pacienteParametro)) {
-                if (!Objects.isNull(pacienteParametro.getDni())) {
+                if (Objects.nonNull(pacienteParametro.getId())) {
                     pacienteResultado = obtenerPaciente.obtenerPaciente(pacienteParametro);
                     paciente.setNombre(
                             pacienteResultado.
@@ -53,8 +53,7 @@ public class PacienteDAOImplementacion extends PadreDAOImplementacion implements
                             setDni(pacienteResultado.getDni()).
                             setTelefono(pacienteResultado.getTelefono()).
                             setHonorarios(pacienteResultado.getHonorarios());
-                }
-                if (!Objects.isNull(pacienteParametro.getId())) {
+                    
                     pacienteResultado = obtenerPaciente.obtenerSesiones(pacienteParametro.getId());
                     paciente.setSesiones(pacienteResultado.getSesiones());
 
@@ -68,10 +67,12 @@ public class PacienteDAOImplementacion extends PadreDAOImplementacion implements
                     paciente.setObraSocialPaciente(pacienteResultado.getObraSocialPaciente());
                 }
 
+
             }
             return paciente;
-        }
-        return null;
+        /*if (esPacienteDeUsuarioActual(pacienteParametro)) {
+        }*/
+        //return null;
     }
     
     @Override
@@ -311,7 +312,7 @@ public class PacienteDAOImplementacion extends PadreDAOImplementacion implements
     public int obtenerultimaSesion(Paciente pacienteParametro){
         String sqlUltimaSesion = "SELECT MAX(numero_sesion) AS numeroSesion FROM sesiones_pacientes WHERE id_paciente = ?;";
         try {
-            int idPaciente = obtenerIdPaciente(pacienteParametro);
+            int idPaciente = obtenerIdPacienteSoloConIdUsuario(pacienteParametro);
             
             PreparedStatement psUltimaSesion = conexion.conexion().prepareStatement(sqlUltimaSesion);
             
@@ -418,30 +419,6 @@ public class PacienteDAOImplementacion extends PadreDAOImplementacion implements
     
     
     
-    public int obtenerIdTelefono(Paciente pacienteParametro){
-       
-        String sqlSTelefono = "SELECT id_telefono_paciente FROM telefonos_pacientes WHERE numero_telefono=?;";
-        try {
-            
-            
-            
-            PreparedStatement pSTelefono = conexion.conexion().prepareStatement(sqlSTelefono);
-            pSTelefono.setString(1, pacienteParametro.getTelefono().getTelefono());
-            ResultSet rsSTelefono = pSTelefono.executeQuery();
-            
-            
-            if(rsSTelefono.next()){
-                return rsSTelefono.getInt("id_telefono_paciente");
-            }
-            
-           pSTelefono.close();
-           rsSTelefono.close();
-            
-            
-        } catch (Exception e) {
-        }
-        return 0;
-    }
     
    
 

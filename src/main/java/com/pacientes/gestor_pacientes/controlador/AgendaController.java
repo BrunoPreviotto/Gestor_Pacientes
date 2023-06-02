@@ -309,7 +309,7 @@ public class AgendaController extends MenuInicioController implements Initializa
         
         yearLabel.setText(String.valueOf(fechaActual.getYear()));
         yearLabel.setTranslateX(500);
-        yearLabel.setTranslateY(35);
+        yearLabel.setTranslateY(5);
         yearLabel.getStylesheets().add(cssCalendario);
         yearLabel.getStyleClass().add("anoCalendario");
         yearLabel.setId("ano");
@@ -317,7 +317,7 @@ public class AgendaController extends MenuInicioController implements Initializa
         
         monthLabel.setText(mesAEspanol(fechaActual.getMonth().toString()));
         monthLabel.setTranslateX(25);
-        monthLabel.setTranslateY(65);
+        monthLabel.setTranslateY(35);
         monthLabel.getStylesheets().add(cssCalendario);
         monthLabel.getStyleClass().add("mesCalendario");
         monthLabel.setId("mes");
@@ -348,14 +348,14 @@ public class AgendaController extends MenuInicioController implements Initializa
         agregarImagen.setFitWidth(30);
         agregarImagen.setFitHeight(30);
         agregarImagen.setOnMouseClicked(this::administraAccion);
-        agregarImagen.setTranslateX(85);
-        agregarImagen.setTranslateY(60);
+        agregarImagen.setTranslateX(95);
+        agregarImagen.setTranslateY(50);
         agregarImagen.setId("boton" + dia + fechaActual.getMonth().getValue() + fechaActual.getYear());
         
         anchorAgenda.getChildren().add(dayLabel);
         anchorAgenda.getStylesheets().add(cssCalendario);
         anchorAgenda.setId("anchorCeldasCalendario");
-        anchorAgenda.setMaxSize(125, 105);
+        anchorAgenda.setMaxSize(135, 81);
         
         
         if (dia > 0 && dia <= fechaActual.lengthOfMonth()) {

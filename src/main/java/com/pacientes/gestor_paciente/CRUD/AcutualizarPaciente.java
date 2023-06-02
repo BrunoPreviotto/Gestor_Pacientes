@@ -84,7 +84,7 @@ public class AcutualizarPaciente extends PacienteDAOImplementacion {
         try {
 
             int idNombre = obtenerIdNombre(pacienteParametro.getNombre(), pacienteParametro.getApellido());
-            int idTelefono = obtenerIdTelefono(pacienteParametro);
+            int idTelefono = obtenerIdTelefonoPaciente(pacienteParametro);
             int idHonorario = obtenerIdHonorario(pacienteParametro);
             
             PreparedStatement pst;
@@ -126,7 +126,7 @@ public class AcutualizarPaciente extends PacienteDAOImplementacion {
             pst.setInt(1, pacienteParametro.getEdad());
             pst.setInt(2, pacienteParametro.getDni());
             pst.setInt(3, obtenerIdNombre(pacienteParametro.getNombre(), pacienteParametro.getApellido()));
-            pst.setInt(4, obtenerIdTelefono(pacienteParametro));
+            pst.setInt(4, obtenerIdTelefonoPaciente(pacienteParametro));
             pst.setInt(5, obtenerIdHonorario(pacienteParametro));
             pst.setInt(6, pacienteParametro.getId());
             

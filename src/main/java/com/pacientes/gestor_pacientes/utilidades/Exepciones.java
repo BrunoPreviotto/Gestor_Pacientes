@@ -24,10 +24,10 @@ public class Exepciones extends Exception {
          
         switch(codigoError){
             case 111:
-                mensaje="afiliado existente";
+                mensaje="Ya existe paciente registrado con ese DNI";
                 break;
             case 222:
-                mensaje="Error, el numero esta entre 11 y 20";
+                mensaje="Error al crear paciente";
                 break;
             case 333:
                 mensaje="Error, el numero esta entre 21 y 30";

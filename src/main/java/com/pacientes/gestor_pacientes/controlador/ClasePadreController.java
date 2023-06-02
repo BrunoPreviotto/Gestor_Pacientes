@@ -24,6 +24,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
@@ -53,10 +54,28 @@ public class ClasePadreController {
     @FXML
     private Label etiquetaMensaje;
     
+    
+    
     @FXML
     protected void salir(MouseEvent event) {
         Platform.exit();
     }
+    
+    @FXML
+    protected void maximizar(MouseEvent event) {
+        Node source = (Node) event.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+        stage.setMaximized(true);
+        
+    }
+          
+    @FXML
+    protected void desMaximizar(MouseEvent event) {
+        Node source = (Node) event.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+        stage.setMaximized(false);
+    }
+    
     
     protected static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));

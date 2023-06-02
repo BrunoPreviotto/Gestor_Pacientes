@@ -56,6 +56,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -73,6 +74,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -182,6 +184,8 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     protected Button botonEliminarDatosPrincipales;
     @FXML
     protected Button botonRetornarDatosPrincipales;
+    @FXML
+    protected Button botonMaximizarDesmaximizado;
     
     @FXML
     protected HBox botoneraCrudDatosPrincipales;
@@ -450,6 +454,12 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     @FXML
     protected ChoiceBox<String> choisePlanesObraSocialPacientePlan;
     
+    @FXML
+    protected VBox vbObraSocial;
+    
+    @FXML
+    protected HBox hBoxTablaObraSocial;
+    
     
     /*
         <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -574,6 +584,8 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     protected AnchorPane apOpciones;
     @FXML
     protected Button botonCerrarSesion;
+    @FXML
+    protected VBox vbApOpciones;
     
     /*
         <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -622,7 +634,16 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     //ANCHOR PANE
     @FXML
     protected AnchorPane container;
-    
+    @FXML
+    protected AnchorPane anchorPanePrincipal;
+    @FXML
+    protected VBox vbLateral;
+    @FXML
+    protected AnchorPane apOpcionesUsuario;
+    @FXML
+    protected AnchorPane apOpcionesOpciones;
+    @FXML
+    protected TabPane tabPaneOpciones;
     
     
     
@@ -640,7 +661,7 @@ public class ClasePadreMenuInicio extends ClasePadreController{
         switch (pane.getId()) {
             case "pestanaPaciente":
 
-                TranslateTransition ttdp = new TranslateTransition(Duration.seconds(1), titlePaneDatosPrincipales);
+                /*TranslateTransition ttdp = new TranslateTransition(Duration.seconds(1), titlePaneDatosPrincipales);
                 ttdp.setFromX(-1000);
                 ttdp.setToX(0);
                 ScaleTransition stdp = new ScaleTransition(Duration.seconds(1), titlePaneDatosPrincipales);
@@ -684,7 +705,7 @@ public class ClasePadreMenuInicio extends ClasePadreController{
                 stos.setToX(1);
 
                 ParallelTransition pt = new ParallelTransition(ttdp, ttpt, tts, ttd, ttg, ttos, stdp, stpt, sts, std, stg, stos);
-                pt.play();
+                pt.play();*/
 
                 apPacientes.setVisible(true);
                 apObraSocial.setVisible(false);
@@ -692,6 +713,7 @@ public class ClasePadreMenuInicio extends ClasePadreController{
                 apOpciones.setVisible(false);
                 break;
             case "pestanaObraSocial":
+                
                 apObraSocial.setVisible(true);
                 apPacientes.setVisible(false);
                 apAgendaPrincipal.setVisible(false);
@@ -1170,6 +1192,61 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     }
     
     
+    @FXML
+    protected void maximizarMenuInicio(MouseEvent event) {
+        
+        if(botonMaximizarDesmaximizado.getId().equals("botonMaximizarDesmaximizado")){
+            maximizar(event);
+            //container.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+            //container.setMinSize(Double.MIN_NORMAL, Double.MIN_NORMAL);
+            botonMaximizarDesmaximizado.setId("botonMaximizarMaximizado");
+            diseñoMaximizar();
+                    
+        }else{
+            //container.setMaxSize(1200, 700);
+            //container.setMinSize(1100, 650);
+            botonMaximizarDesmaximizado.setId("botonMaximizarDesmaximizado");
+            desMaximizar(event);
+            diseñoDesmaximizar();
+        }
+    }
     
+    
+    
+    public void diseñoMaximizar(){
+        acordionPaciente.setPrefSize(1400, 800);
+        apObraSocial.setPrefSize(1500, 800);
+        anchorPanePrincipal.setPrefSize(1500, 800);
+        apAgendaPrincipal.setPrefSize(1500, 800);
+        apOpciones.setPrefSize(1500, 800);
+        apPacientes.setPrefSize(1500, 800);
+        apOpcionesUsuario.setPrefSize(1500, 800);
+        apOpcionesOpciones.setPrefSize(1500, 800);
+        tabPaneOpciones.setPrefSize(1500, 800);
+        apAgendaAgenda.setPrefSize(1500, 800);
+        gpCalendario.setPrefSize(1400, 690);
+        vbLateral.setPrefSize(100, 800);
+        vbObraSocial.setPrefSize(1500, 800);
+        //tablaObraSocial.setPrefHeight(300);
+        hBoxTablaObraSocial.setPrefHeight(420);
+    }
+    
+    public void diseñoDesmaximizar(){
+        acordionPaciente.setPrefSize(1000, 600);
+        apObraSocial.setPrefSize(1100, 600);
+        anchorPanePrincipal.setPrefSize(1100, 600);
+        apAgendaPrincipal.setPrefSize(1100, 600);
+        apOpciones.setPrefSize(1100, 600);
+        apPacientes.setPrefSize(1100, 600);
+        apOpcionesUsuario.setPrefSize(1100, 600);
+        apOpcionesOpciones.setPrefSize(1100, 600);
+        tabPaneOpciones.setPrefSize(1100, 600);
+        apAgendaAgenda.setPrefSize(1100, 600);
+        gpCalendario.setPrefSize(1095, 500);
+        vbLateral.setPrefSize(100, 600);
+        vbObraSocial.setPrefSize(1100, 600);
+        
+        
+    }
     
 }

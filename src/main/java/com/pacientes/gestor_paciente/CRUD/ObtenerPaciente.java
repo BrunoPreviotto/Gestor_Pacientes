@@ -19,6 +19,7 @@ import com.pacientes.gestor_pacientes.modelo.SesionPaciente;
 import com.pacientes.gestor_pacientes.modelo.Telefono;
 import com.pacientes.gestor_pacientes.modelo.TipoSesion;
 import com.pacientes.gestor_pacientes.servicios.ConexionMariadb;
+import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -42,15 +43,18 @@ public class ObtenerPaciente extends PacienteDAOImplementacion {
         Paciente paciente;
         Paciente pacienteNull = new Paciente();
         try {
-            String sqlDni = "SELECT n.nombre, n.apellido, p.edad, p.dni, t.numero_telefono, h.honorario  \n" +
+            String sqlDni = "SELECT n.nombre, n.apellido, p.edad, p.dni, t.numero_telefono, h.honorario \n" +
                             "FROM pacientes p \n" +
                             "JOIN nombres n ON p.id_nombre = n.id_nombre \n" +
                             "JOIN telefonos_pacientes t ON p.id_telefono_paciente = t.id_telefono_paciente \n" +
-                            "JOIN honorarios h ON p.id_honorario = h.id_honorario \n" +
-                            "WHERE dni=? AND es_paciente=true;";
+                            "JOIN honorarios h ON p.id_honorario = h.id_honorario\n" +
+                            "JOIN usuarios_pacientes up ON p.id_paciente = up.id_paciente \n" +
+                            "WHERE p.id_paciente = ? AND up.id_usuario = ?;";
             
             PreparedStatement pSDni = conexion.conexion().prepareStatement(sqlDni);
-            pSDni.setInt(1, pacienteParametro.getDni());
+            pSDni.setInt(1, pacienteParametro.getId());
+            pSDni.setInt(2, VariablesEstaticas.usuario.getId());
+            
             ResultSet rsSPaciente = pSDni.executeQuery();
             if (rsSPaciente.next()) {
                 telefono = new Telefono(rsSPaciente.getNString(5));

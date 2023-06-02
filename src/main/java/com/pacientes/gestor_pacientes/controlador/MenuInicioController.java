@@ -407,11 +407,12 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
 
         try {
 
+
             Paciente pacienteBuscar = new Paciente();
             if (!cajaBuscarPaciente.getText().isEmpty()) {
                 //BUSCAR ID PACIENTE BUSCADO
-                pacienteBuscar.setDni(Integer.parseInt(cajaBuscarPaciente.getText()));
-                pacienteBuscar.setId(pacienteDao.obtenerIdPaciente(new Paciente(Integer.valueOf(cajaBuscarPaciente.getText()))));
+                
+                pacienteBuscar.setId(pacienteDao.obtenerIdPacienteSoloConIdUsuario(new Paciente(Integer.valueOf(cajaBuscarPaciente.getText()))));
                 //SI PACIENTE EXISTE
                 if (pacienteBuscar.getId() != 0) {
                     Paciente pacienteResultado = pacienteDao.obtener(pacienteBuscar);
@@ -421,21 +422,8 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
 
                         //SI DATOS PRINCIPALES EXISTEN
                         if (Objects.nonNull(pacienteResultado.getDni())) {
-                            cajaNombreDatosPrincipales.setText(servicioPaciente.CapitalCase(pacienteResultado.getNombre()));
-                            cajaApellidoDatosPrincipales.setText(servicioPaciente.CapitalCase(pacienteResultado.getApellido()));
-                            cajaEdadDatosPrincipales.setText(String.valueOf(pacienteResultado.getEdad()));
-                            cajaDniDatosPrincipales.setText(String.valueOf(pacienteResultado.getDni()));
-                            cajaTelefonoDatosPrincipales.setText(pacienteResultado.getTelefono().getTelefono());
                             
-                            cajaHonorariosDatosPrincipales.setText(String.valueOf(pacienteResultado.getHonorarios().getHonorario()));
-                            //RELENAR LISTA CON PACIENTE ACTUAL
-                            servicioPaciente.
-                                    rellenarListaDatosPrincipales(pacienteResultado).
-                                    deshabilitarCajas(VariablesEstaticas.cajasDatosPrincipales).
-                                    desHabilitarBotonCrear(botonAgregarDatosPrincipales).
-                                    habilitarEliminarActualizar(botonEliminarDatosPrincipales, botonActualizarDatosPrincipales);;
-
-                            titlePaneDatosPrincipales.setExpanded(true);
+                            buscarDatosPrincipales(pacienteResultado);
 
                         } else {
                             
@@ -446,41 +434,10 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                         }
 
                         //SI SESIONES EXISTEN
-                        ObservableList<TablaSesiones> olSesiones = FXCollections.observableArrayList();
+                        
                         if (Objects.nonNull(pacienteResultado.getSesiones())) {
-                            for (SesionPaciente sp : pacienteResultado.getSesiones()) {
-
-                                olSesiones.add(new TablaSesiones(
-                                        String.valueOf(sp.getNumeroSesion()),
-                                        sp.getFecha().toString(),
-                                        sp.getTrabajoSesion(),
-                                        sp.getObservacion(),
-                                        String.valueOf(sp.getHonorarioPorSesion()),
-                                        sp.getEstado().getEstado(),
-                                        String.valueOf(sp.getAutorizacion().getNumeroAutorizacion()),
-                                        sp.getAutorizacion().getObservacion(),
-                                        sp.getAutorizacion().getAsociacion().toString(),
-                                        String.valueOf(sp.getAutorizacion().getCopago()),
-                                        sp.getAutorizacion().getCodigoFacturacion().getNombre()));
-                                
-                            }
-
-                            tablaAutorizacion.setItems(olSesiones);
-                            tableSesiones.setItems(olSesiones);
-                            ColumnaSesionNumero.setCellValueFactory(new PropertyValueFactory<>("numeroSesion"));
-                            ColumnaSesionFecha.setCellValueFactory(new PropertyValueFactory<>("fechaSesion"));
-                            ColumnaSesionTrabajo.setCellValueFactory(new PropertyValueFactory<>("trabajoSesion"));
-                            ColumnaSesionObservacion.setCellValueFactory(new PropertyValueFactory<>("observacionSesion"));
-                            ColumnaSesionHonorarioPorSesion.setCellValueFactory(new PropertyValueFactory<>("honorariosPorSesion"));
-                            ColumnaSesionEstadoFacturacion.setCellValueFactory(new PropertyValueFactory<>("estadoFacturacion"));
                             
-                            columnaAutorizacionNumero.setCellValueFactory(new PropertyValueFactory<>("numeroAutorizacion"));
-                            columnaAutorizacionObservacion.setCellValueFactory(new PropertyValueFactory<>("observacionAutorizacion"));
-                            columnaAutorizacionAsociacion.setCellValueFactory(new PropertyValueFactory<>("asociacion"));
-                            columnaAutorizacionCopago.setCellValueFactory(new PropertyValueFactory<>("copago"));
-                            columnaAutorizacionCodigoFacturacion.setCellValueFactory(new PropertyValueFactory<>("nombreCodigo"));
-                            columnaNumeroSecionAutorizacion.setCellValueFactory(new PropertyValueFactory<>("numeroSesion"));
-                            
+                            buscarSesiones(pacienteResultado);
                             
                         }else{
                             //servicioPaciente.vaciarListaSesiones();
@@ -654,6 +611,63 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
         
        
     }
+    
+    public void buscarDatosPrincipales(Paciente pacienteResultado) {
+        cajaNombreDatosPrincipales.setText(servicioPaciente.CapitalCase(pacienteResultado.getNombre()));
+        cajaApellidoDatosPrincipales.setText(servicioPaciente.CapitalCase(pacienteResultado.getApellido()));
+        cajaEdadDatosPrincipales.setText(String.valueOf(pacienteResultado.getEdad()));
+        cajaDniDatosPrincipales.setText(String.valueOf(pacienteResultado.getDni()));
+        cajaTelefonoDatosPrincipales.setText(pacienteResultado.getTelefono().getTelefono());
+
+        cajaHonorariosDatosPrincipales.setText(String.valueOf(pacienteResultado.getHonorarios().getHonorario()));
+        //RELENAR LISTA CON PACIENTE ACTUAL
+        servicioPaciente.
+                rellenarListaDatosPrincipales(pacienteResultado).
+                deshabilitarCajas(VariablesEstaticas.cajasDatosPrincipales).
+                desHabilitarBotonCrear(botonAgregarDatosPrincipales).
+                habilitarEliminarActualizar(botonEliminarDatosPrincipales, botonActualizarDatosPrincipales);;
+
+        titlePaneDatosPrincipales.setExpanded(true);
+    }
+    
+    
+    public void buscarSesiones(Paciente pacienteResultado){
+        ObservableList<TablaSesiones> olSesiones = FXCollections.observableArrayList();
+                            for (SesionPaciente sp : pacienteResultado.getSesiones()) {
+
+                                olSesiones.add(new TablaSesiones(
+                                        String.valueOf(sp.getNumeroSesion()),
+                                        sp.getFecha().toString(),
+                                        sp.getTrabajoSesion(),
+                                        sp.getObservacion(),
+                                        String.valueOf(sp.getHonorarioPorSesion()),
+                                        sp.getEstado().getEstado(),
+                                        String.valueOf(sp.getAutorizacion().getNumeroAutorizacion()),
+                                        sp.getAutorizacion().getObservacion(),
+                                        sp.getAutorizacion().getAsociacion().toString(),
+                                        String.valueOf(sp.getAutorizacion().getCopago()),
+                                        sp.getAutorizacion().getCodigoFacturacion().getNombre()));
+                                
+                            }
+
+                            tablaAutorizacion.setItems(olSesiones);
+                            tableSesiones.setItems(olSesiones);
+                            ColumnaSesionNumero.setCellValueFactory(new PropertyValueFactory<>("numeroSesion"));
+                            ColumnaSesionFecha.setCellValueFactory(new PropertyValueFactory<>("fechaSesion"));
+                            ColumnaSesionTrabajo.setCellValueFactory(new PropertyValueFactory<>("trabajoSesion"));
+                            ColumnaSesionObservacion.setCellValueFactory(new PropertyValueFactory<>("observacionSesion"));
+                            ColumnaSesionHonorarioPorSesion.setCellValueFactory(new PropertyValueFactory<>("honorariosPorSesion"));
+                            ColumnaSesionEstadoFacturacion.setCellValueFactory(new PropertyValueFactory<>("estadoFacturacion"));
+                            
+                            columnaAutorizacionNumero.setCellValueFactory(new PropertyValueFactory<>("numeroAutorizacion"));
+                            columnaAutorizacionObservacion.setCellValueFactory(new PropertyValueFactory<>("observacionAutorizacion"));
+                            columnaAutorizacionAsociacion.setCellValueFactory(new PropertyValueFactory<>("asociacion"));
+                            columnaAutorizacionCopago.setCellValueFactory(new PropertyValueFactory<>("copago"));
+                            columnaAutorizacionCodigoFacturacion.setCellValueFactory(new PropertyValueFactory<>("nombreCodigo"));
+                            columnaNumeroSecionAutorizacion.setCellValueFactory(new PropertyValueFactory<>("numeroSesion"));
+                            
+    }
+    
 
     //                      ****
     //                      ****
@@ -678,7 +692,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                 //INSERTAR PACIENTE
                 pacienteDao.insertar(
                         new Paciente(
-                                cajaDniDatosPrincipales.getText(), 
+                                cajaNombreDatosPrincipales.getText(), 
                                 cajaApellidoDatosPrincipales.getText(), 
                                 Integer.parseInt(cajaEdadDatosPrincipales.getText()), 
                                 Integer.parseInt(cajaDniDatosPrincipales.getText()), 
@@ -693,7 +707,8 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
             }
 
         } catch (Exception e) {
-            mensaje("Error al crear paciente", this, "/com/pacientes/gestor_pacientes/img/error.png");
+            cajaBuscarPaciente.setText("");
+            mensaje(e.getMessage(), this, "/com/pacientes/gestor_pacientes/img/error.png");
             cajaNombreDatosPrincipales.getStyleClass().add("cajasARellenar");
         }
     }
@@ -766,7 +781,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
 
                         pacienteCrearSesion.setSesion(sesion);
                         pacienteCrearSesion.setDni(Integer.parseInt(cajaDniDatosPrincipales.getText()));
-                        pacienteCrearSesion.setId(pacienteDao.obtenerIdPaciente(pacienteCrearSesion));
+                        pacienteCrearSesion.setId(pacienteDao.obtenerIdPacienteConTodosLosDatos(pacienteCrearSesion));
 
                         if (!cajaDniDatosPrincipales.getText().isBlank()) {
 
@@ -811,7 +826,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                 TipoSesion ts = new TipoSesion(choiseTipoSesionPlan.getValue(), cajaDescripcionTipoSesionPlan.getText());
                 PlanTratamiento planTratamiento = new PlanTratamiento(cajaEstrategiaPlan.getText(), choiseFrecuenciaSesionPlan.getValue(), ts);
                 pacientePlan.setDni(Integer.parseInt(cajaDniDatosPrincipales.getText()));
-                pacientePlan.setId(pacienteDao.obtenerIdPaciente(pacientePlan));
+                pacientePlan.setId(pacienteDao.obtenerIdPacienteConTodosLosDatos(pacientePlan));
                 pacientePlan.setPlanTratamiento(planTratamiento);
 
                 //VALIDAR CAMPOS NECESARIOS
@@ -842,7 +857,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                 Paciente pacienteCrearDiagnostico = new Paciente();
                 DiagnosticoPaciente diagnostico = new DiagnosticoPaciente(cajaDiagnosticoDiagnostico.getText(), cajaObservacionDiagnostico.getText());
                 pacienteCrearDiagnostico.setDni(Integer.parseInt(cajaDniDatosPrincipales.getText()));
-                pacienteCrearDiagnostico.setId(pacienteDao.obtenerIdPaciente(pacienteCrearDiagnostico));
+                pacienteCrearDiagnostico.setId(pacienteDao.obtenerIdPacienteConTodosLosDatos(pacienteCrearDiagnostico));
                 pacienteCrearDiagnostico.setDiagnostico(diagnostico);
 
                 if (cajaDiagnosticoDiagnostico.getText().isBlank()) {
@@ -879,7 +894,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                     ObraSocialPaciente obraSocialPaciente = new ObraSocialPaciente(new Afiliado(Integer.parseInt(cajaNAfiliadoObraSocialPaciente.getText())), choiseNombreObraSocialPaciente.getValue().toString(), new PlanObraSocial(choisePlanesObraSocialPacientePlan.getValue().toString(), "Sin descripcion"));
                     pacienteCrearObraSocial.setObraSocialPaciente(obraSocialPaciente);
                     pacienteCrearObraSocial.setDni(Integer.parseInt(cajaDniDatosPrincipales.getText()));
-                    pacienteCrearObraSocial.setId(pacienteDao.obtenerIdPaciente(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText()))));
+                    pacienteCrearObraSocial.setId(pacienteDao.obtenerIdPacienteConTodosLosDatos(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText()))));
                     pacienteDao.insertar(pacienteCrearObraSocial, 2);
                     mensaje("Obra Social del Paciente creado con èxito", this, "/com/pacientes/gestor_pacientes/img/error.png");
 
@@ -987,7 +1002,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                                         setApellido(cajaApellidoDatosPrincipales.getText()).
                                         setEdad(Integer.parseInt(cajaEdadDatosPrincipales.getText())).
                                         setDni(Integer.parseInt(cajaDniDatosPrincipales.getText())).
-                                        setId(pacienteDao.obtenerIdPaciente(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText())))).
+                                        setId(pacienteDao.obtenerIdPacienteSoloConIdUsuario(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText())))).
                                         setTelefono(new Telefono(cajaTelefonoDatosPrincipales.getText())).
                                         setHonorarios(new Honorario(Double.parseDouble(cajaHonorariosDatosPrincipales.getText()))), 3);
                         servicioPaciente.deshabilitarCajas(VariablesEstaticas.cajasDatosPrincipales);
@@ -1026,7 +1041,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                     try {
                         servicioPaciente.datosDiagnosticoVacios();
                         Paciente paciente = new Paciente();
-                        pacienteDao.actualizar(paciente.setDiagnostico(new DiagnosticoPaciente(cajaDiagnosticoDiagnostico.getText(), cajaObservacionDiagnostico.getText())).setId(pacienteDao.obtenerIdPaciente(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText())))), 1);
+                        pacienteDao.actualizar(paciente.setDiagnostico(new DiagnosticoPaciente(cajaDiagnosticoDiagnostico.getText(), cajaObservacionDiagnostico.getText())).setId(pacienteDao.obtenerIdPacienteSoloConIdUsuario(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText())))), 1);
                         botonActualizarDiagnostico.setId("botonActualizarDiagnostico");
 
                         servicioPaciente.deshabilitarCajasArea(VariablesEstaticas.cajasAreaDiagnostico);
@@ -1068,7 +1083,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                                         pacientePlan.setPlanTratamiento(new PlanTratamiento(cajaEstrategiaPlan.getText(),
                                                 cajaPlanFrecuenciaSesiones.getText(),
                                                 new TipoSesion(choiseTipoSesionPlan.getValue(),
-                                                        "Sin descripcion"))).setId(pacienteDao.obtenerIdPaciente(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText())))),
+                                                        "Sin descripcion"))).setId(pacienteDao.obtenerIdPacienteSoloConIdUsuario(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText())))),
                                         2);
 
                         servicioPaciente.
@@ -1245,7 +1260,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                         pacienteObraSocialPaciente.getObraSocialPaciente().getAfiliado().setId(pacienteDao.obtenerIdAfiliadoObraSocial(pacienteObraSocialPaciente));
                         pacienteObraSocialPaciente.getObraSocialPaciente().getPlan().setId(pacienteDao.obtenerIdPlanObraSocial(pacienteObraSocialPaciente));
                         pacienteObraSocialPaciente.getObraSocialPaciente().setId(pacienteDao.obtenerIdObraSocia(pacienteObraSocialPaciente));
-                        pacienteObraSocialPaciente.setId(pacienteDao.obtenerIdPaciente(pacienteObraSocialPaciente.setDni(Integer.valueOf(cajaBuscarPaciente.getText()))));
+                        pacienteObraSocialPaciente.setId(pacienteDao.obtenerIdPacienteSoloConIdUsuario(pacienteObraSocialPaciente.setDni(Integer.valueOf(cajaBuscarPaciente.getText()))));
                         
                         //pasar valores nuevos
                        pacienteObraSocialPaciente.getObraSocialPaciente().getPlan().setNombre(choisePlanesObraSocialPacientePlan.getValue());
@@ -1310,7 +1325,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                 if (botonActualizarSesiones.getId().equals("1")) {
 
                     pacienteBuscar.setDni(Integer.parseInt(cajaBuscarPaciente.getText()));
-                    pacienteBuscar.setId(pacienteDao.obtenerIdPaciente(pacienteBuscar));
+                    pacienteBuscar.setId(pacienteDao.obtenerIdPacienteSoloConIdUsuario(pacienteBuscar));
 
                     autorizacionBuscar.setNumeroAutorizacion(Integer.parseInt(cajaAutorizacionSesion.getText()));
                     autorizacionBuscar.setAsociacion(ldAutorizacion);
@@ -1349,7 +1364,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                     sesion.setHonorarioPorSesion(Double.parseDouble(cajaHonorariosPorSesion.getText()));
                     pacienteSesion.setSesion(sesion);
                     pacienteSesion.setDni(Integer.parseInt(cajaBuscarPaciente.getText()));
-                    pacienteSesion.setId(pacienteDao.obtenerIdPaciente(pacienteSesion));
+                    pacienteSesion.setId(pacienteDao.obtenerIdPacienteSoloConIdUsuario(pacienteSesion));
                     
                     servicioPaciente.
                             datosSesionVacios().
@@ -1411,6 +1426,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
         if (!cajaBuscarPaciente.getText().isEmpty() || !cajaBuscarPaciente.getText().isBlank()) {
             if (!cajaNombreDatosPrincipales.getText().isBlank() && !cajaApellidoDatosPrincipales.getText().isBlank() && !cajaDniDatosPrincipales.getText().isBlank()) {
                 try {
+                    
                     pacienteDao.eliminar(new Paciente(Integer.parseInt(cajaDniDatosPrincipales.getText())), 1);
                     mensaje("Paciente eliminado con éxito", this, "/com/pacientes/gestor_pacientes/img/error.png");
                     servicioPaciente.
@@ -1542,7 +1558,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
 
                     //INICIALIZAR VARIABLES
                     pacienteBuscar.setDni(Integer.parseInt(cajaBuscarPaciente.getText()));
-                    pacienteBuscar.setId(pacienteDao.obtenerIdPaciente(pacienteBuscar));
+                    pacienteBuscar.setId(pacienteDao.obtenerIdPacienteSoloConIdUsuario(pacienteBuscar));
                     
 
                     autorizacionBuscar.setNumeroAutorizacion(Integer.parseInt(tablaAutorizacion.getSelectionModel().getSelectedItem().getNumeroAutorizacion()));
@@ -1584,7 +1600,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                     sesion.setHonorarioPorSesion(Double.parseDouble(tableSesiones.getSelectionModel().getSelectedItem().getHonorariosPorSesion()));
                     pacienteSesion.setSesion(sesion);
                     pacienteSesion.setDni(Integer.parseInt(cajaBuscarPaciente.getText()));
-                    pacienteSesion.setId(pacienteDao.obtenerIdPaciente(pacienteSesion));
+                    pacienteSesion.setId(pacienteDao.obtenerIdPacienteSoloConIdUsuario(pacienteSesion));
                     mensajeEliminarSesion(this);
                     for (Map.Entry<List<CheckBox>, Boolean> entry : valoresElimenarSesion.entrySet()) {
                         check = entry.getKey();

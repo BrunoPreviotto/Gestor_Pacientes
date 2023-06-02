@@ -12,6 +12,7 @@ import com.pacientes.gestor_pacientes.modelo.PlanTratamiento;
 import com.pacientes.gestor_pacientes.modelo.SesionPaciente;
 import com.pacientes.gestor_pacientes.modelo.TipoSesion;
 import com.pacientes.gestor_pacientes.servicios.ConexionMariadb;
+import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -46,13 +47,25 @@ public class PadreDAOImplementacion {
     }
     
     
-    public int obtenerIdPaciente(Paciente pacienteParametro) throws SQLException{
+    public int obtenerIdPacienteConTodosLosDatos(Paciente pacienteParametro) throws SQLException{
         Paciente paciente = new Paciente();
         
         
-        String sqlDni = "SELECT id_paciente FROM pacientes WHERE dni=?";
+        String sqlDni = "SELECT p.id_paciente \n" +
+                        "FROM pacientes p\n" +
+                        "WHERE p.edad = ?\n" +
+                        "AND p.dni=? \n" +
+                        "AND p.id_nombre = ? \n" +
+                        "AND id_honorario = ? \n" +
+                        "AND id_telefono_paciente";
         PreparedStatement pSDni = conexion.conexion().prepareStatement(sqlDni);
-        pSDni.setInt(1, pacienteParametro.getDni());
+        pSDni.setInt(1, pacienteParametro.getEdad());
+        pSDni.setInt(2, pacienteParametro.getDni());
+        
+         pSDni.setInt(3, obtenerIdNombre(pacienteParametro.getNombre(), pacienteParametro.getApellido()));
+         pSDni.setInt(4, obtenerIdHonorario(pacienteParametro));
+        pSDni.setInt(5, obtenerIdTelefonoPaciente(pacienteParametro));
+       
         ResultSet rsSPaciente = pSDni.executeQuery();
         if (rsSPaciente.next()) {
             pSDni.close();
@@ -65,6 +78,63 @@ public class PadreDAOImplementacion {
 
         
     }
+    
+    
+    public int obtenerIdPacienteSoloConIdUsuario(Paciente pacienteParametro) throws SQLException{
+        Paciente paciente = new Paciente();
+        
+        
+        String sqlDni = "SELECT p.id_paciente \n" +
+                        "FROM pacientes p\n" +
+                        "JOIN usuarios_pacientes up ON p.id_paciente = up.id_paciente \n" +
+                        "WHERE p.dni=? AND up.id_usuario = ?";
+        PreparedStatement pSDni = conexion.conexion().prepareStatement(sqlDni);
+        pSDni.setInt(1, pacienteParametro.getDni());
+        pSDni.setInt(2, VariablesEstaticas.usuario.getId());
+        
+        
+       
+        ResultSet rsSPaciente = pSDni.executeQuery();
+        if (rsSPaciente.next()) {
+            pSDni.close();
+            rsSPaciente.close();
+            return rsSPaciente.getInt("id_paciente");
+        }else{
+
+            return 0;
+        }
+
+        
+    }
+    
+    
+    
+    
+    public int obtenerIdTelefonoPaciente(Paciente pacienteParametro){
+       
+        String sqlSTelefono = "SELECT id_telefono_paciente FROM telefonos_pacientes WHERE numero_telefono=?;";
+        try {
+            
+            
+            
+            PreparedStatement pSTelefono = conexion.conexion().prepareStatement(sqlSTelefono);
+            pSTelefono.setString(1, pacienteParametro.getTelefono().getTelefono());
+            ResultSet rsSTelefono = pSTelefono.executeQuery();
+            
+            
+            if(rsSTelefono.next()){
+                return rsSTelefono.getInt("id_telefono_paciente");
+            }
+            
+           pSTelefono.close();
+           rsSTelefono.close();
+            
+            
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+    
     
     
     
@@ -283,6 +353,87 @@ public class PadreDAOImplementacion {
            rsSNombre.close();
             
             
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+     
+     
+     
+     public int pacientesPorUnUsuario(int idPaciente){
+        int cantidadPacientesPorUsuario = 0;
+        String sql = "SELECT id_usuario, id_paciente FROM usuarios_pacientes up WHERE id_paciente = ? AND id_usuario = ?";
+        try {
+            
+            PreparedStatement ps = conexion.conexion().prepareStatement(sql);
+            ps.setInt(1, idPaciente);
+             ps.setInt(2, VariablesEstaticas.usuario.getId());
+            ResultSet rs = ps.executeQuery();
+            
+            
+            
+           ps.close();
+           rs.close();
+           if(rs.next()){
+               return 1;
+           }
+            return 0;
+            
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+     
+     public int idPacientesPorUnUsuario(int idPaciente){
+        int cantidadPacientesPorUsuario = 0;
+        String sql = "SELECT id_paciente FROM usuarios_pacientes up WHERE id_paciente = ? AND id_usuario = ?";
+        try {
+            
+            PreparedStatement ps = conexion.conexion().prepareStatement(sql);
+            ps.setInt(1, idPaciente);
+             ps.setInt(2, VariablesEstaticas.usuario.getId());
+            ResultSet rs = ps.executeQuery();
+            
+            
+            
+           ps.close();
+           rs.close();
+           if(rs.next()){
+               return rs.getInt("id_paciente");
+           }
+            return 0;
+            
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+     
+     
+     
+             
+    public int ExisteMasDeUnPacientePOrUsuario(int dni) {
+        int cantidadPacientesPorUsuario = 0;
+        String sql = "SELECT p.id_paciente FROM pacientes p WHERE p.dni = ?";
+        try {
+
+            PreparedStatement ps = conexion.conexion().prepareStatement(sql);
+            ps.setInt(1, dni);
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {                
+                cantidadPacientesPorUsuario += pacientesPorUnUsuario(rs.getInt("id_paciente"));
+            }
+
+            ps.close();
+            rs.close();
+            
+            
+            
+            
+            return cantidadPacientesPorUsuario;
+            
+            
+
         } catch (Exception e) {
         }
         return 0;

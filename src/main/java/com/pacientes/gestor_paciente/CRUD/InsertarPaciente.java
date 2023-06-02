@@ -12,6 +12,7 @@ import com.pacientes.gestor_pacientes.modelo.PlanTratamiento;
 import com.pacientes.gestor_pacientes.modelo.SesionPaciente;
 import com.pacientes.gestor_pacientes.servicios.ConexionMariadb;
 import com.pacientes.gestor_pacientes.utilidades.Exepciones;
+import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,83 +27,85 @@ public class InsertarPaciente extends PacienteDAOImplementacion {
     
     
     
-    public void insertarPaciente(Paciente pacienteParametro) throws SQLException{
-        
+    public void insertarPaciente(Paciente pacienteParametro) throws Exception {
+
         String sqlNombre = "INSERT INTO nombres(id_nombre, nombre, apellido) VALUES(?,?,?)";
 
         String sqlPaciente = "INSERT INTO pacientes(id_paciente, edad, dni, es_paciente, id_nombre, id_honorario, id_telefono_paciente) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
         String sqlTelefono = "INSERT INTO telefonos_pacientes(id_telefono_paciente, numero_telefono) VALUES(?,?)";
-        
-        String sqlHonorario = "INSERT INTO honorarios (id_honorario, honorario) VALUES (?, ?);";
-        
-        String sqlAsociarPacienteConUsuario = "INSERT INTO usuarios_pacientes (id_usuario, id_paciente) VALUES (?, ?)";
-        
-        try {
 
-            PreparedStatement pst;
-            
-            int idPaciente = obtenerIdPaciente(pacienteParametro);
-            int idNombre = obtenerIdNombre(pacienteParametro.getNombre(), pacienteParametro.getApellido());
-            int idTelefono = obtenerIdTelefono(pacienteParametro);
-            int idHonorario = obtenerIdHonorario(pacienteParametro);
-            
-            //si no existe honorario lo crea
-            if (idHonorario == 0) {
+        String sqlHonorario = "INSERT INTO honorarios (id_honorario, honorario) VALUES (?, ?);";
+
+        String sqlAsociarPacienteConUsuario = "INSERT INTO usuarios_pacientes (id_usuario, id_paciente) VALUES (?, ?)";
+
+        if (ExisteMasDeUnPacientePOrUsuario(pacienteParametro.getDni()) > 0) {
+            Exepciones exepcionPacienteExiste = new Exepciones(111);
+            throw exepcionPacienteExiste;
+        } else {
+            try {
+                PreparedStatement pst;
+
+                int idPaciente = obtenerIdPacienteConTodosLosDatos(pacienteParametro);
+                int idNombre = obtenerIdNombre(pacienteParametro.getNombre(), pacienteParametro.getApellido());
+                int idTelefono = obtenerIdTelefonoPaciente(pacienteParametro);
+                int idHonorario = obtenerIdHonorario(pacienteParametro);
+
+                //si no existe honorario lo crea
+                if (idHonorario == 0) {
                     pst = conexion.conexion().prepareStatement(sqlHonorario);
                     pst.setInt(1, 0);
                     pst.setDouble(2, pacienteParametro.getHonorarios().getHonorario());
                     pst.executeUpdate();
-            }
-            
-            
-            //si no existe nombre lo crea
-            if (idNombre == 0) {
+                }
+
+                //si no existe nombre lo crea
+                if (idNombre == 0) {
                     pst = conexion.conexion().prepareStatement(sqlNombre);
                     pst.setInt(1, 0);
                     pst.setString(2, pacienteParametro.getNombre());
                     pst.setString(3, pacienteParametro.getApellido());
                     pst.executeUpdate();
-            }
-            
-            //si no existe telefono lo crea
-           if (idTelefono == 0) {
-                pst = conexion.conexion().prepareStatement(sqlTelefono);
-                pst.setInt(1, 0);
-                pst.setString(2, pacienteParametro.getTelefono().getTelefono());
-                pst.executeUpdate();
-            }
-            
-            
-            //crea el paciente
-            if(idPaciente == 0){
-                pst = conexion.conexion().prepareStatement(sqlPaciente);
-                pst.setInt(1, 0);
-                pst.setInt(2, pacienteParametro.getEdad());
-                pst.setInt(3, pacienteParametro.getDni());
-                pst.setBoolean(4, true);
-                pst.setInt(5, obtenerIdNombre(pacienteParametro.getNombre(), pacienteParametro.getApellido()));
-                pst.setInt(6, obtenerIdHonorario(pacienteParametro));
-                pst.setInt(7, obtenerIdTelefono(pacienteParametro));
-                pst.executeUpdate();
-            }else{
-                actualizar(pacienteParametro, 3);
-            }
-            
-           
-            //ASOCIAR PACIENTE CON USUARIO
-            //crea el paciente
-            pst = conexion.conexion().prepareStatement(sqlAsociarPacienteConUsuario);
-            pst.setInt(1, obtenerIdUsuario());
-            pst.setInt(2, obtenerIdPaciente(pacienteParametro));
-            pst.executeUpdate();
-            
-            
+                }
 
-            pst.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+                //si no existe telefono lo crea
+                if (idTelefono == 0) {
+                    pst = conexion.conexion().prepareStatement(sqlTelefono);
+                    pst.setInt(1, 0);
+                    pst.setString(2, pacienteParametro.getTelefono().getTelefono());
+                    pst.executeUpdate();
+                }
+
+                //crea el paciente
+                if (idPaciente == 0) {
+                    pst = conexion.conexion().prepareStatement(sqlPaciente);
+                    pst.setInt(1, 0);
+                    pst.setInt(2, pacienteParametro.getEdad());
+                    pst.setInt(3, pacienteParametro.getDni());
+                    pst.setBoolean(4, true);
+                    pst.setInt(5, obtenerIdNombre(pacienteParametro.getNombre(), pacienteParametro.getApellido()));
+                    pst.setInt(6, obtenerIdHonorario(pacienteParametro));
+                    pst.setInt(7, obtenerIdTelefonoPaciente(pacienteParametro));
+                    pst.executeUpdate();
+                } else {
+                    actualizar(pacienteParametro, 3);
+                }
+                
+                //ASOCIAR PACIENTE CON USUARIO
+                //crea el paciente
+                pst = conexion.conexion().prepareStatement(sqlAsociarPacienteConUsuario);
+                pst.setInt(1, VariablesEstaticas.usuario.getId());
+                pst.setInt(2, obtenerIdPacienteConTodosLosDatos(pacienteParametro));
+                pst.executeUpdate();
+
+                pst.close();
+            } catch (Exception e) {
+                Exepciones exepcioSql = new Exepciones(222);
+                throw exepcioSql;
+            }
+
         }
+
     }
     
     

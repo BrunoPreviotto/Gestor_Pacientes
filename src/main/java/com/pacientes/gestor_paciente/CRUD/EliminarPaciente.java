@@ -6,6 +6,7 @@ package com.pacientes.gestor_paciente.CRUD;
 
 import com.pacientes.gestor_pacientes.implementacionDAO.PacienteDAOImplementacion;
 import com.pacientes.gestor_pacientes.modelo.Paciente;
+import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -18,9 +19,10 @@ public class EliminarPaciente extends PacienteDAOImplementacion {
     
     public void eliminarPaciente(Paciente pacienteParametro) throws SQLException{
         try {
-            String sqlEliminar = "UPDATE pacientes SET es_paciente = false WHERE dni=?";
+            String sqlEliminar = "DELETE FROM usuarios_pacientes  WHERE id_usuario = ? AND id_paciente = ?";
             PreparedStatement pSeliminar = conexion.conexion().prepareStatement(sqlEliminar);
-            pSeliminar.setInt(1, pacienteParametro.getDni());
+            pSeliminar.setInt(1, VariablesEstaticas.usuario.getId());
+            pSeliminar.setInt(2, obtenerIdPacienteSoloConIdUsuario(pacienteParametro));
             pSeliminar.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -33,7 +35,7 @@ public class EliminarPaciente extends PacienteDAOImplementacion {
         
         String sqlEliminarDiagnostico = "DELETE FROM diagnosticos WHERE id_paciente = ?;";
         PreparedStatement psEliminarDiagnostico = conexion.conexion().prepareStatement(sqlEliminarDiagnostico);
-        psEliminarDiagnostico.setInt(1, obtenerIdPaciente(pacienteParametro));
+        psEliminarDiagnostico.setInt(1, obtenerIdPacienteSoloConIdUsuario(pacienteParametro));
         psEliminarDiagnostico.executeUpdate();
         
         
@@ -45,7 +47,7 @@ public class EliminarPaciente extends PacienteDAOImplementacion {
         
         String sqlEliminarObraSocialPaciente = "DELETE FROM afiliados_obras_sociales  WHERE id_paciente = ?;";
         PreparedStatement psEliminarObraSocialPaciente = conexion.conexion().prepareStatement(sqlEliminarObraSocialPaciente);
-        psEliminarObraSocialPaciente.setInt(1, obtenerIdPaciente(pacienteParametro));
+        psEliminarObraSocialPaciente.setInt(1, obtenerIdPacienteSoloConIdUsuario(pacienteParametro));
         psEliminarObraSocialPaciente.executeUpdate();
         
         
@@ -56,7 +58,7 @@ public class EliminarPaciente extends PacienteDAOImplementacion {
         
         String sqlEliminarPlanTratamiento = "DELETE FROM planes_tratamientos  WHERE id_paciente = ?;";
         PreparedStatement psEliminarPlanTratamiento = conexion.conexion().prepareStatement(sqlEliminarPlanTratamiento);
-        psEliminarPlanTratamiento.setInt(1, obtenerIdPaciente(pacienteParametro));
+        psEliminarPlanTratamiento.setInt(1, obtenerIdPacienteSoloConIdUsuario(pacienteParametro));
         psEliminarPlanTratamiento.executeUpdate();
         
         
