@@ -46,6 +46,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -634,7 +635,7 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     
     //ANCHOR PANE
     @FXML
-    protected AnchorPane container;
+    protected HBox hboxcontainer;
     @FXML
     protected AnchorPane anchorPanePrincipal;
     @FXML
@@ -647,7 +648,8 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     protected TabPane tabPaneOpciones;
     @FXML
     protected AnchorPane apTodosLOsAPInicial;
-    
+    @FXML
+    protected AnchorPane container;
     
     
     
@@ -1217,32 +1219,14 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     
     
     public void diseñoMaximizar(){
-        /*acordionPaciente.setPrefSize(1400, 800);
-        apObraSocial.setPrefSize(1500, 800);
-        anchorPanePrincipal.setPrefSize(1500, 800);
-        apAgendaPrincipal.setPrefSize(1500, 800);
-        apOpciones.setPrefSize(1500, 800);
-        apPacientes.setPrefSize(1500, 800);
-        apOpcionesUsuario.setPrefSize(1500, 800);
-        apOpcionesOpciones.setPrefSize(1500, 800);
-        tabPaneOpciones.setPrefSize(1500, 800);
-        apAgendaAgenda.setPrefSize(1500, 800);
-        gpCalendario.setPrefSize(1400, 690);
-        vbObraSocial.setPrefSize(1500, 800);
+        vbLateral.setPrefSize(100, Region.USE_COMPUTED_SIZE);
         hBoxTablaObraSocial.setPrefHeight(420);
-        vbLateral.setPrefSize(100, 800);*/
-        
-        apTodosLOsAPInicial.setPrefSize(1500, 800);
-        
-        
-        hBoxTablaObraSocial.setPrefHeight(420);
-        
         
     }
     
     public void diseñoDesmaximizar(){
-         apTodosLOsAPInicial.setPrefSize(1100, 650);
-        
+        //apTodosLOsAPInicial.setPrefSize(1100, 650);
+        vbLateral.setPrefSize(100, Region.USE_COMPUTED_SIZE);
         hBoxTablaObraSocial.setPrefHeight(200);
         
         

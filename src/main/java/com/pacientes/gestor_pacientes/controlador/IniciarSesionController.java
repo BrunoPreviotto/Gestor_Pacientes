@@ -69,7 +69,7 @@ public class IniciarSesionController extends ClasePadreController implements Ini
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        this.onDraggedScene(container);
+        this.onDraggedScene( container);
     }    
 
     

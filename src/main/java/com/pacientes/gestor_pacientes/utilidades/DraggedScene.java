@@ -2,6 +2,7 @@ package com.pacientes.gestor_pacientes.utilidades;
 
 import java.util.concurrent.atomic.AtomicReference;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 /*
@@ -17,7 +18,7 @@ public interface DraggedScene {
      default void onDraggedScene(AnchorPane panelFather) {
         AtomicReference<Double> xOffset = new AtomicReference<>((double) 0);
         AtomicReference<Double> yOffset = new AtomicReference<>((double) 0);
-
+        
         panelFather.setOnMousePressed(e -> {
             Stage stage = (Stage) panelFather.getScene().getWindow();
             xOffset.set(stage.getX() - e.getScreenX());
