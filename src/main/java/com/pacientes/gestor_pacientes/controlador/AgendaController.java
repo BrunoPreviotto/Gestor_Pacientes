@@ -35,6 +35,8 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -57,7 +59,7 @@ public class AgendaController extends MenuInicioController implements Initializa
     
     private GridPane agenda;
     private AnchorPane anchorPrincipalAgenda;
-    private AnchorPane anchorAgendaAgenda;
+    private VBox anchorAgendaAgenda;
     @FXML
     private TextArea cajaAreaVerAccionAgenda;
     
@@ -159,25 +161,6 @@ public class AgendaController extends MenuInicioController implements Initializa
     
    
     
-    public void vaciarAgenda(){
-        
-        
-        for (Node l : agenda.getChildren()) {
-            //Button b = (Button) l;
-            
-           
-            
-            if(l.getStyleClass().equals("anchorCeldasCalendario")){
-                AnchorPane p = (AnchorPane)l;
-                for (Node n : p.getChildren()) {
-                    System.out.println(n.getId());
-                }
-                
-                
-            }
-        }
-    }
-    
     
     
     public AgendaController rellenarAgenda(int mesActualMayorMenor) {
@@ -191,14 +174,14 @@ public class AgendaController extends MenuInicioController implements Initializa
                 
                 
                 fechaActual = fechaActual.plusMonths(1);
-                //vaciarAgenda();
+                
                 agenda.getChildren().removeAll(agenda.getChildren());
                 
                 break;
            case 3:
                
                 fechaActual = fechaActual.minusMonths(1);
-                //vaciarAgenda();
+                
                 agenda.getChildren().removeAll(agenda.getChildren());
                 
                 break;
@@ -224,22 +207,20 @@ public class AgendaController extends MenuInicioController implements Initializa
                 Integer day = (row * 7) + col + 1 - column;
                 
 
-                AnchorPane anchorAgenda = aspectoCeldasCalendario(day);
+                VBox vBoxAgenda = aspectoCeldasCalendario(day);
                 
                 
                 // Agrega el Label al GridPane
-                agenda.add(anchorAgenda, col, row);
-
+                agenda.add(vBoxAgenda, col, row);
                 
-                diaMesSiguiete = setearLabelCeldasCalendario(anchorAgenda, day, firstDayOfMonth, diaMesSiguiete);;
+                
+                diaMesSiguiete = setearLabelCeldasCalendario(vBoxAgenda, day, firstDayOfMonth, diaMesSiguiete);
                 
             }
         }
-        //agenda.setPadding(new Insets(10,10,10,10));
         
-        // Actualiza el texto de la etiqueta de mes y año
         
-        //monthLabel.setPadding(Insets.EMPTY);
+        
         aspectoCalendario();
         mesSeleccionado = fechaActual.getMonth().getValue();
         anoSeleccionado = fechaActual.getYear();
@@ -247,29 +228,33 @@ public class AgendaController extends MenuInicioController implements Initializa
         
     }
     
-    public int setearLabelCeldasCalendario(AnchorPane anchorAgenda, int day, LocalDate firstDayOfMonth, int diaMesSiguiete){
+    public int setearLabelCeldasCalendario(VBox vBoxAgenda, int day, LocalDate firstDayOfMonth, int diaMesSiguiete){
         
         //SI DIA ESTA DENTRO DEL MES ACTUAL
                 if (day > 0 && day <= firstDayOfMonth.lengthOfMonth()) {
-                    for (Node child : anchorAgenda.getChildren()) {
-                        
-                        if(child.getId().equals("dia")){
-                            Label label = (Label)child;
-                            label.setText(String.valueOf(day));
-                            label.getStyleClass().add("labelCuerpo");
-                            
+                    for (Node child : vBoxAgenda.getChildren()) {
+                        VBox vbagenda = (VBox)child;
+                        for (Node node : vbagenda.getChildren()) {
+                            if (node.getId().equals("dia")) {
+                                Label label = (Label) node;
+                                label.setText(String.valueOf(day));
+                                label.getStyleClass().add("labelCuerpo");
+
+                            }
                         }
                        
                     }
                 //SI DIA ES MENOR AL MES ACTUAL    
                 }else if(day <= 0){
-                    for (Node child : anchorAgenda.getChildren()) {
-                        
-                        if(child.getId().equals("dia")){
-                            Label label = (Label)child;
-                            label.setText(String.valueOf(fechaActual.minusMonths(1).lengthOfMonth() - (day * -1) ));
-                            label.getStylesheets().add(cssCalendario);
-                            label.getStyleClass().add("labelDiaDeOtroMes");
+                    for (Node child : vBoxAgenda.getChildren()) {
+                        VBox vbagenda = (VBox)child;
+                        for (Node node : vbagenda.getChildren()) {
+                            if (node.getId().equals("dia")) {
+                                Label label = (Label) node;
+                                label.setText(String.valueOf(fechaActual.minusMonths(1).lengthOfMonth() - (day * -1)));
+                                label.getStylesheets().add(cssCalendario);
+                                label.getStyleClass().add("labelDiaDeOtroMes");
+                            }
                         }
                        
                        
@@ -277,13 +262,15 @@ public class AgendaController extends MenuInicioController implements Initializa
                 //SI DIA ES MAYO AL MES ACTUAL
                 }else if(day >= firstDayOfMonth.lengthOfMonth()){
                     
-                    for (Node child : anchorAgenda.getChildren()) {
-                        
-                        if(child.getId().equals("dia")){
-                            Label label = (Label)child;
-                            label.setText(String.valueOf(diaMesSiguiete));
-                            label.getStylesheets().add(cssCalendario);
-                            label.getStyleClass().add("labelDiaDeOtroMes");
+                    for (Node child : vBoxAgenda.getChildren()) {
+                        VBox vbagenda = (VBox)child;
+                        for (Node node : vbagenda.getChildren()) {
+                            if (node.getId().equals("dia")) {
+                                Label label = (Label) node;
+                                label.setText(String.valueOf(diaMesSiguiete));
+                                label.getStylesheets().add(cssCalendario);
+                                label.getStyleClass().add("labelDiaDeOtroMes");
+                            }
                         }
                        
                        
@@ -294,40 +281,58 @@ public class AgendaController extends MenuInicioController implements Initializa
     }
     
     public void aspectoCalendario() {
-        
+        int existeMesYano = 0;
         for (Node n : anchorAgendaAgenda.getChildren()) {
+           
+
             if (Objects.nonNull(n.getId())) {
-                if (n.getId().equals("mes") || n.getId().equals("ano")) {
-                    Label l = (Label) n;
-                    l.setText("");
+                if (n.getId().equals("hboxMes")) {
+                    existeMesYano++;
+                    HBox hboxMes = (HBox) n;
+                    Label mes = (Label) hboxMes.getChildren().get(0);
+                    mes.setText(mesAEspanol(fechaActual.getMonth().toString()));
+
+                }
+                if (n.getId().equals("hboxAno")) {
+                    existeMesYano++;
+                    HBox hboxAno = (HBox) n;
+                    Label ano = (Label) hboxAno.getChildren().get(0);
+                    ano.setText(String.valueOf(fechaActual.getYear()));
+
                 }
             }
+
         }
-        Label monthLabel = new Label();
-        Label yearLabel = new Label();
-        
-        
-        yearLabel.setText(String.valueOf(fechaActual.getYear()));
-        yearLabel.setTranslateX(500);
-        yearLabel.setTranslateY(5);
-        yearLabel.getStylesheets().add(cssCalendario);
-        yearLabel.getStyleClass().add("anoCalendario");
-        yearLabel.setId("ano");
-        
-        
-        monthLabel.setText(mesAEspanol(fechaActual.getMonth().toString()));
-        monthLabel.setTranslateX(25);
-        monthLabel.setTranslateY(35);
-        monthLabel.getStylesheets().add(cssCalendario);
-        monthLabel.getStyleClass().add("mesCalendario");
-        monthLabel.setId("mes");
-        
-        
-        anchorAgendaAgenda.getChildren().add(monthLabel);
-        anchorAgendaAgenda.getChildren().add(yearLabel);
+
+        if (existeMesYano == 0) {
+
+            Label mes = new Label();
+            mes.setText(mesAEspanol(fechaActual.getMonth().toString()));
+            mes.setTranslateX(10);
+            mes.getStylesheets().add(cssCalendario);
+            mes.getStyleClass().add("mesCalendario");
+            mes.setId("mes");
+            HBox hBoxMes = new HBox(mes);
+            hBoxMes.setId("hboxMes");
+            hBoxMes.setAlignment(Pos.BASELINE_LEFT);
+
+            Label ano = new Label();
+            ano.setText(String.valueOf(fechaActual.getYear()));
+            ano.getStylesheets().add(cssCalendario);
+            ano.getStyleClass().add("anoCalendario");
+            ano.setId("ano");
+            HBox hBoxAno = new HBox(ano);
+            hBoxAno.setId("hboxAno");
+            hBoxAno.setAlignment(Pos.BASELINE_CENTER);
+
+            anchorAgendaAgenda.getChildren().add(0, hBoxAno);
+            anchorAgendaAgenda.getChildren().add(1, hBoxMes);
+
+        }
+
     }
     
-    public AnchorPane aspectoCeldasCalendario(int dia) {
+    public VBox aspectoCeldasCalendario(int dia) {
         
         
         
@@ -336,43 +341,47 @@ public class AgendaController extends MenuInicioController implements Initializa
         
         Label dayLabel = new Label();
         Pane pane = new Pane();
-        AnchorPane anchorAgenda = new AnchorPane();
+        VBox vBoxAgenda = new VBox();
+        
 
         // Establece el estilo del Label
         dayLabel.getStylesheets().add(cssCalendario);
         dayLabel.getStyleClass().add("etiquetaDia");
-        dayLabel.setTranslateX(10);
-        dayLabel.setTranslateY(5);
+        
         dayLabel.setId("dia");
 
         agregarImagen.setFitWidth(30);
         agregarImagen.setFitHeight(30);
         agregarImagen.setOnMouseClicked(this::administraAccion);
-        agregarImagen.setTranslateX(95);
-        agregarImagen.setTranslateY(50);
+        
         agregarImagen.setId("boton" + dia + fechaActual.getMonth().getValue() + fechaActual.getYear());
         
-        anchorAgenda.getChildren().add(dayLabel);
-        anchorAgenda.getStylesheets().add(cssCalendario);
-        anchorAgenda.setId("anchorCeldasCalendario");
-        anchorAgenda.setMaxSize(135, 81);
+        vBoxAgenda.getChildren().add(dayLabel);
+        vBoxAgenda.getStylesheets().add(cssCalendario);
+        vBoxAgenda.setId("anchorCeldasCalendario");
+        vBoxAgenda.setPrefSize(200, 200);
         
         
         if (dia > 0 && dia <= fechaActual.lengthOfMonth()) {
             if (dia % 2 != 0) {
                 
-                anchorAgenda.getChildren().add(agregarImagen);
-                anchorAgenda.getStyleClass().add("calendarioCeldaImpar");
+                vBoxAgenda.getChildren().add(agregarImagen);
+                vBoxAgenda.getStyleClass().add("calendarioCeldaImpar");
             } else {
                 
-                anchorAgenda.getChildren().add(agregarImagen);
-                anchorAgenda.getStyleClass().add("calendarioCeldaPar");
+                vBoxAgenda.getChildren().add(agregarImagen);
+                vBoxAgenda.getStyleClass().add("calendarioCeldaPar");
             }
         }else {
-            anchorAgenda.getStyleClass().add("calendarioCeldaDistintomes");
+            vBoxAgenda.getStyleClass().add("calendarioCeldaDistintomes");
         }
+        VBox.setMargin(vBoxAgenda, new Insets(5));
+        VBox vboxResultado = new VBox(vBoxAgenda);
+        //vboxResultado.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+        vboxResultado.setSpacing(20);
+        
 
-        return anchorAgenda;
+        return vboxResultado;
     }
     
     
@@ -438,7 +447,7 @@ public class AgendaController extends MenuInicioController implements Initializa
     
     public void fechaSeleccionado(ImageView b){
         
-        AnchorPane a =  (AnchorPane)  b.getParent();
+        VBox a =  (VBox)  b.getParent();
         LocalDate fecha;
        
         for (Node child : a.getChildren()) {

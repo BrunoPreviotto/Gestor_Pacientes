@@ -527,7 +527,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                     } else {
                         vBoxSesiones.setVisible(false);
                         vBoxAutorizacion.setVisible(false);
-                        vbTablasSesionesAtorizaciones.setVisible(true);
+                        hbTablasSesionesAtorizaciones.setVisible(true);
                         mensaje("Paciente no encontrado", this, VariablesEstaticas.imgenAdvertencia);
                         servicioPaciente.
                                 vaciarListas().
@@ -545,7 +545,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                 } else {
                     vBoxSesiones.setVisible(false);
                     vBoxAutorizacion.setVisible(false);
-                    vbTablasSesionesAtorizaciones.setVisible(true);
+                    hbTablasSesionesAtorizaciones.setVisible(true);
                     mensaje("Paciente no encontrado", this, VariablesEstaticas.imgenAdvertencia);
                     servicioPaciente.
                             vaciarListas().
@@ -563,7 +563,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
             } else {
                 vBoxSesiones.setVisible(false);
                 vBoxAutorizacion.setVisible(false);
-                vbTablasSesionesAtorizaciones.setVisible(true);
+                hbTablasSesionesAtorizaciones.setVisible(true);
                 cajaPlanFrecuenciaSesiones.setVisible(false);
                 cajaNombreTipoSesionPlan.setVisible(false);
                 mensaje("Paciente no encontrado", this, VariablesEstaticas.imgenAdvertencia);
@@ -585,7 +585,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
              mensaje("Error al buscar paciente", this, VariablesEstaticas.imgenError);
                             vBoxSesiones.setVisible(false);
                             vBoxAutorizacion.setVisible(false);
-                            vbTablasSesionesAtorizaciones.setVisible(true);
+                            hbTablasSesionesAtorizaciones.setVisible(true);
                             servicioPaciente.
                                 vaciarListas().
                                 vaciarTodo().
@@ -597,7 +597,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                                 deshabilitarBotones(VariablesEstaticas.listaBotonesEliminar).
                                 deshabilitarBotones(VariablesEstaticas.listaBotonesActualizar);
         }
-        vbTablasSesionesAtorizaciones.setVisible(true);
+        hbTablasSesionesAtorizaciones.setVisible(true);
         vBoxSesiones.setVisible(false);
         vBoxAutorizacion.setVisible(false);
         choiseNombreObraSocialPaciente.getItems().clear();
@@ -718,7 +718,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
 
         if (!cajaBuscarPaciente.getText().isBlank()) {
             try {
-                vbTablasSesionesAtorizaciones.setVisible(false);
+                hbTablasSesionesAtorizaciones.setVisible(false);
                 
                 botonAgregarSesiones.setDisable(false);
                 botonEliminarSesiones.setDisable(true);
@@ -796,7 +796,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                             botonRetornarSesiones.setDisable(true);
                             vBoxSesiones.setVisible(false);
                             vBoxAutorizacion.setVisible(false);
-                            vbTablasSesionesAtorizaciones.setVisible(true);
+                            hbTablasSesionesAtorizaciones.setVisible(true);
                             buscarPaciente();
                             mensaje("Sesion creado con éxito", this, "/com/pacientes/gestor_pacientes/img/error.png");
                             botonAgregarSesiones.setId("botonAgregarSesiones");
@@ -1377,12 +1377,12 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                     mensaje("Sesión actualizada con éxito sesión", this, "/com/pacientes/gestor_pacientes/img/error.png");
                     vBoxAutorizacion.setVisible(false);
                     vBoxSesiones.setVisible(false);
-                    vbTablasSesionesAtorizaciones.setVisible(true);
+                    hbTablasSesionesAtorizaciones.setVisible(true);
                     botonActualizarSesiones.setId("botonActualizarSesiones");
                     buscarPaciente();
                 } else {
                     //BOTONERA
-                    vbTablasSesionesAtorizaciones.setVisible(false);
+                    hbTablasSesionesAtorizaciones.setVisible(false);
                     botonAgregarSesiones.setDisable(true);
                     botonEliminarSesiones.setDisable(true);
                     botonRetornarSesiones.setDisable(false);

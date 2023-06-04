@@ -75,6 +75,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -210,7 +211,7 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     @FXML
     protected VBox vBoxAutorizacion;
     @FXML
-    protected VBox vbTablasSesionesAtorizaciones;
+    protected HBox hbTablasSesionesAtorizaciones;
     
     //HORIZONTALBOX
     @FXML
@@ -610,7 +611,7 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     @FXML
     protected AnchorPane apAgendaPrincipal;
     @FXML
-    protected AnchorPane apAgendaAgenda;
+    protected VBox apAgendaAgenda;
     
    //GRIDPANE
    @FXML
@@ -644,6 +645,8 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     protected AnchorPane apOpcionesOpciones;
     @FXML
     protected TabPane tabPaneOpciones;
+    @FXML
+    protected AnchorPane apTodosLOsAPInicial;
     
     
     
@@ -982,7 +985,7 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     
      @FXML
     protected void retornarTablaSesion(MouseEvent event) {
-        vbTablasSesionesAtorizaciones.setVisible(true);
+        hbTablasSesionesAtorizaciones.setVisible(true);
         botonActualizarSesiones.setDisable(false);
         botonAgregarSesiones.setDisable(false);
         botonEliminarSesiones.setDisable(false);
@@ -1214,7 +1217,7 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     
     
     public void diseñoMaximizar(){
-        acordionPaciente.setPrefSize(1400, 800);
+        /*acordionPaciente.setPrefSize(1400, 800);
         apObraSocial.setPrefSize(1500, 800);
         anchorPanePrincipal.setPrefSize(1500, 800);
         apAgendaPrincipal.setPrefSize(1500, 800);
@@ -1225,26 +1228,22 @@ public class ClasePadreMenuInicio extends ClasePadreController{
         tabPaneOpciones.setPrefSize(1500, 800);
         apAgendaAgenda.setPrefSize(1500, 800);
         gpCalendario.setPrefSize(1400, 690);
-        vbLateral.setPrefSize(100, 800);
         vbObraSocial.setPrefSize(1500, 800);
-        //tablaObraSocial.setPrefHeight(300);
         hBoxTablaObraSocial.setPrefHeight(420);
+        vbLateral.setPrefSize(100, 800);*/
+        
+        apTodosLOsAPInicial.setPrefSize(1500, 800);
+        
+        
+        hBoxTablaObraSocial.setPrefHeight(420);
+        
+        
     }
     
     public void diseñoDesmaximizar(){
-        acordionPaciente.setPrefSize(1000, 600);
-        apObraSocial.setPrefSize(1100, 600);
-        anchorPanePrincipal.setPrefSize(1100, 600);
-        apAgendaPrincipal.setPrefSize(1100, 600);
-        apOpciones.setPrefSize(1100, 600);
-        apPacientes.setPrefSize(1100, 600);
-        apOpcionesUsuario.setPrefSize(1100, 600);
-        apOpcionesOpciones.setPrefSize(1100, 600);
-        tabPaneOpciones.setPrefSize(1100, 600);
-        apAgendaAgenda.setPrefSize(1100, 600);
-        gpCalendario.setPrefSize(1095, 500);
-        vbLateral.setPrefSize(100, 600);
-        vbObraSocial.setPrefSize(1100, 600);
+         apTodosLOsAPInicial.setPrefSize(1100, 650);
+        
+        hBoxTablaObraSocial.setPrefHeight(200);
         
         
     }

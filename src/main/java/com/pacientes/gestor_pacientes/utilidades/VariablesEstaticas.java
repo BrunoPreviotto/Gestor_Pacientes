@@ -24,6 +24,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
 /**
  *
@@ -100,7 +101,7 @@ public class VariablesEstaticas {
     //AGENDA
     //ANCHOR 
     public static AnchorPane anchorPrincipalAgenda;
-    public static AnchorPane anchorAgendaAgenda;
+    public static VBox anchorAgendaAgenda;
     
     //GRID PANE 
     public static GridPane gridAgenda;

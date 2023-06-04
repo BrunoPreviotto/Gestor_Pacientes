@@ -38,16 +38,16 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 .calendarioCeldaPar {
    -fx-background-color: rgba(255, 179, 156, 0.5);
    -fx-border-color: rgba(224, 111, 78, 0.5);
-   -fx-pref-width: 110;
-   -fx-pref-height: 120;
+   
+   
     
 }
 
 .calendarioCeldaDistintomes {
    -fx-background-color: rgba(158, 158, 158, 0.5);
-   -fx-pref-width: 100;
-   -fx-pref-height: 150;
+   
    -fx-border-color: rgba(109, 109, 109, 0.5);
+  
    
     
 }
@@ -69,7 +69,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 .anoCalendario{
     -fx-font-weight: bold; 
     -fx-font-style: italic;
-    -fx-font-size: 50px;
+    -fx-font-size: 60px;
 }
 
 
@@ -78,10 +78,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 }
 
 .calendarioCeldaImpar {
-    -fx-pref-width: 130;
-   -fx-pref-height: 150;
+    
     -fx-background-color: rgba(255, 236, 231, 0.5);
     -fx-border-color: rgba(224, 139, 116, 0.5);
+    
     
 }
 
