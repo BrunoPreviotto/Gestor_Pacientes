@@ -8,6 +8,7 @@ import com.pacientes.gestor_pacientes.modelo.ObraSocial;
 import com.pacientes.gestor_pacientes.modelo.Paciente;
 import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  *
@@ -53,6 +54,20 @@ public class ServicioObraSocial extends ServiciosPadre {
                         "5", "");
         return this;
     }
+    
+    public ObraSocial rellenarDatosObraSocialVacia(ObraSocial obraSocial){
+        if(obraSocial.getTelefono().getTelefono().equals("")){
+            obraSocial.getTelefono().setTelefono("000000000");
+        }
+        if(obraSocial.getWeb().getWeb().equals("")){
+            obraSocial.getWeb().setWeb("Sin web");
+        }
+        if(obraSocial.getEmail().getEmail().equals("")){
+            obraSocial.getEmail().setEmail("Sin email");
+        }
+        return obraSocial;
+    }
+         
     
     
 }

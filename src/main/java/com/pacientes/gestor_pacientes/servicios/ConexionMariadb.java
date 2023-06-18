@@ -38,7 +38,6 @@ public class ConexionMariadb {
         try{
             conexion = DriverManager.getConnection(url, user, pwd);
         }catch(SQLException e){
-            System.out.println("ERROR");
             e.printStackTrace();
         }finally{
             return conexion;

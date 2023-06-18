@@ -409,6 +409,14 @@
     
 }
 
+.labelTituloSinTamano{
+    -fx-text-fill:  #C02A00;
+    
+    -fx-font-weight: bold; /* Cambia el grosor de la fuente (negrita) */
+    
+    
+}
+
 
 
 

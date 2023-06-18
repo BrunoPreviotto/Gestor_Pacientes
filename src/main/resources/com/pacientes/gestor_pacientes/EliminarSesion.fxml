@@ -1,30 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="283.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pacientes.gestor_pacientes.controlador.EliminarSesionController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="283.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pacientes.gestor_pacientes.controlador.EliminarSesionController">
    <children>
-      <Label alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="566.0" layoutY="14.0" onMouseClicked="#salir" prefHeight="20.0" prefWidth="20.0" styleClass="botonEntrar" stylesheets="@styles/iniciarSesion.css" text="x" textFill="WHITE">
+      <Label alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="566.0" layoutY="14.0" onMouseClicked="#salir" prefHeight="20.0" prefWidth="20.0" stylesheets="@styles/menuinicio.css" text="x" textFill="WHITE" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
          <font>
             <Font name="DejaVuMathTeXGyre-Regular" size="13.0" />
          </font>
+         <styleClass>
+            <String fx:value="botonBuscarChico" />
+            <String fx:value="botonBuscar" />
+         </styleClass>
       </Label>
-      <CheckBox fx:id="checkBoxSesionEliminarSesion" layoutX="57.0" layoutY="185.0" mnemonicParsing="false" text="Sesion" />
-      <CheckBox fx:id="checkBoxAutorizacionSesionElminarSesion" layoutX="57.0" layoutY="213.0" mnemonicParsing="false" text="Autorizacion" />
-      <Button fx:id="BotonSiEliminarSesion" layoutX="469.0" layoutY="245.0" mnemonicParsing="false" onMouseClicked="#confirmarEliminarONo" prefHeight="24.0" prefWidth="50.0" text="Si" />
-      <Button fx:id="BotonNoEliminarSesion" layoutX="536.0" layoutY="245.0" mnemonicParsing="false" onMouseClicked="#confirmarEliminarONo" prefWidth="50.0" text="No" />
-      <Label layoutX="169.0" layoutY="58.0" prefHeight="31.0" prefWidth="263.0" text="Desea eliminar?">
-         <font>
-            <Font size="26.0" />
-         </font>
-      </Label>
-      <Label layoutX="57.0" layoutY="157.0" prefHeight="16.0" prefWidth="155.0" text="Que desea eliminar?" />
-      <Label fx:id="etiquetaSeleccionarCasillaEliminarSesion" layoutX="57.0" layoutY="235.0" prefHeight="20.0" prefWidth="263.0" text="Seleccionar casilla" textFill="RED" />
+      <CheckBox fx:id="checkBoxSesionEliminarSesion" layoutX="57.0" layoutY="185.0" mnemonicParsing="false" stylesheets="@styles/calendario.css" text="Sesion" />
+      <CheckBox fx:id="checkBoxAutorizacionSesionElminarSesion" layoutX="57.0" layoutY="213.0" mnemonicParsing="false" stylesheets="@styles/calendario.css" text="Autorizacion" />
+      <Button fx:id="BotonSiEliminarSesion" layoutX="469.0" layoutY="245.0" mnemonicParsing="false" onMouseClicked="#confirmarEliminarONo" prefHeight="24.0" prefWidth="50.0" styleClass="botonBuscar" stylesheets="@styles/menuinicio.css" text="Si" />
+      <Button fx:id="BotonNoEliminarSesion" layoutX="536.0" layoutY="245.0" mnemonicParsing="false" onMouseClicked="#confirmarEliminarONo" prefWidth="50.0" styleClass="botonBuscar" stylesheets="@styles/menuinicio.css" text="No" />
+      <Label layoutX="57.0" layoutY="157.0" prefHeight="16.0" prefWidth="155.0" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Que desea eliminar?" />
+      <Label fx:id="etiquetaSeleccionarCasillaEliminarSesion" layoutX="57.0" layoutY="235.0" prefHeight="20.0" prefWidth="263.0" text="Seleccionar casilla" textFill="RED" visible="false" />
+      <HBox alignment="CENTER" layoutX="200.0" layoutY="42.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Label styleClass="labelTituloSinTamano" stylesheets="@styles/menuinicio.css" text="Desea eliminar?">
+               <font>
+                  <Font size="26.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

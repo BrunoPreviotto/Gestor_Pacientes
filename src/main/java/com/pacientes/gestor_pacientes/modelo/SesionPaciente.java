@@ -21,10 +21,20 @@ public class SesionPaciente {
     private AutorizacionesSesionesObraSociales autorizacion;
     private EstadoFacturacion estado;
     private Double honorarioPorSesion;
+    private int idPaciente;
 
    
 
     public SesionPaciente() {
+    }
+    
+    public SesionPaciente(Integer numeroSesion, LocalDate fecha, String trabajoSesion, String observacion, Double honorarioPorSesion, EstadoFacturacion estado) {
+        this.numeroSesion = numeroSesion;
+        this.fecha = fecha;
+        this.trabajoSesion = trabajoSesion;
+        this.observacion = observacion;
+        this.honorarioPorSesion = honorarioPorSesion;
+        this.estado = estado;
     }
 
     public SesionPaciente(Integer numeroSesion, LocalDate fecha, String trabajoSesion, String observacion, Double honorarioPorSesion, AutorizacionesSesionesObraSociales autorizacion, EstadoFacturacion estado) {
@@ -36,6 +46,21 @@ public class SesionPaciente {
         this.autorizacion = autorizacion;
         this.estado = estado;
     }
+
+    public SesionPaciente(Integer numeroSesion, LocalDate fecha) {
+        this.numeroSesion = numeroSesion;
+        this.fecha = fecha;
+    }
+
+    public SesionPaciente(Integer numeroSesion, LocalDate fecha, int idPaciente) {
+        this.numeroSesion = numeroSesion;
+        this.fecha = fecha;
+        this.idPaciente = idPaciente;
+    }
+    
+    
+    
+    
 
     public Double getHonorarioPorSesion() {
         return honorarioPorSesion;
@@ -51,6 +76,15 @@ public class SesionPaciente {
         this.observacion = observacion;
     }
 
+    public int getIdPaciente() {
+        return idPaciente;
+    }
+
+    public void setIdPaciente(int idPaciente) {
+        this.idPaciente = idPaciente;
+    }
+    
+    
     
      public int getIdSesion() {
         return idSesion;

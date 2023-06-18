@@ -8,6 +8,7 @@ import com.pacientes.gestor_pacientes.modelo.Usuario;
 import com.pacientes.gestor_pacientes.servicios.Encriptar;
 import java.util.List;
 import com.pacientes.gestor_pacientes.servicios.ConexionMariadb;
+import com.pacientes.gestor_pacientes.utilidades.Exepciones;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -55,37 +56,24 @@ public class UsuarioDAOImplementacion extends PadreDAOImplementacion implements 
         return null;
     }
     
-    public int obtenerIdUsuario() {
-        String sqlIdUsuario = "SELECT u.id_usuario FROM usuarios u WHERE u.es_ultima_sesion_iniciada = 1;";
-
-        try {
-            PreparedStatement pstIdUsuario = conexion.conexion().prepareStatement(sqlIdUsuario);
-            ResultSet rsIdUsuario = pstIdUsuario.executeQuery();
-            if (rsIdUsuario.next()) {
-                return rsIdUsuario.getInt("id_usuario");
-            } else {
-                return 0;
-            }
-        } catch (Exception e) {
-        }
-        return 0;
-    }
+    
+    
+    
     
    
+
+   
         
-    @Override
-    public List<Usuario> obtenerLista() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }   
+    
        
 
     @Override
-    public void actualizar(Usuario cliente, int numeroFuncion) {
+    public void actualizar(Usuario cliente) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void eliminar(Usuario cliente, int numeroFucion) {
+    public void eliminar(Usuario cliente) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
@@ -95,7 +83,7 @@ public class UsuarioDAOImplementacion extends PadreDAOImplementacion implements 
      * @param usuario 
      */
     @Override
-    public void insertar(Usuario usuario, int numeroFucion) {
+    public void insertar(Usuario usuario) throws Exception{
         String sqlNombre = "INSERT INTO nombres(id_nombre, nombre, apellido) VALUES(?,?,?)";
         String sqlEmail = "INSERT INTO emails(id_email, email) VALUES(?,?)";
         String sqlUsuario = "INSERT INTO usuarios(id_usuario, usuario, contraseña, es_usuario, es_ultima_sesion_iniciada, id_nombre, id_email) VALUES(?, ?, ?, ?, ?, ?, ?)";
@@ -107,7 +95,8 @@ public class UsuarioDAOImplementacion extends PadreDAOImplementacion implements 
             
             int idNombre = obtenerIdNombre(usuario.getNombre(), usuario.getApellido());
             
-            int idEmail =  obtenerIdEmail(usuario.getEmail());
+            daoImplementacion = new EmailDAOImplementacion();
+            int idEmail =  daoImplementacion.obtenerId(usuario.getEmail());
             
            
             
@@ -127,7 +116,8 @@ public class UsuarioDAOImplementacion extends PadreDAOImplementacion implements 
             }
             
            idNombre = obtenerIdNombre(usuario.getNombre(), usuario.getApellido());
-           idEmail =  obtenerIdEmail(usuario.getEmail());  
+           daoImplementacion = new EmailDAOImplementacion();
+           idEmail =  daoImplementacion.obtenerId(usuario.getEmail());  
            
             pst = conexion.conexion().prepareStatement(sqlUsuario);
             pst.setInt(1, 0);
@@ -140,7 +130,7 @@ public class UsuarioDAOImplementacion extends PadreDAOImplementacion implements 
             pst.executeUpdate();
             
             
-            int idUsuario = obtenerIdUsuario();
+            int idUsuario = obtenerId(new Usuario());
             pst = conexion.conexion().prepareStatement(sqlCrearAgenda);
             pst.setInt(1, idUsuario);
             pst.executeUpdate();
@@ -153,7 +143,7 @@ public class UsuarioDAOImplementacion extends PadreDAOImplementacion implements 
         }
     }
 
-    @Override
+    
     public int existeUsuarioReciente() {
          try{
             String sql = "SELECT id_usuario , es_ultima_sesion_iniciada FROM usuarios WHERE es_ultima_sesion_iniciada = true;";
@@ -206,6 +196,30 @@ public class UsuarioDAOImplementacion extends PadreDAOImplementacion implements 
         pSAbrir.setString(1, usuario.getUsuario());
         pSAbrir.executeUpdate();
     }
+
+    @Override
+    public int obtenerId(Usuario objetoParametro) throws Exception {
+        String sqlIdUsuario = "SELECT u.id_usuario FROM usuarios u WHERE u.es_ultima_sesion_iniciada = 1;";
+
+        try {
+            PreparedStatement pstIdUsuario = conexion.conexion().prepareStatement(sqlIdUsuario);
+            ResultSet rsIdUsuario = pstIdUsuario.executeQuery();
+            if (rsIdUsuario.next()) {
+                return rsIdUsuario.getInt("id_usuario");
+            } else {
+                return 0;
+            }
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+
+    @Override
+    public List<Usuario> obtenerLista(Usuario objetoParametro) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    
 
     
     

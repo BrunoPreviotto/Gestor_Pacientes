@@ -20,12 +20,20 @@ public class ObraSocial {
     private Email email;
     private List<String> planes;
     private String plan;
-    private String listaPlanesToString = ""; 
+    private String listaPlanesToString = "";
+    private int idPlan;
 
     
 
     public ObraSocial() {
     }
+
+    public ObraSocial(String nombre, String plan) {
+        this.nombre = nombre;
+        this.plan = plan;
+    }
+    
+    
 
     public ObraSocial(String nombre, Telefono telefono, Web web, Email email) {
         this.nombre = nombre;
@@ -43,6 +51,12 @@ public class ObraSocial {
         this.email = email;
         this.planes = planes;
     }
+
+    public ObraSocial(int id, String nombre) {
+        this.id = id;
+        this.nombre = nombre;
+    }
+    
     
     
 
@@ -147,6 +161,14 @@ public class ObraSocial {
             }
         }
         return this;
+    }
+
+    public int getIdPlan() {
+        return idPlan;
+    }
+
+    public void setIdPlan(int idPlan) {
+        this.idPlan = idPlan;
     }
     
     

@@ -68,14 +68,11 @@ public class ConsultasBD {
             String listaJoinResultado = stringJoin(tablaPrincipal, idTablaPrincipal, Tablasjoin);
             if(!listaSelectResultado.isEmpty() && !tablaPrincipal.isEmpty() && !listaJoinResultado.isEmpty()){
                 String sql = "SELECT "+ listaSelectResultado +" FROM " + tablaPrincipal + listaJoinResultado + ";";
-                System.out.println(sql);
                 PreparedStatement pst = conexion.conexion().prepareStatement(sql);
                 ResultSet rs = pst.executeQuery();
                 rs.close();
                 pst.close();
-                System.out.println(sql);
                 if(rs.next()){
-                   System.out.println(rs.getString(1));
                    return rs;
                 }
                 
@@ -98,7 +95,6 @@ public class ConsultasBD {
             String listaRestricciones = stringWhere(restricciones);
             if(!listaSelectResultado.isEmpty() && !tablaPrincipal.isEmpty() && !listaJoinResultado.isEmpty()){
                 String sql = "SELECT "+ listaSelectResultado +" FROM " + tablaPrincipal + listaJoinResultado + " " + listaRestricciones  + ";";
-                System.out.println(sql);
                 PreparedStatement pst = conexion.conexion().prepareStatement(sql);
                 ResultSet rs = pst.executeQuery();
                 rs.close();
@@ -125,7 +121,7 @@ public class ConsultasBD {
             String listaRestricciones = stringWhere(restricciones);
             if(!listaSelectResultado.isEmpty() && !tablaPrincipal.isEmpty()){
                 String sql = "SELECT "+ listaSelectResultado +" FROM " + tablaPrincipal + " WHERE " + listaRestricciones  + ";";
-                System.out.println(sql);
+               
                 PreparedStatement pst = conexion.conexion().prepareStatement(sql);
                 ResultSet rs = pst.executeQuery();
                 rs.close();

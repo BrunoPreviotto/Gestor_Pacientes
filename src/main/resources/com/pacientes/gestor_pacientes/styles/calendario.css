@@ -43,6 +43,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     
 }
 
+.calendarioCeldaDiaActual {
+   -fx-background-color: rgba(172, 114, 75, 0.5);
+   -fx-border-color: rgba(118, 52, 30, 0.5);
+}
+
 .calendarioCeldaDistintomes {
    -fx-background-color: rgba(158, 158, 158, 0.5);
    

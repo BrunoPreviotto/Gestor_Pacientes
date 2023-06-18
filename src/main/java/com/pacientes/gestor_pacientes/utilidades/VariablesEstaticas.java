@@ -10,9 +10,11 @@ import com.pacientes.gestor_pacientes.modelo.Usuario;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.TimerTask;
 import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -22,6 +24,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
+import javafx.scene.control.TitledPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -52,6 +57,26 @@ public class VariablesEstaticas {
     
     //PACIENTE
     
+    //CAJAS AUTORIZACION
+    
+    
+    public static TextField cajaAutorizacionSesion;
+    
+    public static DatePicker cajaAsociacionSesionObraSocial;
+    
+    public static TextArea cajaObservacionSesionObraSocial;
+    
+    public static TextField cajaAtualizarCodigoFacturacionSesionObraSocial;
+    
+    public static TextField cajaAtualizarNombreCodigoFacturacionSesionObraSocial;
+    
+    public static TextField cajaCodigoFacturacion;
+    
+    public static TextField cajaCopagoSesionObraSocial;
+    
+    public static ChoiceBox<String> choiseCodigoFactSesionObraSocial;
+    
+    
     //LISTAS CONTROLES
     //LISTA CAJAS
     public static List<TextField> cajasDatosPrincipales;
@@ -70,6 +95,12 @@ public class VariablesEstaticas {
     public static List<ChoiceBox> choiseObraSocialPaciente;
     //LISTA DATEPICKER
     public static List<DatePicker> datePickerSesiones;
+    //LISTA VBOX PLANES
+    public static List<VBox> vboxsPlanesTratamiento;
+    public static List<VBox> vboxsPlanesTratamientoActualizaroVer;
+    //LISTA VBOX OBRA SOCIAL PACIENTE
+    public static List<VBox> vboxsObraSocialPaciente;
+    public static List<VBox> vboxsObraSocialPacienteActualizaroVer;
     
     
     //LISTAS VALORES PACIENTE ACTUAL
@@ -111,8 +142,22 @@ public class VariablesEstaticas {
      public static List<TextField> cajasRegistrar;
     
     //IMAGENES
+    public static final String imgenExito = "/com/pacientes/gestor_pacientes/img/exito.png";
     public static final String imgenError = "/com/pacientes/gestor_pacientes/img/error.png";
     
     public static final String imgenAdvertencia = "/com/pacientes/gestor_pacientes/img/warning.png";
+    
+    public static final Image imagenVer = new Image("/com/pacientes/gestor_pacientes/img/ver.png");
+    public static final Image imagenAgregar = new Image("/com/pacientes/gestor_pacientes/img/lapiz.png");
+    public static final Image imagenRecordar = new Image("/com/pacientes/gestor_pacientes/img/recordatorio.png");
+     
+     //MENSAJES
+    //MENSAJEPREGUNTARSIONO
+    public static boolean esSiONoMensajePrguntarSiONo;
+   
+    //ACORDEON
+    public static List<TitledPane> listaContenedoresAcordeon;
+    public static TitledPane tabDatosPricipales;
+    
     
 }

@@ -5,92 +5,83 @@
 package com.pacientes.gestor_pacientes.controlador;
 
 // PROYECTO
+import com.pacientes.gestor_pacientes.implementacionDAO.ObraSocial.ObraSocialDAOImplementacion;
+import com.pacientes.gestor_pacientes.implementacionDAO.Paciente.PacienteDAOImplementacion;
 import com.pacientes.gestor_pacientes.implementacionDAO.*;
 import com.pacientes.gestor_pacientes.modelo.*;
-import com.pacientes.gestor_pacientes.utilidades.MetodosComoParametros;
 import static com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas.*;
-import static com.pacientes.gestor_pacientes.servicios.InicializarObjeto.*;
-import com.pacientes.gestor_pacientes.validacion.Validar;
 import com.pacientes.gestor_pacientes.utilidades.DraggedScene;
 import com.pacientes.gestor_pacientes.utilidades.TablaSesiones;
 
 // EXTERNAS
-import com.google.common.base.Splitter;
-import com.google.common.collect.*;
+
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
-import com.google.common.collect.ImmutableMap;
-import com.pacientes.gestor_paciente.CRUD.ObtenerPaciente;
+
 import com.pacientes.gestor_pacientes.App;
-import com.pacientes.gestor_pacientes.utilidades.TablaObrasSociales;
+import com.pacientes.gestor_pacientes.DAO.IPacienteDAO;
+import com.pacientes.gestor_pacientes.implementacionDAO.ObraSocial.PlanObraSocialDAOImplementacion;
+import com.pacientes.gestor_pacientes.implementacionDAO.Paciente.AfiliadoDAOImplementacion;
+import com.pacientes.gestor_pacientes.implementacionDAO.Paciente.AutorizacionDAOImplementacion;
+import com.pacientes.gestor_pacientes.implementacionDAO.Paciente.CodigoFacturacionDAOImplementacion;
+import com.pacientes.gestor_pacientes.implementacionDAO.Paciente.DatosPrincipalesDAOImplementacion;
+import com.pacientes.gestor_pacientes.implementacionDAO.Paciente.DiagnosticoDAOImplementacion;
+import com.pacientes.gestor_pacientes.implementacionDAO.Paciente.FrecuenciaSesionPlanDAOImplementacion;
+import com.pacientes.gestor_pacientes.implementacionDAO.Paciente.ObraSocialPacienteDAOImplementacion;
+import com.pacientes.gestor_pacientes.implementacionDAO.Paciente.PlanTratamientoDAOImplementacion;
+import com.pacientes.gestor_pacientes.implementacionDAO.Paciente.SesionDAOImplementacion;
+import com.pacientes.gestor_pacientes.implementacionDAO.Paciente.TipoSesionPlanDAOImplementacion;
+import com.pacientes.gestor_pacientes.utilidades.Exepciones;
+
 import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
-import java.lang.reflect.Method;
+
 import java.net.URL;
-import java.sql.Array;
-import java.sql.SQLException;
-import java.sql.SQLOutput;
-import java.time.DayOfWeek;
+
+
+
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.YearMonth;
-import java.time.chrono.Chronology;
+import java.time.Month;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import javafx.animation.ParallelTransition;
-import javafx.animation.ScaleTransition;
-import javafx.animation.TranslateTransition;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
+
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.HPos;
-import javafx.geometry.Insets;
+
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Accordion;
-import javafx.scene.control.Alert;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
+
 import javafx.scene.control.Control;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
+
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputControl;
-import javafx.scene.control.TitledPane;
-import javafx.scene.control.TreeTableColumn;
-import javafx.scene.control.TreeTableColumn.CellDataFeatures;
-import javafx.scene.control.TreeTableView;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.ContextMenuEvent;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.InputMethodEvent;
+
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TouchEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
+
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Callback;
-import javafx.util.Duration;
-import javafx.util.converter.LocalDateTimeStringConverter;
+
 
 /**
  * FXML Controller class
@@ -112,18 +103,35 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        this.onDraggedScene(container);
+        
+       
+
+       
+        
         usuarioDao = new UsuarioDAOImplementacion();
         usuario = usuarioDao.obtenerNombreUsuario();
+        try {
+            VariablesEstaticas.usuario.setId(usuarioDao.obtenerId(new Usuario()));
+        } catch (Exception e) {
+        }
+        
+        this.onDraggedScene(containerMenu);
+        
+        etiquetaNombreInicio.setText(usuario.getNombre() + " " + usuario.getApellido());
         labelNombreDeUsuario1.setText(usuario.getNombre() + " " + usuario.getApellido());
         labelNombreDeUsuario2.setText(usuario.getNombre() + " " + usuario.getApellido());
         labelNombreDeUsuario3.setText(usuario.getNombre() + " " + usuario.getApellido());
         labelNombreDeUsuario4.setText(usuario.getNombre() + " " + usuario.getApellido());
-        iniciarChoiseList();
+        iniciarChoiceCodigoFacturacion();
+        iniciarChoiceFrecuencia();
+        iniciarChoiceObraSocial();
+        
+        iniciarChoiceTipoSesion();
         inicializarTableObraSocial();
+        iniciarChoicePlanTratamiento();
         
-        VariablesEstaticas.usuario.setId(usuarioDao.obtenerIdUsuario());
         
+        comprobarFechaAlIniciar();
         
         //AGENDA
         VariablesEstaticas.anchorPrincipalAgenda = apAgendaPrincipal;
@@ -347,42 +355,146 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                         botonAgregarPlanTipoSesion,
                         botonAgregarDiagnostico,
                         botonAgregarObraSocialPaciente);
+        
+        VariablesEstaticas.listaContenedoresAcordeon
+                = Arrays.asList(
+                        titlePaneDatosPrincipales,
+                        titlePaneSesion,
+                        titlePanePlan,
+                        titlePaneDiagnostico,
+                        titlePaneGenograma,
+                        titlePaneObraSocial);
+        
+        VariablesEstaticas.tabDatosPricipales = titlePaneDatosPrincipales;
+        
+        VariablesEstaticas.vboxsPlanesTratamiento 
+                = Arrays.asList(
+                        vBoxFrecuenciaSEsionPlan,
+                        vBoxNombreTipoSEsionPlan);
+        
+        VariablesEstaticas.vboxsPlanesTratamientoActualizaroVer
+                = Arrays.asList(
+                       vBoxFrecuenciaSEsionPlanActualizaroVer,
+                        vBoxNombreTipoSEsionPlanActualizaroVer
+                );
+        
+        VariablesEstaticas.vboxsObraSocialPaciente 
+                = Arrays.asList(
+                        vboxNombreObraSocialPaciente,
+                        vboxPlanObraSocialPaciente);
+        VariablesEstaticas.vboxsObraSocialPacienteActualizaroVer 
+                = Arrays.asList(
+                        vboxNombreObraSocialPacienteActualizarVer, 
+                        vboxPlanObraSocialPacienteActualizarVer);
 
         servicioPaciente.
                 deshabilitarBotones(VariablesEstaticas.listaBotonesActualizar).
                 deshabilitarBotones(VariablesEstaticas.listaBotonesEliminar);
 
-        
+         //cajas autrizacion
+         VariablesEstaticas.cajaAutorizacionSesion = cajaAutorizacionSesion;
+
+         VariablesEstaticas.cajaAsociacionSesionObraSocial = cajaAsociacionSesionObraSocial;
+
+         VariablesEstaticas.cajaObservacionSesionObraSocial = cajaObservacionSesionObraSocial;
+
+         VariablesEstaticas.cajaAtualizarCodigoFacturacionSesionObraSocial = cajaAtualizarCodigoFacturacionSesionObraSocial;
+
+         VariablesEstaticas.cajaAtualizarNombreCodigoFacturacionSesionObraSocial = cajaAtualizarNombreCodigoFacturacionSesionObraSocial;
+
+         VariablesEstaticas.cajaCodigoFacturacion = cajaCodigoFacturacion;
+         
+         VariablesEstaticas.cajaCopagoSesionObraSocial = cajaCopagoSesionObraSocial;
+         
+         VariablesEstaticas.choiseCodigoFactSesionObraSocial = choiseCodigoFactSesionObraSocial;
+         
+         
 
     }
 
-    private void iniciarChoiseList() {
-        obraSocialDao = new ObraSocialDAOImplementacion();
-        List<String> listaCodigosFacturacion = pacienteDao.obtenerListaCodigosFacturacion();
-        List<String> listaTiposSesiones = pacienteDao.obtenerListaTiposSesion();
-        List<String> listaNombreObrasSociales = obraSocialDao.obtenerListaNombresObrasSociales();
-        List<String> listaFreceunciaPlan = pacienteDao.obtenerListaFrecuencia();
-
-        if (!Objects.isNull(listaNombreObrasSociales)) {
-            choiseNombreObraSocialPaciente.getItems().addAll(listaNombreObrasSociales);
+     private void iniciarChoicePlanTratamiento() {
+        
+        
+       daoImplementacion = new PlanObraSocialDAOImplementacion();
+        try {
+            listaPlanesObrasSociales = daoImplementacion.obtenerLista(new ObraSocial(choiseNombreObraSocialPaciente.getValue()));
+        } catch (Exception e) {
         }
-
-        listaPlanesObrasSociales = obraSocialDao.obtenerListaPlanesObrasSociales(new ObraSocial(choiseNombreObraSocialPaciente.getValue()));
+        
         valorInicialNombreObraSocialPaciente = choiseNombreObraSocialPaciente.getValue();
 
         if (!Objects.isNull(listaPlanesObrasSociales)) {
-            choisePlanesObraSocialPacientePlan.getItems().addAll(listaPlanesObrasSociales);
+            for (ObraSocial plan: listaPlanesObrasSociales) {
+                choisePlanesObraSocialPacientePlan.getItems().add(plan.getPlan());
+            }
+            
         }
-        if (!Objects.isNull(listaTiposSesiones)) {
-            choiseTipoSesionPlan.getItems().addAll(listaTiposSesiones);
-        }
-        if (!Objects.isNull(listaFreceunciaPlan)) {
-            choiseFrecuenciaSesionPlan.getItems().addAll(listaFreceunciaPlan);
-        }
-        if (!Objects.isNull(listaCodigosFacturacion)) {
-            choiseCodigoFactSesionObraSocial.getItems().addAll(listaCodigosFacturacion);
+        
+        
+        
+    }
+     
+    public void iniciarChoiceTipoSesion(){
+         try {
+             daoImplementacion = new TipoSesionPlanDAOImplementacion();
+             List<TipoSesion> listaTiposSesiones = daoImplementacion.obtenerLista(new TipoSesion());
+             if (!Objects.isNull(listaTiposSesiones)) {
+                 for (TipoSesion h : listaTiposSesiones) {
+                     choiseTipoSesionPlan.getItems().add(h.getNombre());
+                 }
+
+             }
+         } catch (Exception e) {
+         }
+    }
+    
+    public void iniciarChoiceCodigoFacturacion(){
+        try {
+             daoImplementacion = new CodigoFacturacionDAOImplementacion();
+             List<CodigoFacturacion> listaCodigosFacturacion = daoImplementacion.obtenerLista(new CodigoFacturacion());
+             if (!Objects.isNull(listaCodigosFacturacion)) {
+                 for (CodigoFacturacion h : listaCodigosFacturacion) {
+                    choiseCodigoFactSesionObraSocial.getItems().add(h.getNombre());
+                 }
+
+             }
+         } catch (Exception e) {
+         }
+    }
+    
+    
+    
+    public void iniciarChoiceObraSocial(){
+         try {
+             daoImplementacion = new ObraSocialDAOImplementacion();
+             List<ObraSocial> listaObrasSociales = daoImplementacion.obtenerLista(new ObraSocial());
+             if (!Objects.isNull(listaObrasSociales)) {
+                 for (ObraSocial h : listaObrasSociales) {
+                     choiseNombreObraSocialPaciente.getItems().add(h.getNombre());
+
+                 }
+
+             }
+         } catch (Exception e) {
+         }
+    }
+    
+    public void iniciarChoiceFrecuencia() {
+        try {
+            daoImplementacion = new FrecuenciaSesionPlanDAOImplementacion();
+            List<FrecuenciaSesion> listaFreceunciaPlan = daoImplementacion.obtenerLista(new FrecuenciaSesion());
+
+            if (!Objects.isNull(listaFreceunciaPlan)) {
+                for (FrecuenciaSesion h : listaFreceunciaPlan) {
+                    choiseFrecuenciaSesionPlan.getItems().add(h.getFrecuencia());
+                }
+
+            }
+        } catch (Exception e) {
         }
     }
+    
+    
 
     /*
         PACIENTE                    PACIENTE                PACIENTE            PACIENTE
@@ -411,191 +523,85 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
             Paciente pacienteBuscar = new Paciente();
             if (!cajaBuscarPaciente.getText().isEmpty()) {
                 //BUSCAR ID PACIENTE BUSCADO
-                
-                pacienteBuscar.setId(pacienteDao.obtenerIdPacienteSoloConIdUsuario(new Paciente(Integer.valueOf(cajaBuscarPaciente.getText()))));
+                daoImplementacion = new PacienteDAOImplementacion();
+                pacienteBuscar.setId(daoImplementacion.obtenerId(new Paciente(Integer.valueOf(cajaBuscarPaciente.getText()))));
                 //SI PACIENTE EXISTE
                 if (pacienteBuscar.getId() != 0) {
-                    Paciente pacienteResultado = pacienteDao.obtener(pacienteBuscar);
+                    Paciente pacienteResultado;
+                    try {
+                        pacienteResultado = (Paciente)daoImplementacion.obtener(pacienteBuscar);
+                    } catch (Exception e) {
+                        pacienteResultado = null;
+                    }
 
+                     
+                    
+                    
                     //PACIENTE NO ESTA VACIO
                     if (Objects.nonNull(pacienteResultado)) {
 
                         //SI DATOS PRINCIPALES EXISTEN
-                        if (Objects.nonNull(pacienteResultado.getDni())) {
-                            
-                            buscarDatosPrincipales(pacienteResultado);
-
-                        } else {
-                            
-                            servicioPaciente.
-                                    vaciarListaDatosPrincipales().
-                                    habilitarBotonCrear(botonAgregarDatosPrincipales).
-                                    desHabilitarEliminarActualizar(botonEliminarDatosPrincipales, botonActualizarDatosPrincipales);
-                        }
+                        buscarDatosPrincipales(pacienteResultado);
+                       
 
                         //SI SESIONES EXISTEN
+                         buscarSesiones(pacienteResultado);
                         
-                        if (Objects.nonNull(pacienteResultado.getSesiones())) {
-                            
-                            buscarSesiones(pacienteResultado);
-                            
-                        }else{
-                            //servicioPaciente.vaciarListaSesiones();
-                        }
 
                         //SI PLANES DE TRATAMIENTOS EXISTEN
-                        if (Objects.nonNull(pacienteResultado.getPlanTratamiento())) {
-                            choiseFrecuenciaSesionPlan.setValue(pacienteResultado.getPlanTratamiento().getFrecuenciaSesion());
-                            cajaPlanFrecuenciaSesiones.setText(pacienteResultado.getPlanTratamiento().getFrecuenciaSesion());
-                            cajaDescripcionTipoSesionPlan.setText(pacienteResultado.getPlanTratamiento().getTipoSEsion().getDecripcion());
-                            cajaEstrategiaPlan.setText(pacienteResultado.getPlanTratamiento().getEstrategia());
-                            choiseTipoSesionPlan.setValue(pacienteResultado.getPlanTratamiento().getTipoSEsion().getNombre());
-                            cajaNombreTipoSesionPlan.setText(pacienteResultado.getPlanTratamiento().getTipoSEsion().getNombre());
-
-                            servicioPaciente.
-                                    rellenarListaPlan(pacienteResultado).
-                                    visivilizarCajas(VariablesEstaticas.cajasPlanes).
-                                    esconderChoice(VariablesEstaticas.choisePlan).
-                                    deshabilitarCajas(VariablesEstaticas.cajasPlanes).
-                                    desHabilitarBotonCrear(botonAgregarPlanTratamiento).
-                                    habilitarEliminarActualizar(botonEliminarPlanTratamiento, botonActualizarPlanTratamiento);
-
-                        } else {
-                            servicioPaciente.
-                                    vaciarListaPlan().
-                                    visivilizarChoice(VariablesEstaticas.choisePlan).
-                                    habilitarCajas(VariablesEstaticas.cajasPlanes).
-                                    esconderCajas(VariablesEstaticas.cajasPlanes).
-                                    vaciarValorChoise(VariablesEstaticas.choisePlan).
-                                    vaciarCajas(VariablesEstaticas.cajasPlanes).
-                                    habilitarBotonCrear(botonAgregarPlanTratamiento).
-                                    desHabilitarEliminarActualizar(botonEliminarPlanTratamiento, botonActualizarPlanTratamiento);
-                        }
+                        buscarPLanes(pacienteResultado);
+                        
 
                         //SI DIAGNOSTICO EXISTE
-                        if (Objects.nonNull(pacienteResultado.getDiagnostico())) {
-                            cajaDiagnosticoDiagnostico.setText(pacienteResultado.getDiagnostico().getDiagnostico());
-                            cajaObservacionDiagnostico.setText(pacienteResultado.getDiagnostico().getObservacion());
-
-                            servicioPaciente.
-                                    rellenarListaDiagnostico(pacienteResultado).
-                                    deshabilitarCajasArea(VariablesEstaticas.cajasAreaDiagnostico).
-                                    desHabilitarBotonCrear(botonAgregarDiagnostico).
-                                    habilitarEliminarActualizar(botonEliminarDiagnostico, botonActualizarDiagnostico);;
-
-                        } else {
-                            servicioPaciente.
-                                    vaciarListaDiagnostico().
-                                    vaciarCajasArea(VariablesEstaticas.cajasAreaDiagnostico).
-                                    habilitarBotonCrear(botonAgregarDiagnostico).
-                                    desHabilitarEliminarActualizar(botonEliminarDiagnostico, botonActualizarDiagnostico);
-                        }
+                        buscarDiagnostico(pacienteResultado);
+                        
 
                         //SI OBRA SOCIAL PACIENTE EXISTE
-                        if (Objects.nonNull(pacienteResultado.getObraSocialPaciente())) {
-
-                            cajaNombreObraSocialPaciente.setText(pacienteResultado.getObraSocialPaciente().getNombre());
-                            choiseNombreObraSocialPaciente.setValue(pacienteResultado.getObraSocialPaciente().getNombre());
-                            choisePlanesObraSocialPacientePlan.setValue(pacienteResultado.getObraSocialPaciente().getPlan().getNombre());
-                            cajaPlanObraSocialPaciente.setText(pacienteResultado.getObraSocialPaciente().getPlan().getNombre());
-                            cajaNAfiliadoObraSocialPaciente.setText(pacienteResultado.getObraSocialPaciente().getAfiliado().getNumero().toString());
-
-                            servicioPaciente.
-                                    rellenarListaObrasocialPaciente(pacienteResultado).
-                                    visivilizarCajas(VariablesEstaticas.cajasObraSocialPaciente).
-                                    esconderChoice(VariablesEstaticas.choiseObraSocialPaciente).
-                                    deshabilitarCajas(VariablesEstaticas.cajasObraSocialPaciente).
-                                    desHabilitarBotonCrear(botonAgregarObraSocialPaciente).
-                                    habilitarEliminarActualizar(botonEliminarObraSocialPaciente, botonActualizarObraSocialPaciente);;
-
-                        } else {
-                            servicioPaciente.
-                                    vaciarListaObrasocialPaciente().
-                                    visivilizarChoice(VariablesEstaticas.choiseObraSocialPaciente).
-                                    habilitarCajas(VariablesEstaticas.cajasObraSocialPaciente).
-                                    esconderCajas(VariablesEstaticas.cajasObraSocialPaciente).
-                                    vaciarCajas(VariablesEstaticas.cajasObraSocialPaciente).
-                                    vaciarValorChoise(VariablesEstaticas.choiseObraSocialPaciente).
-                                    habilitarBotonCrear(botonAgregarObraSocialPaciente).
-                                    desHabilitarEliminarActualizar(botonEliminarObraSocialPaciente, botonActualizarObraSocialPaciente);
-                        }
+                        buscarObraSocial(pacienteResultado);  
+                        
 
                         servicioPaciente.
+                                comprobarSiAcordeonEstaCerrado(listaContenedoresAcordeon).
                                 desHabilitarBotonCrear(botonAgregarPlanFrecuencia).
                                 desHabilitarBotonCrear(botonAgregarPlanTipoSesion);
 
                     } else {
-                        vBoxSesiones.setVisible(false);
-                        vBoxAutorizacion.setVisible(false);
-                        hbTablasSesionesAtorizaciones.setVisible(true);
-                        mensaje("Paciente no encontrado", this, VariablesEstaticas.imgenAdvertencia);
-                        servicioPaciente.
-                                vaciarListas().
-                                vaciarTodo().
-                                habilitarTodo().
-                                esconderCajas(VariablesEstaticas.cajasPlanes).
-                                visivilizarChoice(VariablesEstaticas.choisePlan).
-                                esconderCajas(VariablesEstaticas.cajasObraSocialPaciente).
-                                visivilizarChoice(VariablesEstaticas.choiseObraSocialPaciente).
-                                habilitarBotones(VariablesEstaticas.listaBotonesCrear).
-                                deshabilitarBotones(VariablesEstaticas.listaBotonesEliminar).
-                                deshabilitarBotones(VariablesEstaticas.listaBotonesActualizar);
+                        cajaBuscarPaciente.setText(null);
+                        pacienteNoEncontradoBuscar();
                     }
 
                 } else {
-                    vBoxSesiones.setVisible(false);
-                    vBoxAutorizacion.setVisible(false);
-                    hbTablasSesionesAtorizaciones.setVisible(true);
-                    mensaje("Paciente no encontrado", this, VariablesEstaticas.imgenAdvertencia);
-                    servicioPaciente.
-                            vaciarListas().
-                            vaciarTodo().
-                            habilitarTodo().
-                            esconderCajas(VariablesEstaticas.cajasPlanes).
-                            visivilizarChoice(VariablesEstaticas.choisePlan).
-                            esconderCajas(VariablesEstaticas.cajasObraSocialPaciente).
-                            visivilizarChoice(VariablesEstaticas.choiseObraSocialPaciente).
-                            habilitarBotones(VariablesEstaticas.listaBotonesCrear).
-                            deshabilitarBotones(VariablesEstaticas.listaBotonesEliminar).
-                            deshabilitarBotones(VariablesEstaticas.listaBotonesActualizar);
+                    cajaBuscarPaciente.setText(null);
+                    pacienteNoEncontradoBuscar();
                 }
 
             } else {
-                vBoxSesiones.setVisible(false);
-                vBoxAutorizacion.setVisible(false);
-                hbTablasSesionesAtorizaciones.setVisible(true);
-                cajaPlanFrecuenciaSesiones.setVisible(false);
-                cajaNombreTipoSesionPlan.setVisible(false);
-                mensaje("Paciente no encontrado", this, VariablesEstaticas.imgenAdvertencia);
-                //VACIAR CAJAS SI PACIENTE NO EXISTE
-                servicioPaciente.
-                        vaciarTodo().
-                        vaciarListas().
-                        habilitarTodo().
-                        esconderCajas(VariablesEstaticas.cajasPlanes).
-                        visivilizarChoice(VariablesEstaticas.choisePlan).
-                        esconderCajas(VariablesEstaticas.cajasObraSocialPaciente).
-                        visivilizarChoice(VariablesEstaticas.choiseObraSocialPaciente).
-                        habilitarBotones(VariablesEstaticas.listaBotonesCrear).
-                        deshabilitarBotones(VariablesEstaticas.listaBotonesEliminar).
-                        deshabilitarBotones(VariablesEstaticas.listaBotonesActualizar);
+                cajaBuscarPaciente.setText(null);
+                pacienteNoEncontradoBuscar();
+                
             }
+            
+            
+             
 
         } catch (Exception e) {
-             mensaje("Error al buscar paciente", this, VariablesEstaticas.imgenError);
-                            vBoxSesiones.setVisible(false);
-                            vBoxAutorizacion.setVisible(false);
-                            hbTablasSesionesAtorizaciones.setVisible(true);
-                            servicioPaciente.
-                                vaciarListas().
-                                vaciarTodo().
-                                esconderCajas(VariablesEstaticas.cajasPlanes).
-                                visivilizarChoice(VariablesEstaticas.choisePlan).
-                                esconderCajas(VariablesEstaticas.cajasObraSocialPaciente).
-                                visivilizarChoice(VariablesEstaticas.choiseObraSocialPaciente).
-                                habilitarBotones(VariablesEstaticas.listaBotonesCrear).
-                                deshabilitarBotones(VariablesEstaticas.listaBotonesEliminar).
-                                deshabilitarBotones(VariablesEstaticas.listaBotonesActualizar);
+            e.printStackTrace();
+            cajaBuscarPaciente.setText(null);
+            mensajeAdvertenciaError("Error al buscar paciente", this, VariablesEstaticas.imgenError);
+            vBoxSesiones.setVisible(false);
+            vBoxAutorizacion.setVisible(false);
+            hbTablasSesionesAtorizaciones.setVisible(true);
+            servicioPaciente.
+                    vaciarListas().
+                    vaciarTodo().
+                    habilitarTodo().
+                    visibilizarLIstVBox(VariablesEstaticas.vboxsPlanesTratamiento).
+                    ocultarLIstVBox(VariablesEstaticas.vboxsPlanesTratamientoActualizaroVer).
+                    visibilizarLIstVBox(VariablesEstaticas.vboxsObraSocialPaciente).
+                    ocultarLIstVBox(VariablesEstaticas.vboxsObraSocialPacienteActualizaroVer).
+                    habilitarBotones(VariablesEstaticas.listaBotonesCrear).
+                    deshabilitarBotones(VariablesEstaticas.listaBotonesEliminar).
+                    deshabilitarBotones(VariablesEstaticas.listaBotonesActualizar);
         }
         hbTablasSesionesAtorizaciones.setVisible(true);
         vBoxSesiones.setVisible(false);
@@ -606,66 +612,188 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
         choiseTipoSesionPlan.getItems().clear();
         choiseFrecuenciaSesionPlan.getItems().clear();
         choiseCodigoFactSesionObraSocial.getItems().clear();
-        iniciarChoiseList();
+        iniciarChoiceCodigoFacturacion();
+        iniciarChoiceFrecuencia();
+        iniciarChoiceObraSocial();
+        iniciarChoiceTipoSesion();
+        inicializarTableObraSocial();
+        iniciarChoicePlanTratamiento();
         
         
        
     }
     
+    public void pacienteNoEncontradoBuscar(){
+        vBoxSesiones.setVisible(false);
+                    vBoxAutorizacion.setVisible(false);
+                    hbTablasSesionesAtorizaciones.setVisible(true);
+                    mensajeAdvertenciaError("Paciente no encontrado", this, VariablesEstaticas.imgenAdvertencia);
+                    servicioPaciente.
+                            vaciarListas().
+                            vaciarTodo().
+                            habilitarTodo().
+                            visibilizarLIstVBox(VariablesEstaticas.vboxsPlanesTratamiento).
+                            ocultarLIstVBox(VariablesEstaticas.vboxsPlanesTratamientoActualizaroVer).
+                            visibilizarLIstVBox(VariablesEstaticas.vboxsObraSocialPaciente).
+                            ocultarLIstVBox(VariablesEstaticas.vboxsObraSocialPacienteActualizaroVer).
+                            habilitarBotones(VariablesEstaticas.listaBotonesCrear).
+                            deshabilitarBotones(VariablesEstaticas.listaBotonesEliminar).
+                            deshabilitarBotones(VariablesEstaticas.listaBotonesActualizar);
+    }
+    
     public void buscarDatosPrincipales(Paciente pacienteResultado) {
-        cajaNombreDatosPrincipales.setText(servicioPaciente.CapitalCase(pacienteResultado.getNombre()));
-        cajaApellidoDatosPrincipales.setText(servicioPaciente.CapitalCase(pacienteResultado.getApellido()));
-        cajaEdadDatosPrincipales.setText(String.valueOf(pacienteResultado.getEdad()));
-        cajaDniDatosPrincipales.setText(String.valueOf(pacienteResultado.getDni()));
-        cajaTelefonoDatosPrincipales.setText(pacienteResultado.getTelefono().getTelefono());
 
-        cajaHonorariosDatosPrincipales.setText(String.valueOf(pacienteResultado.getHonorarios().getHonorario()));
-        //RELENAR LISTA CON PACIENTE ACTUAL
-        servicioPaciente.
-                rellenarListaDatosPrincipales(pacienteResultado).
-                deshabilitarCajas(VariablesEstaticas.cajasDatosPrincipales).
-                desHabilitarBotonCrear(botonAgregarDatosPrincipales).
-                habilitarEliminarActualizar(botonEliminarDatosPrincipales, botonActualizarDatosPrincipales);;
+        if (Objects.nonNull(pacienteResultado.getDni())) {
+            cajaNombreDatosPrincipales.setText(servicioPaciente.CapitalCase(pacienteResultado.getNombre()));
+            cajaApellidoDatosPrincipales.setText(servicioPaciente.CapitalCase(pacienteResultado.getApellido()));
+            cajaEdadDatosPrincipales.setText(String.valueOf(pacienteResultado.getEdad()));
+            cajaDniDatosPrincipales.setText(String.valueOf(pacienteResultado.getDni()));
+            cajaTelefonoDatosPrincipales.setText(pacienteResultado.getTelefono().getTelefono());
 
-        titlePaneDatosPrincipales.setExpanded(true);
+            cajaHonorariosDatosPrincipales.setText(String.valueOf(pacienteResultado.getHonorarios().getHonorario()));
+            //RELENAR LISTA CON PACIENTE ACTUAL
+            servicioPaciente.
+                    rellenarListaDatosPrincipales(pacienteResultado).
+                    deshabilitarCajas(VariablesEstaticas.cajasDatosPrincipales).
+                    desHabilitarBotonCrear(botonAgregarDatosPrincipales).
+                    habilitarEliminarActualizar(botonEliminarDatosPrincipales, botonActualizarDatosPrincipales);;
+
+        } else {
+
+            servicioPaciente.
+                    vaciarListaDatosPrincipales().
+                    habilitarBotonCrear(botonAgregarDatosPrincipales).
+                    desHabilitarEliminarActualizar(botonEliminarDatosPrincipales, botonActualizarDatosPrincipales);
+        }
     }
     
     
-    public void buscarSesiones(Paciente pacienteResultado){
-        ObservableList<TablaSesiones> olSesiones = FXCollections.observableArrayList();
-                            for (SesionPaciente sp : pacienteResultado.getSesiones()) {
+    public void buscarSesiones(Paciente pacienteResultado) {
+        if (Objects.nonNull(pacienteResultado.getSesiones())) {
+            ObservableList<TablaSesiones> olSesiones = FXCollections.observableArrayList();
+            for (SesionPaciente sp : pacienteResultado.getSesiones()) {
 
-                                olSesiones.add(new TablaSesiones(
-                                        String.valueOf(sp.getNumeroSesion()),
-                                        sp.getFecha().toString(),
-                                        sp.getTrabajoSesion(),
-                                        sp.getObservacion(),
-                                        String.valueOf(sp.getHonorarioPorSesion()),
-                                        sp.getEstado().getEstado(),
-                                        String.valueOf(sp.getAutorizacion().getNumeroAutorizacion()),
-                                        sp.getAutorizacion().getObservacion(),
-                                        sp.getAutorizacion().getAsociacion().toString(),
-                                        String.valueOf(sp.getAutorizacion().getCopago()),
-                                        sp.getAutorizacion().getCodigoFacturacion().getNombre()));
-                                
-                            }
+                olSesiones.add(new TablaSesiones(
+                        String.valueOf(sp.getNumeroSesion()),
+                        sp.getFecha().toString(),
+                        sp.getTrabajoSesion(),
+                        sp.getObservacion(),
+                        String.valueOf(sp.getHonorarioPorSesion()),
+                        sp.getEstado().getEstado(),
+                        String.valueOf(sp.getAutorizacion().getNumeroAutorizacion()),
+                        sp.getAutorizacion().getObservacion(),
+                        sp.getAutorizacion().getAsociacion().toString(),
+                        String.valueOf(sp.getAutorizacion().getCopago()),
+                        sp.getAutorizacion().getCodigoFacturacion().getNombre()));
 
-                            tablaAutorizacion.setItems(olSesiones);
-                            tableSesiones.setItems(olSesiones);
-                            ColumnaSesionNumero.setCellValueFactory(new PropertyValueFactory<>("numeroSesion"));
-                            ColumnaSesionFecha.setCellValueFactory(new PropertyValueFactory<>("fechaSesion"));
-                            ColumnaSesionTrabajo.setCellValueFactory(new PropertyValueFactory<>("trabajoSesion"));
-                            ColumnaSesionObservacion.setCellValueFactory(new PropertyValueFactory<>("observacionSesion"));
-                            ColumnaSesionHonorarioPorSesion.setCellValueFactory(new PropertyValueFactory<>("honorariosPorSesion"));
-                            ColumnaSesionEstadoFacturacion.setCellValueFactory(new PropertyValueFactory<>("estadoFacturacion"));
-                            
-                            columnaAutorizacionNumero.setCellValueFactory(new PropertyValueFactory<>("numeroAutorizacion"));
-                            columnaAutorizacionObservacion.setCellValueFactory(new PropertyValueFactory<>("observacionAutorizacion"));
-                            columnaAutorizacionAsociacion.setCellValueFactory(new PropertyValueFactory<>("asociacion"));
-                            columnaAutorizacionCopago.setCellValueFactory(new PropertyValueFactory<>("copago"));
-                            columnaAutorizacionCodigoFacturacion.setCellValueFactory(new PropertyValueFactory<>("nombreCodigo"));
-                            columnaNumeroSecionAutorizacion.setCellValueFactory(new PropertyValueFactory<>("numeroSesion"));
-                            
+            }
+
+            tablaAutorizacion.setItems(olSesiones);
+            tableSesiones.setItems(olSesiones);
+            ColumnaSesionNumero.setCellValueFactory(new PropertyValueFactory<>("numeroSesion"));
+            ColumnaSesionFecha.setCellValueFactory(new PropertyValueFactory<>("fechaSesion"));
+            ColumnaSesionTrabajo.setCellValueFactory(new PropertyValueFactory<>("trabajoSesion"));
+            ColumnaSesionObservacion.setCellValueFactory(new PropertyValueFactory<>("observacionSesion"));
+            ColumnaSesionHonorarioPorSesion.setCellValueFactory(new PropertyValueFactory<>("honorariosPorSesion"));
+            ColumnaSesionEstadoFacturacion.setCellValueFactory(new PropertyValueFactory<>("estadoFacturacion"));
+
+            columnaAutorizacionNumero.setCellValueFactory(new PropertyValueFactory<>("numeroAutorizacion"));
+            columnaAutorizacionObservacion.setCellValueFactory(new PropertyValueFactory<>("observacionAutorizacion"));
+            columnaAutorizacionAsociacion.setCellValueFactory(new PropertyValueFactory<>("asociacion"));
+            columnaAutorizacionCopago.setCellValueFactory(new PropertyValueFactory<>("copago"));
+            columnaAutorizacionCodigoFacturacion.setCellValueFactory(new PropertyValueFactory<>("nombreCodigo"));
+            columnaNumeroSecionAutorizacion.setCellValueFactory(new PropertyValueFactory<>("numeroSesion"));
+
+        } else {
+            //servicioPaciente.vaciarListaSesiones();
+        }
+
+    }
+    
+    public void buscarPLanes(Paciente pacienteResultado) {
+        if (Objects.nonNull(pacienteResultado.getPlanTratamiento())) {
+            choiseFrecuenciaSesionPlan.setValue(pacienteResultado.getPlanTratamiento().getFrecuenciaSesion().getFrecuencia());
+            cajaPlanFrecuenciaSesiones.setText(pacienteResultado.getPlanTratamiento().getFrecuenciaSesion().getFrecuencia());
+            cajaDescripcionTipoSesionPlan.setText(pacienteResultado.getPlanTratamiento().getTipoSEsion().getDecripcion());
+            cajaEstrategiaPlan.setText(pacienteResultado.getPlanTratamiento().getEstrategia());
+            choiseTipoSesionPlan.setValue(pacienteResultado.getPlanTratamiento().getTipoSEsion().getNombre());
+            cajaNombreTipoSesionPlan.setText(pacienteResultado.getPlanTratamiento().getTipoSEsion().getNombre());
+
+            servicioPaciente.
+                    rellenarListaPlan(pacienteResultado).
+                    visibilizarLIstVBox(VariablesEstaticas.vboxsPlanesTratamientoActualizaroVer).
+                    ocultarLIstVBox(VariablesEstaticas.vboxsPlanesTratamiento).
+                    deshabilitarCajas(VariablesEstaticas.cajasPlanes).
+                    desHabilitarBotonCrear(botonAgregarPlanTratamiento).
+                    habilitarEliminarActualizar(botonEliminarPlanTratamiento, botonActualizarPlanTratamiento);
+            
+          
+            
+            
+        } else {
+            servicioPaciente.
+                    vaciarListaPlan().
+                    visibilizarLIstVBox(VariablesEstaticas.vboxsPlanesTratamiento).
+                    ocultarLIstVBox(VariablesEstaticas.vboxsPlanesTratamientoActualizaroVer).
+                    habilitarCajas(VariablesEstaticas.cajasPlanes).
+                    vaciarValorChoise(VariablesEstaticas.choisePlan).
+                    vaciarCajas(VariablesEstaticas.cajasPlanes).
+                    habilitarBotonCrear(botonAgregarPlanTratamiento).
+                    desHabilitarEliminarActualizar(botonEliminarPlanTratamiento, botonActualizarPlanTratamiento);
+        }
+
+    }
+    
+    public void buscarDiagnostico(Paciente pacienteResultado) {
+        
+        if (Objects.nonNull(pacienteResultado.getDiagnostico())) {
+            cajaDiagnosticoDiagnostico.setText(pacienteResultado.getDiagnostico().getDiagnostico());
+            cajaObservacionDiagnostico.setText(pacienteResultado.getDiagnostico().getObservacion());
+
+            servicioPaciente.
+                    rellenarListaDiagnostico(pacienteResultado).
+                    deshabilitarCajasArea(VariablesEstaticas.cajasAreaDiagnostico).
+                    desHabilitarBotonCrear(botonAgregarDiagnostico).
+                    habilitarEliminarActualizar(botonEliminarDiagnostico, botonActualizarDiagnostico);;
+
+        } else {
+            servicioPaciente.
+                    vaciarListaDiagnostico().
+                    vaciarCajasArea(VariablesEstaticas.cajasAreaDiagnostico).
+                    habilitarBotonCrear(botonAgregarDiagnostico).
+                    desHabilitarEliminarActualizar(botonEliminarDiagnostico, botonActualizarDiagnostico);
+        }
+
+    }
+    
+    public void buscarObraSocial(Paciente pacienteResultado){
+        if (Objects.nonNull(pacienteResultado.getObraSocialPaciente())) {
+
+                            cajaNombreObraSocialPaciente.setText(pacienteResultado.getObraSocialPaciente().getNombre());
+                            choiseNombreObraSocialPaciente.setValue(pacienteResultado.getObraSocialPaciente().getNombre());
+                            choisePlanesObraSocialPacientePlan.setValue(pacienteResultado.getObraSocialPaciente().getPlan().getNombre());
+                            cajaPlanObraSocialPaciente.setText(pacienteResultado.getObraSocialPaciente().getPlan().getNombre());
+                            cajaNAfiliadoObraSocialPaciente.setText(pacienteResultado.getObraSocialPaciente().getAfiliado().getNumero().toString());
+
+                            servicioPaciente.
+                                    rellenarListaObrasocialPaciente(pacienteResultado).
+                                    visibilizarLIstVBox(VariablesEstaticas.vboxsObraSocialPacienteActualizaroVer).
+                                    ocultarLIstVBox(VariablesEstaticas.vboxsObraSocialPaciente).
+                                    deshabilitarCajas(VariablesEstaticas.cajasObraSocialPaciente).
+                                    desHabilitarBotonCrear(botonAgregarObraSocialPaciente).
+                                    habilitarEliminarActualizar(botonEliminarObraSocialPaciente, botonActualizarObraSocialPaciente);;
+
+                        } else {
+                            servicioPaciente.
+                                    vaciarListaObrasocialPaciente().
+                                    visibilizarLIstVBox(VariablesEstaticas.vboxsObraSocialPaciente).
+                                    ocultarLIstVBox(VariablesEstaticas.vboxsObraSocialPacienteActualizaroVer).
+                                    habilitarCajas(VariablesEstaticas.cajasObraSocialPaciente).
+                                    vaciarCajas(VariablesEstaticas.cajasObraSocialPaciente).
+                                    vaciarValorChoise(VariablesEstaticas.choiseObraSocialPaciente).
+                                    habilitarBotonCrear(botonAgregarObraSocialPaciente).
+                                    desHabilitarEliminarActualizar(botonEliminarObraSocialPaciente, botonActualizarObraSocialPaciente);
+                        }
     }
     
 
@@ -678,76 +806,78 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
     //                      ****
     @FXML
     private void crearPaciente(MouseEvent event) {
-
+        daoImplementacion = new DatosPrincipalesDAOImplementacion();
         try {
             List<TextField> listaCajas = new ArrayList<TextField>(Arrays.asList(cajaNombreDatosPrincipales, cajaApellidoDatosPrincipales, cajaEdadDatosPrincipales, cajaDniDatosPrincipales, cajaTelefonoDatosPrincipales));
+            //SI LAS CAJAS IMPORTANTES NO ESTAN VACIAS
             if (cajaNombreDatosPrincipales.getText().isBlank() || cajaApellidoDatosPrincipales.getText().isBlank() || cajaDniDatosPrincipales.getText().isBlank()) {
                 //MENSAJE DE ERROR AL TENER CAJAS VACIAS
-                mensaje("Hay campos importantes vacios", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                mensajeAdvertenciaError("Hay campos importantes vacios", this, VariablesEstaticas.imgenAdvertencia);
                 //PINTAR CAJAS IMPORTATES VACIAS AL CREAR
                 servicioPaciente.pintarCajaVaciaImportante(VariablesEstaticas.cajasDatosPrincipales);
             } else {
                 //SI EXISTEN DATOS VACIOS NO IMPORTANTES LOS RELLENA CON VALORES POR DEFECTO
                 servicioPaciente.datosPrincipalesVacios();
                 //INSERTAR PACIENTE
-                pacienteDao.insertar(
+                daoImplementacion.insertar(
                         new Paciente(
                                 cajaNombreDatosPrincipales.getText(), 
                                 cajaApellidoDatosPrincipales.getText(), 
                                 Integer.parseInt(cajaEdadDatosPrincipales.getText()), 
                                 Integer.parseInt(cajaDniDatosPrincipales.getText()), 
                                 new Honorario(Double.parseDouble(cajaHonorariosDatosPrincipales.getText())), 
-                                new Telefono(cajaTelefonoDatosPrincipales.getText())), 1);
+                                new Telefono(cajaTelefonoDatosPrincipales.getText())));
                 //SETEAR CAJA BUSCAR CON EL PACIENTE CREADO
                 cajaBuscarPaciente.setText(cajaDniDatosPrincipales.getText());
                 buscarPaciente();
                 //INFORMAR DE CREACION CON EXITO
-                mensaje("Paciente creado con èxito", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                mensajeAdvertenciaError("Paciente creado con èxito", this, VariablesEstaticas.imgenExito);
 
             }
 
         } catch (Exception e) {
             cajaBuscarPaciente.setText("");
-            mensaje(e.getMessage(), this, "/com/pacientes/gestor_pacientes/img/error.png");
+            mensajeAdvertenciaError(e.getMessage(), this, VariablesEstaticas.imgenError);
             cajaNombreDatosPrincipales.getStyleClass().add("cajasARellenar");
         }
     }
 
     @FXML
     private void crearSesion(MouseEvent event) {
-
+        
+        
         if (!cajaBuscarPaciente.getText().isBlank()) {
             try {
                 hbTablasSesionesAtorizaciones.setVisible(false);
                 
-                botonAgregarSesiones.setDisable(false);
-                botonEliminarSesiones.setDisable(true);
-                botonActualizarSesiones.setDisable(true);
-                botonRetornarSesiones.setDisable(false);
+                
                 vBoxAutorizacion.setVisible(true);
                 vBoxSesiones.setVisible(true);
 
                 if (!botonAgregarSesiones.getId().equals("1")) {
+                    botonRetornarSesiones.setDisable(false);
 
                     cajaFechaSesion.setValue(LocalDate.now());
-                    int ultimaSesion = pacienteDao.obtenerultimaSesion(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText()))) + 1;
+                    SesionDAOImplementacion sesionDAOImplementacion = new SesionDAOImplementacion();
+                    int ultimaSesion = sesionDAOImplementacion.obtenerultimaSesion(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText()))) + 1;
                     cajaNumeroSesion.setText(String.valueOf(ultimaSesion));
 
-                    servicioPaciente.
+                    servicioPaciente.deshabilitarBotones(List.of(botonActualizarSesiones, botonEliminarSesiones)).
                             vaciarCajasArea(VariablesEstaticas.cajasAreaSesion).
                             vaciarCajas(VariablesEstaticas.cajasSesiones).
                             vaciarFechas(VariablesEstaticas.datePickerSesiones).
                             vaciarValorChoise(VariablesEstaticas.choiseSesiones);
                     //SI EXISTEN CAJAS PRINCIPALES VACIAS DE SESION
                     botonAgregarSesiones.setId("1");
+                    
                 } else {
-
+                    botonRetornarSesiones.setDisable(false);
                     if (Objects.isNull(
                             cajaFechaSesion.getValue())
                             || cajaTrabajoSesion.getText().isBlank()) {
 
                         //MENSAJE DE ERROR AL TENER CAJAS VACIAS
-                        mensaje("Hay campos importantes vacios", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                        mensajeAdvertenciaError("Hay campos importantes vacios", this, VariablesEstaticas.imgenAdvertencia);
                         //PINTAR CAJAS IMPORTATES VACIAS AL CREAR
                         servicioPaciente.
                                 pintarCajaVaciaImportante(VariablesEstaticas.cajasSesiones).
@@ -755,169 +885,211 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
 
                     } else {
 
-                        Paciente pacienteCrearSesion = new Paciente();
+                        
                         AutorizacionesSesionesObraSociales autorizacionesSesionesObraSociales;
-                        //SI EXISTEN CAJAS PRINCIPALES VACIAS DE AUTORIZACION
-                        if (!cajaAutorizacionSesion.getText().isEmpty()) {
-
-                            autorizacionesSesionesObraSociales = new AutorizacionesSesionesObraSociales(
+                        
+                        servicioPaciente.rellenarCajasAutorizacionVacias();
+                        
+                        autorizacionesSesionesObraSociales = new AutorizacionesSesionesObraSociales(
                                     Integer.valueOf(cajaAutorizacionSesion.getText()),
                                     cajaObservacionSesionObraSocial.getText(), cajaAsociacionSesionObraSocial.getValue(),
                                     Double.valueOf(cajaCopagoSesionObraSocial.getText()),
                                     new CodigoFacturacion(choiseCodigoFactSesionObraSocial.getValue()));
-                        } else {
-                            autorizacionesSesionesObraSociales = rellenarAutorizacionVacia();
-                        }
+                        
                         servicioPaciente.
-                                datosSesionVacios();
+                                datosSesionCajasAreaVacios().datosSesionCajasVacios().datosSesionChoiceVacios();
 
                         SesionPaciente sesion = new SesionPaciente(Integer.valueOf(cajaNumeroSesion.getText()),
                                 cajaFechaSesion.getValue(),
                                 cajaTrabajoSesion.getText(),
                                 cajaObservacionSesion.getText(),
                                 Double.parseDouble(cajaHonorariosPorSesion.getText()),
-                                autorizacionesSesionesObraSociales,
                                 new EstadoFacturacion(cajaEstadoFacturacionSesionObraSocial.getText()));
-
-                        pacienteCrearSesion.setSesion(sesion);
-                        pacienteCrearSesion.setDni(Integer.parseInt(cajaDniDatosPrincipales.getText()));
-                        pacienteCrearSesion.setId(pacienteDao.obtenerIdPacienteConTodosLosDatos(pacienteCrearSesion));
-
+                        
+                        
+                        daoImplementacion = new PacienteDAOImplementacion();
+                        int idPaciente = daoImplementacion.obtenerId(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText())));
+                        sesion.setIdPaciente(idPaciente);
+                        autorizacionesSesionesObraSociales.setIdPaciente(idPaciente);
+                        daoImplementacion = new SesionDAOImplementacion();
+                        autorizacionesSesionesObraSociales.setIdSesion(daoImplementacion.obtenerId(sesion));
+                        
+                        
+                        sesion.setAutorizacion(autorizacionesSesionesObraSociales);
                         if (!cajaDniDatosPrincipales.getText().isBlank()) {
-
+                            
+                            
                             servicioPaciente.
-                                    datosSesionVacios().
+                                    datosSesionCajasAreaVacios().
+                                    datosSesionCajasVacios().
                                     datosAutorizacionSesionVacios();
-
-                            pacienteDao.insertar(pacienteCrearSesion, 3);
-                            botonAgregarSesiones.setDisable(false);
-                            botonEliminarSesiones.setDisable(false);
-                            botonActualizarSesiones.setDisable(false);
-                            botonRetornarSesiones.setDisable(true);
+                            daoImplementacion = new SesionDAOImplementacion();
+                            daoImplementacion.insertar(sesion);
+                            
                             vBoxSesiones.setVisible(false);
                             vBoxAutorizacion.setVisible(false);
                             hbTablasSesionesAtorizaciones.setVisible(true);
                             buscarPaciente();
-                            mensaje("Sesion creado con éxito", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                            mensajeAdvertenciaError("Sesion creado con éxito", this, VariablesEstaticas.imgenExito);
                             botonAgregarSesiones.setId("botonAgregarSesiones");
+                            servicioPaciente.
+                                    habilitarBotones(List.of(botonActualizarSesiones, botonEliminarSesiones));
                         } else {
-                            mensaje("Buscar paciente para crear sesión", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                            mensajeAdvertenciaError("Buscar paciente para crear sesión", this, VariablesEstaticas.imgenAdvertencia);
                         }
                     }
                 }
 
             } catch (Exception e) {
-                mensaje("Error al crear sesión", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                e.printStackTrace();
+                mensajeAdvertenciaError("Error al crear sesión", this, VariablesEstaticas.imgenError);
             }
 
         } else {
-            mensaje("Buscar paciente para crear sesión", this, "/com/pacientes/gestor_pacientes/img/error.png");
+            mensajeAdvertenciaError("Buscar paciente para crear sesión", this, VariablesEstaticas.imgenAdvertencia);
         }
 
     }
 
     @FXML
     private void crearPlanTratamiento(MouseEvent event) {
+        
         try {
             //SI PACIENTE FUE BUSCADO
             if (!cajaBuscarPaciente.getText().isBlank()) {
                 //CREAR PLAN
-                Paciente pacientePlan = new Paciente();
+                //Paciente pacientePlan = new Paciente();
                 TipoSesion ts = new TipoSesion(choiseTipoSesionPlan.getValue(), cajaDescripcionTipoSesionPlan.getText());
-                PlanTratamiento planTratamiento = new PlanTratamiento(cajaEstrategiaPlan.getText(), choiseFrecuenciaSesionPlan.getValue(), ts);
-                pacientePlan.setDni(Integer.parseInt(cajaDniDatosPrincipales.getText()));
-                pacientePlan.setId(pacienteDao.obtenerIdPacienteConTodosLosDatos(pacientePlan));
-                pacientePlan.setPlanTratamiento(planTratamiento);
+                PlanTratamiento planTratamiento = new PlanTratamiento(cajaEstrategiaPlan.getText(), new FrecuenciaSesion(choiseFrecuenciaSesionPlan.getValue()), ts);
+                
+                daoImplementacion = new PacienteDAOImplementacion();
+                planTratamiento.setIdPaciente(daoImplementacion.obtenerId(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText()))));
+                
+              
 
                 //VALIDAR CAMPOS NECESARIOS
                 if (Objects.isNull(choiseFrecuenciaSesionPlan.getValue()) || Objects.isNull(choiseTipoSesionPlan.getValue())) {
-                    System.out.println("entra");
                     servicioPaciente.pintarChoiseVacioImportante(VariablesEstaticas.choisePlan);
-                    mensaje("Hay campos importantes vacios", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                    mensajeAdvertenciaError("Hay campos importantes vacios", this, VariablesEstaticas.imgenAdvertencia);
                 } else {
                     servicioPaciente.datosPlanVacios();
-                    pacienteDao.insertar(pacientePlan, 5);
-                    mensaje("Plan creado con èxito", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                    daoImplementacion = new PlanTratamientoDAOImplementacion();
+                    daoImplementacion.insertar(planTratamiento);
+                    mensajeAdvertenciaError("Plan creado con èxito", this, VariablesEstaticas.imgenExito);
                     buscarPaciente();
                 }
             } else {
-                mensaje("Buscar paciente para crear plan", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                mensajeAdvertenciaError("Buscar paciente para crear plan", this, VariablesEstaticas.imgenAdvertencia);
             }
         } catch (Exception e) {
-            mensaje("Error al crear plan de tratamiento", this, "/com/pacientes/gestor_pacientes/img/error.png");
+            mensajeAdvertenciaError("Error al crear plan de tratamiento", this, VariablesEstaticas.imgenError);
         }
 
     }
 
     @FXML
     private void crearDiagnostico(MouseEvent event) {
+        
         try {
-
+            //SI SE BUSCO AL PACIENTE
             if (!cajaBuscarPaciente.getText().isBlank()) {
-                Paciente pacienteCrearDiagnostico = new Paciente();
-                DiagnosticoPaciente diagnostico = new DiagnosticoPaciente(cajaDiagnosticoDiagnostico.getText(), cajaObservacionDiagnostico.getText());
-                pacienteCrearDiagnostico.setDni(Integer.parseInt(cajaDniDatosPrincipales.getText()));
-                pacienteCrearDiagnostico.setId(pacienteDao.obtenerIdPacienteConTodosLosDatos(pacienteCrearDiagnostico));
-                pacienteCrearDiagnostico.setDiagnostico(diagnostico);
-
+                daoImplementacion = new PacienteDAOImplementacion();
+                DiagnosticoPaciente diagnostico = new DiagnosticoPaciente(cajaDiagnosticoDiagnostico.getText(), cajaObservacionDiagnostico.getText(), daoImplementacion.obtenerId(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText()))));
+                //SI DATOS IMPORTANTES TIENEN TEXTO
                 if (cajaDiagnosticoDiagnostico.getText().isBlank()) {
                     servicioPaciente.pintarCajaAreaVaciaImportante(VariablesEstaticas.cajasAreaDiagnostico);
-                    mensaje("Hay campos importantes vacios", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                    mensajeAdvertenciaError("Hay campos importantes vacios", this, VariablesEstaticas.imgenAdvertencia);
                 } else {
-                    mensaje("Diagnostico creado con èxito", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                    mensajeAdvertenciaError("Diagnostico creado con èxito", this, VariablesEstaticas.imgenExito);
                     servicioPaciente.datosDiagnosticoVacios();
-                    pacienteDao.insertar(pacienteCrearDiagnostico, 4);
+                    daoImplementacion = new DiagnosticoDAOImplementacion();
+                    daoImplementacion.insertar(diagnostico);
                     buscarPaciente();
                 }
             } else {
-                mensaje("Buscar paciente para crear Diagnóstico", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                mensajeAdvertenciaError("Buscar paciente para crear Diagnóstico", this, VariablesEstaticas.imgenAdvertencia);
             }
 
         } catch (Exception e) {
-            mensaje("Error al crear diagnóstico", this, "/com/pacientes/gestor_pacientes/img/error.png");
+            mensajeAdvertenciaError("Error al crear diagnóstico", this, VariablesEstaticas.imgenError);
         }
     }
 
     @FXML
     private void crearObraSocialPaciente(MouseEvent event) {
+        
         try {
-
+            //SI SE BUSCO PACIENTE
             if (!cajaBuscarPaciente.getText().isBlank()) {
-
+                //SI CAJAS IMPORTANTES TIENEN VALORES
                 if (Objects.isNull(choisePlanesObraSocialPacientePlan.getValue()) || cajaNAfiliadoObraSocialPaciente.getText().isBlank()) {
                     servicioPaciente.pintarChoiseVacioImportante(VariablesEstaticas.choiseObraSocialPaciente);
                     servicioPaciente.pintarCajaVaciaImportante(VariablesEstaticas.cajasObraSocialPaciente);
-                    mensaje("Hay campos importantes vacios", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                    mensajeAdvertenciaError("Hay campos importantes vacios", this, VariablesEstaticas.imgenAdvertencia);
                 } else {
-                    Paciente pacienteCrearObraSocial = new Paciente();
-
                     ObraSocialPaciente obraSocialPaciente = new ObraSocialPaciente(new Afiliado(Integer.parseInt(cajaNAfiliadoObraSocialPaciente.getText())), choiseNombreObraSocialPaciente.getValue().toString(), new PlanObraSocial(choisePlanesObraSocialPacientePlan.getValue().toString(), "Sin descripcion"));
-                    pacienteCrearObraSocial.setObraSocialPaciente(obraSocialPaciente);
-                    pacienteCrearObraSocial.setDni(Integer.parseInt(cajaDniDatosPrincipales.getText()));
-                    pacienteCrearObraSocial.setId(pacienteDao.obtenerIdPacienteConTodosLosDatos(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText()))));
-                    pacienteDao.insertar(pacienteCrearObraSocial, 2);
-                    mensaje("Obra Social del Paciente creado con èxito", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                    daoImplementacion = new PacienteDAOImplementacion();
+                    obraSocialPaciente.setIdPaciente(daoImplementacion.obtenerId(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText()))));
+                    
+                    daoImplementacion = new ObraSocialPacienteDAOImplementacion();
+                    daoImplementacion.insertar(obraSocialPaciente);
+                    mensajeAdvertenciaError("Obra Social del Paciente creado con èxito", this, VariablesEstaticas.imgenExito);
 
                     buscarPaciente();
                 }
             } else {
-                mensaje("Buscar paciente para crear Obra Social del paciente", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                mensajeAdvertenciaError("Buscar paciente para crear Obra Social del paciente", this, VariablesEstaticas.imgenAdvertencia);
             }
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             if(e.getMessage().equals("afiliado existente")){
-                mensaje(e.getMessage(), this, "/com/pacientes/gestor_pacientes/img/error.png");
+                mensajeAdvertenciaError(e.getMessage(), this, VariablesEstaticas.imgenError);
             }else{
-                mensaje("Error al crear obra social del paciente", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                mensajeAdvertenciaError("Error al crear obra social del paciente", this, VariablesEstaticas.imgenError);
             }
             
+        }
+    }
+    
+    @FXML
+    private void actualizarCrearTipoSesionPlaPlan(MouseEvent event){
+        Button boton = (Button) event.getSource();
+        
+        if (boton.getId().equals("botonAgregarPlanTipoSesion")) {
+            
+            cajaNombreTipoSesionPlan.setVisible(true);
+            botonActualizarCrearTipoSesion.setVisible(true);
+            botonAgregarPlanTipoSesion.setDisable(true);
+            botonActualizarPlanTipoSesion.setDisable(true);
+            botonActualizarCrearTipoSesion.setOnMouseClicked(this::insertarTipoPlan);
+            choiseTipoSesionPlan.setFocusTraversable(false);
+            choiseTipoSesionPlan.setMouseTransparent(true);
+            cajaDescripcionTipoSesionPlan.setDisable(false);
+
+            
+        } else if (boton.getId().equals("botonActualizarPlanTipoSesion")) {
+            if (Objects.nonNull(choiseTipoSesionPlan.getValue())) {
+                
+                cajaNombreTipoSesionPlan.setVisible(true);
+                botonActualizarCrearTipoSesion.setVisible(true);
+                botonAgregarPlanTipoSesion.setDisable(true);
+                botonActualizarPlanTipoSesion.setDisable(true);
+                botonActualizarCrearTipoSesion.setOnMouseClicked(this::actualizarTipoPlan);
+                cajaNombreTipoSesionPlan.setText(choiseTipoSesionPlan.getValue());
+                choiseTipoSesionPlan.setFocusTraversable(false);
+                choiseTipoSesionPlan.setMouseTransparent(true);
+                cajaDescripcionTipoSesionPlan.setDisable(false);
+                
+            } else {
+                mensajeAdvertenciaError("Seleccionar tipo sesion para actualizar", this, VariablesEstaticas.imgenAdvertencia);
+            }
+
         }
     }
 
     @FXML
     private void insertarTipoPlan(MouseEvent event) {
-
+        daoImplementacion = new TipoSesionPlanDAOImplementacion();
         try {
             if(!cajaNombreTipoSesionPlan.getText().isBlank()){
                 Paciente pacienteTipoSesion = new Paciente();
@@ -926,51 +1098,168 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                 tipo.setNombre(cajaNombreTipoSesionPlan.getText());
                 plan.setTipoSEsion(tipo);
                 pacienteTipoSesion.setPlanTratamiento(plan);
-                cajaNombreTipoSesionPlan.setVisible(true);
-                cajaDescripcionTipoSesionPlan.setDisable(false);
-                if (botonAgregarPlanTipoSesion.getId().equals("1")) {
-                    pacienteDao.insertar(pacienteTipoSesion, 6);
-                    botonAgregarPlanTipoSesion.setId("botonAgregarTipoSesion");
-                    cajaNombreTipoSesionPlan.setVisible(false);
-                    cajaDescripcionTipoSesionPlan.setDisable(true);
-                    choiseTipoSesionPlan.getItems().clear();
-                    iniciarChoiseList();
-                }
+                
+                
+                
+                
+                daoImplementacion.insertar(pacienteTipoSesion);
+                
+                choiseTipoSesionPlan.getItems().clear();
+
+               
+                iniciarChoicePlanTratamiento();
+                cajaNombreTipoSesionPlan.setText("");
+                
+                cajaDescripcionTipoSesionPlan.setDisable(true);
+                cajaNombreTipoSesionPlan.setVisible(false);
+                botonActualizarCrearTipoSesion.setVisible(false);
+                botonAgregarPlanTipoSesion.setDisable(false);
+                botonActualizarPlanTipoSesion.setDisable(false);
+                
+                choiseTipoSesionPlan.setFocusTraversable(true);
+                choiseTipoSesionPlan.setMouseTransparent(false);
+                
+                mensajeAdvertenciaError("Tipo sesión creada con exito", this, VariablesEstaticas.imgenExito);
             }else{
-                mensaje("Ingresar tipo sesión", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                mensajeAdvertenciaError("Ingresar tipo sesión", this, VariablesEstaticas.imgenAdvertencia);
             }
-            botonAgregarPlanTipoSesion.setId("1");
+            
         } catch (Exception e) {
-            mensaje("Error al crear tipo sesión", this, "/com/pacientes/gestor_pacientes/img/error.png");
+            mensajeAdvertenciaError("Error al crear tipo sesión", this, VariablesEstaticas.imgenError);
         }
         
     }
-
+    
     @FXML
-    private void insertarFrecuenciaPlan(MouseEvent event) {
-
+    private void actualizarTipoPlan(MouseEvent event) {
         try {
-           if(!cajaPlanFrecuenciaSesiones.getText().isBlank()){
-                Paciente pacienteTipoSesion = new Paciente();
-                PlanTratamiento plan = new PlanTratamiento();
-                plan.setFrecuenciaSesion(cajaPlanFrecuenciaSesiones.getText());
-                pacienteTipoSesion.setPlanTratamiento(plan);
-                cajaPlanFrecuenciaSesiones.setVisible(true);
-                if (botonAgregarPlanFrecuencia.getId().equals("1")) {
-                    pacienteDao.insertar(pacienteTipoSesion, 7);
-                    botonAgregarPlanFrecuencia.setId("botonAgregarPlanFrecuencia");
-                    cajaPlanFrecuenciaSesiones.setVisible(false);
-                    choiseFrecuenciaSesionPlan.getItems().clear();
-                    iniciarChoiseList();
-                }
-           }else{
-               mensaje("Ingresar frecuencia", this, "/com/pacientes/gestor_pacientes/img/error.png");
-           }
-           botonAgregarPlanFrecuencia.setId("1");
+            TipoSesion tipo = new TipoSesion();
+            if (!choiseTipoSesionPlan.getSelectionModel().isEmpty()) {
+                tipo.setNombre(choiseTipoSesionPlan.getValue());
+                daoImplementacion = new TipoSesionPlanDAOImplementacion();
+                tipo.setId(daoImplementacion.obtenerId(tipo));
+                tipo.setNombre(cajaNombreTipoSesionPlan.getText());
+                tipo.setDecripcion(cajaDescripcionTipoSesionPlan.getText());
+                daoImplementacion.actualizar(tipo);
+                
+                cajaNombreTipoSesionPlan.setVisible(false);
+                botonActualizarCrearTipoSesion.setVisible(false);
+                botonAgregarPlanTipoSesion.setDisable(false);
+                botonActualizarPlanTipoSesion.setDisable(false);
+                
+                cajaNombreTipoSesionPlan.setText("");
+                choiseTipoSesionPlan.setFocusTraversable(true);
+                choiseTipoSesionPlan.setMouseTransparent(false);
+                cajaDescripcionTipoSesionPlan.setDisable(true);
+                
+                choiseTipoSesionPlan.getItems().clear();
+                choiseTipoSesionPlan.setValue("");
+                iniciarChoicePlanTratamiento();
+                mensajeAdvertenciaError("Tipo sesión actualizada con exito", this, VariablesEstaticas.imgenExito);
+            } else {
+                mensajeAdvertenciaError("Seleccionar tipo sesión para actualizar", this, VariablesEstaticas.imgenAdvertencia);
+            }
         } catch (Exception e) {
-            mensaje("Error al crear frecuencia", this, "/com/pacientes/gestor_pacientes/img/error.png");
+            mensajeAdvertenciaError("Error al actualizar tipo sesion", this, VariablesEstaticas.imgenError);
         }
+    }
+    
+    @FXML
+    private void actualizarCrearFrecuenciaPlan(MouseEvent event) {
+        Button boton = (Button) event.getSource();
         
+
+        if (boton.getId().equals("botonAgregarPlanFrecuencia")) {
+            cajaPlanFrecuenciaSesiones.setVisible(true);
+            botonActualizarCrearFrecuencia.setVisible(true);
+            botonAgregarPlanFrecuencia.setDisable(true);
+            botonActualizarPlanFrecuencia.setDisable(true);
+
+            botonActualizarCrearFrecuencia.setOnMouseClicked(this::insertarFrecuenciaPlan);
+            choiseFrecuenciaSesionPlan.setFocusTraversable(false);
+            choiseFrecuenciaSesionPlan.setMouseTransparent(true);
+
+        } else if (boton.getId().equals("botonActualizarPlanFrecuencia")) {
+            if (Objects.nonNull(choiseFrecuenciaSesionPlan.getValue())) {
+                cajaPlanFrecuenciaSesiones.setVisible(true);
+                botonActualizarCrearFrecuencia.setVisible(true);
+                botonAgregarPlanFrecuencia.setDisable(true);
+                botonActualizarPlanFrecuencia.setDisable(true);
+                botonActualizarCrearFrecuencia.setOnMouseClicked(this::actualizarFrecuenciaPlan);
+                cajaPlanFrecuenciaSesiones.setText(choiseFrecuenciaSesionPlan.getValue());
+                choiseFrecuenciaSesionPlan.setFocusTraversable(false);
+                choiseFrecuenciaSesionPlan.setMouseTransparent(true);
+            } else {
+                mensajeAdvertenciaError("Seleccionar frecuencia para actualizar", this, VariablesEstaticas.imgenAdvertencia);
+            }
+
+        }
+    }
+    
+    
+    private void actualizarFrecuenciaPlan(MouseEvent event) {
+        try {
+            FrecuenciaSesion frecuenciaSesion  = new FrecuenciaSesion();
+            if (!cajaPlanFrecuenciaSesiones.getText().isBlank()) {
+                frecuenciaSesion.setFrecuencia(choiseFrecuenciaSesionPlan.getValue());
+                daoImplementacion = new FrecuenciaSesionPlanDAOImplementacion();
+                frecuenciaSesion.setIdFrecuencia(daoImplementacion.obtenerId(frecuenciaSesion.getFrecuencia()));
+                frecuenciaSesion.setFrecuencia(cajaPlanFrecuenciaSesiones.getText());
+                daoImplementacion.actualizar(frecuenciaSesion);
+                
+                choiseFrecuenciaSesionPlan.getItems().clear();
+
+                iniciarChoiceFrecuencia();
+                cajaPlanFrecuenciaSesiones.setVisible(false);
+                botonActualizarCrearFrecuencia.setVisible(false);
+                botonAgregarPlanFrecuencia.setDisable(false);
+                botonActualizarPlanFrecuencia.setDisable(false);
+                cajaPlanFrecuenciaSesiones.setText("");
+                choiseFrecuenciaSesionPlan.setFocusTraversable(true);
+                choiseFrecuenciaSesionPlan.setMouseTransparent(false);
+                mensajeAdvertenciaError("Frecuencia actualizada con exito", this, VariablesEstaticas.imgenExito);
+                
+            } else {
+                mensajeAdvertenciaError("Ingresar frecuencia para actualizar", this, VariablesEstaticas.imgenAdvertencia);
+            }
+
+        } catch (Exception e) {
+            mensajeAdvertenciaError("Error al actualizar frecuencia", this, VariablesEstaticas.imgenError);
+        }
+
+    }
+
+    
+    public void insertarFrecuenciaPlan(MouseEvent event) {
+        daoImplementacion = new FrecuenciaSesionPlanDAOImplementacion();
+        
+        try {
+                if(!cajaPlanFrecuenciaSesiones.getText().isBlank() ){
+                    Paciente pacienteTipoSesion = new Paciente();
+                    PlanTratamiento plan = new PlanTratamiento();
+                    plan.setFrecuenciaSesion(new FrecuenciaSesion(cajaPlanFrecuenciaSesiones.getText()));
+                    pacienteTipoSesion.setPlanTratamiento(plan);
+                    daoImplementacion.insertar(pacienteTipoSesion);
+                    
+                    
+                    choiseFrecuenciaSesionPlan.getItems().clear();
+                    iniciarChoiceFrecuencia();
+                    cajaPlanFrecuenciaSesiones.setVisible(false);
+                    botonActualizarCrearFrecuencia.setVisible(false);
+                    botonAgregarPlanFrecuencia.setDisable(false);
+                    botonActualizarPlanFrecuencia.setDisable(false);
+                    cajaPlanFrecuenciaSesiones.setText("");
+                    choiseFrecuenciaSesionPlan.setFocusTraversable(true);
+                    choiseFrecuenciaSesionPlan.setMouseTransparent(false);
+                    mensajeAdvertenciaError("Frecuencia creada con exito", this, VariablesEstaticas.imgenExito);
+                }else{
+                    mensajeAdvertenciaError("Ingresar frecunecia para agregar", this, VariablesEstaticas.imgenAdvertencia);
+                }
+            } catch (Exception e) {
+                mensajeAdvertenciaError("Error al crear frecuencia", this, VariablesEstaticas.imgenError);
+            }
+        
+
     }
 
     //                              ****
@@ -982,42 +1271,44 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
     //                              ****
     @FXML
     private void actualizarPaciente(MouseEvent event) {
-
         if (botonActualizarDatosPrincipales.getId().equals("1")) {
             try {
+                daoImplementacion = new PacienteDAOImplementacion();
+                int idPaciente = daoImplementacion.obtenerId(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText())));
                 Paciente paciente = new Paciente();
                 List<TextField> listaCajasDatosPrincipales = new ArrayList<TextField>(Arrays.asList(cajaNombreDatosPrincipales, cajaApellidoDatosPrincipales, cajaEdadDatosPrincipales, cajaDniDatosPrincipales, cajaTelefonoDatosPrincipales));
 
                 if (!cajaBuscarPaciente.getText().isEmpty()) {
                     if (cajaNombreDatosPrincipales.getText().isBlank() || cajaApellidoDatosPrincipales.getText().isBlank() || cajaDniDatosPrincipales.getText().isBlank()) {
                         //MENSAJE DE ERROR AL TENER CAJAS VACIAS
-                        mensaje("Hay campos importantes vacios", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                        mensajeAdvertenciaError("Hay campos importantes vacios", this, VariablesEstaticas.imgenAdvertencia);
                         //PINTAR CAJAS IMPORTATES VACIAS AL CREAR
                         servicioPaciente.pintarCajaVaciaImportante(VariablesEstaticas.cajasDatosPrincipales);
                     } else {
                         servicioPaciente.datosPrincipalesVacios();
-                        pacienteDao.actualizar(
+                        daoImplementacion = new DatosPrincipalesDAOImplementacion();
+                        daoImplementacion.actualizar(
                                 paciente.
                                         setNombre(cajaNombreDatosPrincipales.getText()).
                                         setApellido(cajaApellidoDatosPrincipales.getText()).
                                         setEdad(Integer.parseInt(cajaEdadDatosPrincipales.getText())).
                                         setDni(Integer.parseInt(cajaDniDatosPrincipales.getText())).
-                                        setId(pacienteDao.obtenerIdPacienteSoloConIdUsuario(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText())))).
+                                        setId(idPaciente).
                                         setTelefono(new Telefono(cajaTelefonoDatosPrincipales.getText())).
-                                        setHonorarios(new Honorario(Double.parseDouble(cajaHonorariosDatosPrincipales.getText()))), 3);
+                                        setHonorarios(new Honorario(Double.parseDouble(cajaHonorariosDatosPrincipales.getText()))));
                         servicioPaciente.deshabilitarCajas(VariablesEstaticas.cajasDatosPrincipales);
                         botonActualizarDatosPrincipales.setId("botonAgregarPlanTratamiento");
-                        mensaje("Paciente actualizado con éxito", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                        mensajeAdvertenciaError("Paciente actualizado con éxito", this, VariablesEstaticas.imgenExito);
                         cajaBuscarPaciente.setText(cajaDniDatosPrincipales.getText());
                         buscarPaciente();
                     }
 
                 } else {
-                    mensaje("Buscar paciente a actualizar", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                    mensajeAdvertenciaError( "Buscar paciente a actualizar", this, VariablesEstaticas.imgenAdvertencia);
                 }
 
             } catch (Exception e) {
-                mensaje("Error al actualizar Paciente", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                mensajeAdvertenciaError( "Error al actualizar Paciente", this, VariablesEstaticas.imgenError);
             }
         } else {
             botonActualizarDatosPrincipales.setId("1");
@@ -1030,31 +1321,43 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
 
     @FXML
     private void actualizarDiagnostico(MouseEvent event) {
+        //
+        
+        
+        //SI CAJAS SON EDITABLES
         if (botonActualizarDiagnostico.getId().equals("1")) {
+            //SI SE BUSCO AL PACIENTE
             if (!cajaBuscarPaciente.getText().isEmpty()) {
+                //SI LA CAJA DIAGNOSTICO NO ESTA VACIA
                 if (cajaDiagnosticoDiagnostico.getText().isBlank()) {
                     //MENSAJE DE ERROR AL TENER CAJAS VACIAS
-                    mensaje("Hay campos importantes vacios", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                    mensajeAdvertenciaError( "Hay campos importantes vacios", this, VariablesEstaticas.imgenAdvertencia);
                     //PINTAR CAJAS IMPORTATES VACIAS AL CREAR
                     servicioPaciente.pintarCajaAreaVaciaImportante(VariablesEstaticas.cajasAreaDiagnostico);
                 } else {
                     try {
+                        daoImplementacion = new PacienteDAOImplementacion();
+                        int idPaciente = daoImplementacion.obtenerId(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText())));
+                        //PINTAR CAJAS SI ESTAN VACIAS
                         servicioPaciente.datosDiagnosticoVacios();
                         Paciente paciente = new Paciente();
-                        pacienteDao.actualizar(paciente.setDiagnostico(new DiagnosticoPaciente(cajaDiagnosticoDiagnostico.getText(), cajaObservacionDiagnostico.getText())).setId(pacienteDao.obtenerIdPacienteSoloConIdUsuario(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText())))), 1);
+                        //ACTUALIZAR
+                        daoImplementacion = new DiagnosticoDAOImplementacion();
+                        daoImplementacion.actualizar(new DiagnosticoPaciente(cajaDiagnosticoDiagnostico.getText(), cajaObservacionDiagnostico.getText(), idPaciente));
                         botonActualizarDiagnostico.setId("botonActualizarDiagnostico");
-
+                        
                         servicioPaciente.deshabilitarCajasArea(VariablesEstaticas.cajasAreaDiagnostico);
 
-                        mensaje("Diagnóstico actualizado con éxito", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                        mensajeAdvertenciaError( "Diagnóstico actualizado con éxito", this, VariablesEstaticas.imgenExito);
 
                         buscarPaciente();
                     } catch (Exception e) {
-                        mensaje("Error al actualizar diagnóstico", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                        e.printStackTrace();
+                        mensajeAdvertenciaError( "Error al actualizar diagnóstico", this, VariablesEstaticas.imgenError);
                     }
                 }
             } else {
-                mensaje("Buscar paciente a actualizar", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                mensajeAdvertenciaError( "Buscar paciente para actualizar", this, VariablesEstaticas.imgenAdvertencia);
             }
         } else {
             botonActualizarDiagnostico.setId("1");
@@ -1067,48 +1370,54 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
 
     @FXML
     private void actualizarPlan(MouseEvent event) {
+        
+        //SI CAJAS ESTAN HABILITADAS
         if (botonActualizarPlanTratamiento.getId().equals("1")) {
+            //SI SE BUSCO AL PACIENTE
             if (!cajaBuscarPaciente.getText().isEmpty()) {
+                //SI LAS CAJAS IMPORTATES TIENEN VALOR
                 if (Objects.isNull(choiseFrecuenciaSesionPlan.getValue()) || Objects.isNull(choiseTipoSesionPlan.getValue())) {
                     //MENSAJE DE ERROR AL TENER CAJAS VACIAS
-                    mensaje("Hay campos importantes vacios", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                    mensajeAdvertenciaError( "Hay campos importantes vacios", this, VariablesEstaticas.imgenAdvertencia);
                     //PINTAR CAJAS IMPORTATES VACIAS AL CREAR
                     servicioPaciente.pintarChoiseVacioImportante(VariablesEstaticas.choisePlan);
+                //ACTUALIZAR
                 } else {
                     try {
+                        daoImplementacion = new PacienteDAOImplementacion();
+                        int idPaciente = daoImplementacion.obtenerId(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText())));
                         servicioPaciente.datosPlanVacios();
-                        Paciente pacientePlan = new Paciente();
-                        pacienteDao.
+                        daoImplementacion = new PlanTratamientoDAOImplementacion();
+                        daoImplementacion.
                                 actualizar(
-                                        pacientePlan.setPlanTratamiento(new PlanTratamiento(cajaEstrategiaPlan.getText(),
-                                                cajaPlanFrecuenciaSesiones.getText(),
-                                                new TipoSesion(choiseTipoSesionPlan.getValue(),
-                                                        "Sin descripcion"))).setId(pacienteDao.obtenerIdPacienteSoloConIdUsuario(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText())))),
-                                        2);
+                                        new PlanTratamiento(cajaEstrategiaPlan.getText(),
+                                                new FrecuenciaSesion(choiseFrecuenciaSesionPlan.getValue()),
+                                                new TipoSesion(choiseTipoSesionPlan.getValue()),
+                                                idPaciente));
 
                         servicioPaciente.
-                                visivilizarCajas(VariablesEstaticas.cajasPlanes).
-                                esconderChoice(VariablesEstaticas.choisePlan).
+                                visibilizarLIstVBox(VariablesEstaticas.vboxsPlanesTratamientoActualizaroVer).
+                                ocultarLIstVBox(VariablesEstaticas.vboxsPlanesTratamiento).
                                 deshabilitarCajas(VariablesEstaticas.cajasPlanes);
 
-                        mensaje("Diagnóstico actualizado con éxito", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                        mensajeAdvertenciaError( "Plan de tratamiento actualizado con éxito", this, VariablesEstaticas.imgenExito);
 
                         botonActualizarPlanTratamiento.setId("botonAgregarPlanTratamiento");
 
                         buscarPaciente();
 
                     } catch (Exception e) {
-                        mensaje("Error al actualizar Plan", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                        mensajeAdvertenciaError( "Error al actualizar Plan", this, VariablesEstaticas.imgenError);
                     }
                 }
             } else {
-                mensaje("Buscar paciente a actualizar", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                mensajeAdvertenciaError( "Buscar paciente a actualizar", this, VariablesEstaticas.imgenAdvertencia);
             }
         } else {
             botonActualizarPlanTratamiento.setId("1");
             servicioPaciente.
-                    visivilizarChoice(VariablesEstaticas.choisePlan).
-                    esconderCajas(VariablesEstaticas.cajasPlanes).
+                    visibilizarLIstVBox(VariablesEstaticas.vboxsPlanesTratamiento).
+                    ocultarLIstVBox(VariablesEstaticas.vboxsPlanesTratamientoActualizaroVer).
                     habilitarCajas(VariablesEstaticas.cajasPlanes).
                     animarCajasAlDarABoton(VariablesEstaticas.cajasPlanes).
                     animarChoiceAlDarABoton(VariablesEstaticas.choisePlan);
@@ -1116,112 +1425,33 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
 
     }
     
-    @FXML
-    private void actualizarFrecuenciaPlan(MouseEvent event) {
-        try {
-            PlanTratamiento plan = new PlanTratamiento();
-            if (botonActualizarPlanFrecuencia.getId().equals("1")) {
-
-                if (Objects.nonNull(choiseFrecuenciaSesionPlan.getValue())) {
-                    plan.setFrecuenciaSesion(choiseFrecuenciaSesionPlan.getValue());
-                    plan.setIdPlan(pacienteDao.obtenerIdFrecuenciaSesion(plan));
-                    plan.setFrecuenciaSesion(cajaPlanFrecuenciaSesiones.getText());
-                    pacienteDao.actualizarFrecuenciaPlan(plan);
-                    choiseFrecuenciaSesionPlan.getItems().clear();
-                    
-                    iniciarChoiseList();
-                    
-                    
-                } else {
-                    mensaje("Seleccionar frecuencia para actualizar", this, "/com/pacientes/gestor_pacientes/img/error.png");
-                }
-                choiseFrecuenciaSesionPlan.setDisable(false);
-                cajaPlanFrecuenciaSesiones.setVisible(false);
-                botonAgregarPlanTratamiento.setDisable(false);
-                botonActualizarPlanTratamiento.setDisable(false);
-                botonEliminarPlanTratamiento.setDisable(false);
-                botonActualizarPlanFrecuencia.setId("botonActualizarPlanFrecuencia");
-                
-            } else {
-                botonEliminarPlanTratamiento.setDisable(true);
-                botonActualizarPlanTratamiento.setDisable(true);
-                botonAgregarPlanTratamiento.setDisable(true);
-                cajaPlanFrecuenciaSesiones.setText(choiseFrecuenciaSesionPlan.getValue());
-                choiseFrecuenciaSesionPlan.setDisable(true);
-                cajaPlanFrecuenciaSesiones.setVisible(true);
-                botonActualizarPlanFrecuencia.setId("1");
-            }
-        } catch (Exception e) {
-            mensaje("Error al actualizar frecuencia", this, "/com/pacientes/gestor_pacientes/img/error.png");
-        }
-
-    }
     
     
-    @FXML
-    private void actualizarTipoPlan(MouseEvent event){
-        try {
-            TipoSesion tipo = new TipoSesion();
-            if (botonActualizarPlanTipoSesion.getId().equals("1")) {
-
-                if (!choiseTipoSesionPlan.getSelectionModel().isEmpty()) {
-                    tipo.setNombre(choiseTipoSesionPlan.getValue());
-                    tipo.setId(pacienteDao.obtenerIdTipoSesion(tipo));
-                    tipo.setNombre(cajaNombreTipoSesionPlan.getText());
-                    tipo.setDecripcion(cajaDescripcionTipoSesionPlan.getText());
-                    pacienteDao.actualizarTipoSesion(tipo);
-                    choiseTipoSesionPlan.getItems().clear();
-                    choiseTipoSesionPlan.setValue("");
-                    iniciarChoiseList();
-                    
-                    
-                } else {
-                    mensaje("Seleccionar tipo sesión para actualizar", this, "/com/pacientes/gestor_pacientes/img/error.png");
-                }
-                choiseTipoSesionPlan.setDisable(false);
-                cajaNombreTipoSesionPlan.setVisible(false);
-                botonAgregarPlanTratamiento.setDisable(false);
-                botonActualizarPlanTratamiento.setDisable(false);
-                botonEliminarPlanTratamiento.setDisable(false);
-                cajaDescripcionTipoSesionPlan.setDisable(true);
-                botonActualizarPlanTipoSesion.setId("botonActualizarPlanTipoSesion");
-                
-            } else {
-                botonEliminarPlanTratamiento.setDisable(true);
-                botonActualizarPlanTratamiento.setDisable(true);
-                botonAgregarPlanTratamiento.setDisable(true);
-                cajaNombreTipoSesionPlan.setText(choiseTipoSesionPlan.getValue());
-                choiseTipoSesionPlan.setDisable(true);
-                cajaNombreTipoSesionPlan.setVisible(true);
-                cajaDescripcionTipoSesionPlan.setDisable(false);
-                botonActualizarPlanTipoSesion.setId("1");
-            }
-        } catch (Exception e) {
-            mensaje("Error al actualizar tipo sesion", this, "/com/pacientes/gestor_pacientes/img/error.png");
-        }
-    }
+    
+    
     
     @FXML
     private void actualizarObraSocialPaciente(MouseEvent event) {
         
-        
+        //SI CAJAS ESTAN HABILITADAS
         if (botonActualizarObraSocialPaciente.getId().equals("1")) {
             try {
-
+                //SI SE BUSCO UN PACIENTE
                 if (!cajaBuscarPaciente.getText().isEmpty()) {
+                    //SI LAS CAJAS IMPORTANTES NO ESTAN VACIAS
                     if (Objects.isNull(choiseNombreObraSocialPaciente.getValue())
                             || Objects.isNull(choisePlanesObraSocialPacientePlan.getValue())
                             || cajaNAfiliadoObraSocialPaciente.getText().isEmpty()) {
 
                         //MENSAJE DE ERROR AL TENER CAJAS VACIAS
-                        mensaje("Hay campos importantes vacios", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                        mensajeAdvertenciaError( "Hay campos importantes vacios", this, VariablesEstaticas.imgenAdvertencia);
                         //PINTAR CAJAS IMPORTATES VACIAS AL CREAR
                         servicioPaciente.
                                 pintarCajaVaciaImportante(VariablesEstaticas.cajasObraSocialPaciente).
                                 pintarChoiseVacioImportante(VariablesEstaticas.choiseObraSocialPaciente);
 
                     } else {
-                        Paciente pacienteObraSocialPaciente = new Paciente();
+                        
                         ObraSocialPaciente obraSocialPaciente = new ObraSocialPaciente();
                         PlanObraSocial planObraSocial = new PlanObraSocial();
                         Afiliado afiliado = new Afiliado();
@@ -1241,59 +1471,60 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
 
                             }
                         }
-                        
+
                         obraSocialPaciente.setPlan(planObraSocial);
                         obraSocialPaciente.setAfiliado(afiliado);
-                        
-                       
 
                         //crear paciente
-                       pacienteObraSocialPaciente.setObraSocialPaciente(obraSocialPaciente);
-                        
-                       
-                                                        
-                                                                            
-                        
-                        
-                        
-                        //obtner id de anterior obra social y plan
-                        pacienteObraSocialPaciente.getObraSocialPaciente().getAfiliado().setId(pacienteDao.obtenerIdAfiliadoObraSocial(pacienteObraSocialPaciente));
-                        pacienteObraSocialPaciente.getObraSocialPaciente().getPlan().setId(pacienteDao.obtenerIdPlanObraSocial(pacienteObraSocialPaciente));
-                        pacienteObraSocialPaciente.getObraSocialPaciente().setId(pacienteDao.obtenerIdObraSocia(pacienteObraSocialPaciente));
-                        pacienteObraSocialPaciente.setId(pacienteDao.obtenerIdPacienteSoloConIdUsuario(pacienteObraSocialPaciente.setDni(Integer.valueOf(cajaBuscarPaciente.getText()))));
-                        
-                        //pasar valores nuevos
-                       pacienteObraSocialPaciente.getObraSocialPaciente().getPlan().setNombre(choisePlanesObraSocialPacientePlan.getValue());
-                       pacienteObraSocialPaciente.getObraSocialPaciente().getAfiliado().setNumero(Integer.parseInt(cajaNAfiliadoObraSocialPaciente.getText()));
-                       pacienteObraSocialPaciente.getObraSocialPaciente().setNombre(choiseNombreObraSocialPaciente.getValue());
-                        
-                        
-                        
-                        
                         
 
-                        pacienteDao.actualizar(pacienteObraSocialPaciente, 5);
+                        //obtner id de anterior obra social y plan
+                        daoImplementacion = new AfiliadoDAOImplementacion();
+                        obraSocialPaciente.getAfiliado().setId(daoImplementacion.obtenerId(afiliado));
+                        
+                        daoImplementacion = new PlanObraSocialDAOImplementacion();
+                        obraSocialPaciente.getPlan().setId(daoImplementacion.obtenerId(new ObraSocial(obraSocialPaciente.getNombre(), planObraSocial.getNombre())));
+                        
+                        daoImplementacion = new ObraSocialPacienteDAOImplementacion();
+                        obraSocialPaciente.setId(daoImplementacion.obtenerId(obraSocialPaciente));
+                        
+                        daoImplementacion = new PacienteDAOImplementacion();
+                        obraSocialPaciente.setIdPaciente(daoImplementacion.obtenerId(new Paciente(Integer.valueOf(cajaBuscarPaciente.getText()))));
+                        
+
+                        //pasar valores nuevos
+                        obraSocialPaciente.getPlan().setNombre(choisePlanesObraSocialPacientePlan.getValue());
+                        
+                        obraSocialPaciente.getAfiliado().setNumero(Integer.parseInt(cajaNAfiliadoObraSocialPaciente.getText()));
+                        
+                        obraSocialPaciente.setNombre(choiseNombreObraSocialPaciente.getValue());
+                        
+                        
+                        daoImplementacion = new ObraSocialPacienteDAOImplementacion();
+                        daoImplementacion.actualizar(obraSocialPaciente);
 
                         buscarPaciente();
                         servicioPaciente.
-                                visivilizarCajas(VariablesEstaticas.cajasObraSocialPaciente).
-                                esconderChoice(VariablesEstaticas.choiseObraSocialPaciente).
+                                visibilizarLIstVBox(VariablesEstaticas.vboxsObraSocialPacienteActualizaroVer).
+                                ocultarLIstVBox(VariablesEstaticas.vboxsObraSocialPaciente).
                                 deshabilitarCajas(VariablesEstaticas.cajasObraSocialPaciente);
                         botonActualizarObraSocialPaciente.setId("botonActualizarObraSocialPaciente");
                     }
                 } else {
-                    mensaje("Buscar paciente a actualizar", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                    mensajeAdvertenciaError( "Buscar paciente a actualizar", this, VariablesEstaticas.imgenAdvertencia);
                 }
 
             } catch (Exception e) {
                 e.printStackTrace();
-                mensaje("Error al actualizar obra social del paciente", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                mensajeAdvertenciaError( "Error al actualizar obra social del paciente", this, VariablesEstaticas.imgenError);
             }
         } else {
+            choiseNombreObraSocialPaciente.setValue(cajaNombreObraSocialPaciente.getText());
+            choisePlanesObraSocialPacientePlan.setValue(cajaPlanObraSocialPaciente.getText());
             botonActualizarObraSocialPaciente.setId("1");
             servicioPaciente.
-                    visivilizarChoice(VariablesEstaticas.choiseObraSocialPaciente).
-                    esconderCajas(VariablesEstaticas.cajasObraSocialPaciente).
+                    visibilizarLIstVBox(VariablesEstaticas.vboxsObraSocialPaciente).
+                    ocultarLIstVBox(VariablesEstaticas.vboxsObraSocialPacienteActualizaroVer).
                     habilitarCajas(VariablesEstaticas.cajasObraSocialPaciente).
                     animarCajasAlDarABoton(VariablesEstaticas.cajasObraSocialPaciente).
                     animarChoiceAlDarABoton(VariablesEstaticas.choiseObraSocialPaciente);
@@ -1303,58 +1534,65 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
 
     @FXML
     private void actualizarSesion(MouseEvent event) {
-
+        
+        
         try {
-            MensajeAdvertenciaController mensajeAdvertencia = new MensajeAdvertenciaController();
-
+            //SI NO SE SELECCIONA LA SESION
             if (tableSesiones.getSelectionModel().isEmpty()) {
-                mensaje("Seleccione sesion para pode actualizar", this, "/com/pacientes/gestor_pacientes/img/warning.png");
+                mensajeAdvertenciaError( "Seleccione sesion para pode actualizar", this, VariablesEstaticas.imgenAdvertencia);
 
             } else {
                 LocalDate ldAutorizacion = LocalDate.parse(tableSesiones.getSelectionModel().getSelectedItem().getAsociacion());
                 LocalDate ldSesion = LocalDate.parse(tableSesiones.getSelectionModel().getSelectedItem().getFechaSesion());
-                Paciente pacienteSesion = new Paciente();
+                
                 SesionPaciente sesion = new SesionPaciente();
                 AutorizacionesSesionesObraSociales autorizacion = new AutorizacionesSesionesObraSociales();
                 CodigoFacturacion codigo = new CodigoFacturacion();
-
-                Paciente pacienteBuscar = new Paciente();
+                
                 SesionPaciente sesionBuscar = new SesionPaciente();
                 AutorizacionesSesionesObraSociales autorizacionBuscar = new AutorizacionesSesionesObraSociales();
-
+                
+                //SI SE PUEDEN EDITAR LAS CAJAS
                 if (botonActualizarSesiones.getId().equals("1")) {
-
-                    pacienteBuscar.setDni(Integer.parseInt(cajaBuscarPaciente.getText()));
-                    pacienteBuscar.setId(pacienteDao.obtenerIdPacienteSoloConIdUsuario(pacienteBuscar));
-
+                    botonRetornarSesiones.setDisable(true);
+                    
+                    daoImplementacion = new PacienteDAOImplementacion();
+                    sesionBuscar.setIdPaciente(daoImplementacion.obtenerId(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText()))));
                     autorizacionBuscar.setNumeroAutorizacion(Integer.parseInt(cajaAutorizacionSesion.getText()));
                     autorizacionBuscar.setAsociacion(ldAutorizacion);
                     sesionBuscar.setAutorizacion(autorizacionBuscar);
                     sesionBuscar.setFecha(ldSesion);
                     sesionBuscar.setNumeroSesion(Integer.parseInt(cajaNumeroSesion.getText()));
-                    pacienteBuscar.setSesion(sesionBuscar);
-
-                    int idSesion = pacienteDao.obtenerIdSesionAutorizacion(pacienteBuscar).getSesion().getIdSesion();
-                    int idAutorizacion = pacienteDao.obtenerIdSesionAutorizacion(pacienteBuscar).getSesion().getAutorizacion().getId();
+                    
+                    
+                    daoImplementacion = new SesionDAOImplementacion();
+                    int idSesion = daoImplementacion.obtenerId(sesionBuscar);
+                    
+                    daoImplementacion = new PacienteDAOImplementacion();
+                    int idPaciente = daoImplementacion.obtenerId(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText())));
 
                     LocalDate ldsNuevo = LocalDate.parse(cajaFechaSesion.getValue().toString());
                     LocalDate ldsaNuevo = LocalDate.parse(cajaAsociacionSesionObraSocial.getValue().toString());
-
-                    if (cajaAutorizacionSesion.getText().equals("0") && cajaCopagoSesionObraSocial.getText().equals("0.0") && cajaAsociacionSesionObraSocial.getValue().toString().equals("1700-01-01") && cajaObservacionSesionObraSocial.getText().trim().toString().equals("-")) {
-                        sesion.setAutorizacion(rellenarAutorizacionVacia());
-                    } else {
-
-                        autorizacion.setId(idAutorizacion);
-                        autorizacion.setNumeroAutorizacion(Integer.parseInt(cajaAutorizacionSesion.getText()));
-                        autorizacion.setAsociacion(ldsaNuevo);
-                        autorizacion.setObservacion(cajaObservacionSesionObraSocial.getText());
-                        autorizacion.setCopago(Double.parseDouble(cajaCopagoSesionObraSocial.getText()));
-                        codigo.setNombre(choiseCodigoFactSesionObraSocial.getValue());
-                        autorizacion.setCodigoFacturacion(codigo);
-                        sesion.setAutorizacion(autorizacion);
-                        
-                    }
                     
+                    //SI LAS CAJAS DE AUTORIZACION ESTAN VACIAS LAS RELLENA CON VALORES NULOS
+                    
+                    servicioPaciente.rellenarCajasAutorizacionVacias();
+                    daoImplementacion = new AutorizacionDAOImplementacion();
+                    autorizacion.setIdPaciente(idPaciente);
+                    autorizacion.setIdSesion(idSesion);
+                    autorizacion.setId(daoImplementacion.obtenerId(new AutorizacionesSesionesObraSociales(Integer.parseInt(tableSesiones.getSelectionModel().getSelectedItem().getNumeroAutorizacion()), LocalDate.parse(tableSesiones.getSelectionModel().getSelectedItem().getAsociacion()), idSesion, idPaciente)));
+                    autorizacion.setNumeroAutorizacion(Integer.parseInt(cajaAutorizacionSesion.getText()));
+                    autorizacion.setAsociacion(ldsaNuevo);
+                    autorizacion.setObservacion(cajaObservacionSesionObraSocial.getText());
+                    autorizacion.setCopago(Double.parseDouble(cajaCopagoSesionObraSocial.getText()));
+                    codigo.setNombre(choiseCodigoFactSesionObraSocial.getValue());
+                    autorizacion.setCodigoFacturacion(codigo);
+                    
+                    
+                    
+                        
+                    sesion.setAutorizacion(autorizacion);
+                    //INICIALIZAR SESION
                     sesion.setEstado(new EstadoFacturacion(cajaEstadoFacturacionSesionObraSocial.getText()));
                     sesion.setIdSesion(idSesion);
                     sesion.setNumeroSesion(Integer.parseInt(cajaNumeroSesion.getText()));
@@ -1362,30 +1600,30 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                     sesion.setTrabajoSesion(cajaTrabajoSesion.getText());
                     sesion.setObservacion(cajaObservacionSesion.getText());
                     sesion.setHonorarioPorSesion(Double.parseDouble(cajaHonorariosPorSesion.getText()));
-                    pacienteSesion.setSesion(sesion);
-                    pacienteSesion.setDni(Integer.parseInt(cajaBuscarPaciente.getText()));
-                    pacienteSesion.setId(pacienteDao.obtenerIdPacienteSoloConIdUsuario(pacienteSesion));
+                    sesion.setIdPaciente(idPaciente);
                     
+                    //ACTIVAR SERVICIOS
                     servicioPaciente.
-                            datosSesionVacios().
+                            datosSesionCajasAreaVacios().
+                            datosSesionCajasVacios().
                             vaciarCajas(VariablesEstaticas.cajasSesiones).
                             vaciarChoise(VariablesEstaticas.choiseSesiones).
-                            vaciarCajasArea(VariablesEstaticas.cajasAreaSesion).
-                            desHabilitarEliminarActualizar(botonEliminarSesiones, botonActualizarSesiones). 
-                            habilitarBotonCrear(botonAgregarSesiones);
-                    pacienteDao.actualizar(pacienteSesion, 4);
-                    mensaje("Sesión actualizada con éxito sesión", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                            vaciarCajasArea(VariablesEstaticas.cajasAreaSesion);
+                    
+                    //ACTUALIZAR
+                    daoImplementacion = new SesionDAOImplementacion();
+                    daoImplementacion.actualizar(sesion);
+                    mensajeAdvertenciaError( "Sesión actualizada con éxito sesión", this, VariablesEstaticas.imgenExito);
                     vBoxAutorizacion.setVisible(false);
                     vBoxSesiones.setVisible(false);
                     hbTablasSesionesAtorizaciones.setVisible(true);
                     botonActualizarSesiones.setId("botonActualizarSesiones");
                     buscarPaciente();
+                    servicioPaciente.habilitarBotones(List.of(botonAgregarSesiones, botonEliminarSesiones));
                 } else {
+                    botonRetornarSesiones.setDisable(false);
                     //BOTONERA
                     hbTablasSesionesAtorizaciones.setVisible(false);
-                    botonAgregarSesiones.setDisable(true);
-                    botonEliminarSesiones.setDisable(true);
-                    botonRetornarSesiones.setDisable(false);
                     vBoxAutorizacion.setVisible(true);
                     vBoxSesiones.setVisible(true);
 
@@ -1403,11 +1641,26 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                     cajaAsociacionSesionObraSocial.setValue(ldAutorizacion);
                     cajaCopagoSesionObraSocial.setText(tableSesiones.getSelectionModel().getSelectedItem().getCopago());
                     choiseCodigoFactSesionObraSocial.setValue(tableSesiones.getSelectionModel().getSelectedItem().getNombreCodigo());
+                    botonActualizarSesiones.setId("1");
+                    servicioPaciente.deshabilitarBotones(List.of(botonAgregarSesiones, botonEliminarSesiones));
+                    
+                    servicioPaciente.
+                            rellenarListaSesionesAutorizaciones(
+                                    new AutorizacionesSesionesObraSociales(
+                                            Integer.parseInt(tablaAutorizacion.getSelectionModel().getSelectedItem().getNumeroAutorizacion()) ,
+                                            tablaAutorizacion.getSelectionModel().getSelectedItem().getObservacionAutorizacion(),
+                                            LocalDate.parse(tablaAutorizacion.getSelectionModel().getSelectedItem().getAsociacion()),
+                                            Double.parseDouble(tablaAutorizacion.getSelectionModel().getSelectedItem().getCopago()),
+                                            new CodigoFacturacion(tablaAutorizacion.getSelectionModel().getSelectedItem().getNombreCodigo())
+                                    ));
+                    
+                    
                 }
-                botonActualizarSesiones.setId("1");
+                
             }
         } catch (Exception e) {
-            mensaje("Error al actualizar sesión", this, "/com/pacientes/gestor_pacientes/img/error.png");
+            e.printStackTrace();
+            mensajeAdvertenciaError( "Error al actualizar sesión", this, VariablesEstaticas.imgenError);
         }
 
     }
@@ -1423,219 +1676,259 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
     //                              ****
     @FXML
     private void eliminarPaciente(MouseEvent event) {
-        if (!cajaBuscarPaciente.getText().isEmpty() || !cajaBuscarPaciente.getText().isBlank()) {
-            if (!cajaNombreDatosPrincipales.getText().isBlank() && !cajaApellidoDatosPrincipales.getText().isBlank() && !cajaDniDatosPrincipales.getText().isBlank()) {
-                try {
-                    
-                    pacienteDao.eliminar(new Paciente(Integer.parseInt(cajaDniDatosPrincipales.getText())), 1);
-                    mensaje("Paciente eliminado con éxito", this, "/com/pacientes/gestor_pacientes/img/error.png");
-                    servicioPaciente.
-                            vaciarTodo().
-                            deshabilitarBotones(listaBotonesEliminar).
-                            deshabilitarBotones(listaBotonesActualizar).
-                            habilitarBotones(listaBotonesCrear);
-                } catch (Exception e) {
-                    mensaje("Error al eliminar paciente", this, "/com/pacientes/gestor_pacientes/img/error.png");
+        mensajePreguntarSiONo();
+        if (VariablesEstaticas.esSiONoMensajePrguntarSiONo) {
+            daoImplementacion = new PacienteDAOImplementacion();
+            //SI SE BUSCO AL PACIENTE
+            if (!cajaBuscarPaciente.getText().isEmpty() || !cajaBuscarPaciente.getText().isBlank()) {
+                //SI LAS CAJAS IMPORTANTES TIENEN DATOS
+                if (!cajaNombreDatosPrincipales.getText().isBlank() && !cajaApellidoDatosPrincipales.getText().isBlank() && !cajaDniDatosPrincipales.getText().isBlank()) {
+                    try {
+
+                        daoImplementacion.eliminar(new Paciente(Integer.parseInt(cajaDniDatosPrincipales.getText())));
+                        mensajeAdvertenciaError("Paciente eliminado con éxito", this, VariablesEstaticas.imgenExito);
+                        servicioPaciente.
+                                vaciarTodo().
+                                habilitarTodo().
+                                deshabilitarBotones(listaBotonesEliminar).
+                                deshabilitarBotones(listaBotonesActualizar).
+                                habilitarBotones(listaBotonesCrear);
+                        cajaBuscarPaciente.setText(null);
+                        
+                    } catch (Exception e) {
+                        mensajeAdvertenciaError("Error al eliminar paciente", this, VariablesEstaticas.imgenError);
+                    }
+                } else {
+                    mensajeAdvertenciaError("Faltan datos para eliminar paciente", this, VariablesEstaticas.imgenAdvertencia);
                 }
             } else {
-                mensaje("Faltan datos para eliminar paciente", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                mensajeAdvertenciaError("Buscar paciente para eliminar", this, VariablesEstaticas.imgenAdvertencia);
             }
-        } else {
-            mensaje("Buscar paciente para eliminar", this, "/com/pacientes/gestor_pacientes/img/error.png");
         }
     }
 
     @FXML
     private void eliminarPlan(MouseEvent event) {
-        if (!cajaBuscarPaciente.getText().isEmpty()) {
-            if (Objects.nonNull(choiseFrecuenciaSesionPlan.getValue()) && Objects.nonNull(choiseTipoSesionPlan.getValue())) {
-                try {
-                    Paciente pacienteEliminarPlanTratamiento = new Paciente();
-                    pacienteEliminarPlanTratamiento.setDni(Integer.parseInt(cajaBuscarPaciente.getText()));
-                    pacienteDao.eliminar(pacienteEliminarPlanTratamiento, 6);
-                    mensaje("Plan eliminado con éxito", this, "/com/pacientes/gestor_pacientes/img/error.png");
-                    servicioPaciente.
-                            vaciarValorChoise(VariablesEstaticas.choisePlan).
-                            vaciarCajas(VariablesEstaticas.cajasPlanes).
-                            habilitarBotonCrear(botonAgregarPlanTratamiento).
-                            desHabilitarEliminarActualizar(botonEliminarPlanTratamiento, botonActualizarPlanTratamiento).
-                            visivilizarChoice(choisePlan).esconderCajas(cajasPlanes);
-                    buscarPaciente();
-                } catch (Exception e) {
-                    mensaje("Error al eliminar Plan de tratamiento", this, "/com/pacientes/gestor_pacientes/img/error.png");
-                }
+        mensajePreguntarSiONo();
+        if (VariablesEstaticas.esSiONoMensajePrguntarSiONo) {
+            //SI SE BUSCO AL PACIENTE
+            if (!cajaBuscarPaciente.getText().isEmpty()) {
+                //SI CAJAS IMPORTANTES TIENEN TEXTO
+                if (!cajaPlanFrecuenciaSesiones.getText().isBlank() && !cajaNombreTipoSesionPlan.getText().isBlank()) {
+                    try {
+                        daoImplementacion = new PacienteDAOImplementacion();
+                        PlanTratamiento planTratamiento = new PlanTratamiento();
+                        planTratamiento.setIdPaciente(daoImplementacion.obtenerId(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText()))));
+                        daoImplementacion = new PlanTratamientoDAOImplementacion();
+                        daoImplementacion.eliminar(planTratamiento);
+                        mensajeAdvertenciaError("Plan eliminado con éxito", this, VariablesEstaticas.imgenExito);
+                        servicioPaciente.
+                                vaciarValorChoise(VariablesEstaticas.choisePlan).
+                                vaciarCajas(VariablesEstaticas.cajasPlanes).
+                                habilitarBotonCrear(botonAgregarPlanTratamiento).
+                                desHabilitarEliminarActualizar(botonEliminarPlanTratamiento, botonActualizarPlanTratamiento).
+                                visivilizarChoice(choisePlan).esconderCajas(cajasPlanes);
+                        buscarPaciente();
+                    } catch (Exception e) {
+                        mensajeAdvertenciaError("Error al eliminar Plan de tratamiento", this, VariablesEstaticas.imgenError);
+                    }
 
+                } else {
+                    mensajeAdvertenciaError("Faltan datos para eliminar plan", this, VariablesEstaticas.imgenAdvertencia);
+                }
             } else {
-                mensaje("Faltan datos para eliminar plan", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                mensajeAdvertenciaError("Buscar paciente para eliminar", this, VariablesEstaticas.imgenAdvertencia);
             }
-        } else {
-            mensaje("Buscar paciente para eliminar", this, "/com/pacientes/gestor_pacientes/img/error.png");
         }
     }
 
     @FXML
     private void eliminarDiagnostico(MouseEvent event) {
-
-        if (!cajaBuscarPaciente.getText().isEmpty()) {
-            if (!cajaDiagnosticoDiagnostico.getText().isBlank()) {
-                try {
-                    Paciente pacienteEliminarDiagnostico = new Paciente();
-                    pacienteEliminarDiagnostico.setDni(Integer.parseInt(cajaBuscarPaciente.getText()));
-                    pacienteDao.eliminar(pacienteEliminarDiagnostico, 3);
-                    mensaje("Diagnóstico eliminado con éxito", this, "/com/pacientes/gestor_pacientes/img/error.png");
-                    servicioPaciente.
-                            vaciarCajasArea(VariablesEstaticas.cajasAreaDiagnostico).
-                            habilitarBotonCrear(botonAgregarDiagnostico).
-                            desHabilitarEliminarActualizar(botonEliminarDiagnostico, botonActualizarDiagnostico);
-                    buscarPaciente();
-                } catch (Exception e) {
-                    mensaje("Error al eliminar diagnóstico", this, "/com/pacientes/gestor_pacientes/img/error.png");
+        mensajePreguntarSiONo();
+        if (VariablesEstaticas.esSiONoMensajePrguntarSiONo) {
+            //SI SE BUSCO AL PACIENTE
+            if (!cajaBuscarPaciente.getText().isEmpty()) {
+                //SI LAS CAJAS IMPORTANTES NO ESTAN VACIAS
+                if (!cajaDiagnosticoDiagnostico.getText().isBlank()) {
+                    try {
+                        DiagnosticoPaciente diagnosticoPaciente = new DiagnosticoPaciente();
+                        daoImplementacion = new PacienteDAOImplementacion();
+                        diagnosticoPaciente.setIdPaciente(daoImplementacion.obtenerId(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText()))));
+                        daoImplementacion = new DiagnosticoDAOImplementacion();
+                        daoImplementacion.eliminar(diagnosticoPaciente);
+                        mensajeAdvertenciaError("Diagnóstico eliminado con éxito", this, VariablesEstaticas.imgenExito);
+                        servicioPaciente.
+                                vaciarCajasArea(VariablesEstaticas.cajasAreaDiagnostico).
+                                habilitarBotonCrear(botonAgregarDiagnostico).
+                                desHabilitarEliminarActualizar(botonEliminarDiagnostico, botonActualizarDiagnostico);
+                        buscarPaciente();
+                    } catch (Exception e) {
+                        mensajeAdvertenciaError("Error al eliminar diagnóstico", this, VariablesEstaticas.imgenError);
+                    }
+                } else {
+                    mensajeAdvertenciaError("Faltan datos para eliminar diagnóstico", this, VariablesEstaticas.imgenAdvertencia);
                 }
             } else {
-                mensaje("Faltan datos para eliminar diagnóstico", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                mensajeAdvertenciaError("Buscar paciente para eliminar", this, VariablesEstaticas.imgenAdvertencia);
             }
-        } else {
-            mensaje("Buscar paciente para eliminar", this, "/com/pacientes/gestor_pacientes/img/error.png");
         }
 
     }
 
     @FXML
     private void eliminarObraSocialPaciente(MouseEvent event) {
-        if (!cajaBuscarPaciente.getText().isEmpty()) {
-            if (Objects.nonNull(choiseNombreObraSocialPaciente.getValue()) || Objects.nonNull(choisePlanesObraSocialPacientePlan.getValue())) {
-                try {
-                    Paciente pacienteEliminarObraSocialPaciente = new Paciente();
-                    pacienteEliminarObraSocialPaciente.setDni(Integer.parseInt(cajaBuscarPaciente.getText()));
-                    pacienteDao.eliminar(pacienteEliminarObraSocialPaciente, 5);
-                    mensaje("Obra social del paciente eliminado con éxito", this, "/com/pacientes/gestor_pacientes/img/error.png");
-                    servicioPaciente.
-                            vaciarValorChoise(VariablesEstaticas.choiseObraSocialPaciente).
-                            vaciarCajas(VariablesEstaticas.cajasObraSocialPaciente).
-                            habilitarBotonCrear(botonAgregarObraSocialPaciente).
-                            desHabilitarEliminarActualizar(botonEliminarObraSocialPaciente, botonActualizarObraSocialPaciente).
-                            visivilizarChoice(choiseObraSocialPaciente).
-                            esconderCajas(cajasObraSocialPaciente);
-                    buscarPaciente();
-                } catch (Exception e) {
-                    mensaje("Error al eliminar Obra social paciente", this, "/com/pacientes/gestor_pacientes/img/error.png");
-                }
+        mensajePreguntarSiONo();
+        if (VariablesEstaticas.esSiONoMensajePrguntarSiONo) {
+            //SI SE BUSCO AL PACIENTE
+            if (!cajaBuscarPaciente.getText().isEmpty()) {
+                //SI LAS CAJAS IMPORTANTES TIENEN TEXTO
+                if (Objects.nonNull(choiseNombreObraSocialPaciente.getValue()) || Objects.nonNull(choisePlanesObraSocialPacientePlan.getValue())) {
+                    try {
+                        daoImplementacion = new PacienteDAOImplementacion();
+                        ObraSocialPaciente obraSocialPaciente = new ObraSocialPaciente();
+                        obraSocialPaciente.setIdPaciente(daoImplementacion.obtenerId(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText()))));
 
+                        daoImplementacion = new ObraSocialPacienteDAOImplementacion();
+                        daoImplementacion.eliminar(obraSocialPaciente);
+                        mensajeAdvertenciaError("Obra social del paciente eliminado con éxito", this, VariablesEstaticas.imgenExito);
+                        servicioPaciente.
+                                vaciarValorChoise(VariablesEstaticas.choiseObraSocialPaciente).
+                                vaciarCajas(VariablesEstaticas.cajasObraSocialPaciente).
+                                habilitarBotonCrear(botonAgregarObraSocialPaciente).
+                                desHabilitarEliminarActualizar(botonEliminarObraSocialPaciente, botonActualizarObraSocialPaciente).
+                                visivilizarChoice(choiseObraSocialPaciente).
+                                esconderCajas(cajasObraSocialPaciente);
+                        buscarPaciente();
+                    } catch (Exception e) {
+                        mensajeAdvertenciaError("Error al eliminar Obra social paciente", this, VariablesEstaticas.imgenError);
+                    }
+
+                } else {
+                    mensajeAdvertenciaError("Faltan datos para eliminar obra social del paciente", this, VariablesEstaticas.imgenAdvertencia);
+                }
             } else {
-                mensaje("Faltan datos para eliminar obra social del paciente", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                mensajeAdvertenciaError("Buscar paciente para eliminar", this, VariablesEstaticas.imgenAdvertencia);
             }
-        } else {
-            mensaje("Buscar paciente para eliminar", this, "/com/pacientes/gestor_pacientes/img/error.png");
         }
     }
 
     @FXML
     private void eliminarSesion(MouseEvent event) {
+        
+        
+            List<CheckBox> check;
 
-        List<CheckBox> check;
+            try {
 
-        try {
-            MensajeAdvertenciaController mensajeAdvertencia = new MensajeAdvertenciaController();
+                if (tableSesiones.getSelectionModel().isEmpty()) {
+                    mensajeAdvertenciaError("Seleccione sesion para pode eliminar", this, VariablesEstaticas.imgenAdvertencia);
 
-            if (tableSesiones.getSelectionModel().isEmpty()) {
-                mensaje("Seleccione sesion para pode eliminar", this, "/com/pacientes/gestor_pacientes/img/warning.png");
-
-            } else {
-                //INICIALIZAR VARIABLES
-                LocalDate ldAutorizacion = LocalDate.parse(tableSesiones.getSelectionModel().getSelectedItem().getAsociacion());
-                LocalDate ldSesion = LocalDate.parse(tableSesiones.getSelectionModel().getSelectedItem().getFechaSesion());
-                Paciente pacienteSesion = new Paciente();
-                SesionPaciente sesion = new SesionPaciente();
-                AutorizacionesSesionesObraSociales autorizacion = new AutorizacionesSesionesObraSociales();
-                CodigoFacturacion codigo = new CodigoFacturacion();
-
-                Paciente pacienteBuscar = new Paciente();
-                SesionPaciente sesionBuscar = new SesionPaciente();
-                AutorizacionesSesionesObraSociales autorizacionBuscar = new AutorizacionesSesionesObraSociales();
-
-                //SI SE SELECCIONO SESION Y SE APRETO EL BOTON DE ELIMINAR
-                if (!cajaBuscarPaciente.getText().isBlank()) {
-
+                } else {
                     //INICIALIZAR VARIABLES
-                    pacienteBuscar.setDni(Integer.parseInt(cajaBuscarPaciente.getText()));
-                    pacienteBuscar.setId(pacienteDao.obtenerIdPacienteSoloConIdUsuario(pacienteBuscar));
-                    
+                    LocalDate ldAutorizacion = LocalDate.parse(tableSesiones.getSelectionModel().getSelectedItem().getAsociacion());
+                    LocalDate ldSesion = LocalDate.parse(tableSesiones.getSelectionModel().getSelectedItem().getFechaSesion());
+                    //Paciente pacienteSesion = new Paciente();
+                    SesionPaciente sesion = new SesionPaciente();
+                    AutorizacionesSesionesObraSociales autorizacion = new AutorizacionesSesionesObraSociales();
+                    CodigoFacturacion codigo = new CodigoFacturacion();
 
-                    autorizacionBuscar.setNumeroAutorizacion(Integer.parseInt(tablaAutorizacion.getSelectionModel().getSelectedItem().getNumeroAutorizacion()));
-                    autorizacionBuscar.setAsociacion(ldAutorizacion);
-                    sesionBuscar.setAutorizacion(autorizacionBuscar);
-                    sesionBuscar.setFecha(ldSesion);
-                    sesionBuscar.setNumeroSesion(Integer.parseInt(tableSesiones.getSelectionModel().getSelectedItem().getNumeroSesion()));
-                    pacienteBuscar.setSesion(sesionBuscar);
+                    //Paciente pacienteBuscar = new Paciente();
+                    SesionPaciente sesionBuscar = new SesionPaciente();
+                    AutorizacionesSesionesObraSociales autorizacionBuscar = new AutorizacionesSesionesObraSociales();
 
-                    int idSesion = pacienteDao.obtenerIdSesionAutorizacion(pacienteBuscar).getSesion().getIdSesion();
-                    int idAutorizacion = pacienteDao.obtenerIdSesionAutorizacion(pacienteBuscar).getSesion().getAutorizacion().getId();
+                    //SI SE SELECCIONO SESION Y SE APRETO EL BOTON DE ELIMINAR
+                    if (!cajaBuscarPaciente.getText().isBlank()) {
 
-                    LocalDate ldsNuevo = LocalDate.parse(tableSesiones.getSelectionModel().getSelectedItem().getFechaSesion());
-                    LocalDate ldsaNuevo = LocalDate.parse(tablaAutorizacion.getSelectionModel().getSelectedItem().getAsociacion());
+                        //INICIALIZAR VARIABLES
+                        daoImplementacion = new PacienteDAOImplementacion();
+                        int idPaciente = daoImplementacion.obtenerId(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText())));
+                        
+                        sesionBuscar.setIdPaciente(idPaciente);
 
-                    /*//SI NO EXISTE AUTORIZACION LA RELLENA CON VALORES VACIOS
-                    if (tablaAutorizacion.getSelectionModel().getSelectedItem().getFechaSesion().equals("0") && tablaAutorizacion.getSelectionModel().getSelectedItem().getCopago().equals("0.0") && tablaAutorizacion.getSelectionModel().getSelectedItem().getAsociacion().equals("1700-01-01") && tablaAutorizacion.getSelectionModel().getSelectedItem().getObservacionAutorizacion().equals("-")) {
-                        sesion.setAutorizacion(rellenarAutorizacionVacia());
-                    } else {
+                        autorizacionBuscar.setNumeroAutorizacion(Integer.parseInt(tablaAutorizacion.getSelectionModel().getSelectedItem().getNumeroAutorizacion()));
+                        autorizacionBuscar.setAsociacion(ldAutorizacion);
+                        sesionBuscar.setAutorizacion(autorizacionBuscar);
+                        sesionBuscar.setFecha(ldSesion);
+                        sesionBuscar.setNumeroSesion(Integer.parseInt(tableSesiones.getSelectionModel().getSelectedItem().getNumeroSesion()));
+
+                        daoImplementacion = new SesionDAOImplementacion();
+                        int idSesion = daoImplementacion.obtenerId(sesionBuscar);
+                        autorizacionBuscar.setIdSesion(idSesion);
+                        
+                        
+                        
+
+                        LocalDate ldsNuevo = LocalDate.parse(tableSesiones.getSelectionModel().getSelectedItem().getFechaSesion());
+                        LocalDate ldsaNuevo = LocalDate.parse(tablaAutorizacion.getSelectionModel().getSelectedItem().getAsociacion());
+
+                        daoImplementacion = new AutorizacionDAOImplementacion();
+                        int idAutorizacion = daoImplementacion.obtenerId(new AutorizacionesSesionesObraSociales(Integer.parseInt(tableSesiones.getSelectionModel().getSelectedItem().getNumeroAutorizacion()), LocalDate.parse(tableSesiones.getSelectionModel().getSelectedItem().getAsociacion()), idSesion, idPaciente));
+                        autorizacion.setId(idAutorizacion);
+                        autorizacion.setNumeroAutorizacion(Integer.parseInt(tablaAutorizacion.getSelectionModel().getSelectedItem().getNumeroAutorizacion()));
+                        autorizacion.setAsociacion(ldsaNuevo);
+                        autorizacion.setObservacion(tablaAutorizacion.getSelectionModel().getSelectedItem().getObservacionAutorizacion());
+                        autorizacion.setCopago(Double.parseDouble(tablaAutorizacion.getSelectionModel().getSelectedItem().getCopago()));
+                        codigo.setNombre(tablaAutorizacion.getSelectionModel().getSelectedItem().getNombreCodigo());
+                        daoImplementacion = new CodigoFacturacionDAOImplementacion();
+                        codigo.setId(daoImplementacion.obtenerId(codigo));
+                        autorizacion.setCodigoFacturacion(codigo);
+                        sesion.setAutorizacion(autorizacion);
+
+                        sesion.setIdSesion(idSesion);
+                        sesion.setNumeroSesion(Integer.parseInt(tableSesiones.getSelectionModel().getSelectedItem().getNumeroSesion()));
+                        sesion.setFecha(ldsNuevo);
+                        sesion.setTrabajoSesion(tableSesiones.getSelectionModel().getSelectedItem().getTrabajoSesion());
+                        sesion.setObservacion(tableSesiones.getSelectionModel().getSelectedItem().getObservacionSesion());
+                        sesion.setHonorarioPorSesion(Double.parseDouble(tableSesiones.getSelectionModel().getSelectedItem().getHonorariosPorSesion()));
 
                         
-                    }*/
-                    
-                    autorizacion.setId(idAutorizacion);
-                    autorizacion.setNumeroAutorizacion(Integer.parseInt(tablaAutorizacion.getSelectionModel().getSelectedItem().getNumeroAutorizacion()));
-                    autorizacion.setAsociacion(ldsaNuevo);
-                    autorizacion.setObservacion(tablaAutorizacion.getSelectionModel().getSelectedItem().getObservacionAutorizacion());
-                    autorizacion.setCopago(Double.parseDouble(tablaAutorizacion.getSelectionModel().getSelectedItem().getCopago()));
-                    codigo.setNombre(tablaAutorizacion.getSelectionModel().getSelectedItem().getNombreCodigo());
-                    autorizacion.setCodigoFacturacion(codigo);
-                    sesion.setAutorizacion(autorizacion);
-                    
+                        sesion.setIdPaciente(idPaciente);
 
-                    sesion.setIdSesion(idSesion);
-                    sesion.setNumeroSesion(Integer.parseInt(tableSesiones.getSelectionModel().getSelectedItem().getNumeroSesion()));
-                    sesion.setFecha(ldsNuevo);
-                    sesion.setTrabajoSesion(tableSesiones.getSelectionModel().getSelectedItem().getTrabajoSesion());
-                    sesion.setObservacion(tableSesiones.getSelectionModel().getSelectedItem().getObservacionSesion());
-                    sesion.setHonorarioPorSesion(Double.parseDouble(tableSesiones.getSelectionModel().getSelectedItem().getHonorariosPorSesion()));
-                    pacienteSesion.setSesion(sesion);
-                    pacienteSesion.setDni(Integer.parseInt(cajaBuscarPaciente.getText()));
-                    pacienteSesion.setId(pacienteDao.obtenerIdPacienteSoloConIdUsuario(pacienteSesion));
-                    mensajeEliminarSesion(this);
-                    for (Map.Entry<List<CheckBox>, Boolean> entry : valoresElimenarSesion.entrySet()) {
-                        check = entry.getKey();
-                        Object val = entry.getValue();
-                        System.out.println(check.get(0).isSelected() + " " + check.get(1).isSelected());
-                        if (val.equals(true)) {
-                            if (!check.isEmpty()) {
-                                if (!check.get(0).isSelected() && check.get(1).isSelected()) {
-                                    try {
-                                        pacienteDao.eliminar(pacienteSesion, 7);
-                                    } catch (Exception e) {
-                                    }
-                                } else if (check.get(0).isSelected()) {
-                                    try {
-                                        pacienteDao.eliminar(pacienteSesion, 4);
-                                    } catch (Exception e) {
+                        daoImplementacion = new SesionDAOImplementacion();
+                        idSesion = daoImplementacion.obtenerId(sesion);
+
+                        autorizacion.setIdSesion(idSesion);
+                        
+                        
+
+                        mensajeEliminarSesion(this);
+                        for (Map.Entry<List<CheckBox>, Boolean> entry : valoresElimenarSesion.entrySet()) {
+                            check = entry.getKey();
+                            Object val = entry.getValue();
+                            if (val.equals(true)) {
+                                if (!check.isEmpty()) {
+                                    if (!check.get(0).isSelected() && check.get(1).isSelected()) {
+                                        try {
+                                            daoImplementacion = new AutorizacionDAOImplementacion();
+                                            //ELIMINAR AUTORIZACION
+                                            
+                                            daoImplementacion.actualizar(new AutorizacionesSesionesObraSociales(idAutorizacion, 0, "---------", LocalDate.EPOCH, 0.0, codigo, idSesion, idPaciente));
+                                        } catch (Exception e) {
+                                        }
+                                    } else if (check.get(0).isSelected()) {
+                                        try {
+                                            daoImplementacion = new SesionDAOImplementacion();
+                                            //ELIMINAR SESION
+                                            daoImplementacion.eliminar(sesion);
+                                        } catch (Exception e) {
+                                        }
                                     }
                                 }
                             }
+
                         }
 
+                        buscarPaciente();
+
+                    } else {
+                        mensajeAdvertenciaError("Buscar paciente para eliminar sesión", this, VariablesEstaticas.imgenAdvertencia);
                     }
-
-                    
-                    buscarPaciente();
-                    
-
-                }else{
-                    mensaje("Buscar paciente para eliminar sesión", this, "/com/pacientes/gestor_pacientes/img/error.png");
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
+                mensajeAdvertenciaError("Error al eliminar sesión", this, VariablesEstaticas.imgenError);
             }
-        } catch (Exception e) {
-            mensaje("Error al eliminar sesión", this, "/com/pacientes/gestor_pacientes/img/error.png");
-        }
-
+        
     }
 
     /*
@@ -1684,8 +1977,9 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                                 habilitarEliminarActualizar(botonEliminarObraSocial, botonActualizarObraSocial).
                                 deshabilitarCajas(VariablesEstaticas.cajasObrasSociales);
                         botonAgregarPlanesObraSocial.setDisable(false);
+                        botonActualizarPlanesObraSocial.setDisable(false);
                     }else{
-                        mensaje("Error al buscar obra social", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                        mensajeAdvertenciaError( "Error al buscar obra social", this, VariablesEstaticas.imgenError);
                         servicioObraSocial.
                         vaciarListaObraSocial().
                                 habilitarCajas(cajasObrasSociales).
@@ -1694,9 +1988,10 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                                 vaciarCajas(VariablesEstaticas.cajasObrasSociales).
                                 vaciarChoise(VariablesEstaticas.choiceObraSocial);
                         botonAgregarPlanesObraSocial.setDisable(true);
+                        botonActualizarPlanesObraSocial.setDisable(true);
                     }
                 }else{
-                    mensaje("Error al buscar obra social", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                    mensajeAdvertenciaError( "Error al buscar obra social", this, VariablesEstaticas.imgenError);
                     servicioObraSocial.
                         vaciarListaObraSocial().
                             habilitarCajas(cajasObrasSociales).
@@ -1705,10 +2000,11 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                                 vaciarCajas(VariablesEstaticas.cajasObrasSociales).
                                 vaciarChoise(VariablesEstaticas.choiceObraSocial);
                     botonAgregarPlanesObraSocial.setDisable(true);
+                    botonActualizarPlanesObraSocial.setDisable(true);
                 }
 
             }else{
-                mensaje("Error al buscar obra social", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                mensajeAdvertenciaError( "Error al buscar obra social", this, VariablesEstaticas.imgenError);
                 servicioObraSocial.
                         vaciarListaObraSocial().
                         habilitarCajas(cajasObrasSociales).
@@ -1717,43 +2013,41 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                         vaciarCajas(VariablesEstaticas.cajasObrasSociales).
                         vaciarChoise(VariablesEstaticas.choiceObraSocial);
                 botonAgregarPlanesObraSocial.setDisable(true);
+                botonActualizarPlanesObraSocial.setDisable(true);
             }
         } else {
-            if (!cajaBuscarObraSocial.getText().isBlank()) {
+            buscarObraSocialDesdeCaja();
+        }
+        hboxPlanObraSocial.setVisible(false);
+    }
+    
+    public void buscarObraSocialDesdeCaja() {
+        if (!cajaBuscarObraSocial.getText().isBlank()) {
 
-                if (!cajaBuscarObraSocial.getText().equals("0")) {
-                    ObraSocial obraSocial = new ObraSocial();
+            if (!cajaBuscarObraSocial.getText().equals("0")) {
+                ObraSocial obraSocial = new ObraSocial();
 
-                    try {
-                        obraSocial = obraSocialDao.obtener(new ObraSocial(cajaBuscarObraSocial.getText()));
-                        if (Objects.nonNull(obraSocial)) {
-                            servicioObraSocial.desPintarCajaVaciaImportante(VariablesEstaticas.cajasObrasSociales);
-                            cajaNombreObraSocial.setText(obraSocial.getNombre());
-                            cajaTelefonoObraSocial.setText(obraSocial.getTelefono().getTelefono());
-                            cajaEmailObraSocial.setText(obraSocial.getEmail().getEmail());
-                            cajaWebObraSocial.setText(obraSocial.getWeb().getWeb());
-                            choiceVerPlanesObraSocial.getItems().clear();
-                            choiceVerPlanesObraSocial.getItems().addAll(obraSocial.getPlanes());
+                try {
+                    daoImplementacion = new ObraSocialDAOImplementacion();
+                    obraSocial = (ObraSocial)daoImplementacion.obtener(new ObraSocial(cajaBuscarObraSocial.getText()));
+                    if (Objects.nonNull(obraSocial)) {
+                        servicioObraSocial.desPintarCajaVaciaImportante(VariablesEstaticas.cajasObrasSociales);
+                        cajaNombreObraSocial.setText(obraSocial.getNombre());
+                        cajaTelefonoObraSocial.setText(obraSocial.getTelefono().getTelefono());
+                        cajaEmailObraSocial.setText(obraSocial.getEmail().getEmail());
+                        cajaWebObraSocial.setText(obraSocial.getWeb().getWeb());
+                        choiceVerPlanesObraSocial.getItems().clear();
+                        choiceVerPlanesObraSocial.getItems().addAll(obraSocial.getPlanes());
 
-                            servicioObraSocial.
-                                    rellenarListaObraSocial(obraSocial).
-                                    desHabilitarBotonCrear(botonAgregarObraSocial).
-                                    habilitarEliminarActualizar(botonEliminarObraSocial, botonActualizarObraSocial).
-                                    deshabilitarCajas(VariablesEstaticas.cajasObrasSociales);;
-                            botonAgregarPlanesObraSocial.setDisable(false);        
-                        } else {
-                            mensaje("Obra Social no encontrada", this, "/com/pacientes/gestor_pacientes/img/error.png");
-                            servicioObraSocial.
-                                    vaciarListaObraSocial().
-                                    habilitarCajas(cajasObrasSociales).
-                                    desHabilitarEliminarActualizar(botonEliminarObraSocial, botonActualizarObraSocial).
-                                habilitarBotonCrear(botonAgregarObraSocial).
-                                    vaciarCajas(VariablesEstaticas.cajasObrasSociales).
-                                    vaciarChoise(VariablesEstaticas.choiceObraSocial);
-                            botonAgregarPlanesObraSocial.setDisable(true);
-                        }
-                    } catch (Exception e) {
-                        mensaje("Error al buscar obra social", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                        servicioObraSocial.
+                                rellenarListaObraSocial(obraSocial).
+                                desHabilitarBotonCrear(botonAgregarObraSocial).
+                                habilitarEliminarActualizar(botonEliminarObraSocial, botonActualizarObraSocial).
+                                deshabilitarCajas(VariablesEstaticas.cajasObrasSociales);;
+                        botonAgregarPlanesObraSocial.setDisable(false);
+                        botonActualizarPlanesObraSocial.setDisable(false);
+                    } else {
+                        mensajeAdvertenciaError( "Obra Social no encontrada", this, VariablesEstaticas.imgenAdvertencia);
                         servicioObraSocial.
                                 vaciarListaObraSocial().
                                 habilitarCajas(cajasObrasSociales).
@@ -1761,34 +2055,48 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                                 habilitarBotonCrear(botonAgregarObraSocial).
                                 vaciarCajas(VariablesEstaticas.cajasObrasSociales).
                                 vaciarChoise(VariablesEstaticas.choiceObraSocial);
-                                botonAgregarPlanesObraSocial.setDisable(true);
+                        botonAgregarPlanesObraSocial.setDisable(true);
+                        botonActualizarPlanesObraSocial.setDisable(true);
                     }
-
-                } else {
-                    mensaje("Obra Social no encontrada", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                } catch (Exception e) {
+                    mensajeAdvertenciaError( "Error al buscar obra social", this, VariablesEstaticas.imgenError);
                     servicioObraSocial.
                             vaciarListaObraSocial().
                             habilitarCajas(cajasObrasSociales).
                             desHabilitarEliminarActualizar(botonEliminarObraSocial, botonActualizarObraSocial).
-                                habilitarBotonCrear(botonAgregarObraSocial).
+                            habilitarBotonCrear(botonAgregarObraSocial).
                             vaciarCajas(VariablesEstaticas.cajasObrasSociales).
                             vaciarChoise(VariablesEstaticas.choiceObraSocial);
-                            botonAgregarPlanesObraSocial.setDisable(true);
+                    botonAgregarPlanesObraSocial.setDisable(true);
+                    botonActualizarPlanesObraSocial.setDisable(true);
                 }
 
             } else {
-                mensaje("Obra Social no encontrada", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                mensajeAdvertenciaError( "Obra Social no encontrada", this, VariablesEstaticas.imgenAdvertencia);
                 servicioObraSocial.
                         vaciarListaObraSocial().
                         habilitarCajas(cajasObrasSociales).
                         desHabilitarEliminarActualizar(botonEliminarObraSocial, botonActualizarObraSocial).
-                                habilitarBotonCrear(botonAgregarObraSocial).
+                        habilitarBotonCrear(botonAgregarObraSocial).
                         vaciarCajas(VariablesEstaticas.cajasObrasSociales).
                         vaciarChoise(VariablesEstaticas.choiceObraSocial);
-                        botonAgregarPlanesObraSocial.setDisable(true);
+                botonAgregarPlanesObraSocial.setDisable(true);
+                botonActualizarPlanesObraSocial.setDisable(true);
             }
-        }
 
+        } else {
+            mensajeAdvertenciaError( "Obra Social no encontrada", this, VariablesEstaticas.imgenAdvertencia);
+            servicioObraSocial.
+                    vaciarListaObraSocial().
+                    habilitarCajas(cajasObrasSociales).
+                    desHabilitarEliminarActualizar(botonEliminarObraSocial, botonActualizarObraSocial).
+                    habilitarBotonCrear(botonAgregarObraSocial).
+                    vaciarCajas(VariablesEstaticas.cajasObrasSociales).
+                    vaciarChoise(VariablesEstaticas.choiceObraSocial);
+            botonAgregarPlanesObraSocial.setDisable(true);
+            botonActualizarPlanesObraSocial.setDisable(true);
+        }
+        
     }
 
     @FXML
@@ -1813,25 +2121,36 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
         
         try {
             if(!cajaNombreObraSocial.getText().isBlank()){
-                obraSocialDao = new ObraSocialDAOImplementacion();
+                
                 ObraSocial obraSocial = new ObraSocial(
                         cajaNombreObraSocial.getText(), 
                         new Telefono(cajaTelefonoObraSocial.getText()), 
                         new Web(cajaWebObraSocial.getText()), 
                         true, 
                         new Email(cajaEmailObraSocial.getText()));
-                obraSocialDao.insertar(obraSocial, 1);
+                        
+                obraSocial = servicioObraSocial.rellenarDatosObraSocialVacia(obraSocial);
+                daoImplementacion = new ObraSocialDAOImplementacion();
+                daoImplementacion.insertar(obraSocial);
                 inicializarTableObraSocial();
                 botonAgregarPlanesObraSocial.setDisable(false);
                 cajaBuscarObraSocial.setText(cajaNombreObraSocial.getText());
                 buscarObraSocial(event);
-                mensaje("Obra social creada con éxito", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                mensajeAdvertenciaError( "Obra social creada con éxito", this, VariablesEstaticas.imgenExito);
             }else{
                 servicioObraSocial.pintarCajaVaciaImportante(VariablesEstaticas.cajasObrasSociales);
-                mensaje("Hay campos importantes vacios", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                mensajeAdvertenciaError( "Hay campos importantes vacios", this, VariablesEstaticas.imgenAdvertencia);
             }
         } catch (Exception e) {
-            mensaje("Error al crear obra social", this, "/com/pacientes/gestor_pacientes/img/error.png");
+            e.printStackTrace();
+            
+             if(e.getClass().equals(Exepciones.class)){
+                 mensajeAdvertenciaError( e.getMessage(), this, VariablesEstaticas.imgenError);
+             }else{
+                 mensajeAdvertenciaError( "Error al crear obra social", this, VariablesEstaticas.imgenError);
+             }
+              
+            
         }
         
         
@@ -1839,44 +2158,107 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
         
     }
     
-    @FXML
-    private void agregarPlanObraSocia(MouseEvent event) {
-        if(!cajaNombreObraSocial.getText().isBlank()){
-            cajaAgregarPlanObraSocial.setVisible(true);
-            botonActualizarPlanesObraSocial.setVisible(true);
-            botonAgregarPlanesObraSocial.setDisable(true);
-            labelAgregarPlan.setVisible(true);
-        }else{
-            servicioObraSocial.pintarCajaVaciaImportante(VariablesEstaticas.cajasObrasSociales);
-            mensaje("Hay campos importantes vacios", this, "/com/pacientes/gestor_pacientes/img/error.png");
-        }
-    }
     
-    @FXML
-    private void actualizarPlanesObrasSocial(MouseEvent event) {
-
+    private void agregarPlanObraSocial(MouseEvent event) {
         try {
             if (!cajaNombreObraSocial.getText().isBlank()) {
-                obraSocialDao = new ObraSocialDAOImplementacion();
-                ObraSocial obraSocial = new ObraSocial();
+                ObraSocial obraSocial = new ObraSocial(
+                        cajaNombreObraSocial.getText(),
+                        new Telefono(cajaTelefonoObraSocial.getText()),
+                        new Web(cajaWebObraSocial.getText()),
+                        true,
+                        new Email(cajaEmailObraSocial.getText()));
+
+                obraSocial = servicioObraSocial.rellenarDatosObraSocialVacia(obraSocial);
                 obraSocial.setNombre(cajaBuscarObraSocial.getText());
                 obraSocial.setPlan(cajaAgregarPlanObraSocial.getText());
-                obraSocialDao.agregarPlan(obraSocial);
+                daoImplementacion = new PlanObraSocialDAOImplementacion();
+                daoImplementacion.insertar(obraSocial);
                 cajaAgregarPlanObraSocial.setText("");
-                cajaAgregarPlanObraSocial.setVisible(false);
-                botonActualizarPlanesObraSocial.setVisible(false);
-                botonAgregarPlanesObraSocial.setDisable(false);
-                labelAgregarPlan.setVisible(false);
-                buscarObraSocial(event);
+                hboxPlanObraSocial.setVisible(false);
+
+                //choiceObraSocial.clear();
                 inicializarTableObraSocial();
+                buscarObraSocial(event);
+                botonActualizarPlanesObraSocial.setDisable(false);
+                botonAgregarPlanesObraSocial.setDisable(false);
+                botonActualizarObraSocial.setDisable(false);
+                botonEliminarObraSocial.setDisable(false);
+
             } else {
                 servicioObraSocial.pintarCajaVaciaImportante(VariablesEstaticas.cajasObrasSociales);
-                mensaje("Hay campos importantes vacios", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                mensajeAdvertenciaError("Hay campos importantes vacios", this, VariablesEstaticas.imgenAdvertencia);
             }
         } catch (Exception e) {
-            mensaje("Error al crear plan", this, "/com/pacientes/gestor_pacientes/img/error.png");
+            mensajeAdvertenciaError("Error al crear plan", this, VariablesEstaticas.imgenError);
         }
 
+    }
+    
+    
+    private void actualizarPlanObraSocial(MouseEvent event) {
+        try {
+            if (!cajaNombreObraSocial.getText().isBlank()) {
+
+                ObraSocial obraSocial = new ObraSocial(
+                        cajaNombreObraSocial.getText(),
+                        new Telefono(cajaTelefonoObraSocial.getText()),
+                        new Web(cajaWebObraSocial.getText()),
+                        true,
+                        new Email(cajaEmailObraSocial.getText()));
+
+                obraSocial = servicioObraSocial.rellenarDatosObraSocialVacia(obraSocial);
+                obraSocial.setNombre(cajaBuscarObraSocial.getText());
+                daoImplementacion = new ObraSocialDAOImplementacion();
+                obraSocial.setId(daoImplementacion.obtenerId(obraSocial));
+                daoImplementacion = new PlanObraSocialDAOImplementacion();
+                obraSocial.setPlan(choiceVerPlanesObraSocial.getValue());
+                obraSocial.setIdPlan(daoImplementacion.obtenerId(obraSocial));
+                obraSocial.setPlan(cajaAgregarPlanObraSocial.getText());
+                daoImplementacion.actualizar(obraSocial);
+                cajaAgregarPlanObraSocial.setText("");
+                hboxPlanObraSocial.setVisible(false);
+
+                inicializarTableObraSocial();
+                buscarObraSocial(event);
+                botonActualizarPlanesObraSocial.setDisable(false);
+                botonAgregarPlanesObraSocial.setDisable(false);
+                botonActualizarObraSocial.setDisable(false);
+                botonEliminarObraSocial.setDisable(false);
+
+            } else {
+                servicioObraSocial.pintarCajaVaciaImportante(VariablesEstaticas.cajasObrasSociales);
+                mensajeAdvertenciaError("Hay campos importantes vacios", this, VariablesEstaticas.imgenAdvertencia);
+            }
+        } catch (Exception e) {
+            mensajeAdvertenciaError("Error al crear plan", this, VariablesEstaticas.imgenError);
+        }
+
+    }
+    
+    @FXML
+    private void agregarActualizarPlanesObrasSocial(MouseEvent event) {
+        Button boton = (Button) event.getSource();
+        if (boton.getId().equals("botonAgregarPlanesObraSocial")) {
+            botonCrearActualizarPlanesObraSocial.setOnMouseClicked(this::agregarPlanObraSocial);
+            hboxPlanObraSocial.setVisible(true);
+            botonActualizarPlanesObraSocial.setDisable(true);
+            botonAgregarPlanesObraSocial.setDisable(true);
+            botonActualizarObraSocial.setDisable(true);
+            botonEliminarObraSocial.setDisable(true);
+        } else if (boton.getId().equals("botonActualizarPlanesObraSocial")) {
+            if (Objects.nonNull(choiceVerPlanesObraSocial.getValue())) {
+                botonCrearActualizarPlanesObraSocial.setOnMouseClicked(this::actualizarPlanObraSocial);
+                cajaAgregarPlanObraSocial.setText(choiceVerPlanesObraSocial.getValue());
+                hboxPlanObraSocial.setVisible(true);
+                botonActualizarPlanesObraSocial.setDisable(true);
+                botonAgregarPlanesObraSocial.setDisable(true);
+                botonActualizarObraSocial.setDisable(true);
+                botonEliminarObraSocial.setDisable(true);
+            } else {
+                mensajeAdvertenciaError("Seleccione plan para actualizar", this, VariablesEstaticas.imgenAdvertencia);
+            }
+        }
     }
 
     //                              ****
@@ -1889,6 +2271,8 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
     
     @FXML
     private void actualizarObraSocial(MouseEvent event) {
+       
+        
         try {
             //SI NO ESTAN LAS CAJAS DESHABILITADAS
             if (botonActualizarObraSocial.getId().equals("1")) {
@@ -1897,18 +2281,31 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                     //SI NO HAY CAMPOS IMPORTANTES VACIOS
                     if(!cajaNombreObraSocial.getText().isBlank()){
                         ObraSocial obraSocial = new ObraSocial(
-                                cajaNombreObraSocial.getText(),
-                                new Telefono(cajaTelefonoObraSocial.getText()),
-                                new Web(cajaWebObraSocial.getText()),
-                                new Email(cajaEmailObraSocial.getText()));
+                                VariablesEstaticas.valoresBUsquedaObraSocial.get("1"),
+                                new Telefono(VariablesEstaticas.valoresBUsquedaObraSocial.get("2")),
+                                new Web(VariablesEstaticas.valoresBUsquedaObraSocial.get("4")),
+                                true,
+                                new Email(VariablesEstaticas.valoresBUsquedaObraSocial.get("3")));
+
+                        
                         if(!cajaEmailObraSocial.getText().isEmpty()){
-                            
-                            obraSocial.getEmail().setId(obraSocialDao.obtenerIdEmail(new Email(VariablesEstaticas.valoresBUsquedaObraSocial.get("3"))));
+                            daoImplementacion = new EmailDAOImplementacion();
+                            obraSocial.getEmail().setId(daoImplementacion.obtenerId(new Email(VariablesEstaticas.valoresBUsquedaObraSocial.get("3"))));
                         }
-                        obraSocial.setId(obraSocialDao.obtenerIdObraSocial(new ObraSocial(cajaBuscarObraSocial.getText())));
+                        daoImplementacion = new ObraSocialDAOImplementacion();
+                        obraSocial.setId(daoImplementacion.obtenerId(obraSocial));
+                        obraSocial.setNombre(cajaNombreObraSocial.getText());
+                        obraSocial.getTelefono().setTelefono(cajaTelefonoObraSocial.getText());
+                        obraSocial.getWeb().setWeb(cajaWebObraSocial.getText());
+                        obraSocial.getEmail().setEmail(cajaEmailObraSocial.getText());
+                        
+                        obraSocial = servicioObraSocial.rellenarDatosObraSocialVacia(obraSocial);
+                        
+                        
                         //SI SE INICIALIZAO OBRA SOCIAL
                         if (Objects.nonNull(obraSocial)) {
-                            obraSocialDao.actualizar(obraSocial, 0);
+                            daoImplementacion = new ObraSocialDAOImplementacion();
+                            daoImplementacion.actualizar(obraSocial);
                             botonActualizarObraSocial.setId("botonActualizarObraSocial");
                             cajaBuscarObraSocial.setText(cajaNombreObraSocial.getText());
                             buscarObraSocial(event);
@@ -1916,19 +2313,19 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                             servicioObraSocial.
                                     deshabilitarCajas(VariablesEstaticas.cajasObrasSociales);
                             
-                            mensaje("Obra social actualizada con éxito", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                            mensajeAdvertenciaError( "Obra social actualizada con éxito", this, VariablesEstaticas.imgenExito);
                             
                         } else {
-                            mensaje("Error al actualizar obra social", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                            mensajeAdvertenciaError( "Error al actualizar obra social", this, VariablesEstaticas.imgenError);
                         }
                     }else{
-                        mensaje("Hay campos importantes vacios", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                        mensajeAdvertenciaError( "Hay campos importantes vacios", this, VariablesEstaticas.imgenAdvertencia);
                         servicioPaciente.
                             pintarCajaVaciaImportante(VariablesEstaticas.cajasObrasSociales);
                     }
 
                 }else{
-                    mensaje("Buscar obra social para actualizar", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                    mensajeAdvertenciaError( "Buscar obra social para actualizar", this, VariablesEstaticas.imgenAdvertencia);
                 }
             } else {
                 botonActualizarObraSocial.setId("1");
@@ -1937,7 +2334,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                         animarCajasAlDarABoton(VariablesEstaticas.cajasObrasSociales);
             }
         } catch (Exception e) {
-            mensaje("Error al actualizar obra social", this, "/com/pacientes/gestor_pacientes/img/error.png");
+            mensajeAdvertenciaError( "Error al actualizar obra social", this, VariablesEstaticas.imgenError);
         }
     }
     
@@ -1959,7 +2356,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
             }
             
         if (Objects.isNull(choiseCodigoFactSesionObraSocial.getValue()) && boton.getId().equals("botonActualizarCodigoFacturacion")) {
-            mensaje("Ingresar datos para Agregar nuevo código", this, "/com/pacientes/gestor_pacientes/img/error.png");
+            mensajeAdvertenciaError( "Ingresar datos para Agregar nuevo código", this, VariablesEstaticas.imgenAdvertencia);
         } else {
             cajaAtualizarNombreCodigoFacturacionSesionObraSocial.setText(choiseCodigoFactSesionObraSocial.getValue());
             cajaAtualizarCodigoFacturacionSesionObraSocial.setText(cajaCodigoFacturacion.getText());
@@ -1968,9 +2365,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
             hboxCajasCodigosFacturacion.setVisible(true);
             etiquetaActualizarCodigoFacturacion.setVisible(true);
             hboxEtiquetasCodigosFacturacion.setVisible(true);
-            botonEliminarSesiones.setDisable(true);
-            botonActualizarSesiones.setDisable(true);
-            botonAgregarSesiones.setDisable(true);
+            
         }
         
     }
@@ -1982,16 +2377,17 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
 
             if (!cajaAtualizarNombreCodigoFacturacionSesionObraSocial.getText().isBlank() || !cajaAtualizarNombreCodigoFacturacionSesionObraSocial.getText().isBlank()) {
                 CodigoFacturacion codigoFacturacion = new CodigoFacturacion(cajaAtualizarNombreCodigoFacturacionSesionObraSocial.getText(), Integer.parseInt(cajaAtualizarCodigoFacturacionSesionObraSocial.getText()));
-                pacienteDao.insertarCodigoFacturacion(codigoFacturacion);
+                daoImplementacion = new CodigoFacturacionDAOImplementacion();
+                daoImplementacion.insertar(codigoFacturacion);
                 choiseCodigoFactSesionObraSocial.getItems().clear();
-                iniciarChoiseList();
-                mensaje("Código agregado con éxito", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                iniciarChoiceCodigoFacturacion();
+                mensajeAdvertenciaError( "Código agregado con éxito", this, VariablesEstaticas.imgenExito);
             }else{
-                mensaje("inngresar datos para agregar", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                mensajeAdvertenciaError( "ingresar datos para agregar", this, VariablesEstaticas.imgenAdvertencia);
             }
 
         } catch (Exception e) {
-            mensaje("Error al agregar código", this, "/com/pacientes/gestor_pacientes/img/error.png");
+            mensajeAdvertenciaError( "Error al agregar código", this, VariablesEstaticas.imgenError);
         }
 
         botonActualizarCodigoFacturacion.setDisable(false);
@@ -1999,9 +2395,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
         hboxCajasCodigosFacturacion.setVisible(false);
         etiquetaActualizarCodigoFacturacion.setVisible(false);
         hboxEtiquetasCodigosFacturacion.setVisible(false);
-        botonEliminarSesiones.setDisable(false);
-        botonActualizarSesiones.setDisable(false);
-        botonAgregarSesiones.setDisable(false);
+        
     }
     
     
@@ -2012,18 +2406,20 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
             if (!cajaAtualizarNombreCodigoFacturacionSesionObraSocial.getText().isBlank() || !cajaAtualizarCodigoFacturacionSesionObraSocial.getText().isBlank()) {
             
             CodigoFacturacion codigoFacturacion = new CodigoFacturacion(choiseCodigoFactSesionObraSocial.getValue(), Integer.parseInt(cajaCodigoFacturacion.getText()));
-            codigoFacturacion.setId(pacienteDao.obtenerIdCodigoFacturacion(codigoFacturacion));
+            
+            daoImplementacion = new CodigoFacturacionDAOImplementacion();
+            codigoFacturacion.setId(daoImplementacion.obtenerId(codigoFacturacion));
             codigoFacturacion.setNombre(cajaAtualizarNombreCodigoFacturacionSesionObraSocial.getText());
             codigoFacturacion.setCodigo(Integer.parseInt(cajaAtualizarCodigoFacturacionSesionObraSocial.getText()));
-            pacienteDao.actualizarCodigoFacturacion(codigoFacturacion);
+            daoImplementacion.actualizar(codigoFacturacion);
             choiseCodigoFactSesionObraSocial.getItems().clear();
-            iniciarChoiseList();
-            mensaje("Código actualizado con éxito", this, "/com/pacientes/gestor_pacientes/img/error.png");
+            iniciarChoiceCodigoFacturacion();
+            mensajeAdvertenciaError( "Código actualizado con éxito", this, VariablesEstaticas.imgenExito);
             }else{
-                mensaje("inngresar datos para actualizar", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                mensajeAdvertenciaError( "inngresar datos para actualizar", this, VariablesEstaticas.imgenAdvertencia);
             }
         } catch (Exception e) {
-            mensaje("Error al actualizar código", this, "/com/pacientes/gestor_pacientes/img/error.png");
+            mensajeAdvertenciaError( "Error al actualizar código", this, VariablesEstaticas.imgenError);
         }
 
         botonAgregarCodigoFacturacion.setDisable(false);
@@ -2032,43 +2428,67 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
         etiquetaActualizarCodigoFacturacion.setVisible(false);
         hboxEtiquetasCodigosFacturacion.setVisible(false);
         cajaCodigoFacturacion.setText("");
-        botonEliminarSesiones.setDisable(false);
-        botonActualizarSesiones.setDisable(false);
-        botonAgregarSesiones.setDisable(false);
+       
     }
     
     
     
     
     @FXML
-    private void eliminarObraSocial(MouseEvent event){
-        try {
-            if(!cajaBuscarObraSocial.getText().isBlank()){
-                ObraSocial obraSocial = new ObraSocial();
-                obraSocial.setNombre(cajaBuscarObraSocial.getText());
-                obraSocial.setId(obraSocialDao.obtenerIdObraSocial(obraSocial));
-                if(Objects.nonNull(obraSocial.getId())){
-                    obraSocialDao.eliminar(obraSocial, 0);
-                    buscarObraSocial(event);
-                    inicializarTableObraSocial();
-                    mensaje("Obra social eliminada con éxito", this, "/com/pacientes/gestor_pacientes/img/error.png");
-                    servicioObraSocial.
-                            habilitarCajas(cajasObrasSociales).
-                            habilitarBotonCrear(botonAgregarObraSocial).
-                            desHabilitarEliminarActualizar(botonEliminarObraSocial, botonActualizarObraSocial).
-                            vaciarCajas(VariablesEstaticas.cajasObrasSociales);
-                    cajaBuscarObraSocial.setText("");
-                    botonAgregarPlanesObraSocial.setDisable(false);
-                }else{
-                    mensaje("Buscar obra social para eliminar", this, "/com/pacientes/gestor_pacientes/img/error.png");
+    private void eliminarObraSocial(MouseEvent event) {
+        mensajePreguntarSiONo();
+        if (VariablesEstaticas.esSiONoMensajePrguntarSiONo) {
+            try {
+                if (!cajaBuscarObraSocial.getText().isBlank()) {
+                    ObraSocial obraSocial = new ObraSocial(
+                            cajaNombreObraSocial.getText(),
+                            new Telefono(cajaTelefonoObraSocial.getText()),
+                            new Web(cajaWebObraSocial.getText()),
+                            true,
+                            new Email(cajaEmailObraSocial.getText()));
+
+                    obraSocial = servicioObraSocial.rellenarDatosObraSocialVacia(obraSocial);
+
+                    daoImplementacion = new ObraSocialDAOImplementacion();
+                    obraSocial.setId(daoImplementacion.obtenerId(obraSocial));
+                    System.out.println(obraSocial.getId());
+                    if (Objects.nonNull(obraSocial.getId())) {
+                        daoImplementacion.eliminar(obraSocial);
+                        
+                        inicializarTableObraSocial();
+                        mensajeAdvertenciaError("Obra social eliminada con éxito", this, VariablesEstaticas.imgenExito);
+                        servicioObraSocial.
+                                habilitarCajas(cajasObrasSociales).
+                                habilitarBotonCrear(botonAgregarObraSocial).
+                                desHabilitarEliminarActualizar(botonEliminarObraSocial, botonActualizarObraSocial).
+                                vaciarCajas(VariablesEstaticas.cajasObrasSociales);
+                        cajaBuscarObraSocial.setText("");
+                        botonAgregarPlanesObraSocial.setDisable(false);
+                    } else {
+                        mensajeAdvertenciaError("Buscar obra social para eliminar", this, VariablesEstaticas.imgenAdvertencia);
+                    }
+
+                } else {
+                    mensajeAdvertenciaError("Buscar obra social para eliminar", this, VariablesEstaticas.imgenAdvertencia);
                 }
-                
-            }else{
-                mensaje("Buscar obra social para eliminar", this, "/com/pacientes/gestor_pacientes/img/error.png");
+            } catch (Exception e) {
+                mensajeAdvertenciaError("Error al eliminar obra social", this, VariablesEstaticas.imgenError);
             }
-        } catch (Exception e) {
-            mensaje("Error al eliminar obra social", this, "/com/pacientes/gestor_pacientes/img/error.png");
         }
+    }
+    
+    @FXML
+    public void vaciarCajasObraSocial(MouseEvent event){
+           servicioObraSocial.
+                    vaciarListaObraSocial().
+                    habilitarCajas(cajasObrasSociales).
+                    desHabilitarEliminarActualizar(botonEliminarObraSocial, botonActualizarObraSocial).
+                    habilitarBotonCrear(botonAgregarObraSocial).
+                    vaciarCajas(VariablesEstaticas.cajasObrasSociales).
+                    vaciarChoise(VariablesEstaticas.choiceObraSocial);
+           
+           cajaBuscarObraSocial.setText("");
+           hboxPlanObraSocial.setVisible(false);
     }
 
     /*
@@ -2098,15 +2518,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
      *
      * @param event
      */
-    @FXML
-    protected void alDarEnterBuscarBoton(KeyEvent event) {
-
-        if (event.getCode() == KeyCode.ENTER) {
-            if (!cajaBuscarPaciente.getText().isEmpty()) {
-                buscarPaciente();
-            }
-        }
-    }
+    
 
     
 
@@ -2116,7 +2528,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
     public void administraAccion(MouseEvent event) {
         
         try {
-            ImageView b = (ImageView) event.getSource();
+            HBox b = (HBox) event.getSource();
             FXMLLoader Loader = new FXMLLoader(App.class.getResource("AdministrarAccionAgenda.fxml"));
             Parent root = Loader.load();
             AgendaController controller = Loader.getController();
@@ -2158,10 +2570,43 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
     
     
 
-    
-
+    @FXML
+    protected void alDarEnterBoton(KeyEvent event){
+    Node node = (Node)event.getSource();
+        if (event.getCode() == KeyCode.ENTER) {
+            switch (node.getId()) {
+                case "cajaBuscarPaciente":
+                    buscarPaciente();
+                    break;
+                case "cajaBuscarObraSocial":
+                    buscarObraSocialDesdeCaja();
+                    break;
+                case "cajaUsuario":
+                    break;
+            }
+            
+            
+        }
+    }
+   
+    @FXML
+    protected void vaciarTodasLasCajas(MouseEvent event) {
+        cajaBuscarPaciente.setText("");
+        servicioPaciente.
+                vaciarListas().
+                vaciarTodo().
+                habilitarTodo().
+                visibilizarLIstVBox(VariablesEstaticas.vboxsPlanesTratamiento).
+                ocultarLIstVBox(VariablesEstaticas.vboxsPlanesTratamientoActualizaroVer).
+                visibilizarLIstVBox(VariablesEstaticas.vboxsObraSocialPaciente).
+                ocultarLIstVBox(VariablesEstaticas.vboxsObraSocialPacienteActualizaroVer).
+                habilitarBotones(VariablesEstaticas.listaBotonesCrear).
+                deshabilitarBotones(VariablesEstaticas.listaBotonesEliminar).
+                deshabilitarBotones(VariablesEstaticas.listaBotonesActualizar);
         
-      
+        
+    }
+
         
         
        

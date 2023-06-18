@@ -11,16 +11,33 @@ package com.pacientes.gestor_pacientes.modelo;
 public class PlanTratamiento {
     private int idPlan;
     private String estrategia;
-    private String frecuenciaSesion;
+    private FrecuenciaSesion frecuenciaSesion;
     private TipoSesion tipoSEsion;
+    private int idPaciente;
 
     public PlanTratamiento() {
     }
-
-    public PlanTratamiento(String estrategia, String frecuenciaSesion, TipoSesion tipoSEsion) {
+    
+    public PlanTratamiento(String estrategia, FrecuenciaSesion frecuenciaSesion, TipoSesion tipoSEsion) {
         this.estrategia = estrategia;
         this.frecuenciaSesion = frecuenciaSesion;
         this.tipoSEsion = tipoSEsion;
+        this.idPaciente = idPaciente;
+    }
+
+    public PlanTratamiento(String estrategia, FrecuenciaSesion frecuenciaSesion, TipoSesion tipoSEsion, int idPaciente) {
+        this.estrategia = estrategia;
+        this.frecuenciaSesion = frecuenciaSesion;
+        this.tipoSEsion = tipoSEsion;
+        this.idPaciente = idPaciente;
+    }
+
+    public int getIdPaciente() {
+        return idPaciente;
+    }
+
+    public void setIdPaciente(int idPaciente) {
+        this.idPaciente = idPaciente;
     }
 
     
@@ -41,11 +58,11 @@ public class PlanTratamiento {
         this.estrategia = estrategia;
     }
 
-    public String getFrecuenciaSesion() {
+    public FrecuenciaSesion getFrecuenciaSesion() {
         return frecuenciaSesion;
     }
 
-    public void setFrecuenciaSesion(String frecuenciaSesion) {
+    public void setFrecuenciaSesion(FrecuenciaSesion frecuenciaSesion) {
         this.frecuenciaSesion = frecuenciaSesion;
     }
 

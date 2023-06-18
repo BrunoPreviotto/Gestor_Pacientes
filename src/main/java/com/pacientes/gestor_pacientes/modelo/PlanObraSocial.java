@@ -12,6 +12,7 @@ public class PlanObraSocial {
     private int id;
     private String nombre;
     private String descripcion;
+    private int idObraSocial;
 
     public PlanObraSocial() {
     }
@@ -43,6 +44,14 @@ public class PlanObraSocial {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public int getIdObraSocial() {
+        return idObraSocial;
+    }
+
+    public void setIdObraSocial(int idObraSocial) {
+        this.idObraSocial = idObraSocial;
     }
     
     

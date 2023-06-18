@@ -123,7 +123,10 @@ public class RegistrarController extends ClasePadreController implements Initial
                         true, 
                         true);
                 
-                usuarioDao.insertar(usuarioCrear, 1);
+                try {
+                    usuarioDao.insertar(usuarioCrear);
+                } catch (Exception e) {
+                }
                 
                 
                 ((Node) (event.getSource())).getScene().getWindow().hide();
@@ -134,11 +137,11 @@ public class RegistrarController extends ClasePadreController implements Initial
                 newStage.initStyle(StageStyle.TRANSPARENT);
                 newStage.show();
             }else{
-                mensaje("Las contraseñas no coinciden",  this, VariablesEstaticas.imgenAdvertencia);
+                mensajeAdvertenciaError("Las contraseñas no coinciden",  this, VariablesEstaticas.imgenAdvertencia);
             }
 
         }else{
-            mensaje("Hay campos vacios",  this, VariablesEstaticas.imgenAdvertencia);
+            mensajeAdvertenciaError("Hay campos vacios",  this, VariablesEstaticas.imgenAdvertencia);
             servicioRegistrar.pintarCajaVaciaImportante(VariablesEstaticas.cajasRegistrar);
         }
 

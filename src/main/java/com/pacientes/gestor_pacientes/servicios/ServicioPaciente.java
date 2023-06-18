@@ -4,7 +4,10 @@
  */
 package com.pacientes.gestor_pacientes.servicios;
 
+import com.pacientes.gestor_pacientes.modelo.AutorizacionesSesionesObraSociales;
+import com.pacientes.gestor_pacientes.modelo.CodigoFacturacion;
 import com.pacientes.gestor_pacientes.modelo.Paciente;
+import com.pacientes.gestor_pacientes.modelo.SesionPaciente;
 import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 import java.lang.ModuleLayer.Controller;
 import java.time.LocalDate;
@@ -19,6 +22,8 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 /**
@@ -27,6 +32,20 @@ import javafx.util.Duration;
  */
 public class ServicioPaciente extends ServiciosPadre {
 
+   public ServicioPaciente ocultarLIstVBox(List<VBox> listaVBox){
+        for (VBox vBox : listaVBox) {
+            vBox.setVisible(false);
+        }
+        return this;
+        
+    }
+    
+    public ServicioPaciente visibilizarLIstVBox(List<VBox> listaVBox){
+        for (VBox vBox : listaVBox) {
+            vBox.setVisible(true);
+        }
+       return this;
+    }
     
 
     public ServicioPaciente vaciarTodo() {
@@ -110,7 +129,7 @@ public class ServicioPaciente extends ServiciosPadre {
     
     
     
-    public ServicioPaciente rellenarListaSesionesAutorizaciones(Paciente pacienteParametro) {
+    public ServicioPaciente rellenarListaSesionesAutorizaciones(AutorizacionesSesionesObraSociales autorizacion) {
         /*
             1 NUMERO AUTORIZACION
             2 OBSERVACION AUTORIZACION
@@ -120,11 +139,11 @@ public class ServicioPaciente extends ServiciosPadre {
         */
         VariablesEstaticas.valoresBUsquedaListaSesionesAutorizacion
                 = Map.of(
-                        "1", pacienteParametro.getSesion().getAutorizacion().getNumeroAutorizacion().toString(),
-                        "2", pacienteParametro.getSesion().getAutorizacion().getObservacion(),
-                        "3", pacienteParametro.getSesion().getAutorizacion().getAsociacion().toString(),
-                        "4", pacienteParametro.getSesion().getAutorizacion().getCopago().toString(),
-                        "5", pacienteParametro.getSesion().getAutorizacion().getCodigoFacturacion().toString());
+                        "1", autorizacion.getNumeroAutorizacion().toString(),
+                        "2", autorizacion.getObservacion(),
+                        "3", autorizacion.getAsociacion().toString(),
+                        "4", autorizacion.getCopago().toString(),
+                        "5", autorizacion.getCodigoFacturacion().getNombre());
         return this;
     }
     
@@ -187,7 +206,7 @@ public class ServicioPaciente extends ServiciosPadre {
          */
         VariablesEstaticas.valoresBUsquedaPlanes
                 = Map.of(
-                        "1", pacienteParametro.getPlanTratamiento().getFrecuenciaSesion(),
+                        "1", pacienteParametro.getPlanTratamiento().getFrecuenciaSesion().getFrecuencia(),
                         "2", pacienteParametro.getPlanTratamiento().getTipoSEsion().getNombre(),
                         "3", pacienteParametro.getPlanTratamiento().getTipoSEsion().getDecripcion(),
                         "4", pacienteParametro.getPlanTratamiento().getEstrategia());
@@ -235,6 +254,8 @@ public class ServicioPaciente extends ServiciosPadre {
                         "2", "");
         return this;
     }
+     
+    
 
     public ServicioPaciente rellenarListaObrasocialPaciente(Paciente pacienteParametro) {
         /*
@@ -249,6 +270,10 @@ public class ServicioPaciente extends ServiciosPadre {
                         "3", String.valueOf(pacienteParametro.getObraSocialPaciente().getAfiliado().getNumero()));
         return this;
     }
+    
+    
+    
+     
     
     public ServicioPaciente vaciarListaObrasocialPaciente() {
         /*
@@ -299,7 +324,18 @@ public class ServicioPaciente extends ServiciosPadre {
         return this;
     }
 
-    
+    public ServicioPaciente datosSesionChoiceVacios() {
+        for (ChoiceBox c : VariablesEstaticas.choiseSesiones) {
+            if (Objects.nonNull(c.getValue())) {
+                switch (c.getId()) {
+                    case "choiseCodigoFactSesionObraSocial":
+                        c.setValue("sin codigo");
+                        break;
+                }
+            }
+        }
+        return this;
+    }
     
     public ServicioPaciente datosPrincipalesVacios() {
         for (TextField c : VariablesEstaticas.cajasDatosPrincipales) {
@@ -392,7 +428,7 @@ public class ServicioPaciente extends ServiciosPadre {
         return this;
     }
     
-    public ServicioPaciente datosSesionVacios(){
+    public ServicioPaciente datosSesionCajasAreaVacios(){
         for (TextArea c : VariablesEstaticas.cajasAreaSesion) {
             if(c.getText().isBlank()){
                 switch (c.getId()) {
@@ -402,6 +438,24 @@ public class ServicioPaciente extends ServiciosPadre {
                 
                 case "cajaMotivoTrabajoEmergenteSesion":
                     c.setText("-------------------");
+                    break;
+                
+            }
+            }
+        }
+        return this;
+    }
+    
+    
+    public ServicioPaciente datosSesionCajasVacios(){
+        for (TextField c : VariablesEstaticas.cajasSesiones) {
+            if(c.getText().isBlank()){
+                switch (c.getId()) {
+                case "cajaEstadoFacturacionSesionObraSocial":
+                    c.setText("Sin estado");
+                    break;
+                case "cajaHonorariosPorSesion":
+                    c.setText("0.0");
                     break;
                
             }
@@ -437,9 +491,38 @@ public class ServicioPaciente extends ServiciosPadre {
     
     
     
+    public ServicioPaciente comprobarSiAcordeonEstaCerrado(List<TitledPane> listaTitled){
+        int verdadero = 0;
+        for (TitledPane titledPane : listaTitled) {
+            
+            
+            if(titledPane.expandedProperty().getValue()){
+                verdadero++;
+                break;
+            }
+        }
+        if(verdadero == 0){
+            VariablesEstaticas.tabDatosPricipales.setExpanded(true);
+        }
+        return this;
+    }
 
-
+    public void rellenarCajasAutorizacionVacias(){
+        
+                                            
+        if(VariablesEstaticas.cajaAutorizacionSesion.getText().isBlank()){
+            VariablesEstaticas.cajaAutorizacionSesion.setText("0000");
+        }
+        if(VariablesEstaticas.cajaObservacionSesionObraSocial.getText().isBlank()){
+            VariablesEstaticas.cajaObservacionSesionObraSocial.setText("----------");
+        }
+        if(VariablesEstaticas.cajaCopagoSesionObraSocial.getText().isBlank()){
+            VariablesEstaticas.cajaCopagoSesionObraSocial.setText("0.0");
+        }
+        if(VariablesEstaticas.choiseCodigoFactSesionObraSocial.getValue().isBlank()){
+            VariablesEstaticas.choiseCodigoFactSesionObraSocial.setValue("sin codigo");
+        }
+    }
    
-    
 
 }

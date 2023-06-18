@@ -11,6 +11,6 @@ import java.util.List;
  * @author previotto
  */
 public interface IObraSocialDAO extends CRUD<ObraSocial>{
-    public List<String> obtenerListaNombresObrasSociales();
-    public void agregarPlan(ObraSocial obraSocial) throws SQLException;
+    //public List<String> obtenerListaNombresObrasSociales();
+    //public void agregarPlan(ObraSocial obraSocial) throws SQLException;
 }

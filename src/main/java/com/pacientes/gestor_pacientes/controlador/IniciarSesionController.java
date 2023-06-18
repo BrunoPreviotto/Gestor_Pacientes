@@ -28,10 +28,13 @@ import javafx.scene.control.TextField;
 import com.pacientes.gestor_pacientes.utilidades.DraggedScene;
 import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 import java.io.IOException;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
@@ -56,7 +59,7 @@ public class IniciarSesionController extends ClasePadreController implements Ini
     @FXML
     private Label etiquetaError;
     @FXML
-    private AnchorPane container;
+    private AnchorPane containerIniciar;
     @FXML
     private TextField cajaUsuario;
     
@@ -69,7 +72,7 @@ public class IniciarSesionController extends ClasePadreController implements Ini
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        this.onDraggedScene( container);
+        this.onDraggedScene( containerIniciar );
     }    
 
     
@@ -80,7 +83,7 @@ public class IniciarSesionController extends ClasePadreController implements Ini
     * @throws IOException 
     */
     @FXML
-    private void peticionParaIngresar(MouseEvent event) throws IOException{
+    private void peticionParaIngresar(Event event) throws IOException{
         UsuarioDAOImplementacion usuarioDao = new UsuarioDAOImplementacion();
         
         try {
@@ -106,17 +109,18 @@ public class IniciarSesionController extends ClasePadreController implements Ini
             
                 
             }else{
-                mensaje("Usuario no encontrado", this, VariablesEstaticas.imgenError);
+                mensajeAdvertenciaError ("Usuario no encontrado", this, VariablesEstaticas.imgenError);
             }
         }else {
-                mensaje("Hay campos vacios", this, VariablesEstaticas.imgenAdvertencia);
+                mensajeAdvertenciaError ("Hay campos vacios", this, VariablesEstaticas.imgenAdvertencia);
             //etiquetaError.setVisible(true);
         }
         } catch (Exception e) {
-            mensaje("Error al iniciar sesión", this, VariablesEstaticas.imgenError);
+            mensajeAdvertenciaError("Error al iniciar sesión", this, VariablesEstaticas.imgenError);
         }
     }
     
+   
     
 
     @FXML
@@ -139,6 +143,21 @@ public class IniciarSesionController extends ClasePadreController implements Ini
         newStage.show();
     }
 
+    
+    @FXML
+    protected void alDarEnterBoton(KeyEvent event){
+    Node node = (Node)event.getSource();
+        if (event.getCode() == KeyCode.ENTER) {
+            
+            if(node.getId().equals("cajaUsuario") || node.getId().equals("cajaContraseña") || node.getId().equals("container")){
+                try {
+                    peticionParaIngresar(event);
+                } catch (Exception e) {
+                }
+            }
+            
+        }
+    }
     
 
     

@@ -30,7 +30,7 @@ public class Exepciones extends Exception {
                 mensaje="Error al crear paciente";
                 break;
             case 333:
-                mensaje="Error, el numero esta entre 21 y 30";
+                mensaje="Nombre de obra social ya existe";
                 break;
         }
          

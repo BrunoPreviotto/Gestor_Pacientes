@@ -28,6 +28,10 @@ public class TipoSesion {
         this.nombre = nombre;
         this.decripcion = decripcion;
     }
+    
+    public TipoSesion(String nombre) {
+        this.nombre = nombre;
+    }
 
     public String getNombre() {
         return nombre;

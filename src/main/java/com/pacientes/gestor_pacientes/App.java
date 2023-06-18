@@ -1,6 +1,10 @@
 package com.pacientes.gestor_pacientes;
 
 
+import com.pacientes.gestor_pacientes.controlador.ClasePadreController;
+import com.pacientes.gestor_pacientes.controlador.ClasePadreMenuInicio;
+import com.pacientes.gestor_pacientes.controlador.IniciarSesionController;
+import com.pacientes.gestor_pacientes.controlador.MenuInicioController;
 import com.pacientes.gestor_pacientes.implementacionDAO.UsuarioDAOImplementacion;
 import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 import javafx.application.Application;
@@ -20,6 +24,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import java.util.List;
+import javafx.stage.Modality;
 
 /**
  * JavaFX App
@@ -30,6 +35,9 @@ public class App extends Application {
     UsuarioDAOImplementacion usuarioImp = new UsuarioDAOImplementacion();
     
     private static Scene scenePrincipal;
+
+    
+    
     
     @Override
     public void init(){
@@ -39,34 +47,33 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException, SQLException {
         
-       
+        FXMLLoader Loader;
+        
         
         if(usuarioImp.existeUsuarioReciente() == 1){
-            scenePrincipal = new Scene(loadFXML("MenuInicio"));
-            
+            Loader = new FXMLLoader(App.class.getResource( "MenuInicio.fxml"));
+             //MenuInicioController controllerMenu = Loader.getController();
         }else{
-            scenePrincipal = new Scene(loadFXML("IniciarSesion"));
+            Loader = new FXMLLoader(App.class.getResource( "IniciarSesion.fxml"));
+            //IniciarSesionController controllerIniciar = Loader.getController();
             
         }
         
-        
-        
+        Parent root = Loader.load();
+        scenePrincipal = new Scene(root);
         scenePrincipal.setFill(Color.TRANSPARENT);
         stage.setScene(scenePrincipal);
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.isResizable();
         stage.show();
         
-        VariablesEstaticas.scenePrincipalVar = scenePrincipal;
         
-       
-            
-         
             
         
     }
-
     
+     
+     
 
     private static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
@@ -75,6 +82,12 @@ public class App extends Application {
 
     public static void main(String[] args) {
         launch();
+    }
+    
+    
+    @Override
+    public void stop(){
+        
     }
 
 }

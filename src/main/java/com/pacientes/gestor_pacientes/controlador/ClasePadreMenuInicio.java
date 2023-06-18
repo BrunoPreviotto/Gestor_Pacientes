@@ -7,26 +7,24 @@ package com.pacientes.gestor_pacientes.controlador;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableMap;
-import com.pacientes.gestor_paciente.CRUD.ObtenerPaciente;
 import com.pacientes.gestor_pacientes.App;
+import com.pacientes.gestor_pacientes.DAO.CRUD;
 import com.pacientes.gestor_pacientes.implementacionDAO.AgendaDAOImplementacion;
-import com.pacientes.gestor_pacientes.implementacionDAO.ObraSocialDAOImplementacion;
-import com.pacientes.gestor_pacientes.implementacionDAO.PacienteDAOImplementacion;
+import com.pacientes.gestor_pacientes.implementacionDAO.ObraSocial.ObraSocialDAOImplementacion;
+import com.pacientes.gestor_pacientes.implementacionDAO.ObraSocial.PlanObraSocialDAOImplementacion;
+import com.pacientes.gestor_pacientes.implementacionDAO.Paciente.CodigoFacturacionDAOImplementacion;
+import com.pacientes.gestor_pacientes.implementacionDAO.Paciente.TipoSesionPlanDAOImplementacion;
 import com.pacientes.gestor_pacientes.implementacionDAO.UsuarioDAOImplementacion;
 import com.pacientes.gestor_pacientes.modelo.AutorizacionesSesionesObraSociales;
 import com.pacientes.gestor_pacientes.modelo.Cliente;
 import com.pacientes.gestor_pacientes.modelo.CodigoFacturacion;
-import com.pacientes.gestor_pacientes.modelo.DiagnosticoPaciente;
 import com.pacientes.gestor_pacientes.modelo.ObraSocial;
-import com.pacientes.gestor_pacientes.modelo.ObraSocialPaciente;
-import com.pacientes.gestor_pacientes.modelo.Paciente;
-import com.pacientes.gestor_pacientes.modelo.PlanTratamiento;
+import com.pacientes.gestor_pacientes.modelo.TipoSesion;
 import com.pacientes.gestor_pacientes.modelo.Usuario;
 import com.pacientes.gestor_pacientes.servicios.ServicioObraSocial;
 import com.pacientes.gestor_pacientes.servicios.ServicioPaciente;
 import com.pacientes.gestor_pacientes.utilidades.TablaObrasSociales;
 import com.pacientes.gestor_pacientes.utilidades.TablaSesiones;
-import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 import com.pacientes.gestor_pacientes.validacion.Validar;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -35,18 +33,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.animation.ParallelTransition;
-import javafx.animation.ScaleTransition;
-import javafx.animation.TranslateTransition;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -62,26 +57,22 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.InputMethodEvent;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Duration;
+
 
 /**
  *
@@ -91,7 +82,7 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     //DENTRO DE CLASE
     protected String cssNuevo = getClass().getResource("/com/pacientes/gestor_pacientes/styles/nuevoTitledPane.css").toExternalForm();
     protected String cssViejo = getClass().getResource("/com/pacientes/gestor_pacientes/styles/menuinicio.css").toExternalForm();
-    protected PacienteDAOImplementacion pacienteDao = new PacienteDAOImplementacion();
+    
     
     //protected Paciente paciente;
     protected Validar validar = new Validar();
@@ -99,13 +90,28 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     protected ServicioObraSocial servicioObraSocial = new ServicioObraSocial();
     
     
-    protected Usuario usuario;
     protected UsuarioDAOImplementacion usuarioDao;
-    protected ObraSocialDAOImplementacion obraSocialDao;
     protected AgendaDAOImplementacion agendaDao = new AgendaDAOImplementacion();
     
+    protected CRUD daoImplementacion;
+    
+   
+   
+    
     protected String valorInicialNombreObraSocialPaciente;
-    protected List<String> listaPlanesObrasSociales;
+    protected List<ObraSocial> listaPlanesObrasSociales;
+    
+    protected static Timer timer;
+    protected static TimerTask tarea;
+
+    public static Timer getTimer() {
+        return timer;
+    }
+
+    public static TimerTask getTarea() {
+        return tarea;
+    }
+    
     
     
     
@@ -188,6 +194,8 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     protected Button botonRetornarDatosPrincipales;
     @FXML
     protected Button botonMaximizarDesmaximizado;
+    @FXML
+    protected Button botonMinimizar;
     
     @FXML
     protected HBox botoneraCrudDatosPrincipales;
@@ -231,21 +239,22 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     protected TextField cajaNumeroSesion;
     @FXML
     protected DatePicker cajaFechaSesion;
+    
+    @FXML
+    protected TextArea cajaTrabajoSesion;
+    @FXML
+    protected TextArea cajaObservacionSesion;
+    @FXML 
+    protected TextField cajaHonorariosPorSesion;
+    @FXML
+    protected TextField cajaEstadoFacturacionSesionObraSocial;
+    
     @FXML
     protected TextField cajaAutorizacionSesion;
     @FXML
     protected DatePicker cajaAsociacionSesionObraSocial;
     @FXML
-    protected TextField cajaCopagoSesionObraSocial;
-    @FXML
-    protected TextArea cajaTrabajoSesion;
-    @FXML
-    protected TextArea cajaObservacionSesion;
-    
-    @FXML
     protected TextArea cajaObservacionSesionObraSocial;
-    @FXML
-    protected TextField cajaEstadoFacturacionSesionObraSocial;
     @FXML
     protected TextField cajaAtualizarCodigoFacturacionSesionObraSocial;
     @FXML
@@ -253,7 +262,9 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     @FXML
     protected TextField cajaCodigoFacturacion;
     @FXML
-    protected TextField cajaHonorariosPorSesion;
+    protected TextField cajaCopagoSesionObraSocial;
+   
+   
     
     
     
@@ -272,6 +283,12 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     protected Button botonAgregarCodigoFacturacion;
     @FXML
     protected Button botonActualizarAgregarCodigoFacturacion;
+    @FXML
+    protected Button botonVerTrabajoSesion;
+    @FXML
+    protected Button botonVerObservacionSesion;
+    @FXML
+    protected Button botonVerObservacionAutorizacion;
     
             
     
@@ -319,7 +336,11 @@ public class ClasePadreMenuInicio extends ClasePadreController{
         PLAN TRATAMIENTO            PLAN TRATAMIENTO            PLAN TRATAMIENTO
     
     */
-    
+    //LABEL
+    @FXML
+    protected Label etiquetaNombreTipoSEsionPlan;
+    @FXML
+    protected Label etiquetaFrecuenciaSesionPlan;
     //TITLEPANE
     @FXML
     protected TitledPane titlePanePlan;
@@ -353,6 +374,10 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     protected Button botonActualizarPlanFrecuencia;
     @FXML
     protected Button botonActualizarPlanTipoSesion;
+    @FXML
+    protected Button botonActualizarCrearFrecuencia;
+    @FXML
+    protected Button botonActualizarCrearTipoSesion;
     
     //CHOISE
     @FXML
@@ -360,6 +385,15 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     @FXML
     protected ChoiceBox<String> choiseFrecuenciaSesionPlan;
     
+    //VBOX
+    @FXML
+    protected VBox vBoxFrecuenciaSEsionPlan;
+    @FXML
+    protected VBox vBoxNombreTipoSEsionPlan;
+    @FXML
+    protected VBox vBoxFrecuenciaSEsionPlanActualizaroVer;
+    @FXML
+    protected VBox vBoxNombreTipoSEsionPlanActualizaroVer;
     
     /*
     
@@ -392,6 +426,10 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     protected Button botonEliminarDiagnostico;
     @FXML
     protected Button botonRetornarDiagnostico;
+    @FXML
+    protected Button botonVerDiagnostico;
+    @FXML
+    protected Button botonVerObservacionDiagnostico;
     
     /*
     
@@ -462,6 +500,16 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     @FXML
     protected HBox hBoxTablaObraSocial;
     
+     //VBOX
+    @FXML
+    protected VBox vboxNombreObraSocialPaciente;
+    @FXML
+    protected VBox vboxNombreObraSocialPacienteActualizarVer;
+    @FXML
+    protected VBox vboxPlanObraSocialPaciente;
+    @FXML
+    protected VBox vboxPlanObraSocialPacienteActualizarVer;
+    
     
     /*
         <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -524,6 +572,8 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     
     //BOTONES
     @FXML
+    protected Button botonCrearActualizarPlanesObraSocial;
+    @FXML
     protected Button botonAgregarPlanesObraSocial;
     @FXML
     protected Button botonActualizarPlanesObraSocial;
@@ -537,6 +587,10 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     protected Button botonRetornarObraSocial;
     @FXML
     protected HBox botoneraCRUDObraSocial;
+    
+    //HBOX
+    @FXML
+    protected HBox hboxPlanObraSocial;
     
     
     /*
@@ -563,6 +617,8 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     protected Label labelNombreDeUsuario2;
     @FXML
     protected Label labelNombreDeUsuario1;
+    @FXML
+    protected Label etiquetaNombreInicio;
     
     
     /*
@@ -639,7 +695,7 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     @FXML
     protected AnchorPane anchorPanePrincipal;
     @FXML
-    protected VBox vbLateral;
+    protected AnchorPane vbLateral;
     @FXML
     protected AnchorPane apOpcionesUsuario;
     @FXML
@@ -649,7 +705,11 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     @FXML
     protected AnchorPane apTodosLOsAPInicial;
     @FXML
-    protected AnchorPane container;
+    protected AnchorPane containerMenu;
+    @FXML
+    protected ImageView imgRecordatorio;
+    
+    
     
     
     
@@ -943,7 +1003,6 @@ public class ClasePadreMenuInicio extends ClasePadreController{
 
     protected void cambiarCategoria(ActionEvent event) {
         ChoiceBox cb = (ChoiceBox) event.getSource();
-        ObtenerPaciente obtenerDescripcion = new ObtenerPaciente();
         if (cb.getAccessibleText().equals("planTratamiento")) {
             if (Objects.nonNull(choiseTipoSesionPlan.getValue())) {
                 if (!choiseTipoSesionPlan.getValue().equals(cajaNombreTipoSesionPlan.getText())) {
@@ -953,7 +1012,11 @@ public class ClasePadreMenuInicio extends ClasePadreController{
             }
         }
         try {
-            cajaDescripcionTipoSesionPlan.setText(obtenerDescripcion.obtenerDescripcionTipoSesionPlan(choiseTipoSesionPlan.getValue()));
+            TipoSesion tipo = new TipoSesion();
+            tipo.setNombre(choiseTipoSesionPlan.getValue());
+            daoImplementacion = new TipoSesionPlanDAOImplementacion();
+            TipoSesion tipoResultado = (TipoSesion)daoImplementacion.obtener(tipo);
+            cajaDescripcionTipoSesionPlan.setText(tipoResultado.getDecripcion());
         } catch (Exception e) {
         }
     }
@@ -961,24 +1024,42 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     
 
     protected void cambiarPlanesObraSocial(ActionEvent event) {
-        ChoiceBox cb = (ChoiceBox) event.getSource();
-        obraSocialDao = new ObraSocialDAOImplementacion();
-        List<String> listaNuevaPlanes = obraSocialDao.obtenerListaPlanesObrasSociales(new ObraSocial(choiseNombreObraSocialPaciente.getValue()));
-        if (Objects.nonNull(choiseNombreObraSocialPaciente.getValue())) {
-            if (!choiseNombreObraSocialPaciente.getValue().equals(valorInicialNombreObraSocialPaciente)) {
-                choisePlanesObraSocialPacientePlan.getItems().setAll(obraSocialDao.obtenerListaPlanesObrasSociales(new ObraSocial(choiseNombreObraSocialPaciente.getValue())));
-                valorInicialNombreObraSocialPaciente = choiseNombreObraSocialPaciente.getValue();
+        try {
+            ChoiceBox cb = (ChoiceBox) event.getSource();
+            daoImplementacion = new PlanObraSocialDAOImplementacion();
+            
+            List<String> listaNuevaPlanes = planesAString(daoImplementacion.obtenerLista(new ObraSocial(choiseNombreObraSocialPaciente.getValue())));
+            
+            if (Objects.nonNull(choiseNombreObraSocialPaciente.getValue())) {
+                if (!choiseNombreObraSocialPaciente.getValue().equals(valorInicialNombreObraSocialPaciente)) {
+                    choisePlanesObraSocialPacientePlan.getItems().setAll(listaNuevaPlanes);
+                    valorInicialNombreObraSocialPaciente = choiseNombreObraSocialPaciente.getValue();
+                }
             }
+        } catch (Exception e) {
         }
-
+        //daoImplementacion.obtenerLista(new ObraSocial(choiseNombreObraSocialPaciente.getValue()))
+    }
+    
+    public List<String> planesAString(List<ObraSocial> listaObraSocial){
+        List<String> lista = new ArrayList();
+            try {
+                for (ObraSocial obraSocial : listaObraSocial) {
+                    lista.add(obraSocial.getPlan());
+                }
+            } catch (Exception e) {
+            }
+            return lista;
     }
     
     
     protected void cambiarCodigoFacturacion(ActionEvent event) {
         ChoiceBox cb = (ChoiceBox) event.getSource();
         try {
-           
-            cajaCodigoFacturacion.setText(pacienteDao.obtenerStringCodigoFacturacion(cb.getValue().toString()));
+            daoImplementacion = new CodigoFacturacionDAOImplementacion();
+            CodigoFacturacion codigoFacturacion = (CodigoFacturacion)daoImplementacion.obtener(new CodigoFacturacion(cb.getValue().toString()));
+            cajaCodigoFacturacion.setText(codigoFacturacion.getCodigo().toString());
+            
         } catch (Exception e) {
         }
     }
@@ -1108,6 +1189,9 @@ public class ClasePadreMenuInicio extends ClasePadreController{
             stage.setScene(scene);
             stage.initStyle(StageStyle.TRANSPARENT);
            
+            
+            
+            
             stage.showAndWait();
             
             
@@ -1170,7 +1254,8 @@ public class ClasePadreMenuInicio extends ClasePadreController{
         try {
             //Inicializar lista de obras sociales
             List<ObraSocial> listaObraSocial = new ArrayList();
-            listaObraSocial = obraSocialDao.obtenerLista();
+            daoImplementacion = new ObraSocialDAOImplementacion();
+            listaObraSocial = daoImplementacion.obtenerLista(new ObraSocial());
             ObservableList<TablaObrasSociales> olObraSocial = FXCollections.observableArrayList();
             if (Objects.nonNull(listaObraSocial)) {
 
@@ -1231,5 +1316,94 @@ public class ClasePadreMenuInicio extends ClasePadreController{
         
         
     }
+    
+    @FXML
+    public void agrandarCajaParaVer(MouseEvent event){
+        try {
+            
+            FXMLLoader Loader = new FXMLLoader(App.class.getResource( "CajasAgrandarParaVer.fxml"));
+            Parent root = Loader.load();
+            CajasAgrandarParaVerController controller = Loader.getController();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.TRANSPARENT);
+            
+            Node ev = (Node)event.getSource();
+            String textoAVer = "";
+            
+            switch (ev.getId()) {
+                case "botonVerDiagnostico":
+                    textoAVer = cajaDiagnosticoDiagnostico.getText();
+                    break;
+                case "botonVerObservacionDiagnostico":
+                    textoAVer = cajaObservacionDiagnostico.getText();
+                    break;
+                case "botonVerTrabajoSesion":
+                    textoAVer = cajaTrabajoSesion.getText();
+                    break;
+                case "botonVerObservacionSesion":
+                    textoAVer = cajaObservacionSesion.getText();
+                    break;
+                case "botonVerObservacionAutorizacion":
+                    textoAVer = cajaObservacionSesionObraSocial.getText();
+                    break;
+                
+            }
+            
+            controller.llenarCaja(textoAVer);
+            stage.showAndWait();
+            
+            
+           
+        
+        } catch (IOException ex) {
+            Logger.getLogger(MensajeAdvertenciaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+    
+    
+
+   public void comprobarFechaAlIniciar() {
+        timer = new Timer();
+        tarea = new TimerTask() {
+            @Override
+            public void run() {
+                // Coloca aquí la acción que deseas ejecutar cada x tiempo
+                AgendaDAOImplementacion agenda =  new AgendaDAOImplementacion();
+                try {
+                    
+                        if(agenda.obtenerRecordatorio(LocalDate.now())){
+                        
+                        
+                        imgRecordatorio.setVisible(true);
+                        
+                        }else{
+                            imgRecordatorio.setVisible(false);
+                            
+                        }   
+                    
+                    
+                } catch (Exception e) {
+                }
+            }
+        };
+
+        // Definir el intervalo de tiempo en milisegundos (por ejemplo, 5 segundos)
+        long intervalo = 30000;
+
+        // Iniciar la ejecución de la tarea repetida cada x tiempo
+        timer.scheduleAtFixedRate(tarea, 0, intervalo);
+        
+        
+        
+        
+    }
+   
+    
+    
     
 }

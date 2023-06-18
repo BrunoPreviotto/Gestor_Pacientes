@@ -3,18 +3,16 @@
 <?import java.lang.*?>
 <?import java.net.*?>
 <?import javafx.geometry.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-
-<AnchorPane fx:id="container" prefHeight="650.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pacientes.gestor_pacientes.controlador.MenuInicioController">
+<AnchorPane fx:id="containerMenu" prefHeight="650.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pacientes.gestor_pacientes.controlador.MenuInicioController">
    <children>
-      <VBox fx:id="vbLateral" prefHeight="650.0" prefWidth="100.0" styleClass="menuEleccion" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="vbLateral" prefHeight="650.0" prefWidth="100.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <AnchorPane fx:id="pestanaPaciente" onMouseClicked="#eleccionMenu" prefHeight="50.0" prefWidth="100.0" styleClass="elementoMenuEleccion">
+            <AnchorPane fx:id="pestanaPaciente" onMouseClicked="#eleccionMenu" prefHeight="30.0" prefWidth="100.0" styleClass="elementoMenuEleccion" stylesheets="@styles/menuinicio.css" AnchorPane.topAnchor="50.0">
                <children>
                   <Label layoutX="22.0" layoutY="48.0" styleClass="labelLado" stylesheets="@styles/menuinicio.css" text="Paciente" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1.0">
                      <font>
@@ -22,109 +20,68 @@
                      </font>
                   </Label>
                </children>
-               <VBox.margin>
-                  <Insets top="50.0" />
-               </VBox.margin>
             </AnchorPane>
-            <AnchorPane fx:id="pestanaObraSocial" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#eleccionMenu" prefHeight="30.0" prefWidth="100.0" styleClass="elementoMenuEleccion">
-               <VBox.margin>
-                  <Insets top="50.0" />
-               </VBox.margin>
+            <AnchorPane fx:id="pestanaObraSocial" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#eleccionMenu" prefHeight="30.0" prefWidth="100.0" styleClass="elementoMenuEleccion" stylesheets="@styles/menuinicio.css" AnchorPane.topAnchor="100.0">
                <children>
-                  <Label layoutX="5.0" layoutY="1.0" styleClass="labelLado" stylesheets="@styles/menuinicio.css" text="Obra Social" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="0.0">
+                  <Label layoutX="5.0" layoutY="1.0" styleClass="labelLado" stylesheets="@styles/menuinicio.css" text="Obra Social" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <font>
                         <Font name="Sawasdee Bold Oblique" size="16.0" />
                      </font>
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="pestanaAgenda" onMouseClicked="#eleccionMenu" prefHeight="50.0" prefWidth="100.0" styleClass="elementoMenuEleccion">
-               <VBox.margin>
-                  <Insets top="50.0" />
-               </VBox.margin>
+            <AnchorPane fx:id="pestanaAgenda" onMouseClicked="#eleccionMenu" prefHeight="30.0" prefWidth="100.0" styleClass="elementoMenuEleccion" stylesheets="@styles/menuinicio.css" AnchorPane.topAnchor="150.0">
                <children>
-                  <Label layoutX="18.0" layoutY="7.0" styleClass="labelLado" stylesheets="@styles/menuinicio.css" text="Agenda" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1.0">
+                  <Label layoutX="18.0" layoutY="7.0" styleClass="labelLado" stylesheets="@styles/menuinicio.css" text="Agenda" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1.0" AnchorPane.topAnchor="0.0">
+                     <font>
+                        <Font name="Sawasdee Bold Oblique" size="16.0" />
+                     </font>
+                  </Label>
+                  <ImageView fx:id="imgRecordatorio" fitHeight="20.0" fitWidth="20.0" layoutX="65.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@img/recordatorio.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="pestanaOpciones" onMouseClicked="#eleccionMenu" prefHeight="30.0" prefWidth="100.0" styleClass="elementoMenuEleccion" stylesheets="@styles/menuinicio.css" AnchorPane.topAnchor="200.0">
+               <children>
+                  <Label layoutX="25.0" layoutY="6.0" styleClass="labelLado" stylesheets="@styles/menuinicio.css" text="Opciones" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1.0" AnchorPane.topAnchor="0.0">
                      <font>
                         <Font name="Sawasdee Bold Oblique" size="16.0" />
                      </font>
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="pestanaOpciones" onMouseClicked="#eleccionMenu" prefHeight="50.0" prefWidth="100.0" styleClass="elementoMenuEleccion">
-               <VBox.margin>
-                  <Insets top="50.0" />
-               </VBox.margin>
-               <children>
-                  <Label layoutX="25.0" layoutY="6.0" styleClass="labelLado" stylesheets="@styles/menuinicio.css" text="Opciones" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1.0">
-                     <font>
-                        <Font name="Sawasdee Bold Oblique" size="16.0" />
-                     </font>
-                  </Label>
-               </children>
-            </AnchorPane>
-            <ImageView fitHeight="300.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" rotate="15.0">
+         </children>
+      </AnchorPane>
+      <AnchorPane prefHeight="200.0" prefWidth="100.0" rotate="10.0" AnchorPane.bottomAnchor="0.0">
+         <children>
+            <ImageView fitHeight="300.0" fitWidth="100.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-14.0">
                <image>
                   <Image url="@img/BAMBOO.png" />
                </image>
-               <VBox.margin>
-                  <Insets left="10.0" />
-               </VBox.margin>
             </ImageView>
          </children>
-      </VBox>
+      </AnchorPane>
       <AnchorPane fx:id="apTodosLOsAPInicial" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <AnchorPane fx:id="anchorPanePrincipal" styleClass="apPacientes" stylesheets="@styles/menuinicio.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Pane layoutX="945.0" layoutY="601.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                  <ImageView fitHeight="60.0" fitWidth="18.0" layoutX="26.0" layoutY="62.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="40.0">
-                     <image>
-                        <Image url="@img/flechaMenu.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="60.0" fitWidth="18.0" layoutX="37.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="130.0">
-                     <image>
-                        <Image url="@img/flechaMenu.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="60.0" fitWidth="18.0" layoutX="36.0" layoutY="207.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="215.0">
-                     <image>
-                        <Image url="@img/flechaMenu.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="60.0" fitWidth="18.0" layoutX="47.0" layoutY="312.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="300.0">
-                     <image>
-                        <Image url="@img/flechaMenu.png" />
-                     </image>
-                  </ImageView>
-                  <Label alignment="BASELINE_CENTER" layoutX="41.0" layoutY="26.0" prefHeight="46.0" prefWidth="364.0" styleClass="rectanguloMenu" text="Paciente" AnchorPane.leftAnchor="41.0">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <Label alignment="BASELINE_CENTER" layoutX="43.0" layoutY="116.0" prefHeight="46.0" prefWidth="364.0" styleClass="rectanguloMenu" text="Obra social" AnchorPane.leftAnchor="40.0">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <Label alignment="BASELINE_CENTER" layoutX="42.0" layoutY="202.0" prefHeight="46.0" prefWidth="364.0" styleClass="rectanguloMenu" text="Agenda" AnchorPane.leftAnchor="40.0">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <Label alignment="BASELINE_CENTER" layoutX="41.0" layoutY="287.0" prefHeight="46.0" prefWidth="364.0" styleClass="rectanguloMenu" text="Opciones" AnchorPane.leftAnchor="41.0">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <Label alignment="TOP_CENTER" contentDisplay="CENTER" onMouseClicked="#salir" prefHeight="20.0" prefWidth="20.0" styleClass="botonEntrar" stylesheets="@styles/iniciarSesion.css" text="x" textFill="WHITE" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="50.0">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                     <font>
-                        <Font name="DejaVuMathTeXGyre-Regular" size="13.0" />
-                     </font>
-                  </Label>
+                  <VBox alignment="CENTER" layoutX="197.0" layoutY="173.0" prefHeight="600.0" prefWidth="1100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                     <children>
+                        <Label fx:id="etiquetaNombreInicio" style="-fx-text-fill: #C02A00;">
+                           <font>
+                              <Font name="Abyssinica SIL" size="20.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="500.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@img/diban.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </VBox>
                </children>
             </AnchorPane>
             <AnchorPane fx:id="apAgendaPrincipal" styleClass="apPacientes" stylesheets="@styles/menuinicio.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -210,7 +167,7 @@
                   </VBox>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="apObraSocial" styleClass="apPacientes" stylesheets="@styles/menuinicio.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="apObraSocial" styleClass="apPacientes" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Label fx:id="labelNombreDeUsuario4" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="986.0" layoutY="15.0" prefHeight="20.0" prefWidth="200.0" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="10.0" />
                   <VBox fx:id="vbObraSocial" alignment="CENTER" layoutX="375.0" layoutY="265.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
@@ -224,7 +181,7 @@
                                           <Font name="Sawasdee Bold Oblique" size="13.0" />
                                        </font>
                                        <VBox.margin>
-                                          <Insets top="10.0" />
+                                          <Insets />
                                        </VBox.margin>
                                     </Label>
                                     <HBox prefHeight="40.0" prefWidth="200.0">
@@ -245,7 +202,7 @@
                                           <Font name="Yrsa SemiBold" size="13.0" />
                                        </font>
                                        <VBox.margin>
-                                          <Insets top="10.0" />
+                                          <Insets />
                                        </VBox.margin>
                                     </Label>
                                     <HBox prefHeight="40.0" prefWidth="200.0">
@@ -265,7 +222,7 @@
                                           <Font name="Abyssinica SIL" size="13.0" />
                                        </font>
                                        <VBox.margin>
-                                          <Insets top="10.0" />
+                                          <Insets />
                                        </VBox.margin>
                                     </Label>
                                     <HBox prefHeight="40.0" prefWidth="200.0">
@@ -286,7 +243,7 @@
                                           <Font name="Abyssinica SIL" size="13.0" />
                                        </font>
                                        <VBox.margin>
-                                          <Insets top="10.0" />
+                                          <Insets />
                                        </VBox.margin>
                                     </Label>
                                     <HBox prefHeight="40.0" prefWidth="200.0">
@@ -307,7 +264,7 @@
                                           <Font name="Abyssinica SIL" size="13.0" />
                                        </font>
                                        <VBox.margin>
-                                          <Insets top="10.0" />
+                                          <Insets />
                                        </VBox.margin>
                                     </Label>
                                     <HBox prefHeight="100.0" prefWidth="200.0">
@@ -317,7 +274,20 @@
                                                 <Insets right="5.0" />
                                              </HBox.margin>
                                           </ChoiceBox>
-                                          <Button fx:id="botonAgregarPlanesObraSocial" disable="true" mnemonicParsing="false" onMouseClicked="#agregarPlanObraSocia" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
+                                          <Button fx:id="botonActualizarPlanesObraSocial" disable="true" mnemonicParsing="false" onMouseClicked="#agregarActualizarPlanesObrasSocial" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
+                                             <graphic>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@img/actualizar.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                             <styleClass>
+                                                <String fx:value="botonBuscar" />
+                                                <String fx:value="botonBuscarChico" />
+                                             </styleClass>
+                                          </Button>
+                                          <Button fx:id="botonAgregarPlanesObraSocial" disable="true" mnemonicParsing="false" onMouseClicked="#agregarActualizarPlanesObrasSocial" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
                                              <graphic>
                                                 <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
@@ -329,26 +299,30 @@
                                                 <String fx:value="botonBuscar" />
                                                 <String fx:value="botonBuscarChico" />
                                              </styleClass>
+                                             <HBox.margin>
+                                                <Insets left="5.0" />
+                                             </HBox.margin>
                                           </Button>
                                        </children>
                                     </HBox>
-                                    <Label fx:id="labelAgregarPlan" alignment="CENTER" contentDisplay="CENTER" prefHeight="19.0" prefWidth="57.0" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Agregar" visible="false">
-                                       <font>
-                                          <Font name="Abyssinica SIL" size="13.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets top="10.0" />
-                                       </VBox.margin>
-                                    </Label>
-                                    <HBox prefHeight="100.0" prefWidth="200.0">
+                                    <HBox fx:id="hboxPlanObraSocial" alignment="BOTTOM_LEFT" visible="false">
                                        <children>
-                                          <TextField fx:id="cajaAgregarPlanObraSocial" alignment="BOTTOM_CENTER" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar plan" stylesheets="@styles/menuinicio.css">
-                                             <styleClass>
-                                                <String fx:value="cajas" />
-                                                <String fx:value="error" />
-                                             </styleClass>
-                                          </TextField>
-                                          <Button fx:id="botonActualizarPlanesObraSocial" mnemonicParsing="false" onMouseClicked="#actualizarPlanesObrasSocial" prefHeight="22.0" prefWidth="23.0">
+                                          <VBox>
+                                             <children>
+                                                <Label fx:id="labelAgregarPlan" alignment="CENTER" contentDisplay="CENTER" prefHeight="19.0" prefWidth="57.0" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Agregar" visible="false">
+                                                   <font>
+                                                      <Font name="Abyssinica SIL" size="13.0" />
+                                                   </font>
+                                                </Label>
+                                                <TextField fx:id="cajaAgregarPlanObraSocial" alignment="BOTTOM_CENTER" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar plan" stylesheets="@styles/menuinicio.css">
+                                                   <styleClass>
+                                                      <String fx:value="cajas" />
+                                                      <String fx:value="error" />
+                                                   </styleClass>
+                                                </TextField>
+                                             </children>
+                                          </VBox>
+                                          <Button fx:id="botonCrearActualizarPlanesObraSocial" mnemonicParsing="false" prefHeight="22.0" prefWidth="23.0">
                                              <graphic>
                                                 <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
@@ -373,7 +347,7 @@
                               </VBox>
                            </children>
                            <VBox.margin>
-                              <Insets top="5.0" />
+                              <Insets />
                            </VBox.margin>
                         </HBox>
                         <HBox alignment="TOP_RIGHT" prefHeight="20.0" prefWidth="1100.0">
@@ -428,22 +402,6 @@
                                           <String fx:value="botonBuscarChico" />
                                        </styleClass>
                                     </Button>
-                                    <Button fx:id="botonRetornarObraSocial" disable="true" mnemonicParsing="false" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
-                                       <graphic>
-                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@img/retornar.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                       <HBox.margin>
-                                          <Insets left="5.0" />
-                                       </HBox.margin>
-                                       <styleClass>
-                                          <String fx:value="botonBuscar" />
-                                          <String fx:value="botonBuscarChico" />
-                                       </styleClass>
-                                    </Button>
                                  </children>
                                  <HBox.margin>
                                     <Insets />
@@ -480,6 +438,19 @@
                   </VBox>
                   <ButtonBar layoutX="829.0" layoutY="3.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="30.0" prefWidth="364.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="10.0">
                      <buttons>
+                        <Button fx:id="botonRetornarObraSocial" mnemonicParsing="false" onMouseClicked="#vaciarCajasObraSocial" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@img/retornar.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <styleClass>
+                              <String fx:value="botonBuscar" />
+                              <String fx:value="botonBuscarChico" />
+                           </styleClass>
+                        </Button>
                         <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="30.0" maxWidth="100.0" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#buscarObraSocial" stylesheets="@styles/menuinicio.css">
                            <font>
                               <Font name="Sawasdee Bold" size="14.0" />
@@ -496,7 +467,7 @@
                               <Label styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Buscar" />
                            </graphic>
                         </Button>
-                        <TextField fx:id="cajaBuscarObraSocial" alignment="BASELINE_RIGHT" maxHeight="40.0" maxWidth="200.0" onKeyPressed="#alDarEnterBuscarBoton" stylesheets="@styles/menuinicio.css">
+                        <TextField fx:id="cajaBuscarObraSocial" alignment="BASELINE_RIGHT" maxHeight="40.0" maxWidth="200.0" onKeyPressed="#alDarEnterBoton" stylesheets="@styles/menuinicio.css">
                            <styleClass>
                               <String fx:value="cajas" />
                               <String fx:value="cajasBuscar" />
@@ -681,10 +652,23 @@
                   <Label fx:id="labelNombreDeUsuario2" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="844.0" layoutY="12.0" prefHeight="20.0" prefWidth="200.0" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="10.0" />
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="apPacientes" styleClass="apPacientes" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="apPacientes" styleClass="apPacientes" stylesheets="@styles/menuinicio.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="30.0" prefWidth="300.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
                     <buttons>
+                        <Button fx:id="botonRetornarDatosPrincipales1" mnemonicParsing="false" onMouseClicked="#vaciarTodasLasCajas" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@img/retornar.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <styleClass>
+                              <String fx:value="botonBuscar" />
+                              <String fx:value="botonBuscarChico" />
+                           </styleClass>
+                        </Button>
                       <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="30.0" maxWidth="100.0" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#buscarPaciente" stylesheets="@styles/menuinicio.css">
                            <font>
                               <Font name="Sawasdee Bold" size="14.0" />
@@ -701,7 +685,7 @@
                               <Label styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Buscar" />
                            </graphic>
                         </Button>
-                        <TextField fx:id="cajaBuscarPaciente" alignment="BASELINE_RIGHT" maxHeight="40.0" maxWidth="200.0" onKeyPressed="#alDarEnterBuscarBoton" stylesheets="@styles/menuinicio.css">
+                        <TextField fx:id="cajaBuscarPaciente" alignment="BASELINE_RIGHT" maxHeight="40.0" maxWidth="200.0" onKeyPressed="#alDarEnterBoton" stylesheets="@styles/menuinicio.css">
                            <padding>
                               <Insets left="5.0" />
                            </padding>
@@ -715,7 +699,7 @@
                   <Label fx:id="labelNombreDeUsuario1" alignment="BASELINE_CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="200.0" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="10.0" />
                   <Accordion fx:id="acordionPaciente" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
                     <panes>
-                      <TitledPane fx:id="titlePaneDatosPrincipales" alignment="BASELINE_LEFT" animated="false" onMouseClicked="#expandirTitledPane" text="Datos principales">
+                      <TitledPane fx:id="titlePaneDatosPrincipales" alignment="BASELINE_LEFT" onMouseClicked="#expandirTitledPane" text="Datos principales">
                         <content>
                           <AnchorPane styleClass="containerPacientes" stylesheets="@styles/menuinicio.css">
                                  <children>
@@ -771,22 +755,6 @@
                                                    <styleClass>
                                                       <String fx:value="botonBuscar" />
                                                       <String fx:value="eliminarActualizar" />
-                                                      <String fx:value="botonBuscarChico" />
-                                                   </styleClass>
-                                                </Button>
-                                                <Button fx:id="botonRetornarDatosPrincipales" disable="true" mnemonicParsing="false" onMouseClicked="#retornarBotonera" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
-                                                   <graphic>
-                                                      <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@img/retornar.png" />
-                                                         </image>
-                                                      </ImageView>
-                                                   </graphic>
-                                                   <HBox.margin>
-                                                      <Insets left="5.0" />
-                                                   </HBox.margin>
-                                                   <styleClass>
-                                                      <String fx:value="botonBuscar" />
                                                       <String fx:value="botonBuscarChico" />
                                                    </styleClass>
                                                 </Button>
@@ -928,7 +896,7 @@
                               <Insets top="5.0" />
                            </padding>
                       </TitledPane>
-                      <TitledPane fx:id="titlePaneSesion" alignment="BASELINE_LEFT" animated="false" onMouseClicked="#expandirTitledPane" text="Sesiones">
+                      <TitledPane fx:id="titlePaneSesion" alignment="BASELINE_LEFT" onMouseClicked="#expandirTitledPane" text="Sesiones">
                         <content>
                           <AnchorPane styleClass="imgr">
                                  <children>
@@ -1062,6 +1030,22 @@
                                                                   <Insets />
                                                                </HBox.margin>
                                                             </TextArea>
+                                                            <Button fx:id="botonVerTrabajoSesion" mnemonicParsing="false" onMouseClicked="#agrandarCajaParaVer" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
+                                                               <graphic>
+                                                                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                                     <image>
+                                                                        <Image url="@img/verCajas.png" />
+                                                                     </image>
+                                                                  </ImageView>
+                                                               </graphic>
+                                                               <styleClass>
+                                                                  <String fx:value="botonBuscar" />
+                                                                  <String fx:value="botonBuscarChico" />
+                                                               </styleClass>
+                                                               <HBox.margin>
+                                                                  <Insets left="5.0" />
+                                                               </HBox.margin>
+                                                            </Button>
                                                          </children>
                                                          <VBox.margin>
                                                             <Insets />
@@ -1078,6 +1062,22 @@
                                                       <HBox>
                                                          <children>
                                                             <TextArea fx:id="cajaObservacionSesion" minHeight="100.0" minWidth="228.0" prefHeight="100.0" prefWidth="228.0" promptText="Ingresar observación" styleClass="cajasArea" stylesheets="@styles/menuinicio.css" />
+                                                            <Button fx:id="botonVerObservacionSesion" mnemonicParsing="false" onMouseClicked="#agrandarCajaParaVer" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
+                                                               <graphic>
+                                                                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                                     <image>
+                                                                        <Image url="@img/verCajas.png" />
+                                                                     </image>
+                                                                  </ImageView>
+                                                               </graphic>
+                                                               <styleClass>
+                                                                  <String fx:value="botonBuscar" />
+                                                                  <String fx:value="botonBuscarChico" />
+                                                               </styleClass>
+                                                               <HBox.margin>
+                                                                  <Insets left="5.0" />
+                                                               </HBox.margin>
+                                                            </Button>
                                                          </children>
                                                          <VBox.margin>
                                                             <Insets />
@@ -1091,7 +1091,7 @@
                                                             <Insets />
                                                          </VBox.margin>
                                                       </Label>
-                                                      <TextField fx:id="cajaHonorariosPorSesion" alignment="BOTTOM_CENTER" prefHeight="28.0" prefWidth="409.0" promptText="Ingresar honorario" stylesheets="@styles/menuinicio.css">
+                                                      <TextField fx:id="cajaHonorariosPorSesion" accessibleRoleDescription="num" alignment="BOTTOM_CENTER" onKeyTyped="#onKeyTyped" prefHeight="28.0" prefWidth="409.0" promptText="Ingresar honorario" stylesheets="@styles/menuinicio.css">
                                                          <styleClass>
                                                             <String fx:value="cajas" />
                                                             <String fx:value="error" />
@@ -1152,6 +1152,22 @@
                                                       <HBox>
                                                          <children>
                                                             <TextArea fx:id="cajaObservacionSesionObraSocial" promptText="Ingresar observación" styleClass="cajasArea" stylesheets="@styles/menuinicio.css" />
+                                                            <Button fx:id="botonVerObservacionAutorizacion" mnemonicParsing="false" onMouseClicked="#agrandarCajaParaVer" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
+                                                               <graphic>
+                                                                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                                     <image>
+                                                                        <Image url="@img/verCajas.png" />
+                                                                     </image>
+                                                                  </ImageView>
+                                                               </graphic>
+                                                               <styleClass>
+                                                                  <String fx:value="botonBuscar" />
+                                                                  <String fx:value="botonBuscarChico" />
+                                                               </styleClass>
+                                                               <HBox.margin>
+                                                                  <Insets left="5.0" />
+                                                               </HBox.margin>
+                                                            </Button>
                                                          </children>
                                                       </HBox>
                                                       <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Asociacion">
@@ -1197,13 +1213,17 @@
                                                          <children>
                                                             <HBox>
                                                                <children>
+                                                                  <ChoiceBox fx:id="choiseCodigoFactSesionObraSocial" accessibleHelp="controlImportante" onMouseClicked="#volverChoiceALaNormalidad" prefWidth="400.0" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
                                                                   <TextField fx:id="cajaCodigoFacturacion" alignment="BOTTOM_CENTER" editable="false" prefWidth="400.0" promptText="Ingresar código" stylesheets="@styles/menuinicio.css">
                                                                      <styleClass>
                                                                         <String fx:value="cajas" />
                                                                         <String fx:value="error" />
                                                                      </styleClass>
+                                                                     <HBox.margin>
+                                                                        <Insets left="5.0" />
+                                                                     </HBox.margin>
                                                                   </TextField>
-                                                                  <Button fx:id="botonAgregarCodigoFacturacion" mnemonicParsing="false" onMouseClicked="#actualizarOcrear" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                                                                  <Button fx:id="botonAgregarCodigoFacturacion" mnemonicParsing="false" onMouseClicked="#actualizarOcrear" prefHeight="20.0" prefWidth="20.0" styleClass="botonBuscar">
                                                                      <graphic>
                                                                         <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                                                                            <image>
@@ -1215,7 +1235,7 @@
                                                                         <Insets left="5.0" />
                                                                      </HBox.margin>
                                                                   </Button>
-                                                                  <Button fx:id="botonActualizarCodigoFacturacion" mnemonicParsing="false" onMouseClicked="#actualizarOcrear" prefHeight="22.0" prefWidth="23.0" styleClass="botonBuscar">
+                                                                  <Button fx:id="botonActualizarCodigoFacturacion" mnemonicParsing="false" onMouseClicked="#actualizarOcrear" prefHeight="20.0" prefWidth="20.0" styleClass="botonBuscar">
                                                                      <graphic>
                                                                         <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                                                                            <image>
@@ -1223,13 +1243,15 @@
                                                                            </image>
                                                                         </ImageView>
                                                                      </graphic>
+                                                                     <HBox.margin>
+                                                                        <Insets left="5.0" />
+                                                                     </HBox.margin>
                                                                   </Button>
                                                                </children>
                                                             </HBox>
-                                                            <ChoiceBox fx:id="choiseCodigoFactSesionObraSocial" accessibleHelp="controlImportante" onMouseClicked="#volverChoiceALaNormalidad" prefWidth="400.0" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
                                                          </children>
                                                       </VBox>
-                                                      <Label fx:id="etiquetaActualizarCodigoFacturacion" alignment="CENTER" contentDisplay="CENTER" text="Agregar codigo" visible="false">
+                                                      <Label fx:id="etiquetaActualizarCodigoFacturacion" alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Agregar codigo" visible="false">
                                                          <font>
                                                             <Font name="Abyssinica SIL" size="13.0" />
                                                          </font>
@@ -1239,12 +1261,12 @@
                                                       </Label>
                                                       <HBox fx:id="hboxEtiquetasCodigosFacturacion" visible="false">
                                                          <children>
-                                                            <Label fx:id="etiquetaActualizarCodigoFacturacion11" alignment="CENTER" contentDisplay="CENTER" text="Nombre">
+                                                            <Label fx:id="etiquetaActualizarCodigoFacturacion11" alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Nombre">
                                                                <font>
                                                                   <Font name="Abyssinica SIL" size="13.0" />
                                                                </font>
                                                             </Label>
-                                                            <Label fx:id="etiquetaActualizarCodigoFacturacion1" alignment="CENTER" contentDisplay="CENTER" text="Codigo">
+                                                            <Label fx:id="etiquetaActualizarCodigoFacturacion1" alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Codigo">
                                                                <font>
                                                                   <Font name="Abyssinica SIL" size="13.0" />
                                                                </font>
@@ -1290,7 +1312,7 @@
                                                       </HBox>
                                                    </children>
                                                    <HBox.margin>
-                                                      <Insets left="50.0" />
+                                                      <Insets left="40.0" />
                                                    </HBox.margin>
                                                 </VBox>
                                              </children>
@@ -1368,7 +1390,7 @@
                               <Font size="14.0" />
                            </font>
                       </TitledPane>
-                        <TitledPane fx:id="titlePanePlan" animated="false" onMouseClicked="#expandirTitledPane" text="Plan de tratamiento">
+                        <TitledPane fx:id="titlePanePlan" alignment="BASELINE_LEFT" contentDisplay="CENTER" onMouseClicked="#expandirTitledPane" text="Plan de tratamiento">
                           <content>
                             <AnchorPane>
                                  <children>
@@ -1424,22 +1446,6 @@
                                                       <String fx:value="botonBuscarChico" />
                                                    </styleClass>
                                                 </Button>
-                                                <Button fx:id="botonRetornarPlanTratamiento" disable="true" mnemonicParsing="false" onMouseClicked="#retornarBotonera" prefHeight="20.0" prefWidth="20.0" stylesheets="@styles/menuinicio.css">
-                                                   <graphic>
-                                                      <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@img/retornar.png" />
-                                                         </image>
-                                                      </ImageView>
-                                                   </graphic>
-                                                   <HBox.margin>
-                                                      <Insets left="5.0" />
-                                                   </HBox.margin>
-                                                   <styleClass>
-                                                      <String fx:value="botonBuscar" />
-                                                      <String fx:value="botonBuscarChico" />
-                                                   </styleClass>
-                                                </Button>
                                              </children>
                                           </HBox>
                                        </right>
@@ -1448,129 +1454,205 @@
                                              <children>
                                                 <VBox alignment="CENTER_LEFT" prefWidth="400.0">
                                                    <children>
-                                                      <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Frecuencia de sesiones">
-                                                         <font>
-                                                            <Font name="Abyssinica SIL" size="13.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <HBox prefHeight="25.0" prefWidth="426.0">
+                                                      <VBox fx:id="vBoxFrecuenciaSEsionPlan" prefHeight="200.0" prefWidth="100.0">
                                                          <children>
-                                                            <ChoiceBox fx:id="choiseFrecuenciaSesionPlan" accessibleHelp="controlImportante" accessibleText="planTratamiento" onMouseClicked="#volverChoiceALaNormalidad" prefWidth="340.0" stylesheets="@styles/menuinicio.css">
-                                                               <styleClass>
-                                                                  <String fx:value="cajas" />
-                                                                  <String fx:value="cajasAEsconder" />
-                                                               </styleClass>
-                                                            </ChoiceBox>
-                                                            <Button fx:id="botonAgregarPlanFrecuencia" mnemonicParsing="false" onMouseClicked="#insertarFrecuenciaPlan" stylesheets="@styles/menuinicio.css" text="+">
-                                                               <styleClass>
-                                                                  <String fx:value="botonBuscar" />
-                                                                  <String fx:value="botonBuscarChico" />
-                                                               </styleClass>
-                                                               <graphic>
-                                                                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                                     <image>
-                                                                        <Image url="@img/agregar_%23path58.png" />
-                                                                     </image>
-                                                                  </ImageView>
-                                                               </graphic>
-                                                               <HBox.margin>
-                                                                  <Insets left="5.0" />
-                                                               </HBox.margin>
-                                                            </Button>
-                                                            <Button fx:id="botonActualizarPlanFrecuencia" mnemonicParsing="false" onMouseClicked="#actualizarFrecuenciaPlan" prefHeight="20.0" prefWidth="20.0" stylesheets="@styles/menuinicio.css">
-                                                               <graphic>
-                                                                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                                     <image>
-                                                                        <Image url="@img/actualizar.png" />
-                                                                     </image>
-                                                                  </ImageView>
-                                                               </graphic>
-                                                               <styleClass>
-                                                                  <String fx:value="botonBuscar" />
-                                                                  <String fx:value="botonBuscarChico" />
-                                                               </styleClass>
-                                                               <HBox.margin>
-                                                                  <Insets left="5.0" />
-                                                               </HBox.margin>
-                                                            </Button>
+                                                            <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Frecuencia de sesiones">
+                                                               <font>
+                                                                  <Font name="Abyssinica SIL" size="13.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <HBox prefHeight="25.0" prefWidth="426.0">
+                                                               <children>
+                                                                  <ChoiceBox fx:id="choiseFrecuenciaSesionPlan" accessibleHelp="controlImportante" accessibleText="planTratamiento" onMouseClicked="#volverChoiceALaNormalidad" prefWidth="340.0" stylesheets="@styles/menuinicio.css">
+                                                                     <styleClass>
+                                                                        <String fx:value="cajas" />
+                                                                        <String fx:value="cajasAEsconder" />
+                                                                        <String fx:value="cajasChicas" />
+                                                                     </styleClass>
+                                                                  </ChoiceBox>
+                                                                  <Button fx:id="botonAgregarPlanFrecuencia" mnemonicParsing="false" onMouseClicked="#actualizarCrearFrecuenciaPlan" stylesheets="@styles/menuinicio.css" text="+">
+                                                                     <styleClass>
+                                                                        <String fx:value="botonBuscar" />
+                                                                        <String fx:value="botonBuscarChico" />
+                                                                     </styleClass>
+                                                                     <graphic>
+                                                                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                                           <image>
+                                                                              <Image url="@img/agregar_%23path58.png" />
+                                                                           </image>
+                                                                        </ImageView>
+                                                                     </graphic>
+                                                                     <HBox.margin>
+                                                                        <Insets left="5.0" />
+                                                                     </HBox.margin>
+                                                                  </Button>
+                                                                  <Button fx:id="botonActualizarPlanFrecuencia" mnemonicParsing="false" onMouseClicked="#actualizarCrearFrecuenciaPlan" prefHeight="20.0" prefWidth="20.0" stylesheets="@styles/menuinicio.css">
+                                                                     <graphic>
+                                                                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                                           <image>
+                                                                              <Image url="@img/actualizar.png" />
+                                                                           </image>
+                                                                        </ImageView>
+                                                                     </graphic>
+                                                                     <styleClass>
+                                                                        <String fx:value="botonBuscar" />
+                                                                        <String fx:value="botonBuscarChico" />
+                                                                     </styleClass>
+                                                                     <HBox.margin>
+                                                                        <Insets left="5.0" />
+                                                                     </HBox.margin>
+                                                                  </Button>
+                                                               </children>
+                                                            </HBox>
                                                          </children>
-                                                      </HBox>
-                                                      <HBox prefHeight="38.0" prefWidth="268.0">
+                                                      </VBox>
+                                                      <VBox fx:id="vBoxFrecuenciaSEsionPlanActualizaroVer" visible="false">
                                                          <children>
-                                                            <TextField fx:id="cajaPlanFrecuenciaSesiones" accessibleText="planTratamiento" alignment="BOTTOM_CENTER" onKeyTyped="#soloString" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar nombre" stylesheets="@styles/menuinicio.css" visible="false">
-                                                               <styleClass>
-                                                                  <String fx:value="cajas" />
-                                                                  <String fx:value="error" />
-                                                                  <String fx:value="cajasAEsconder" />
-                                                               </styleClass>
-                                                            </TextField>
+                                                            <Label fx:id="etiquetaFrecuenciaSesionPlan" alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Frecuencia de sesiones">
+                                                               <font>
+                                                                  <Font name="Abyssinica SIL" size="13.0" />
+                                                               </font>
+                                                               <VBox.margin>
+                                                                  <Insets />
+                                                               </VBox.margin>
+                                                            </Label>
+                                                            <HBox>
+                                                               <children>
+                                                                  <TextField fx:id="cajaPlanFrecuenciaSesiones" accessibleText="planTratamiento" alignment="BOTTOM_CENTER" onKeyTyped="#soloString" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar frecuencia" stylesheets="@styles/menuinicio.css">
+                                                                     <styleClass>
+                                                                        <String fx:value="cajas" />
+                                                                        <String fx:value="error" />
+                                                                        <String fx:value="cajasAEsconder" />
+                                                                        <String fx:value="cajasChicas" />
+                                                                     </styleClass>
+                                                                  </TextField>
+                                                                  <Button fx:id="botonActualizarCrearFrecuencia" mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0" stylesheets="@styles/menuinicio.css">
+                                                                     <graphic>
+                                                                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                                           <image>
+                                                                              <Image url="@img/actualizar.png" />
+                                                                           </image>
+                                                                        </ImageView>
+                                                                     </graphic>
+                                                                     <styleClass>
+                                                                        <String fx:value="botonBuscar" />
+                                                                        <String fx:value="botonBuscarChico" />
+                                                                     </styleClass>
+                                                                     <HBox.margin>
+                                                                        <Insets left="5.0" />
+                                                                     </HBox.margin>
+                                                                  </Button>
+                                                               </children>
+                                                               <VBox.margin>
+                                                                  <Insets />
+                                                               </VBox.margin>
+                                                            </HBox>
                                                          </children>
-                                                      </HBox>
-                                                      <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Tipo de sesion">
-                                                         <font>
-                                                            <Font name="Abyssinica SIL" size="13.0" />
-                                                         </font>
-                                                         <VBox.margin>
-                                                            <Insets top="10.0" />
-                                                         </VBox.margin>
-                                                      </Label>
-                                                      <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Nombre">
-                                                         <font>
-                                                            <Font name="Abyssinica SIL" size="13.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <HBox prefWidth="400.0">
+                                                      </VBox>
+                                                      <VBox fx:id="vBoxNombreTipoSEsionPlan" prefHeight="200.0" prefWidth="100.0">
                                                          <children>
-                                                            <ChoiceBox fx:id="choiseTipoSesionPlan" accessibleHelp="controlImportante" accessibleText="planTratamiento" onMouseClicked="#volverChoiceALaNormalidad" prefWidth="340.0" stylesheets="@styles/menuinicio.css">
-                                                               <styleClass>
-                                                                  <String fx:value="cajas" />
-                                                                  <String fx:value="cajasAEsconder" />
-                                                               </styleClass>
-                                                            </ChoiceBox>
-                                                            <Button fx:id="botonAgregarPlanTipoSesion" mnemonicParsing="false" onMouseClicked="#insertarTipoPlan" prefHeight="20.0" prefWidth="20.0" stylesheets="@styles/menuinicio.css" text="+">
-                                                               <styleClass>
-                                                                  <String fx:value="botonBuscar" />
-                                                                  <String fx:value="botonBuscarChico" />
-                                                               </styleClass>
-                                                               <graphic>
-                                                                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                                     <image>
-                                                                        <Image url="@img/agregar_%23path58.png" />
-                                                                     </image>
-                                                                  </ImageView>
-                                                               </graphic>
-                                                               <HBox.margin>
-                                                                  <Insets left="5.0" />
-                                                               </HBox.margin>
-                                                            </Button>
-                                                            <Button fx:id="botonActualizarPlanTipoSesion" mnemonicParsing="false" onMouseClicked="#actualizarTipoPlan" prefHeight="20.0" prefWidth="20.0" stylesheets="@styles/menuinicio.css">
-                                                               <graphic>
-                                                                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                                     <image>
-                                                                        <Image url="@img/actualizar.png" />
-                                                                     </image>
-                                                                  </ImageView>
-                                                               </graphic>
-                                                               <styleClass>
-                                                                  <String fx:value="botonBuscar" />
-                                                                  <String fx:value="botonBuscarChico" />
-                                                               </styleClass>
-                                                               <HBox.margin>
-                                                                  <Insets left="5.0" />
-                                                               </HBox.margin>
-                                                            </Button>
+                                                            <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Tipo de sesion">
+                                                               <font>
+                                                                  <Font name="Abyssinica SIL" size="13.0" />
+                                                               </font>
+                                                               <VBox.margin>
+                                                                  <Insets />
+                                                               </VBox.margin>
+                                                            </Label>
+                                                            <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Nombre">
+                                                               <font>
+                                                                  <Font name="Abyssinica SIL" size="13.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <HBox prefWidth="400.0">
+                                                               <children>
+                                                                  <ChoiceBox fx:id="choiseTipoSesionPlan" accessibleHelp="controlImportante" accessibleText="planTratamiento" onMouseClicked="#volverChoiceALaNormalidad" prefWidth="340.0" stylesheets="@styles/menuinicio.css">
+                                                                     <styleClass>
+                                                                        <String fx:value="cajas" />
+                                                                        <String fx:value="cajasAEsconder" />
+                                                                        <String fx:value="cajasChicas" />
+                                                                     </styleClass>
+                                                                  </ChoiceBox>
+                                                                  <Button fx:id="botonAgregarPlanTipoSesion" mnemonicParsing="false" onMouseClicked="#actualizarCrearTipoSesionPlaPlan" prefHeight="20.0" prefWidth="20.0" stylesheets="@styles/menuinicio.css" text="+">
+                                                                     <styleClass>
+                                                                        <String fx:value="botonBuscar" />
+                                                                        <String fx:value="botonBuscarChico" />
+                                                                     </styleClass>
+                                                                     <graphic>
+                                                                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                                           <image>
+                                                                              <Image url="@img/agregar_%23path58.png" />
+                                                                           </image>
+                                                                        </ImageView>
+                                                                     </graphic>
+                                                                     <HBox.margin>
+                                                                        <Insets left="5.0" />
+                                                                     </HBox.margin>
+                                                                  </Button>
+                                                                  <Button fx:id="botonActualizarPlanTipoSesion" mnemonicParsing="false" onMouseClicked="#actualizarCrearTipoSesionPlaPlan" prefHeight="20.0" prefWidth="20.0" stylesheets="@styles/menuinicio.css">
+                                                                     <graphic>
+                                                                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                                           <image>
+                                                                              <Image url="@img/actualizar.png" />
+                                                                           </image>
+                                                                        </ImageView>
+                                                                     </graphic>
+                                                                     <styleClass>
+                                                                        <String fx:value="botonBuscar" />
+                                                                        <String fx:value="botonBuscarChico" />
+                                                                     </styleClass>
+                                                                     <HBox.margin>
+                                                                        <Insets left="5.0" />
+                                                                     </HBox.margin>
+                                                                  </Button>
+                                                               </children>
+                                                            </HBox>
                                                          </children>
-                                                      </HBox>
-                                                      <HBox accessibleText="planTratamiento" prefWidth="400.0">
+                                                      </VBox>
+                                                      <VBox fx:id="vBoxNombreTipoSEsionPlanActualizaroVer" prefHeight="200.0" prefWidth="100.0" visible="false">
                                                          <children>
-                                                            <TextField fx:id="cajaNombreTipoSesionPlan" accessibleText="planTratamiento" alignment="BOTTOM_CENTER" onKeyTyped="#soloString" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar apellido" stylesheets="@styles/menuinicio.css" visible="false">
-                                                               <styleClass>
-                                                                  <String fx:value="cajas" />
-                                                                  <String fx:value="cajasAEsconder" />
-                                                               </styleClass>
-                                                            </TextField>
+                                                            <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Tipo de sesion">
+                                                               <font>
+                                                                  <Font name="Abyssinica SIL" size="13.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label fx:id="etiquetaNombreTipoSEsionPlan" alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Nombre">
+                                                               <font>
+                                                                  <Font name="Abyssinica SIL" size="13.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <HBox accessibleText="planTratamiento" prefWidth="400.0">
+                                                               <children>
+                                                                  <TextField fx:id="cajaNombreTipoSesionPlan" accessibleText="planTratamiento" alignment="BOTTOM_CENTER" onKeyTyped="#soloString" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar apellido" stylesheets="@styles/menuinicio.css">
+                                                                     <styleClass>
+                                                                        <String fx:value="cajas" />
+                                                                        <String fx:value="cajasAEsconder" />
+                                                                        <String fx:value="cajasChicas" />
+                                                                     </styleClass>
+                                                                  </TextField>
+                                                                  <Button fx:id="botonActualizarCrearTipoSesion" mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0" stylesheets="@styles/menuinicio.css">
+                                                                     <graphic>
+                                                                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                                           <image>
+                                                                              <Image url="@img/actualizar.png" />
+                                                                           </image>
+                                                                        </ImageView>
+                                                                     </graphic>
+                                                                     <styleClass>
+                                                                        <String fx:value="botonBuscar" />
+                                                                        <String fx:value="botonBuscarChico" />
+                                                                     </styleClass>
+                                                                     <HBox.margin>
+                                                                        <Insets left="5.0" />
+                                                                     </HBox.margin>
+                                                                  </Button>
+                                                               </children>
+                                                               <VBox.margin>
+                                                                  <Insets />
+                                                               </VBox.margin>
+                                                            </HBox>
                                                          </children>
-                                                      </HBox>
+                                                      </VBox>
                                                       <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Descripcion">
                                                          <font>
                                                             <Font name="Abyssinica SIL" size="13.0" />
@@ -1615,8 +1697,11 @@
                            <padding>
                               <Insets top="1.0" />
                            </padding>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
                         </TitledPane>
-                      <TitledPane fx:id="titlePaneDiagnostico" alignment="BASELINE_LEFT" animated="false" onMouseClicked="#expandirTitledPane" styleClass="titled-pane-l" stylesheets="@styles/menuinicio.css" text="Diagnostico">
+                      <TitledPane fx:id="titlePaneDiagnostico" alignment="BASELINE_LEFT" contentDisplay="CENTER" onMouseClicked="#expandirTitledPane" styleClass="titled-pane-l" stylesheets="@styles/menuinicio.css" text="Diagnostico">
                         <content>
                           <AnchorPane styleClass="¡">
                                  <children>
@@ -1672,22 +1757,6 @@
                                                       <String fx:value="botonBuscarChico" />
                                                    </styleClass>
                                                 </Button>
-                                                <Button fx:id="botonRetornarDiagnostico" disable="true" mnemonicParsing="false" onMouseClicked="#retornarBotonera" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
-                                                   <graphic>
-                                                      <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@img/retornar.png" />
-                                                         </image>
-                                                      </ImageView>
-                                                   </graphic>
-                                                   <HBox.margin>
-                                                      <Insets left="5.0" />
-                                                   </HBox.margin>
-                                                   <styleClass>
-                                                      <String fx:value="botonBuscar" />
-                                                      <String fx:value="botonBuscarChico" />
-                                                   </styleClass>
-                                                </Button>
                                              </children>
                                           </HBox>
                                        </right>
@@ -1704,6 +1773,22 @@
                                                       <HBox>
                                                          <children>
                                                             <TextArea fx:id="cajaDiagnosticoDiagnostico" accessibleHelp="controlImportante" accessibleText="diagnostico" onKeyPressed="#volverCajaALaNormalidad" promptText="Ingresar diagnóstico" styleClass="cajasArea" stylesheets="@styles/menuinicio.css" />
+                                                            <Button fx:id="botonVerDiagnostico" mnemonicParsing="false" onMouseClicked="#agrandarCajaParaVer" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
+                                                               <graphic>
+                                                                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                                     <image>
+                                                                        <Image url="@img/verCajas.png" />
+                                                                     </image>
+                                                                  </ImageView>
+                                                               </graphic>
+                                                               <styleClass>
+                                                                  <String fx:value="botonBuscar" />
+                                                                  <String fx:value="botonBuscarChico" />
+                                                               </styleClass>
+                                                               <HBox.margin>
+                                                                  <Insets left="5.0" />
+                                                               </HBox.margin>
+                                                            </Button>
                                                          </children>
                                                       </HBox>
                                                       <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Observacion">
@@ -1717,6 +1802,22 @@
                                                       <HBox>
                                                          <children>
                                                             <TextArea fx:id="cajaObservacionDiagnostico" accessibleText="diagnostico" promptText="ingresar observación" styleClass="cajasArea" />
+                                                            <Button fx:id="botonVerObservacionDiagnostico" mnemonicParsing="false" onMouseClicked="#eliminarDiagnostico" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
+                                                               <graphic>
+                                                                  <ImageView fitHeight="20.0" fitWidth="20.0" onMouseClicked="#agrandarCajaParaVer" pickOnBounds="true" preserveRatio="true">
+                                                                     <image>
+                                                                        <Image url="@img/verCajas.png" />
+                                                                     </image>
+                                                                  </ImageView>
+                                                               </graphic>
+                                                               <styleClass>
+                                                                  <String fx:value="botonBuscar" />
+                                                                  <String fx:value="botonBuscarChico" />
+                                                               </styleClass>
+                                                               <HBox.margin>
+                                                                  <Insets left="5.0" />
+                                                               </HBox.margin>
+                                                            </Button>
                                                          </children>
                                                       </HBox>
                                                    </children>
@@ -1738,15 +1839,18 @@
                               <Font size="14.0" />
                            </font>
                       </TitledPane>
-                        <TitledPane fx:id="titlePaneGenograma" animated="false" onMouseClicked="#expandirTitledPane" text="Genograma">
+                        <TitledPane fx:id="titlePaneGenograma" alignment="BASELINE_LEFT" contentDisplay="CENTER" onMouseClicked="#expandirTitledPane" text="Genograma">
                           <content>
                             <AnchorPane />
                           </content>
                            <padding>
                               <Insets top="1.0" />
                            </padding>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
                         </TitledPane>
-                        <TitledPane fx:id="titlePaneObraSocial" alignment="BASELINE_LEFT" animated="false" onMouseClicked="#expandirTitledPane" text="Obra social">
+                        <TitledPane fx:id="titlePaneObraSocial" alignment="BASELINE_LEFT" onMouseClicked="#expandirTitledPane" text="Obra social">
                           <content>
                             <AnchorPane>
                                  <children>
@@ -1802,22 +1906,6 @@
                                                       <String fx:value="botonBuscarChico" />
                                                    </styleClass>
                                                 </Button>
-                                                <Button fx:id="botonRetornarObraSocialPaciente" disable="true" mnemonicParsing="false" onMouseClicked="#retornarBotonera" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
-                                                   <graphic>
-                                                      <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@img/retornar.png" />
-                                                         </image>
-                                                      </ImageView>
-                                                   </graphic>
-                                                   <HBox.margin>
-                                                      <Insets left="5.0" />
-                                                   </HBox.margin>
-                                                   <styleClass>
-                                                      <String fx:value="botonBuscar" />
-                                                      <String fx:value="botonBuscarChico" />
-                                                   </styleClass>
-                                                </Button>
                                              </children>
                                           </HBox>
                                        </right>
@@ -1826,38 +1914,55 @@
                                              <children>
                                                 <VBox alignment="CENTER_LEFT" prefWidth="400.0">
                                                    <children>
-                                                      <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Nombre">
-                                                         <font>
-                                                            <Font name="Abyssinica SIL" size="13.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <ChoiceBox fx:id="choiseNombreObraSocialPaciente" accessibleHelp="controlImportante" onMouseClicked="#volverChoiceALaNormalidad" prefHeight="26.0" prefWidth="270.0" stylesheets="@styles/menuinicio.css">
-                                                         <styleClass>
-                                                            <String fx:value="cajas" />
-                                                            <String fx:value="cajasAEsconder" />
-                                                            <String fx:value="cajasChicas" />
-                                                         </styleClass>
-                                                      </ChoiceBox>
-                                                      <HBox prefHeight="43.0" prefWidth="266.0">
+                                                      <VBox fx:id="vboxNombreObraSocialPaciente">
                                                          <children>
-                                                            <TextField fx:id="cajaNombreObraSocialPaciente" prefHeight="24.0" prefWidth="300.0" stylesheets="@styles/menuinicio.css" visible="false">
+                                                            <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Nombre">
+                                                               <font>
+                                                                  <Font name="Abyssinica SIL" size="13.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <ChoiceBox fx:id="choiseNombreObraSocialPaciente" accessibleHelp="controlImportante" onMouseClicked="#volverChoiceALaNormalidad" prefHeight="26.0" prefWidth="270.0" stylesheets="@styles/menuinicio.css">
                                                                <styleClass>
                                                                   <String fx:value="cajas" />
                                                                   <String fx:value="cajasAEsconder" />
+                                                                  <String fx:value="cajasChicas" />
                                                                </styleClass>
-                                                            </TextField>
+                                                            </ChoiceBox>
                                                          </children>
-                                                      </HBox>
-                                                      <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Plan">
-                                                         <font>
-                                                            <Font name="Abyssinica SIL" size="13.0" />
-                                                         </font>
-                                                         <VBox.margin>
-                                                            <Insets />
-                                                         </VBox.margin>
-                                                      </Label>
-                                                      <HBox prefHeight="38.0" prefWidth="266.0">
+                                                      </VBox>
+                                                      <VBox fx:id="vboxNombreObraSocialPacienteActualizarVer" visible="false">
                                                          <children>
+                                                            <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Nombre">
+                                                               <font>
+                                                                  <Font name="Abyssinica SIL" size="13.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <HBox prefWidth="266.0">
+                                                               <children>
+                                                                  <TextField fx:id="cajaNombreObraSocialPaciente" prefHeight="24.0" prefWidth="300.0" stylesheets="@styles/menuinicio.css">
+                                                                     <styleClass>
+                                                                        <String fx:value="cajas" />
+                                                                        <String fx:value="cajasAEsconder" />
+                                                                        <String fx:value="cajasChicas" />
+                                                                     </styleClass>
+                                                                  </TextField>
+                                                               </children>
+                                                               <VBox.margin>
+                                                                  <Insets top="5.0" />
+                                                               </VBox.margin>
+                                                            </HBox>
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox fx:id="vboxPlanObraSocialPaciente">
+                                                         <children>
+                                                            <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Plan">
+                                                               <font>
+                                                                  <Font name="Abyssinica SIL" size="13.0" />
+                                                               </font>
+                                                               <VBox.margin>
+                                                                  <Insets />
+                                                               </VBox.margin>
+                                                            </Label>
                                                             <ChoiceBox fx:id="choisePlanesObraSocialPacientePlan" accessibleHelp="controlImportante" onMouseClicked="#volverChoiceALaNormalidad" prefHeight="26.0" prefWidth="270.0" stylesheets="@styles/menuinicio.css">
                                                                <styleClass>
                                                                   <String fx:value="cajas" />
@@ -1866,17 +1971,31 @@
                                                                </styleClass>
                                                             </ChoiceBox>
                                                          </children>
-                                                      </HBox>
-                                                      <HBox prefHeight="33.0" prefWidth="266.0">
+                                                      </VBox>
+                                                      <HBox prefWidth="266.0" />
+                                                      <VBox fx:id="vboxPlanObraSocialPacienteActualizarVer" visible="false">
                                                          <children>
-                                                            <TextField fx:id="cajaPlanObraSocialPaciente" prefHeight="24.0" prefWidth="300.0" stylesheets="@styles/menuinicio.css" visible="false">
-                                                               <styleClass>
-                                                                  <String fx:value="cajas" />
-                                                                  <String fx:value="cajasAEsconder" />
-                                                               </styleClass>
-                                                            </TextField>
+                                                            <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Plan">
+                                                               <font>
+                                                                  <Font name="Abyssinica SIL" size="13.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <HBox prefWidth="266.0">
+                                                               <children>
+                                                                  <TextField fx:id="cajaPlanObraSocialPaciente" prefHeight="24.0" prefWidth="300.0" stylesheets="@styles/menuinicio.css">
+                                                                     <styleClass>
+                                                                        <String fx:value="cajas" />
+                                                                        <String fx:value="cajasAEsconder" />
+                                                                        <String fx:value="cajasChicas" />
+                                                                     </styleClass>
+                                                                  </TextField>
+                                                               </children>
+                                                               <VBox.margin>
+                                                                  <Insets top="5.0" />
+                                                               </VBox.margin>
+                                                            </HBox>
                                                          </children>
-                                                      </HBox>
+                                                      </VBox>
                                                       <HBox prefHeight="45.0" prefWidth="266.0">
                                                          <children>
                                                             <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Nº Afiliado">
@@ -1933,7 +2052,6 @@
                         </TitledPane>
                     </panes>
                   </Accordion>
-                  <HBox layoutX="323.0" layoutY="415.0" prefHeight="100.0" prefWidth="200.0" />
                </children>
             </AnchorPane>
             <Button fx:id="botonMaximizarDesmaximizado" minHeight="10.0" minWidth="10.0" mnemonicParsing="false" onMouseClicked="#maximizarMenuInicio" prefHeight="10.0" prefWidth="10.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="10.0">
@@ -1974,6 +2092,26 @@
                         <Font name="Ubuntu Bold" size="20.0" />
                      </font>
                   </Label>
+               </graphic>
+            </Button>
+            <Button fx:id="botonMinimizar" layoutX="10.0" layoutY="10.0" minHeight="10.0" minWidth="10.0" mnemonicParsing="false" onMouseClicked="#minimizarVentana" prefHeight="10.0" prefWidth="10.0" AnchorPane.rightAnchor="70.0">
+               <stylesheets>
+                  <URL value="@styles/calendario.css" />
+                  <URL value="@styles/menuinicio.css" />
+               </stylesheets>
+               <styleClass>
+                  <String fx:value="botonBuscar" />
+                  <String fx:value="botonBuscarChico" />
+               </styleClass>
+               <font>
+                  <Font name="Khmer OS System" size="22.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@img/menos.png" />
+                     </image>
+                  </ImageView>
                </graphic>
             </Button>
          </children>

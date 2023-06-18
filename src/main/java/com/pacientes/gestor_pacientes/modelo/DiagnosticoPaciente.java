@@ -12,6 +12,7 @@ public class DiagnosticoPaciente {
     private int id;
     private String diagnostico;
     private String observacion;
+    private int idPaciente;
 
     public DiagnosticoPaciente() {
     }
@@ -19,6 +20,22 @@ public class DiagnosticoPaciente {
     public DiagnosticoPaciente(String diagnostico, String observacion) {
         this.diagnostico = diagnostico;
         this.observacion = observacion;
+    }
+
+    public DiagnosticoPaciente(String diagnostico, String observacion, int idPaciente) {
+        this.diagnostico = diagnostico;
+        this.observacion = observacion;
+        this.idPaciente = idPaciente;
+    }
+    
+    
+
+    public int getIdPaciente() {
+        return idPaciente;
+    }
+
+    public void setIdPaciente(int idPaciente) {
+        this.idPaciente = idPaciente;
     }
     
     

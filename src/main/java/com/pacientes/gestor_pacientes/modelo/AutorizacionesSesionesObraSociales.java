@@ -20,9 +20,28 @@ public class AutorizacionesSesionesObraSociales {
     private LocalDate asociacion;
     private Double copago;
     private CodigoFacturacion codigoFacturacion;
+    private int idSesion;
+    private int idPaciente;
+    
 
     public AutorizacionesSesionesObraSociales() {
     }
+
+    public AutorizacionesSesionesObraSociales(Integer numeroAutorizacion, LocalDate asociacion) {
+        this.numeroAutorizacion = numeroAutorizacion;
+        this.asociacion = asociacion;
+    }
+
+    public AutorizacionesSesionesObraSociales(Integer numeroAutorizacion, LocalDate asociacion, int idSesion, int idPaciente) {
+        this.numeroAutorizacion = numeroAutorizacion;
+        this.asociacion = asociacion;
+        this.idSesion = idSesion;
+        this.idPaciente = idPaciente;
+    }
+    
+    
+    
+    
 
     public AutorizacionesSesionesObraSociales(Integer numeroAutorizacion, String observacion, LocalDate asociacion, Double copago, CodigoFacturacion codigoFacturacion) {
         this.numeroAutorizacion = numeroAutorizacion;
@@ -30,6 +49,35 @@ public class AutorizacionesSesionesObraSociales {
         this.asociacion = asociacion;
         this.copago = copago;
         this.codigoFacturacion = codigoFacturacion;
+    }
+    
+    public AutorizacionesSesionesObraSociales(int id, Integer numeroAutorizacion, String observacion, LocalDate asociacion, Double copago, CodigoFacturacion codigoFacturacion, int idSesion, int idPaciente) {
+        this.id = id;
+        this.numeroAutorizacion = numeroAutorizacion;
+        this.observacion = observacion;
+        this.asociacion = asociacion;
+        this.copago = copago;
+        this.codigoFacturacion = codigoFacturacion;
+        this.idSesion = idSesion;
+        this.idPaciente = idPaciente;
+    }
+
+    public int getIdPaciente() {
+        return idPaciente;
+    }
+
+    public void setIdPaciente(int idPaciente) {
+        this.idPaciente = idPaciente;
+    }
+    
+    
+
+    public int getIdSesion() {
+        return idSesion;
+    }
+
+    public void setIdSesion(int idSesion) {
+        this.idSesion = idSesion;
     }
     
     

@@ -53,6 +53,7 @@ public class ServiciosPadre {
     public ServiciosPadre vaciarChoise(List<ChoiceBox> choiceBox) {
         for (ChoiceBox cb : choiceBox) {
             cb.getItems().setAll("");
+            cb.valueProperty().set("");
         }
         return this;
     }

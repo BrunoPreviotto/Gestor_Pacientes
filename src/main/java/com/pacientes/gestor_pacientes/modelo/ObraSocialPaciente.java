@@ -15,6 +15,7 @@ public class ObraSocialPaciente {
     private Afiliado afiliado;
     private String nombre;
     private PlanObraSocial plan;
+    private int idPaciente;
 
     public ObraSocialPaciente() {
     }
@@ -37,6 +38,14 @@ public class ObraSocialPaciente {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public int getIdPaciente() {
+        return idPaciente;
+    }
+
+    public void setIdPaciente(int idPaciente) {
+        this.idPaciente = idPaciente;
     }
 
     

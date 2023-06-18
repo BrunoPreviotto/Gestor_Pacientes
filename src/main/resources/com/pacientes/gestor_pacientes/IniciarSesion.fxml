@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" fx:id="container" cacheShape="false" onDragDetected="#dragged" prefHeight="300.0" prefWidth="571.0" style="-fx-border-color: #C02A00;" styleClass="root" stylesheets="@styles/iniciarSesion.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pacientes.gestor_pacientes.controlador.IniciarSesionController">
+<AnchorPane id="AnchorPane" fx:id="containerIniciar" cacheShape="false" onDragDetected="#dragged" onKeyPressed="#alDarEnterBoton" prefHeight="300.0" prefWidth="571.0" style="-fx-border-color: #C02A00;" styleClass="root" stylesheets="@styles/iniciarSesion.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pacientes.gestor_pacientes.controlador.IniciarSesionController">
     
    <children>
       <VBox layoutX="159.0" layoutY="83.0" prefHeight="150.0" prefWidth="278.0" AnchorPane.topAnchor="75.0">
@@ -18,7 +18,7 @@
                   <Font name="Abyssinica SIL" size="16.0" />
                </font>
             </Label>
-            <TextField fx:id="cajaUsuario" alignment="CENTER" cache="true" promptText="Ingresar Nombre y Apellido" styleClass="cajas" stylesheets="@styles/iniciarSesion.css">
+            <TextField fx:id="cajaUsuario" alignment="CENTER" cache="true" onKeyPressed="#alDarEnterBoton" promptText="Ingresar Nombre y Apellido" styleClass="cajas" stylesheets="@styles/iniciarSesion.css">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -34,7 +34,7 @@
                   <Insets top="5.0" />
                </VBox.margin>
             </Label>
-            <PasswordField fx:id="cajaContraseña" alignment="CENTER" promptText="Ingresar Contraseña" styleClass="cajas" stylesheets="@styles/iniciarSesion.css">
+            <PasswordField fx:id="cajaContraseña" alignment="CENTER" onKeyPressed="#alDarEnterBoton" promptText="Ingresar Contraseña" styleClass="cajas" stylesheets="@styles/iniciarSesion.css">
                <font>
                   <Font name="Abyssinica SIL" size="14.0" />
                </font>

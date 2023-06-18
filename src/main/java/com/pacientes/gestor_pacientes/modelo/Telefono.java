@@ -23,6 +23,12 @@ public class Telefono {
     public String getTelefono() {
         return telefono;
     }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    
     
     
     

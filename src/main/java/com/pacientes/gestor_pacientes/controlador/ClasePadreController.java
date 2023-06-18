@@ -5,6 +5,7 @@
 package com.pacientes.gestor_pacientes.controlador;
 
 import com.pacientes.gestor_pacientes.App;
+import com.pacientes.gestor_pacientes.servicios.ServicioPaciente;
 import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 import static com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas.EXEDIDO_CARACTERES;
 import static com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas.NO_NUMEROS;
@@ -32,9 +33,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter.Change;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -48,9 +51,9 @@ public class ClasePadreController {
     
     protected String cssNuevo = getClass().getResource("/com/pacientes/gestor_pacientes/styles/cambio.css").toExternalForm();
     protected String imagenErrorRuta = getClass().getResource("/com/pacientes/gestor_pacientes/img/error.png").toExternalForm();
-    protected String imagenOkRuta = getClass().getResource("/com/pacientes/gestor_pacientes/img/ok.png").toExternalForm();
+    
     private Image imgError = new Image(imagenErrorRuta);
-    private Image imgOk = new Image(imagenOkRuta);
+    private Image imgOk = new Image(VariablesEstaticas.imgenExito);
     @FXML
     private Label etiquetaMensaje;
     
@@ -59,6 +62,14 @@ public class ClasePadreController {
     @FXML
     protected void salir(MouseEvent event) {
         Platform.exit();
+        System.exit(0);
+    }
+    
+    @FXML
+    protected void minimizarVentana(MouseEvent event){
+        Node source = (Node) event.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+        stage.setIconified(true);
     }
     
     @FXML
@@ -229,8 +240,10 @@ public class ClasePadreController {
    
    
    
-    public void mensaje(String mensaje, Object obj, String imagen){
+    public void mensajeAdvertenciaError(String mensaje, Object obj, String imagen){
         try {
+            
+            
             
             FXMLLoader Loader = new FXMLLoader(App.class.getResource( "MensajeAdvertencia.fxml"));
             Parent root = Loader.load();
@@ -240,6 +253,7 @@ public class ClasePadreController {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setScene(scene);
             stage.initStyle(StageStyle.TRANSPARENT);
+            
             controller.mensajeAdvertencia(mensaje, stage, obj, imagen);
             stage.showAndWait();
             
@@ -250,6 +264,32 @@ public class ClasePadreController {
             Logger.getLogger(MensajeAdvertenciaController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    
+     public void mensajePreguntarSiONo(){
+        try {
+            
+            FXMLLoader Loader = new FXMLLoader(App.class.getResource( "MensajePreguntarSiONo.fxml"));
+            Parent root = Loader.load();
+            MensajePreguntarSiONoController controller = Loader.getController();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.TRANSPARENT);
+            
+            stage.showAndWait();
+            
+            
+           
+        
+        } catch (IOException ex) {
+            Logger.getLogger(MensajeAdvertenciaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+     
     
     
 }
