@@ -10,6 +10,7 @@ import com.pacientes.gestor_pacientes.modelo.Email;
 import com.pacientes.gestor_pacientes.modelo.Usuario;
 import com.pacientes.gestor_pacientes.servicios.InicializarObjeto;
 import com.pacientes.gestor_pacientes.servicios.ServicioRegistrar;
+import com.pacientes.gestor_pacientes.utilidades.Exepciones;
 import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 import com.pacientes.gestor_pacientes.validacion.Validar;
 import static com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas.*;
@@ -122,20 +123,30 @@ public class RegistrarController extends ClasePadreController implements Initial
                         new Email(cajaEmail.getText().trim()), 
                         true, 
                         true);
-                
+                System.out.println(usuarioCrear.getEmail().getEmail());
+               
                 try {
-                    usuarioDao.insertar(usuarioCrear);
+                    daoImplementacion = new UsuarioDAOImplementacion();
+                    daoImplementacion.insertar(usuarioCrear);
+                    ((Node) (event.getSource())).getScene().getWindow().hide();
+                    Scene scene = new Scene(loadFXML("MenuInicio"));
+                    Stage newStage = new Stage();
+                    scene.setFill(Color.TRANSPARENT);
+                    newStage.setScene(scene);
+                    newStage.initStyle(StageStyle.TRANSPARENT);
+                    newStage.getIcons().add(imagenIocono);
+                    newStage.show();
                 } catch (Exception e) {
+                    if (e.getClass().equals(Exepciones.class)) {
+                        mensajeAdvertenciaError(e.getMessage(), this, VariablesEstaticas.imgenAdvertencia);
+                    } else {
+                        mensajeAdvertenciaError("Error al registrar", this, VariablesEstaticas.imgenError);
+                    }
+
                 }
                 
                 
-                ((Node) (event.getSource())).getScene().getWindow().hide();
-                Scene scene = new Scene(loadFXML("MenuInicio"));
-                Stage newStage = new Stage();
-                scene.setFill(Color.TRANSPARENT);
-                newStage.setScene(scene);
-                newStage.initStyle(StageStyle.TRANSPARENT);
-                newStage.show();
+               
             }else{
                 mensajeAdvertenciaError("Las contraseñas no coinciden",  this, VariablesEstaticas.imgenAdvertencia);
             }

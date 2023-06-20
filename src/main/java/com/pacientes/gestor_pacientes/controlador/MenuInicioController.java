@@ -51,6 +51,7 @@ import java.util.ResourceBundle;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -66,11 +67,14 @@ import javafx.scene.control.ChoiceBox;
 
 import javafx.scene.control.Control;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.IndexRange;
 
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
+import javafx.scene.input.InputMethodEvent;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -81,6 +85,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.converter.IntegerStringConverter;
 
 
 /**
@@ -103,13 +108,12 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-       
-
-       
-        
         usuarioDao = new UsuarioDAOImplementacion();
-        usuario = usuarioDao.obtenerNombreUsuario();
+        usuario = usuarioDao.obtenerUsuarioActual();
+        
+        
+        
+        
         try {
             VariablesEstaticas.usuario.setId(usuarioDao.obtenerId(new Usuario()));
         } catch (Exception e) {
@@ -117,11 +121,8 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
         
         this.onDraggedScene(containerMenu);
         
-        etiquetaNombreInicio.setText(usuario.getNombre() + " " + usuario.getApellido());
-        labelNombreDeUsuario1.setText(usuario.getNombre() + " " + usuario.getApellido());
-        labelNombreDeUsuario2.setText(usuario.getNombre() + " " + usuario.getApellido());
-        labelNombreDeUsuario3.setText(usuario.getNombre() + " " + usuario.getApellido());
-        labelNombreDeUsuario4.setText(usuario.getNombre() + " " + usuario.getApellido());
+        rellenarDatosUsuario();
+        
         iniciarChoiceCodigoFacturacion();
         iniciarChoiceFrecuencia();
         iniciarChoiceObraSocial();
@@ -147,6 +148,16 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
         choiseCodigoFactSesionObraSocial.setOnAction(this::cambiarCodigoFacturacion);
 
         //INICIALIZAR CAJAS ESTATICAS
+        //USUARIO
+         VariablesEstaticas.cajasOpcionesUsuario
+                = Arrays.asList(
+                        cajaNombreOpcionesUsuario,
+                        cajaApellidoOpcionesUsuario,
+                        cajaUusarioOpcionesUsuario,
+                        cajaEmailOpcionesUsuario
+                        );
+         
+        
         
         //PACIENTE
         VariablesEstaticas.cajasDatosPrincipales
@@ -351,8 +362,6 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                 = Arrays.asList(
                         botonAgregarDatosPrincipales,
                         botonAgregarPlanTratamiento,
-                        botonAgregarPlanFrecuencia,
-                        botonAgregarPlanTipoSesion,
                         botonAgregarDiagnostico,
                         botonAgregarObraSocialPaciente);
         
@@ -561,9 +570,8 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                         
 
                         servicioPaciente.
-                                comprobarSiAcordeonEstaCerrado(listaContenedoresAcordeon).
-                                desHabilitarBotonCrear(botonAgregarPlanFrecuencia).
-                                desHabilitarBotonCrear(botonAgregarPlanTipoSesion);
+                                comprobarSiAcordeonEstaCerrado(listaContenedoresAcordeon);
+                                
 
                     } else {
                         cajaBuscarPaciente.setText(null);
@@ -1057,9 +1065,11 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
         
         if (boton.getId().equals("botonAgregarPlanTipoSesion")) {
             
-            cajaNombreTipoSesionPlan.setVisible(true);
-            botonActualizarCrearTipoSesion.setVisible(true);
-            botonAgregarPlanTipoSesion.setDisable(true);
+            
+            vBoxNombreTipoSEsionPlanActualizaroVer.setVisible(true);
+            
+           
+            botonActualizarPlanTipoSesion.setDisable(true);
             botonActualizarPlanTipoSesion.setDisable(true);
             botonActualizarCrearTipoSesion.setOnMouseClicked(this::insertarTipoPlan);
             choiseTipoSesionPlan.setFocusTraversable(false);
@@ -1070,9 +1080,8 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
         } else if (boton.getId().equals("botonActualizarPlanTipoSesion")) {
             if (Objects.nonNull(choiseTipoSesionPlan.getValue())) {
                 
-                cajaNombreTipoSesionPlan.setVisible(true);
-                botonActualizarCrearTipoSesion.setVisible(true);
-                botonAgregarPlanTipoSesion.setDisable(true);
+                vBoxNombreTipoSEsionPlanActualizaroVer.setVisible(true);
+               
                 botonActualizarPlanTipoSesion.setDisable(true);
                 botonActualizarCrearTipoSesion.setOnMouseClicked(this::actualizarTipoPlan);
                 cajaNombreTipoSesionPlan.setText(choiseTipoSesionPlan.getValue());
@@ -1092,32 +1101,26 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
         daoImplementacion = new TipoSesionPlanDAOImplementacion();
         try {
             if(!cajaNombreTipoSesionPlan.getText().isBlank()){
-                Paciente pacienteTipoSesion = new Paciente();
-                PlanTratamiento plan = new PlanTratamiento();
                 TipoSesion tipo = new TipoSesion();
                 tipo.setNombre(cajaNombreTipoSesionPlan.getText());
-                plan.setTipoSEsion(tipo);
-                pacienteTipoSesion.setPlanTratamiento(plan);
-                
-                
-                
-                
-                daoImplementacion.insertar(pacienteTipoSesion);
+               
+                daoImplementacion.insertar(tipo);
                 
                 choiseTipoSesionPlan.getItems().clear();
 
                
-                iniciarChoicePlanTratamiento();
+                iniciarChoiceTipoSesion();
                 cajaNombreTipoSesionPlan.setText("");
                 
                 cajaDescripcionTipoSesionPlan.setDisable(true);
-                cajaNombreTipoSesionPlan.setVisible(false);
-                botonActualizarCrearTipoSesion.setVisible(false);
+                
+                vBoxNombreTipoSEsionPlanActualizaroVer.setVisible(false);
                 botonAgregarPlanTipoSesion.setDisable(false);
                 botonActualizarPlanTipoSesion.setDisable(false);
                 
                 choiseTipoSesionPlan.setFocusTraversable(true);
                 choiseTipoSesionPlan.setMouseTransparent(false);
+                
                 
                 mensajeAdvertenciaError("Tipo sesión creada con exito", this, VariablesEstaticas.imgenExito);
             }else{
@@ -1142,25 +1145,43 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                 tipo.setDecripcion(cajaDescripcionTipoSesionPlan.getText());
                 daoImplementacion.actualizar(tipo);
                 
-                cajaNombreTipoSesionPlan.setVisible(false);
-                botonActualizarCrearTipoSesion.setVisible(false);
+                 cajaNombreTipoSesionPlan.setText("");
+                
+                cajaDescripcionTipoSesionPlan.setDisable(true);
+                
+                vBoxNombreTipoSEsionPlanActualizaroVer.setVisible(false);
                 botonAgregarPlanTipoSesion.setDisable(false);
                 botonActualizarPlanTipoSesion.setDisable(false);
                 
-                cajaNombreTipoSesionPlan.setText("");
                 choiseTipoSesionPlan.setFocusTraversable(true);
                 choiseTipoSesionPlan.setMouseTransparent(false);
-                cajaDescripcionTipoSesionPlan.setDisable(true);
+                
+               
+                
+               
                 
                 choiseTipoSesionPlan.getItems().clear();
                 choiseTipoSesionPlan.setValue("");
-                iniciarChoicePlanTratamiento();
+               
+
+               
+                iniciarChoiceTipoSesion();
                 mensajeAdvertenciaError("Tipo sesión actualizada con exito", this, VariablesEstaticas.imgenExito);
             } else {
                 mensajeAdvertenciaError("Seleccionar tipo sesión para actualizar", this, VariablesEstaticas.imgenAdvertencia);
             }
         } catch (Exception e) {
             mensajeAdvertenciaError("Error al actualizar tipo sesion", this, VariablesEstaticas.imgenError);
+            cajaNombreTipoSesionPlan.setText("");
+
+            cajaDescripcionTipoSesionPlan.setDisable(true);
+
+            vBoxNombreTipoSEsionPlanActualizaroVer.setVisible(false);
+            botonAgregarPlanTipoSesion.setDisable(false);
+            botonActualizarPlanTipoSesion.setDisable(false);
+
+            choiseTipoSesionPlan.setFocusTraversable(true);
+            choiseTipoSesionPlan.setMouseTransparent(false);
         }
     }
     
@@ -1170,19 +1191,19 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
         
 
         if (boton.getId().equals("botonAgregarPlanFrecuencia")) {
-            cajaPlanFrecuenciaSesiones.setVisible(true);
-            botonActualizarCrearFrecuencia.setVisible(true);
+            
             botonAgregarPlanFrecuencia.setDisable(true);
             botonActualizarPlanFrecuencia.setDisable(true);
-
+            vBoxFrecuenciaSEsionPlanActualizaroVer.setVisible(true);
+            
             botonActualizarCrearFrecuencia.setOnMouseClicked(this::insertarFrecuenciaPlan);
             choiseFrecuenciaSesionPlan.setFocusTraversable(false);
             choiseFrecuenciaSesionPlan.setMouseTransparent(true);
 
         } else if (boton.getId().equals("botonActualizarPlanFrecuencia")) {
             if (Objects.nonNull(choiseFrecuenciaSesionPlan.getValue())) {
-                cajaPlanFrecuenciaSesiones.setVisible(true);
-                botonActualizarCrearFrecuencia.setVisible(true);
+                
+                vBoxFrecuenciaSEsionPlanActualizaroVer.setVisible(true);
                 botonAgregarPlanFrecuencia.setDisable(true);
                 botonActualizarPlanFrecuencia.setDisable(true);
                 botonActualizarCrearFrecuencia.setOnMouseClicked(this::actualizarFrecuenciaPlan);
@@ -1203,15 +1224,14 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
             if (!cajaPlanFrecuenciaSesiones.getText().isBlank()) {
                 frecuenciaSesion.setFrecuencia(choiseFrecuenciaSesionPlan.getValue());
                 daoImplementacion = new FrecuenciaSesionPlanDAOImplementacion();
-                frecuenciaSesion.setIdFrecuencia(daoImplementacion.obtenerId(frecuenciaSesion.getFrecuencia()));
+                frecuenciaSesion.setIdFrecuencia(daoImplementacion.obtenerId(new FrecuenciaSesion(frecuenciaSesion.getFrecuencia())));
                 frecuenciaSesion.setFrecuencia(cajaPlanFrecuenciaSesiones.getText());
                 daoImplementacion.actualizar(frecuenciaSesion);
                 
                 choiseFrecuenciaSesionPlan.getItems().clear();
 
                 iniciarChoiceFrecuencia();
-                cajaPlanFrecuenciaSesiones.setVisible(false);
-                botonActualizarCrearFrecuencia.setVisible(false);
+                vBoxFrecuenciaSEsionPlanActualizaroVer.setVisible(false);
                 botonAgregarPlanFrecuencia.setDisable(false);
                 botonActualizarPlanFrecuencia.setDisable(false);
                 cajaPlanFrecuenciaSesiones.setText("");
@@ -1224,7 +1244,14 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
             mensajeAdvertenciaError("Error al actualizar frecuencia", this, VariablesEstaticas.imgenError);
+            vBoxFrecuenciaSEsionPlanActualizaroVer.setVisible(false);
+                botonAgregarPlanFrecuencia.setDisable(false);
+                botonActualizarPlanFrecuencia.setDisable(false);
+                cajaPlanFrecuenciaSesiones.setText("");
+                choiseFrecuenciaSesionPlan.setFocusTraversable(true);
+                choiseFrecuenciaSesionPlan.setMouseTransparent(false);
         }
 
     }
@@ -1235,17 +1262,14 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
         
         try {
                 if(!cajaPlanFrecuenciaSesiones.getText().isBlank() ){
-                    Paciente pacienteTipoSesion = new Paciente();
-                    PlanTratamiento plan = new PlanTratamiento();
-                    plan.setFrecuenciaSesion(new FrecuenciaSesion(cajaPlanFrecuenciaSesiones.getText()));
-                    pacienteTipoSesion.setPlanTratamiento(plan);
-                    daoImplementacion.insertar(pacienteTipoSesion);
+                    
+                    FrecuenciaSesion frecuencia = new FrecuenciaSesion(cajaPlanFrecuenciaSesiones.getText());
+                    daoImplementacion.insertar(frecuencia);
                     
                     
                     choiseFrecuenciaSesionPlan.getItems().clear();
                     iniciarChoiceFrecuencia();
-                    cajaPlanFrecuenciaSesiones.setVisible(false);
-                    botonActualizarCrearFrecuencia.setVisible(false);
+                    vBoxFrecuenciaSEsionPlanActualizaroVer.setVisible(false);
                     botonAgregarPlanFrecuencia.setDisable(false);
                     botonActualizarPlanFrecuencia.setDisable(false);
                     cajaPlanFrecuenciaSesiones.setText("");
@@ -1256,7 +1280,14 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                     mensajeAdvertenciaError("Ingresar frecunecia para agregar", this, VariablesEstaticas.imgenAdvertencia);
                 }
             } catch (Exception e) {
+                e.printStackTrace();
                 mensajeAdvertenciaError("Error al crear frecuencia", this, VariablesEstaticas.imgenError);
+                 vBoxFrecuenciaSEsionPlanActualizaroVer.setVisible(false);
+                    botonAgregarPlanFrecuencia.setDisable(false);
+                    botonActualizarPlanFrecuencia.setDisable(false);
+                    cajaPlanFrecuenciaSesiones.setText("");
+                    choiseFrecuenciaSesionPlan.setFocusTraversable(true);
+                    choiseFrecuenciaSesionPlan.setMouseTransparent(false);
             }
         
 
@@ -1308,7 +1339,12 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                 }
 
             } catch (Exception e) {
-                mensajeAdvertenciaError( "Error al actualizar Paciente", this, VariablesEstaticas.imgenError);
+                if(e.getClass().equals(Exepciones.class)){
+                    mensajeAdvertenciaError( e.getMessage(), this, VariablesEstaticas.imgenError);
+                }else{
+                    mensajeAdvertenciaError( "Error al actualizar Paciente", this, VariablesEstaticas.imgenError);
+                }
+                
             }
         } else {
             botonActualizarDatosPrincipales.setId("1");
@@ -1925,7 +1961,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                     }
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                
                 mensajeAdvertenciaError("Error al eliminar sesión", this, VariablesEstaticas.imgenError);
             }
         
@@ -2380,6 +2416,8 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                 daoImplementacion = new CodigoFacturacionDAOImplementacion();
                 daoImplementacion.insertar(codigoFacturacion);
                 choiseCodigoFactSesionObraSocial.getItems().clear();
+                
+                
                 iniciarChoiceCodigoFacturacion();
                 mensajeAdvertenciaError( "Código agregado con éxito", this, VariablesEstaticas.imgenExito);
             }else{
@@ -2389,7 +2427,8 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
         } catch (Exception e) {
             mensajeAdvertenciaError( "Error al agregar código", this, VariablesEstaticas.imgenError);
         }
-
+        
+      
         botonActualizarCodigoFacturacion.setDisable(false);
         botonAgregarCodigoFacturacion.setDisable(false);
         hboxCajasCodigosFacturacion.setVisible(false);
@@ -2571,23 +2610,42 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
     
 
     @FXML
-    protected void alDarEnterBoton(KeyEvent event){
-    Node node = (Node)event.getSource();
+    protected void alDarEnterBoton(KeyEvent event) {
+
+        Node node = (Node) event.getSource();
+
         if (event.getCode() == KeyCode.ENTER) {
             switch (node.getId()) {
                 case "cajaBuscarPaciente":
+                    TextField tf = (TextField) node;
+
                     buscarPaciente();
                     break;
                 case "cajaBuscarObraSocial":
+
                     buscarObraSocialDesdeCaja();
+
                     break;
                 case "cajaUsuario":
                     break;
             }
-            
-            
+
         }
+
     }
+    
+    
+    @FXML
+    protected void vaciarCajaBuscar(KeyEvent event){
+        TextField tf = (TextField) event.getSource();
+         if(tf.getText().length()-1 >= 0){
+          if(!Character.isDigit(tf.getText().charAt(tf.getText().length()-1))){
+              tf.deletePreviousChar();
+          }
+        }
+        
+    }
+    
    
     @FXML
     protected void vaciarTodasLasCajas(MouseEvent event) {
@@ -2603,13 +2661,75 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                 habilitarBotones(VariablesEstaticas.listaBotonesCrear).
                 deshabilitarBotones(VariablesEstaticas.listaBotonesEliminar).
                 deshabilitarBotones(VariablesEstaticas.listaBotonesActualizar);
+
+        vBoxFrecuenciaSEsionPlanActualizaroVer.setVisible(false);
+        botonAgregarPlanFrecuencia.setDisable(false);
+        botonActualizarPlanFrecuencia.setDisable(false);
+        cajaPlanFrecuenciaSesiones.setText("");
+        choiseFrecuenciaSesionPlan.setFocusTraversable(true);
+        choiseFrecuenciaSesionPlan.setMouseTransparent(false);
+
+        cajaNombreTipoSesionPlan.setText("");
+
+        cajaDescripcionTipoSesionPlan.setDisable(true);
+
+        vBoxNombreTipoSEsionPlanActualizaroVer.setVisible(false);
+        botonAgregarPlanTipoSesion.setDisable(false);
+        botonActualizarPlanTipoSesion.setDisable(false);
+
+        choiseTipoSesionPlan.setFocusTraversable(true);
+        choiseTipoSesionPlan.setMouseTransparent(false);
         
-        
+          botonAgregarCodigoFacturacion.setDisable(false);
+        botonActualizarCodigoFacturacion.setDisable(false);
+        hboxCajasCodigosFacturacion.setVisible(false);
+        etiquetaActualizarCodigoFacturacion.setVisible(false);
+        hboxEtiquetasCodigosFacturacion.setVisible(false);
+        cajaCodigoFacturacion.setText("");
     }
 
         
-        
-       
+      @FXML
+    public void actualizarUsuarioOpciones(MouseEvent event) {
+        try {
+            Usuario usuarioActualizar;
+            if (botonActualizarUsuarioOpciones.getId().equals("1")) {
+
+                if (!cajaNombreOpcionesUsuario.getText().isBlank()
+                        || !cajaApellidoOpcionesUsuario.getText().isBlank()
+                        || !cajaUusarioOpcionesUsuario.getText().isBlank()) {
+
+                    if (cajaEmailOpcionesUsuario.getText().isBlank()) {
+                        cajaEmailOpcionesUsuario.setText("sin Email");
+                    }
+
+                    usuarioActualizar = new Usuario(cajaNombreOpcionesUsuario.getText(), cajaApellidoOpcionesUsuario.getText(), cajaUusarioOpcionesUsuario.getText(), new Email(cajaEmailOpcionesUsuario.getText()));
+
+                    if (!usuarioDao.existeNombreUsuario(usuarioActualizar)) {
+                            daoImplementacion = new UsuarioDAOImplementacion();
+                            daoImplementacion.actualizar(usuarioActualizar);
+                            mensajeAdvertenciaError("Usuario actualizado con éxito", this, VariablesEstaticas.imgenExito);
+                            servicioPaciente.deshabilitarCajas(VariablesEstaticas.cajasOpcionesUsuario);
+                    } else {
+                        mensajeAdvertenciaError("Ya existe nombre usuario", this, VariablesEstaticas.imgenAdvertencia);
+                    }
+
+                } else {
+                    mensajeAdvertenciaError("Hay cajas vacias importantes", this, VariablesEstaticas.imgenAdvertencia);
+                }
+                botonActualizarUsuarioOpciones.setId("botonActualizarUsuarioOpciones");
+            } else {
+                servicioPaciente.
+                        habilitarCajas(VariablesEstaticas.cajasOpcionesUsuario).
+                        animarCajasAlDarABoton(VariablesEstaticas.cajasOpcionesUsuario);
+
+                botonActualizarUsuarioOpciones.setId("1");
+            }
+        } catch (Exception e) {
+            mensajeAdvertenciaError("Error al actualizar Usuario", this, VariablesEstaticas.imgenError);
+        }
+    }
 
     
+   
 }

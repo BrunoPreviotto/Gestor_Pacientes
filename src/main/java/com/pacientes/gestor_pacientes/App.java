@@ -24,6 +24,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import java.util.List;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 
 /**
@@ -65,6 +66,10 @@ public class App extends Application {
         stage.setScene(scenePrincipal);
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.isResizable();
+        Image imagenIocono = new Image(getClass().getResourceAsStream("/com/pacientes/gestor_pacientes/img/icono.png"));
+        
+        stage.getIcons().add(imagenIocono);
+        
         stage.show();
         
         
