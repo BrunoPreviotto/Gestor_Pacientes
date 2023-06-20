@@ -11,5 +11,5 @@ import java.util.List;
  */
 public interface IUsuarioDAO extends CRUD<Usuario>{
     //public int existeUsuarioReciente();
-    public Usuario obtenerNombreUsuario();
+    //public Usuario obtenerNombreUsuario();
 }

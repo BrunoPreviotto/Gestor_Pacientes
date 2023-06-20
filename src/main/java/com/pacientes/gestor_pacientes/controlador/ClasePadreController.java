@@ -5,6 +5,7 @@
 package com.pacientes.gestor_pacientes.controlador;
 
 import com.pacientes.gestor_pacientes.App;
+import com.pacientes.gestor_pacientes.DAO.CRUD;
 import com.pacientes.gestor_pacientes.servicios.ServicioPaciente;
 import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 import static com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas.EXEDIDO_CARACTERES;
@@ -48,7 +49,7 @@ import javafx.stage.StageStyle;
  * @author previotto
  */
 public class ClasePadreController {
-    
+    protected Image imagenIocono = new Image(getClass().getResourceAsStream("/com/pacientes/gestor_pacientes/img/icono.png"));
     protected String cssNuevo = getClass().getResource("/com/pacientes/gestor_pacientes/styles/cambio.css").toExternalForm();
     protected String imagenErrorRuta = getClass().getResource("/com/pacientes/gestor_pacientes/img/error.png").toExternalForm();
     
@@ -57,7 +58,7 @@ public class ClasePadreController {
     @FXML
     private Label etiquetaMensaje;
     
-    
+    protected CRUD daoImplementacion;
     
     @FXML
     protected void salir(MouseEvent event) {
@@ -125,10 +126,14 @@ public class ClasePadreController {
     protected void soloNumero(KeyEvent event) {
         TextField tf = (TextField) event.getSource();
         String character = event.getCharacter();
-        if (!character.matches("[0-9]")) {
+        
+        
+        if (!character.matches("[0-9]") && !event.getCode().isArrowKey()) {
             tf.deletePreviousChar();
         }
     }
+    
+    
     
     @FXML
     protected void soloNumeroFlotantes(KeyEvent event) {
