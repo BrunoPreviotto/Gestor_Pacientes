@@ -4,6 +4,7 @@
  */
 package com.pacientes.gestor_pacientes.implementacionDAO;
 import com.pacientes.gestor_pacientes.DAO.IUsuarioDAO;
+import com.pacientes.gestor_pacientes.modelo.Email;
 import com.pacientes.gestor_pacientes.modelo.Usuario;
 import com.pacientes.gestor_pacientes.servicios.Encriptar;
 import java.util.List;
@@ -31,29 +32,36 @@ public class UsuarioDAOImplementacion extends PadreDAOImplementacion implements 
      * @return retorna una lista con dos parametros 1 es el usuario si esta registrado y 2 es la contraseña si esta registrado
      */
     @Override
-    public Usuario obtener(Usuario usuario) {
+    public Usuario obtener(Usuario usuario) throws Exception{
          Usuario usuarioObtenido = new Usuario();
-         try{
+         
             
             usuario.setContraseña(Encriptar.convertirSHA256(usuario.getContraseña()));
-            String sql = "SELECT usuario , contraseña FROM usuarios WHERE usuario=? AND contraseña=?;";
+            String sql = "SELECT n.nombre, n.apellido, u.usuario, u.contraseña, e.email  \n" +
+                        "FROM usuarios u\n" +
+                        "JOIN nombres n ON u.id_nombre = n.id_nombre \n" +
+                        "JOIN  emails e ON u.id_email = e.id_email \n" +
+                        "WHERE u.usuario=? AND u.contraseña=?;";
             PreparedStatement pst = conexion.conexion().prepareStatement(sql);
             pst.setString(1,usuario.getUsuario());
             pst.setString(2, usuario.getContraseña());
             ResultSet rs = pst.executeQuery();
             if(rs.next()){
-                usuarioObtenido.setUsuario(rs.getString(1));
+                usuarioObtenido.setApellido(rs.getString("apellido"));
+                usuarioObtenido.setNombre(rs.getString("nombre"));
+                usuarioObtenido.setUsuario(rs.getString("usuario"));
                 usuarioObtenido.setContraseña(Encriptar.convertirSHA256(rs.getString(2)));
+                usuarioObtenido.setEmail(new Email(rs.getString("email")));
+            }else{
+                throw sqlException;
             }
             rs.close();
             pst.close();
            
             
             return usuarioObtenido;
-        }catch(SQLException e){
-            e.printStackTrace();
-        }
-        return null;
+       
+       
     }
     
     
@@ -68,13 +76,62 @@ public class UsuarioDAOImplementacion extends PadreDAOImplementacion implements 
        
 
     @Override
-    public void actualizar(Usuario cliente) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void actualizar(Usuario usuario) throws Exception{
+        String sqlActualizar = "UPDATE usuarios u set u.usuario = ?, id_nombre = ?, id_email = ? WHERE u.id_usuario = ?;";
+        String sqlIdNombre = "SELECT n.id_nombre  FROM nombres n WHERE n.nombre = ? AND n.apellido = ?;";
+        String sqlInsertarNombre = "INSERT INTO nombres (id_nombre, nombre, apellido) VALUES (?, ?, ?);";
+        
+        PreparedStatement pst = conexion.conexion().prepareStatement(sqlIdNombre);
+        pst.setString(1, usuario.getNombre());
+        pst.setString(2, usuario.getApellido());
+        ResultSet rs = pst.executeQuery();
+        
+        int IdNombre;
+        if(rs.next()){
+            IdNombre = rs.getInt("id_nombre");
+        }else{
+            IdNombre = 0;
+        }
+        
+        if(IdNombre == 0){
+            pst = conexion.conexion().prepareStatement(sqlInsertarNombre);
+            pst.setInt(1, 0);
+            pst.setString(2, usuario.getNombre());
+            pst.setString(3, usuario.getApellido());
+        }
+        
+        pst = conexion.conexion().prepareStatement(sqlIdNombre);
+        pst.setString(1, usuario.getNombre());
+        pst.setString(2, usuario.getApellido());
+        rs = pst.executeQuery();
+        if(rs.next()){
+            IdNombre = rs.getInt("id_nombre");
+        }else{
+            IdNombre = 0;
+        }
+        
+        daoImplementacion = new EmailDAOImplementacion();
+        int idEmail = daoImplementacion.obtenerId(usuario.getEmail());
+        
+        if(idEmail == 0){
+            daoImplementacion.insertar(usuario.getEmail());
+        }
+        
+        idEmail = daoImplementacion.obtenerId(usuario.getEmail());
+        
+        pst = conexion.conexion().prepareStatement(sqlActualizar);
+        pst.setString(1, usuario.getUsuario());
+        pst.setInt(2, IdNombre);
+        pst.setInt(3, idEmail);
+        pst.setInt(4, usuario.getId());
+        pst.executeUpdate();
     }
 
     @Override
     public void eliminar(Usuario cliente) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    
+        
     }
     
     
@@ -99,6 +156,9 @@ public class UsuarioDAOImplementacion extends PadreDAOImplementacion implements 
             int idEmail =  daoImplementacion.obtenerId(usuario.getEmail());
             
            
+            if(existeNombreUsuario(usuario)){
+                throw new Exepciones(444);
+            }
             
             if(idNombre == 0){
                 pst = conexion.conexion().prepareStatement(sqlNombre);
@@ -114,6 +174,9 @@ public class UsuarioDAOImplementacion extends PadreDAOImplementacion implements 
                 pst.setString(2, usuario.getEmail().getEmail());
                 pst.executeUpdate();
             }
+            
+            
+                   
             
            idNombre = obtenerIdNombre(usuario.getNombre(), usuario.getApellido());
            daoImplementacion = new EmailDAOImplementacion();
@@ -164,18 +227,34 @@ public class UsuarioDAOImplementacion extends PadreDAOImplementacion implements 
         }
         return 0;
     }
+    
+    public boolean existeNombreUsuario(Usuario usuario) throws Exception{
+        String sql = "SELECT u.usuario  FROM usuarios u  WHERE u.usuario = ?;";
+         PreparedStatement pst = conexion.conexion().prepareStatement(sql);
+         pst.setString(1, usuario.getUsuario());
+         ResultSet rs = pst.executeQuery();
+         return rs.next();
+    }
 
-    @Override
-    public Usuario obtenerNombreUsuario() {
-        usuarioGlobal = new Usuario();
+    
+    public Usuario obtenerUsuarioActual() {
+        Usuario usuarioObtenido = new Usuario();
         try {
-            String sqlSNombre = "SELECT n.nombre, n.apellido FROM nombres n JOIN usuarios u ON n.id_nombre = u.id_nombre WHERE es_ultima_sesion_iniciada=true;";
+            String sqlSNombre = "SELECT n.nombre, n.apellido, u.usuario, u.contraseña, e.email  \n" +
+                                "FROM usuarios u\n" +
+                                "JOIN nombres n ON u.id_nombre = n.id_nombre \n" +
+                                "JOIN  emails e ON u.id_email = e.id_email \n" +
+                                "WHERE es_ultima_sesion_iniciada=true;";
             PreparedStatement pSNombre = conexion.conexion().prepareStatement(sqlSNombre);
-            ResultSet rsSNombre = pSNombre.executeQuery();
-            if(rsSNombre.next()){
-                usuarioGlobal.setNombre(rsSNombre.getString(1));
-                usuarioGlobal.setApellido(rsSNombre.getString(2));
-                return usuarioGlobal;
+            ResultSet rs = pSNombre.executeQuery();
+            if(rs.next()){
+               
+                
+                usuarioObtenido.setApellido(rs.getString("apellido"));
+                usuarioObtenido.setNombre(rs.getString("nombre"));
+                usuarioObtenido.setUsuario(rs.getString("usuario"));
+                usuarioObtenido.setEmail(new Email(rs.getString("email")));
+                return usuarioObtenido;
             }
             
         } catch (SQLException e) {

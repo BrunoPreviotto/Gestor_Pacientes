@@ -25,6 +25,7 @@ import com.pacientes.gestor_pacientes.servicios.ServicioObraSocial;
 import com.pacientes.gestor_pacientes.servicios.ServicioPaciente;
 import com.pacientes.gestor_pacientes.utilidades.TablaObrasSociales;
 import com.pacientes.gestor_pacientes.utilidades.TablaSesiones;
+import static com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas.usuario;
 import com.pacientes.gestor_pacientes.validacion.Validar;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -60,6 +61,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -69,6 +71,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.HTMLEditor;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -93,7 +96,7 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     protected UsuarioDAOImplementacion usuarioDao;
     protected AgendaDAOImplementacion agendaDao = new AgendaDAOImplementacion();
     
-    protected CRUD daoImplementacion;
+    
     
    
    
@@ -510,6 +513,22 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     @FXML
     protected VBox vboxPlanObraSocialPacienteActualizarVer;
     
+    /***
+     * 
+     * 
+     * 
+     * GENOGRAMA
+     * 
+     * 
+     * 
+     * 
+     * 
+     */
+    
+    @FXML
+    protected AnchorPane apGenograma;
+    
+    
     
     /*
         <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -635,6 +654,18 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     
     */
     
+    //CAJAS
+    @FXML
+    protected TextField cajaNombreOpcionesUsuario;
+    @FXML
+    protected TextField cajaApellidoOpcionesUsuario;
+    @FXML
+    protected TextField cajaUusarioOpcionesUsuario;
+    @FXML
+    protected TextField cajaContraseñaOpcionesUsuario;
+    @FXML
+    protected TextField cajaEmailOpcionesUsuario;
+    
     //ANCHOR PANE
     @FXML
     protected AnchorPane pestanaOpciones;
@@ -644,6 +675,10 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     protected Button botonCerrarSesion;
     @FXML
     protected VBox vbApOpciones;
+    
+    //BOTON
+    @FXML
+    protected Button botonActualizarUsuarioOpciones;
     
     /*
         <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -1150,7 +1185,7 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     
     
     @FXML
-     private void onKeyTyped(KeyEvent event){
+     protected void onKeyTyped(KeyEvent event){
          Control control = (Control) event.getSource();
          switch (control.getAccessibleRoleDescription()) {
              case "num":
@@ -1190,6 +1225,8 @@ public class ClasePadreMenuInicio extends ClasePadreController{
             stage.initStyle(StageStyle.TRANSPARENT);
            
             
+        
+            stage.getIcons().add(imagenIocono);
             
             
             stage.showAndWait();
@@ -1403,7 +1440,18 @@ public class ClasePadreMenuInicio extends ClasePadreController{
         
     }
    
-    
+    public void rellenarDatosUsuario(){
+        etiquetaNombreInicio.setText(usuario.getNombre() + " " + usuario.getApellido());
+        labelNombreDeUsuario1.setText(usuario.getNombre() + " " + usuario.getApellido());
+        labelNombreDeUsuario2.setText(usuario.getNombre() + " " + usuario.getApellido());
+        labelNombreDeUsuario3.setText(usuario.getNombre() + " " + usuario.getApellido());
+        labelNombreDeUsuario4.setText(usuario.getNombre() + " " + usuario.getApellido());
+        
+        cajaNombreOpcionesUsuario.setText(usuario.getNombre());
+        cajaApellidoOpcionesUsuario.setText(usuario.getApellido());
+        cajaUusarioOpcionesUsuario.setText(usuario.getUsuario());
+        cajaEmailOpcionesUsuario.setText(usuario.getEmail().getEmail());
+    }
     
     
 }

@@ -74,52 +74,57 @@ public class DatosPrincipalesDAOImplementacion extends PadreDAOImplementacion im
 
         String sqlHonorario = "INSERT INTO honorarios (id_honorario, honorario) VALUES (?, ?);";
 
-        int idNombre = obtenerIdNombre(objetoParametro.getNombre(), objetoParametro.getApellido());
-        daoImplementacion =  new TelefonoDAOImplementacion();
-        int idTelefono = daoImplementacion.obtenerId(objetoParametro.getTelefono());
-        daoImplementacion = new HonorarioDAOImplementacion();
-        int idHonorario = daoImplementacion.obtenerId(objetoParametro.getHonorarios());
+        if (ExisteMasDeUnPacientePOrUsuario(objetoParametro.getDni()) > 0) {
+            Exepciones exepcionPacienteExiste = new Exepciones(111);
+            throw exepcionPacienteExiste;
+        } else {
+            int idNombre = obtenerIdNombre(objetoParametro.getNombre(), objetoParametro.getApellido());
+            daoImplementacion = new TelefonoDAOImplementacion();
+            int idTelefono = daoImplementacion.obtenerId(objetoParametro.getTelefono());
+            daoImplementacion = new HonorarioDAOImplementacion();
+            int idHonorario = daoImplementacion.obtenerId(objetoParametro.getHonorarios());
 
-        PreparedStatement pst;
+            PreparedStatement pst;
 
-        //si no existe honorario lo crea
-        if (idHonorario == 0) {
-            pst = conexion.conexion().prepareStatement(sqlHonorario);
-            pst.setInt(1, 0);
-            pst.setDouble(2, objetoParametro.getHonorarios().getHonorario());
+            //si no existe honorario lo crea
+            if (idHonorario == 0) {
+                pst = conexion.conexion().prepareStatement(sqlHonorario);
+                pst.setInt(1, 0);
+                pst.setDouble(2, objetoParametro.getHonorarios().getHonorario());
+                pst.executeUpdate();
+            }
+
+            //si no existe nombre lo crea
+            if (idNombre == 0) {
+                pst = conexion.conexion().prepareStatement(sqlNombre);
+                pst.setInt(1, 0);
+                pst.setString(2, objetoParametro.getNombre());
+                pst.setString(3, objetoParametro.getApellido());
+                pst.executeUpdate();
+            }
+
+            if (idTelefono == 0) {
+                pst = conexion.conexion().prepareStatement(sqlTelefono);
+                pst.setInt(1, 0);
+                pst.setString(2, objetoParametro.getTelefono().getTelefono());
+                pst.executeUpdate();
+            }
+
+            //crea el paciente
+            pst = conexion.conexion().prepareStatement(sqlPaciente);
+
+            pst.setInt(1, objetoParametro.getEdad());
+            pst.setInt(2, objetoParametro.getDni());
+            pst.setInt(3, obtenerIdNombre(objetoParametro.getNombre(), objetoParametro.getApellido()));
+            daoImplementacion = new TelefonoDAOImplementacion();
+            pst.setInt(4, daoImplementacion.obtenerId(objetoParametro.getTelefono()));
+            daoImplementacion = new HonorarioDAOImplementacion();
+            pst.setInt(5, daoImplementacion.obtenerId(objetoParametro.getHonorarios()));
+            pst.setInt(6, objetoParametro.getId());
+
             pst.executeUpdate();
+            pst.close();
         }
-
-        //si no existe nombre lo crea
-        if (idNombre == 0) {
-            pst = conexion.conexion().prepareStatement(sqlNombre);
-            pst.setInt(1, 0);
-            pst.setString(2, objetoParametro.getNombre());
-            pst.setString(3, objetoParametro.getApellido());
-            pst.executeUpdate();
-        }
-
-        if (idTelefono == 0) {
-            pst = conexion.conexion().prepareStatement(sqlTelefono);
-            pst.setInt(1, 0);
-            pst.setString(2, objetoParametro.getTelefono().getTelefono());
-            pst.executeUpdate();
-        }
-
-        //crea el paciente
-        pst = conexion.conexion().prepareStatement(sqlPaciente);
-
-        pst.setInt(1, objetoParametro.getEdad());
-        pst.setInt(2, objetoParametro.getDni());
-        pst.setInt(3, obtenerIdNombre(objetoParametro.getNombre(), objetoParametro.getApellido()));
-        daoImplementacion =  new TelefonoDAOImplementacion();
-        pst.setInt(4, daoImplementacion.obtenerId(objetoParametro.getTelefono()));
-        daoImplementacion = new HonorarioDAOImplementacion();
-        pst.setInt(5, daoImplementacion.obtenerId(objetoParametro.getHonorarios()));
-        pst.setInt(6, objetoParametro.getId());
-
-        pst.executeUpdate();
-        pst.close();
 
     }
 

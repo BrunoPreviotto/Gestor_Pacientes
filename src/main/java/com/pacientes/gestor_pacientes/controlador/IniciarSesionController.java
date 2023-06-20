@@ -104,6 +104,7 @@ public class IniciarSesionController extends ClasePadreController implements Ini
                 newStage.setScene(scene);
 
                 newStage.initStyle(StageStyle.TRANSPARENT);
+                newStage.getIcons().add(imagenIocono);
                 newStage.show();
                 
             
@@ -140,6 +141,7 @@ public class IniciarSesionController extends ClasePadreController implements Ini
         Stage newStage = new Stage();
         newStage.setScene(scene);
         newStage.initStyle(StageStyle.TRANSPARENT);
+        newStage.getIcons().add(imagenIocono);
         newStage.show();
     }
 

@@ -79,6 +79,7 @@ public class VariablesEstaticas {
     
     //LISTAS CONTROLES
     //LISTA CAJAS
+    public static List<TextField> cajasOpcionesUsuario;
     public static List<TextField> cajasDatosPrincipales;
     public static List<TextField> cajasSesiones;
     public static List<TextField> cajasPlanes;

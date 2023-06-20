@@ -32,6 +32,9 @@ public class Exepciones extends Exception {
             case 333:
                 mensaje="Nombre de obra social ya existe";
                 break;
+            case 444:
+                mensaje="Usuario ya existe";
+                break;
         }
          
         return mensaje;

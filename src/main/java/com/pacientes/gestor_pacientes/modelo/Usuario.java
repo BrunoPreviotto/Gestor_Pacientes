@@ -23,6 +23,15 @@ public class Usuario {
         
     }
 
+    public Usuario(String nombre, String apellido, String usuario, Email email) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.usuario = usuario;
+        this.email = email;
+    }
+    
+    
+
     public Usuario(String nombre, String apellido, String usuario, String contraseña, Email email, boolean es_usuario, boolean es_ultima_sesion_iniciada) {
         this.nombre = nombre;
         this.apellido = apellido;
