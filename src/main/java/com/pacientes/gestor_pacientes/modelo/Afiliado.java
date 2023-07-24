@@ -11,6 +11,7 @@ package com.pacientes.gestor_pacientes.modelo;
 public class Afiliado {
     private Integer id;
     private Integer numero;
+    private int idPaciente;
     
      public Afiliado() {
         
@@ -18,6 +19,11 @@ public class Afiliado {
 
     public Afiliado(Integer numero) {
         this.numero = numero;
+    }
+
+    public Afiliado(Integer numero, int idPaciente) {
+        this.numero = numero;
+        this.idPaciente = idPaciente;
     }
 
     
@@ -37,6 +43,15 @@ public class Afiliado {
     public void setNumero(Integer numero) {
         this.numero = numero;
     }
+
+    public int getIdPaciente() {
+        return idPaciente;
+    }
+
+    public void setIdPaciente(int idPaciente) {
+        this.idPaciente = idPaciente;
+    }
+    
     
     
 }

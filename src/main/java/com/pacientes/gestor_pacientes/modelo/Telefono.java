@@ -12,10 +12,23 @@ import java.math.BigInteger;
  */
 public class Telefono {
     private String telefono;
-    
+    private int idObjeto;
+
+    public Telefono(String telefono, int idObjeto) {
+        this.telefono = telefono;
+        this.idObjeto = idObjeto;
+    }
     
     
 
+    public int getIdObjeto() {
+        return idObjeto;
+    }
+
+    public void setIdObjeto(int idObjeto) {
+        this.idObjeto = idObjeto;
+    }
+    
     public Telefono(String telefono) {
         this.telefono = telefono;
     }

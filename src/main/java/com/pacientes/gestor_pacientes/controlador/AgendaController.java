@@ -12,11 +12,14 @@ import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAmount;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import javafx.beans.NamedArg;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -65,6 +68,9 @@ public class AgendaController extends MenuInicioController implements Initializa
     private static int diaSeleccionado;
     private static int anoSeleccionado;
     
+    private HBox hboxPrecionadoParaEditarOverAccion;
+    private HBox hboxPrecionadoRecordatorio;
+    
     private GridPane agenda;
     private AnchorPane anchorPrincipalAgenda;
     private VBox anchorAgendaAgenda;
@@ -95,6 +101,16 @@ public class AgendaController extends MenuInicioController implements Initializa
        
     }   
 
+    public HBox getHboxPrecionadoRecordatorio() {
+        return hboxPrecionadoRecordatorio;
+    }
+
+    public void setHboxPrecionadoRecordatorio(HBox hboxPrecionadoRecordatorio) {
+        this.hboxPrecionadoRecordatorio = hboxPrecionadoRecordatorio;
+    }
+    
+    
+
     public int getMesSeleccionado() {
         return mesSeleccionado;
     }
@@ -117,6 +133,14 @@ public class AgendaController extends MenuInicioController implements Initializa
 
     public void setAnoSeleccionado(int anoSeleccionado) {
         this.anoSeleccionado = anoSeleccionado;
+    }
+
+    public HBox getHboxPrecionadoParaEditarOverAccion() {
+        return hboxPrecionadoParaEditarOverAccion;
+    }
+
+    public void setHboxPrecionadoParaEditarOverAccion(HBox hboxPrecionadoParaEditarOverAccion) {
+        this.hboxPrecionadoParaEditarOverAccion = hboxPrecionadoParaEditarOverAccion;
     }
 
    
@@ -356,7 +380,7 @@ public class AgendaController extends MenuInicioController implements Initializa
         
        
         agregarImagen = new ImageView(VariablesEstaticas.imagenVer);
-        recordarImagen = new ImageView(VariablesEstaticas.imagenRecordar);
+       
         
         Label dayLabel = new Label();
         Pane pane = new Pane();
@@ -373,7 +397,7 @@ public class AgendaController extends MenuInicioController implements Initializa
         hboxLabel.setPadding(new Insets(0, 0, 0, 5));
         
         //IMAGEN DE RECORDAR ACCION
-        
+         recordarImagen = new ImageView(VariablesEstaticas.imagenRecordar);
         recordarImagen.setFitWidth(20);
         recordarImagen.setFitHeight(20);
         recordarImagen.setVisible(false);
@@ -395,6 +419,7 @@ public class AgendaController extends MenuInicioController implements Initializa
         
         
         HBox hbRecordatorio = new HBox(recordarImagen);
+        hbRecordatorio.setId("recordatorio");
         hbRecordatorio.setAlignment(Pos.BASELINE_RIGHT);
         hbRecordatorio.setPadding(new Insets(0, 5, 0, 0));
         
@@ -425,6 +450,7 @@ public class AgendaController extends MenuInicioController implements Initializa
         HBox hboxImg = new HBox(agregarImagen);
         hboxImg.setPrefSize(200, 200);
         hboxImg.setAlignment(Pos.BOTTOM_RIGHT);
+        hboxImg.setId("" + fechaActual.getYear() + "-" + fechaActual.getMonth().getValue() + "-" + dia);
         hboxImg.setOnMouseClicked(this::administraAccion);
         hboxImg.setPadding(new Insets(0, 0, 0, 0));
         
@@ -549,43 +575,10 @@ public class AgendaController extends MenuInicioController implements Initializa
 
     @FXML
     private void crearAccionAgenda(MouseEvent event) {
-        LocalDate fechaCrear =  LocalDate.of(anoSeleccionado, mesSeleccionado, diaSeleccionado);
-        listaCajasAreaAccion = Arrays.asList(cajaAreaVerAccionAgenda);
-        if(cajaAreaVerAccionAgenda.getText().isBlank()){
-            mensajeAdvertenciaError ("Ingresar datos para crear acción", this, "/com/pacientes/gestor_pacientes/img/error.png");
-            servicioAgenda.
-                    pintarCajaAreaVaciaImportante(listaCajasAreaAccion);
-            
-        }else{
-            AccionesAgenda accion = 
-                    new AccionesAgenda(
-                            cajaAreaVerAccionAgenda.getText(), 
-                            fechaCrear, 
-                            checkRecordar.isSelected());
-           if(Objects.nonNull(accion.getAccion())){
-                try {
-                 agendaDao.insertar(accion);
-                 mensajeAdvertenciaError("Éxito al crear accion", this, "/com/pacientes/gestor_pacientes/img/error.png");
-                 
-                 botonActualizarAccionAgenda.setDisable(false);
-                 botonEliminarAccionAgenda.setDisable(false);
-                 botonCrearAccionAgenda.setDisable(true);
-                } catch (Exception e) {
-                    mensajeAdvertenciaError ("Error al crear accion", this, "/com/pacientes/gestor_pacientes/img/error.png");
-                }
-            
-           }else{
-               mensajeAdvertenciaError ("Error al crear accion", this, "/com/pacientes/gestor_pacientes/img/error.png");
-           }
-        }
-    }
-
-    @FXML
-    private void actualizarAccionAgenda(MouseEvent event) {
         LocalDate fechaCrear = LocalDate.of(anoSeleccionado, mesSeleccionado, diaSeleccionado);
         listaCajasAreaAccion = Arrays.asList(cajaAreaVerAccionAgenda);
         if (cajaAreaVerAccionAgenda.getText().isBlank()) {
-            mensajeAdvertenciaError ("Ingresar datos para actualizar acción", this, "/com/pacientes/gestor_pacientes/img/error.png");
+            mensajeAdvertenciaError("Ingresar datos para crear acción", this, "/com/pacientes/gestor_pacientes/img/error.png");
             servicioAgenda.
                     pintarCajaAreaVaciaImportante(listaCajasAreaAccion);
 
@@ -594,59 +587,138 @@ public class AgendaController extends MenuInicioController implements Initializa
                     = new AccionesAgenda(
                             cajaAreaVerAccionAgenda.getText(),
                             fechaCrear,
-                                 checkRecordar.isSelected());
+                            checkRecordar.isSelected());
             if (Objects.nonNull(accion.getAccion())) {
                 try {
-                    agendaDao.actualizar(accion);
-                    mensajeAdvertenciaError ("Éxito al actualizar accion", this, "/com/pacientes/gestor_pacientes/img/error.png");
-                    cajaAreaVerAccionAgenda.setText(agendaDao.obtener(accion).getAccion());
-                    
+                    agendaDao.insertar(accion);
+                    mensajeAdvertenciaError("Éxito al crear accion", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                    ImageView img = (ImageView) hboxPrecionadoParaEditarOverAccion.getChildren().get(0);
+                    img.setImage(VariablesEstaticas.imagenVer);
+                    botonActualizarAccionAgenda.setDisable(false);
+                    botonEliminarAccionAgenda.setDisable(false);
+                    botonCrearAccionAgenda.setDisable(true);
+
+                    String fechaParActivarRecordatorio = acomodarFechaParaPasarALocalDate(hboxPrecionadoParaEditarOverAccion.getId());
+                    if (checkRecordar.isSelected()) {
+                        img = (ImageView) hboxPrecionadoRecordatorio.getChildren().get(0);
+                        img.setVisible(true);
+                        if (LocalDate.parse(fechaParActivarRecordatorio).equals(LocalDate.now())) {
+                            VariablesEstaticas.imagenRecordatorioAgendaLateral.setVisible(true);
+                            
+                        }
+                    }
                 } catch (Exception e) {
-                    mensajeAdvertenciaError ("Error al actualizar accion", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                    mensajeAdvertenciaError("Error al crear accion", this, "/com/pacientes/gestor_pacientes/img/error.png");
                 }
 
             } else {
-                mensajeAdvertenciaError ("Error al actualizar accion", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                mensajeAdvertenciaError("Error al crear accion", this, "/com/pacientes/gestor_pacientes/img/error.png");
+            }
+        }
+    }
+
+    @FXML
+    private void actualizarAccionAgenda(MouseEvent event) {
+        LocalDate fechaCrear = LocalDate.of(anoSeleccionado, mesSeleccionado, diaSeleccionado);
+        listaCajasAreaAccion = Arrays.asList(cajaAreaVerAccionAgenda);
+        if (cajaAreaVerAccionAgenda.getText().isBlank()) {
+            mensajeAdvertenciaError("Ingresar datos para actualizar acción", this, "/com/pacientes/gestor_pacientes/img/error.png");
+            servicioAgenda.
+                    pintarCajaAreaVaciaImportante(listaCajasAreaAccion);
+
+        } else {
+            AccionesAgenda accion
+                    = new AccionesAgenda(
+                            cajaAreaVerAccionAgenda.getText(),
+                            fechaCrear,
+                            checkRecordar.isSelected());
+            if (Objects.nonNull(accion.getAccion())) {
+                try {
+                    agendaDao.actualizar(accion);
+                    mensajeAdvertenciaError("Éxito al actualizar accion", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                    cajaAreaVerAccionAgenda.setText(agendaDao.obtener(accion).getAccion());
+                    ImageView img = (ImageView) hboxPrecionadoParaEditarOverAccion.getChildren().get(0);
+                    img.setImage(VariablesEstaticas.imagenVer);
+
+                    String fechaParActivarRecordatorio = acomodarFechaParaPasarALocalDate(hboxPrecionadoParaEditarOverAccion.getId());
+                    if (checkRecordar.isSelected()) {
+                        img = (ImageView) hboxPrecionadoRecordatorio.getChildren().get(0);
+                        img.setVisible(true);
+                        if (LocalDate.parse(fechaParActivarRecordatorio).equals(LocalDate.now())) {
+                            VariablesEstaticas.imagenRecordatorioAgendaLateral.setVisible(true);
+                        }
+                    }
+                } catch (Exception e) {
+                    mensajeAdvertenciaError("Error al actualizar accion", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                }
+
+            } else {
+                mensajeAdvertenciaError("Error al actualizar accion", this, "/com/pacientes/gestor_pacientes/img/error.png");
             }
         }
     }
 
     @FXML
     private void eliminarAccionAgenda(MouseEvent event) {
-        
-        LocalDate fechaCrear =  LocalDate.of(anoSeleccionado, mesSeleccionado, diaSeleccionado);
-        
-        if(cajaAreaVerAccionAgenda.getText().isBlank()){
-            mensajeAdvertenciaError ("No hay accion para eliminar", this, "/com/pacientes/gestor_pacientes/img/error.png");
-        }else{
-            AccionesAgenda accion = 
-                    new AccionesAgenda(
-                            cajaAreaVerAccionAgenda.getText(), 
+
+        LocalDate fechaCrear = LocalDate.of(anoSeleccionado, mesSeleccionado, diaSeleccionado);
+
+        if (cajaAreaVerAccionAgenda.getText().isBlank()) {
+            mensajeAdvertenciaError("No hay accion para eliminar", this, "/com/pacientes/gestor_pacientes/img/error.png");
+        } else {
+            AccionesAgenda accion
+                    = new AccionesAgenda(
+                            cajaAreaVerAccionAgenda.getText(),
                             fechaCrear);
-           if(Objects.nonNull(accion.getAccion())){
+            if (Objects.nonNull(accion.getAccion())) {
                 try {
-                 agendaDao.eliminar(accion);
-                 mensajeAdvertenciaError ("Éxito al eliminar acción", this, "/com/pacientes/gestor_pacientes/img/error.png");
-                 cajaAreaVerAccionAgenda.setText("");
-                 botonActualizarAccionAgenda.setDisable(true);
-                 botonEliminarAccionAgenda.setDisable(true);
-                 botonCrearAccionAgenda.setDisable(false);
+                    agendaDao.eliminar(accion);
+                    mensajeAdvertenciaError("Éxito al eliminar acción", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                    cajaAreaVerAccionAgenda.setText("");
+                    botonActualizarAccionAgenda.setDisable(true);
+                    botonEliminarAccionAgenda.setDisable(true);
+                    botonCrearAccionAgenda.setDisable(false);
+                    ImageView img = (ImageView) hboxPrecionadoParaEditarOverAccion.getChildren().get(0);
+                    img.setImage(VariablesEstaticas.imagenAgregar);
+                    img = (ImageView) hboxPrecionadoRecordatorio.getChildren().get(0);
+                    img.setVisible(false);
+
+                    String fechaParActivarRecordatorio = acomodarFechaParaPasarALocalDate(hboxPrecionadoParaEditarOverAccion.getId());
+                    if (LocalDate.parse(fechaParActivarRecordatorio).equals(LocalDate.now())) {
+                        VariablesEstaticas.imagenRecordatorioAgendaLateral.setVisible(false);
+                        
+                    }
+
                 } catch (Exception e) {
-                    mensajeAdvertenciaError ("Error al eliminar acción", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                    mensajeAdvertenciaError("Error al eliminar acción", this, "/com/pacientes/gestor_pacientes/img/error.png");
                 }
-            
-           }else{
-               mensajeAdvertenciaError ("Error al eliminar acción", this, "/com/pacientes/gestor_pacientes/img/error.png");
-           }
+
+            } else {
+                mensajeAdvertenciaError("Error al eliminar acción", this, "/com/pacientes/gestor_pacientes/img/error.png");
+            }
         }
-        
+
     }
 
     @FXML
     private void retornarAccionAgenda(MouseEvent event) {
     }
 
-    
+    public String acomodarFechaParaPasarALocalDate(String aFecha){
+        String[] idHboxAgrEli = aFecha.split("-");
+                    String result = "";
+                    for (int i = 0; i < idHboxAgrEli.length; i++) {
+                        if(idHboxAgrEli[i].length() == 1){
+                            idHboxAgrEli[i] =  "0" + idHboxAgrEli[i];
+                        }
+                        if(idHboxAgrEli[i].length() < 4){
+                            result += "-" + idHboxAgrEli[i];
+                        }else{
+                            result += idHboxAgrEli[i];
+                        }
+                    }
+                    return result;
+    }
     
     
     

@@ -22,11 +22,12 @@ public class CodigoFacturacionDAOImplementacion extends PadreDAOImplementacion i
 
     @Override
     public List<CodigoFacturacion> obtenerLista(CodigoFacturacion objetoParametro) throws SQLException {
-        String sqlListaCodigos = "SELECT nombre FROM codigos_facturaciones";
+        String sqlListaCodigos = "SELECT nombre FROM codigos_facturaciones WHERE id_usuario = ?;";
         List<CodigoFacturacion> ts = new ArrayList();
 
         try {
             PreparedStatement psCodigo = conexion.conexion().prepareStatement(sqlListaCodigos);
+            psCodigo.setInt(1, VariablesEstaticas.usuario.getId());
             ResultSet rsCodigos = psCodigo.executeQuery();
             while (rsCodigos.next()) {
                 ts.add(new CodigoFacturacion(rsCodigos.getString("nombre")));
@@ -42,9 +43,10 @@ public class CodigoFacturacionDAOImplementacion extends PadreDAOImplementacion i
 
     @Override
     public CodigoFacturacion obtener(CodigoFacturacion objetoParametro) throws SQLException {
-        String sqlCodigo = "SELECT cf.codigo, cf.nombre FROM codigos_facturaciones cf WHERE cf.nombre = ?";
+        String sqlCodigo = "SELECT cf.codigo, cf.nombre FROM codigos_facturaciones cf WHERE cf.nombre = ? AND cf.id_usuario = ?;";
         PreparedStatement psCodigo = conexion.conexion().prepareStatement(sqlCodigo);
         psCodigo.setString(1, objetoParametro.getNombre());
+        psCodigo.setInt(2, VariablesEstaticas.usuario.getId());
         ResultSet rsCodigo = psCodigo.executeQuery();
         if(rsCodigo.next()){
             return new CodigoFacturacion(rsCodigo.getString("nombre"), Integer.parseInt(rsCodigo.getString("codigo")));

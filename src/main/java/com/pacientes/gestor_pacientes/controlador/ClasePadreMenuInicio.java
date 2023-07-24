@@ -1062,9 +1062,9 @@ public class ClasePadreMenuInicio extends ClasePadreController{
         try {
             ChoiceBox cb = (ChoiceBox) event.getSource();
             daoImplementacion = new PlanObraSocialDAOImplementacion();
-            
-            List<String> listaNuevaPlanes = planesAString(daoImplementacion.obtenerLista(new ObraSocial(choiseNombreObraSocialPaciente.getValue())));
-            
+            ObraSocialDAOImplementacion obraSocialDao = new ObraSocialDAOImplementacion();
+            List<String> listaNuevaPlanes = planesAString(daoImplementacion.obtenerLista(new ObraSocial( obraSocialDao.obtenerIdConUsuario(new ObraSocial(choiseNombreObraSocialPaciente.getValue())),choiseNombreObraSocialPaciente.getValue() )));
+           
             if (Objects.nonNull(choiseNombreObraSocialPaciente.getValue())) {
                 if (!choiseNombreObraSocialPaciente.getValue().equals(valorInicialNombreObraSocialPaciente)) {
                     choisePlanesObraSocialPacientePlan.getItems().setAll(listaNuevaPlanes);

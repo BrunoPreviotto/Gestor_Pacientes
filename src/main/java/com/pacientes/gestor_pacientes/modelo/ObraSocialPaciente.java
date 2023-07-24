@@ -20,6 +20,13 @@ public class ObraSocialPaciente {
     public ObraSocialPaciente() {
     }
 
+    public ObraSocialPaciente(Integer id, String nombre) {
+        this.id = id;
+        this.nombre = nombre;
+    }
+    
+    
+
     public ObraSocialPaciente(String nombre) {
         this.nombre = nombre;
     }

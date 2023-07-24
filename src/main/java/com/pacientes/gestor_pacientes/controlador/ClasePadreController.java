@@ -123,8 +123,7 @@ public class ClasePadreController {
     
     
     @FXML
-    protected void soloNumero(KeyEvent event) {
-        TextField tf = (TextField) event.getSource();
+    protected void soloNumero(KeyEvent event) {        TextField tf = (TextField) event.getSource();
         String character = event.getCharacter();
         
         
@@ -255,10 +254,14 @@ public class ClasePadreController {
             MensajeAdvertenciaController controller = Loader.getController();
             Scene scene = new Scene(root);
             Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
+            
+            scene.setFill(Color.TRANSPARENT);
+            
+            
+            stage.initOwner(VariablesEstaticas.stagePrincipal);
             stage.setScene(scene);
             stage.initStyle(StageStyle.TRANSPARENT);
-            
+            stage.initModality(Modality.WINDOW_MODAL);
             controller.mensajeAdvertencia(mensaje, stage, obj, imagen);
             stage.showAndWait();
             
@@ -278,13 +281,14 @@ public class ClasePadreController {
             Parent root = Loader.load();
             MensajePreguntarSiONoController controller = Loader.getController();
             Scene scene = new Scene(root);
+            scene.setFill(Color.TRANSPARENT);
             Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(VariablesEstaticas.stagePrincipal);
             stage.setScene(scene);
             stage.initStyle(StageStyle.TRANSPARENT);
-            
+            stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
-            
+           
             
            
         

@@ -81,6 +81,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -129,7 +131,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
         
         iniciarChoiceTipoSesion();
         inicializarTableObraSocial();
-        iniciarChoicePlanTratamiento();
+        iniciarChoicePlanObraSocialPaciente();
         
         
         comprobarFechaAlIniciar();
@@ -417,11 +419,12 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
          
          VariablesEstaticas.choiseCodigoFactSesionObraSocial = choiseCodigoFactSesionObraSocial;
          
-         
+         //agenda
+         VariablesEstaticas.imagenRecordatorioAgendaLateral = imgRecordatorio;
 
     }
 
-     private void iniciarChoicePlanTratamiento() {
+     private void iniciarChoicePlanObraSocialPaciente() {
         
         
        daoImplementacion = new PlanObraSocialDAOImplementacion();
@@ -434,6 +437,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
 
         if (!Objects.isNull(listaPlanesObrasSociales)) {
             for (ObraSocial plan: listaPlanesObrasSociales) {
+               
                 choisePlanesObraSocialPacientePlan.getItems().add(plan.getPlan());
             }
             
@@ -625,7 +629,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
         iniciarChoiceObraSocial();
         iniciarChoiceTipoSesion();
         inicializarTableObraSocial();
-        iniciarChoicePlanTratamiento();
+        iniciarChoicePlanObraSocialPaciente();
         
         
        
@@ -715,6 +719,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
         } else {
             //servicioPaciente.vaciarListaSesiones();
         }
+        botonRetornarSesiones.setDisable(true);
 
     }
     
@@ -768,6 +773,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
             servicioPaciente.
                     vaciarListaDiagnostico().
                     vaciarCajasArea(VariablesEstaticas.cajasAreaDiagnostico).
+                    habilitarCajasArea(VariablesEstaticas.cajasAreaDiagnostico).
                     habilitarBotonCrear(botonAgregarDiagnostico).
                     desHabilitarEliminarActualizar(botonEliminarDiagnostico, botonActualizarDiagnostico);
         }
@@ -976,7 +982,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
               
 
                 //VALIDAR CAMPOS NECESARIOS
-                if (Objects.isNull(choiseFrecuenciaSesionPlan.getValue()) || Objects.isNull(choiseTipoSesionPlan.getValue())) {
+                if (choiseFrecuenciaSesionPlan.getValue().isEmpty() || choiseTipoSesionPlan.getValue().isEmpty()) {
                     servicioPaciente.pintarChoiseVacioImportante(VariablesEstaticas.choisePlan);
                     mensajeAdvertenciaError("Hay campos importantes vacios", this, VariablesEstaticas.imgenAdvertencia);
                 } else {
@@ -1129,6 +1135,16 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
             
         } catch (Exception e) {
             mensajeAdvertenciaError("Error al crear tipo sesión", this, VariablesEstaticas.imgenError);
+            cajaNombreTipoSesionPlan.setText("");
+
+            cajaDescripcionTipoSesionPlan.setDisable(true);
+
+            vBoxNombreTipoSEsionPlanActualizaroVer.setVisible(false);
+            botonAgregarPlanTipoSesion.setDisable(false);
+            botonActualizarPlanTipoSesion.setDisable(false);
+
+            choiseTipoSesionPlan.setFocusTraversable(true);
+            choiseTipoSesionPlan.setMouseTransparent(false);
         }
         
     }
@@ -1515,18 +1531,20 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                         
 
                         //obtner id de anterior obra social y plan
-                        daoImplementacion = new AfiliadoDAOImplementacion();
-                        obraSocialPaciente.getAfiliado().setId(daoImplementacion.obtenerId(afiliado));
                         
-                        daoImplementacion = new PlanObraSocialDAOImplementacion();
-                        obraSocialPaciente.getPlan().setId(daoImplementacion.obtenerId(new ObraSocial(obraSocialPaciente.getNombre(), planObraSocial.getNombre())));
                         
                         daoImplementacion = new ObraSocialPacienteDAOImplementacion();
                         obraSocialPaciente.setId(daoImplementacion.obtenerId(obraSocialPaciente));
                         
+                        daoImplementacion = new PlanObraSocialDAOImplementacion();
+                        obraSocialPaciente.getPlan().setId(daoImplementacion.obtenerId(new ObraSocial(obraSocialPaciente.getId(), obraSocialPaciente.getNombre(), planObraSocial.getNombre())));
+                        
                         daoImplementacion = new PacienteDAOImplementacion();
                         obraSocialPaciente.setIdPaciente(daoImplementacion.obtenerId(new Paciente(Integer.valueOf(cajaBuscarPaciente.getText()))));
                         
+                        daoImplementacion = new AfiliadoDAOImplementacion();
+                        afiliado.setIdPaciente(obraSocialPaciente.getIdPaciente());
+                        obraSocialPaciente.getAfiliado().setId(daoImplementacion.obtenerId(afiliado));
 
                         //pasar valores nuevos
                         obraSocialPaciente.getPlan().setNombre(choisePlanesObraSocialPacientePlan.getValue());
@@ -1545,6 +1563,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                                 ocultarLIstVBox(VariablesEstaticas.vboxsObraSocialPaciente).
                                 deshabilitarCajas(VariablesEstaticas.cajasObraSocialPaciente);
                         botonActualizarObraSocialPaciente.setId("botonActualizarObraSocialPaciente");
+                        mensajeAdvertenciaError( "Obra social del paciente actualizada con éxito", this, VariablesEstaticas.imgenAdvertencia);
                     }
                 } else {
                     mensajeAdvertenciaError( "Buscar paciente a actualizar", this, VariablesEstaticas.imgenAdvertencia);
@@ -1762,8 +1781,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                                 vaciarValorChoise(VariablesEstaticas.choisePlan).
                                 vaciarCajas(VariablesEstaticas.cajasPlanes).
                                 habilitarBotonCrear(botonAgregarPlanTratamiento).
-                                desHabilitarEliminarActualizar(botonEliminarPlanTratamiento, botonActualizarPlanTratamiento).
-                                visivilizarChoice(choisePlan).esconderCajas(cajasPlanes);
+                                desHabilitarEliminarActualizar(botonEliminarPlanTratamiento, botonActualizarPlanTratamiento);
                         buscarPaciente();
                     } catch (Exception e) {
                         mensajeAdvertenciaError("Error al eliminar Plan de tratamiento", this, VariablesEstaticas.imgenError);
@@ -1831,9 +1849,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                                 vaciarValorChoise(VariablesEstaticas.choiseObraSocialPaciente).
                                 vaciarCajas(VariablesEstaticas.cajasObraSocialPaciente).
                                 habilitarBotonCrear(botonAgregarObraSocialPaciente).
-                                desHabilitarEliminarActualizar(botonEliminarObraSocialPaciente, botonActualizarObraSocialPaciente).
-                                visivilizarChoice(choiseObraSocialPaciente).
-                                esconderCajas(cajasObraSocialPaciente);
+                                desHabilitarEliminarActualizar(botonEliminarObraSocialPaciente, botonActualizarObraSocialPaciente);
                         buscarPaciente();
                     } catch (Exception e) {
                         mensajeAdvertenciaError("Error al eliminar Obra social paciente", this, VariablesEstaticas.imgenError);
@@ -1889,7 +1905,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
 
                         daoImplementacion = new SesionDAOImplementacion();
                         int idSesion = daoImplementacion.obtenerId(sesionBuscar);
-                        autorizacionBuscar.setIdSesion(idSesion);
+                        
                         
                         
                         
@@ -1900,6 +1916,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                         daoImplementacion = new AutorizacionDAOImplementacion();
                         int idAutorizacion = daoImplementacion.obtenerId(new AutorizacionesSesionesObraSociales(Integer.parseInt(tableSesiones.getSelectionModel().getSelectedItem().getNumeroAutorizacion()), LocalDate.parse(tableSesiones.getSelectionModel().getSelectedItem().getAsociacion()), idSesion, idPaciente));
                         autorizacion.setId(idAutorizacion);
+                        System.out.println(idAutorizacion);
                         autorizacion.setNumeroAutorizacion(Integer.parseInt(tablaAutorizacion.getSelectionModel().getSelectedItem().getNumeroAutorizacion()));
                         autorizacion.setAsociacion(ldsaNuevo);
                         autorizacion.setObservacion(tablaAutorizacion.getSelectionModel().getSelectedItem().getObservacionAutorizacion());
@@ -1938,7 +1955,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                                             daoImplementacion = new AutorizacionDAOImplementacion();
                                             //ELIMINAR AUTORIZACION
                                             
-                                            daoImplementacion.actualizar(new AutorizacionesSesionesObraSociales(idAutorizacion, 0, "---------", LocalDate.EPOCH, 0.0, codigo, idSesion, idPaciente));
+                                            daoImplementacion.actualizar(new AutorizacionesSesionesObraSociales(idAutorizacion, 0, "---------", LocalDate.now(), 0.0, codigo, idSesion, idPaciente));
                                         } catch (Exception e) {
                                         }
                                     } else if (check.get(0).isSelected()) {
@@ -2215,6 +2232,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
 
                 //choiceObraSocial.clear();
                 inicializarTableObraSocial();
+                iniciarChoicePlanObraSocialPaciente();
                 buscarObraSocial(event);
                 botonActualizarPlanesObraSocial.setDisable(false);
                 botonAgregarPlanesObraSocial.setDisable(false);
@@ -2256,6 +2274,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                 hboxPlanObraSocial.setVisible(false);
 
                 inicializarTableObraSocial();
+                iniciarChoicePlanObraSocialPaciente();
                 buscarObraSocial(event);
                 botonActualizarPlanesObraSocial.setDisable(false);
                 botonAgregarPlanesObraSocial.setDisable(false);
@@ -2568,16 +2587,31 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
         
         try {
             HBox b = (HBox) event.getSource();
+            
             FXMLLoader Loader = new FXMLLoader(App.class.getResource("AdministrarAccionAgenda.fxml"));
             Parent root = Loader.load();
             AgendaController controller = Loader.getController();
             Scene scene = new Scene(root);
+            scene.setFill(Color.TRANSPARENT);
             Stage stage = new Stage();
+            stage.initOwner(VariablesEstaticas.stagePrincipal);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setScene(scene);
             stage.initStyle(StageStyle.TRANSPARENT);
-           
+            
+            VBox vboxParent = (VBox)b.getParent();
+            HBox hboxRecordatorio = null;
+            for (Node node : vboxParent.getChildren()) {
+                if(node.getId().equals("recordatorio")){
+                    hboxRecordatorio = (HBox)node;
+                }
+            }
+            
+            controller.setHboxPrecionadoRecordatorio(hboxRecordatorio);
+            controller.setHboxPrecionadoParaEditarOverAccion(b);
             controller.iniciarAdministrarAccion(stage, root, b);
+            
+            
             
             stage.showAndWait();
             

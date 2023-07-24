@@ -105,6 +105,7 @@ public class PacienteDAOImplementacion extends PadreDAOImplementacion implements
         pSeliminar.setInt(2, obtenerId(pacienteParametro));
         System.out.println(obtenerId(pacienteParametro));
         pSeliminar.executeUpdate();
+        
 
     }
 
