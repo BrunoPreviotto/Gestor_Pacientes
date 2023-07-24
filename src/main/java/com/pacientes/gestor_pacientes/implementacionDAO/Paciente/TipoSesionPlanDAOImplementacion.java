@@ -74,14 +74,14 @@ public class TipoSesionPlanDAOImplementacion extends PadreDAOImplementacion impl
             //INSERTAR SESION SI NO EXISTE
             PreparedStatement pstTs = conexion.conexion().prepareStatement(sqlTipoSesion);
             pstTs.setInt(1, 0);
+            System.out.println(objetoParametro.getNombre());
             pstTs.setString(2, objetoParametro.getNombre());
+            System.out.println(objetoParametro.getDecripcion());
             pstTs.setString(3, objetoParametro.getDecripcion());
             pstTs.setInt(4, VariablesEstaticas.usuario.getId());
             pstTs.executeUpdate();
             pstTs.close();
-        } else {
-            throw sqlException;
-        }
+        } 
     }
 
     @Override

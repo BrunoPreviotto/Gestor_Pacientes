@@ -74,10 +74,7 @@ public class DatosPrincipalesDAOImplementacion extends PadreDAOImplementacion im
 
         String sqlHonorario = "INSERT INTO honorarios (id_honorario, honorario) VALUES (?, ?);";
 
-        if (ExisteMasDeUnPacientePOrUsuario(objetoParametro.getDni()) > 0) {
-            Exepciones exepcionPacienteExiste = new Exepciones(111);
-            throw exepcionPacienteExiste;
-        } else {
+        
             int idNombre = obtenerIdNombre(objetoParametro.getNombre(), objetoParametro.getApellido());
             daoImplementacion = new TelefonoDAOImplementacion();
             int idTelefono = daoImplementacion.obtenerId(objetoParametro.getTelefono());
@@ -120,11 +117,11 @@ public class DatosPrincipalesDAOImplementacion extends PadreDAOImplementacion im
             pst.setInt(4, daoImplementacion.obtenerId(objetoParametro.getTelefono()));
             daoImplementacion = new HonorarioDAOImplementacion();
             pst.setInt(5, daoImplementacion.obtenerId(objetoParametro.getHonorarios()));
-            pst.setInt(6, objetoParametro.getId());
+            pst.setInt(6, obtenerIdPacientePOrUsuario(objetoParametro.getDni()));
 
             pst.executeUpdate();
             pst.close();
-        }
+        
 
     }
 

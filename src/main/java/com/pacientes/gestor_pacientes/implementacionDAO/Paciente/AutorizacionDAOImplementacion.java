@@ -39,7 +39,8 @@ public class AutorizacionDAOImplementacion extends PadreDAOImplementacion implem
                 + "observacion = ?,\n"
                 + "asociacion = ?,\n"
                 + "copago = ?,\n"
-                + "id_codigo_facturacion = ?\n"
+                + "id_codigo_facturacion = ?,\n"
+                + "numeroIdentificadorAutorizacion = ? \n"
                 + "WHERE id_autorizacion = ?";
         
         
@@ -56,8 +57,16 @@ public class AutorizacionDAOImplementacion extends PadreDAOImplementacion implem
         
         psActualizarAutorizacion.setInt(5, objetoParametro.getCodigoFacturacion().getId());
 
-        psActualizarAutorizacion.setInt(6, objetoParametro.getId());
+         psActualizarAutorizacion.setString(6, String.valueOf(VariablesEstaticas.usuario.getId()) + 
+                                                                                objetoParametro.getIdPaciente() +
+                                                                                objetoParametro.getIdSesion() +
+                                                                                objetoParametro.getNumeroAutorizacion() + 
+                                                                                objetoParametro.getAsociacion().getYear() +
+                                                                                objetoParametro.getAsociacion().getDayOfMonth() +
+                                                                                objetoParametro.getAsociacion().getMonthValue());
         
+        psActualizarAutorizacion.setInt(7, objetoParametro.getId());
+        System.out.println(objetoParametro.getId());
         
         psActualizarAutorizacion.executeUpdate();
     }
@@ -120,6 +129,13 @@ public class AutorizacionDAOImplementacion extends PadreDAOImplementacion implem
 
         PreparedStatement psAutorizacion = conexion.conexion().prepareStatement(sqlIdAutorizacion);
         
+        System.out.println(String.valueOf(VariablesEstaticas.usuario.getId()) + 
+                        objetoParametro.getIdPaciente() +
+                        objetoParametro.getIdSesion() +
+                        objetoParametro.getNumeroAutorizacion() + 
+                        objetoParametro.getAsociacion().getYear() +
+                        objetoParametro.getAsociacion().getDayOfMonth() +
+                        objetoParametro.getAsociacion().getMonthValue());
        
       
         psAutorizacion.setString(1, 

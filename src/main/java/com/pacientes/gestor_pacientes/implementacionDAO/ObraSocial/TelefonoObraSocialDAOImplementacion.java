@@ -45,15 +45,19 @@ public class TelefonoObraSocialDAOImplementacion extends PadreDAOImplementacion 
 
     @Override
     public int obtenerId(Telefono objetoParametro) throws Exception {
-        String sqlSTelefono = "SELECT tos.id_telefono  FROM telefonos_obras_sociales tos WHERE tos.numero_telefono = ?;";
+        String sqlSTelefono = "SELECT tos.id_telefono \n" +
+                                "FROM telefonos_obras_sociales tos \n" +
+                                "WHERE tos.numero_telefono = ? \n" +
+                                "AND tos.id_obra_social = ?;";
         try {
             
             
             
             PreparedStatement pSTelefono = conexion.conexion().prepareStatement(sqlSTelefono);
             pSTelefono.setString(1, objetoParametro.getTelefono());
+            pSTelefono.setInt(2, objetoParametro.getIdObjeto());
             ResultSet rsSTelefono = pSTelefono.executeQuery();
-            
+           
             
             if(rsSTelefono.next()){
                 return rsSTelefono.getInt("id_telefono");

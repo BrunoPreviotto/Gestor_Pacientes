@@ -138,6 +138,7 @@ public class IniciarSesionController extends ClasePadreController implements Ini
     private void Registrarse(MouseEvent event) throws IOException {
         ((Node) (event.getSource())).getScene().getWindow().hide();
         Scene scene = new Scene(loadFXML("Registrar"));
+        scene.setFill(Color.TRANSPARENT);
         Stage newStage = new Stage();
         newStage.setScene(scene);
         newStage.initStyle(StageStyle.TRANSPARENT);

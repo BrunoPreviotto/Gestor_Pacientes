@@ -32,6 +32,13 @@ public class ObraSocial {
         this.nombre = nombre;
         this.plan = plan;
     }
+
+    public ObraSocial(int id, String nombre, String plan) {
+        this.id = id;
+        this.nombre = nombre;
+        this.plan = plan;
+    }
+    
     
     
 

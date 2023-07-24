@@ -30,6 +30,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 /**
  *
@@ -39,6 +40,7 @@ public class VariablesEstaticas {
     
     //principal
     public static Scene scenePrincipalVar;
+    public static Stage stagePrincipal;
     
     //valida email
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
@@ -134,6 +136,7 @@ public class VariablesEstaticas {
     //ANCHOR 
     public static AnchorPane anchorPrincipalAgenda;
     public static VBox anchorAgendaAgenda;
+    public static ImageView imagenRecordatorioAgendaLateral;
     
     //GRID PANE 
     public static GridPane gridAgenda;

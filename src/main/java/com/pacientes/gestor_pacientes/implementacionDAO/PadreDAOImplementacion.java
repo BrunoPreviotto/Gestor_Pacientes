@@ -203,11 +203,15 @@ public class PadreDAOImplementacion {
              
     public int ExisteMasDeUnPacientePOrUsuario(int dni) {
         int cantidadPacientesPorUsuario = 0;
-        String sql = "SELECT p.id_paciente FROM pacientes p WHERE p.dni = ?";
+        String sql = "SELECT p.id_paciente \n" +
+                        "FROM pacientes p \n" +
+                        "JOIN usuarios_pacientes up ON p.id_paciente = up.id_paciente \n" +
+                        "WHERE p.dni = ? AND up.id_usuario  = ?";
         try {
 
             PreparedStatement ps = conexion.conexion().prepareStatement(sql);
             ps.setInt(1, dni);
+            ps.setInt(2, VariablesEstaticas.usuario.getId());
             ResultSet rs = ps.executeQuery();
             
             while (rs.next()) {                
@@ -228,5 +232,30 @@ public class PadreDAOImplementacion {
         }
         return 0;
     }
+    
+    
+    public int obtenerIdPacientePOrUsuario(int dni) {
+        int cantidadPacientesPorUsuario = 0;
+        String sql = "SELECT p.id_paciente \n" +
+                        "FROM pacientes p \n" +
+                        "JOIN usuarios_pacientes up ON p.id_paciente = up.id_paciente \n" +
+                        "WHERE p.dni = ? AND up.id_usuario  = ?";
+        try {
+
+            PreparedStatement ps = conexion.conexion().prepareStatement(sql);
+            ps.setInt(1, dni);
+            ps.setInt(2, VariablesEstaticas.usuario.getId());
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {                
+                return rs.getInt("id_paciente");
+            }else{
+                return 0;
+            }
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+    
     
 }

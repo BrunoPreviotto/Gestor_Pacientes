@@ -22,6 +22,7 @@ public class PlanObraSocialDAOImplementacion extends PadreDAOImplementacion impl
 
     @Override
     public List<ObraSocial> obtenerLista(ObraSocial objetoParametro) throws SQLException {
+        
         String sqlListaPlanesOS = 
                 "SELECT pos.nombre AS nombrePlan, os.nombre AS nombreObraSocial FROM \n" +
                 "obras_sociales os \n" +
@@ -176,10 +177,12 @@ public class PlanObraSocialDAOImplementacion extends PadreDAOImplementacion impl
             
             //BUSCAR ID DE PLAN OBRA SOCIAL  
             PreparedStatement psBuscarIdPlanObraSocial = conexion.conexion().prepareStatement(sqlObtenerIdObraSocial);
-            
+           
             psBuscarIdPlanObraSocial.setString(1, objetoParametro.getPlan());
             
+            
             psBuscarIdPlanObraSocial.setInt(2, objetoParametro.getId());
+            
             psBuscarIdPlanObraSocial.setInt(3, VariablesEstaticas.usuario.getId());
             ResultSet rsBuscarIdPlanObraSocial= psBuscarIdPlanObraSocial.executeQuery();
             if(rsBuscarIdPlanObraSocial.next()){

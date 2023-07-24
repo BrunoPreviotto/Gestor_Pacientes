@@ -45,7 +45,7 @@ public class AfiliadoDAOImplementacion extends PadreDAOImplementacion implements
 
     @Override
     public int obtenerId(Afiliado objetoParametro) throws Exception {
-        String sqlObtenerIdAfiliado = "SELECT id_afiliado_obra_social  FROM afiliados_obras_sociales aos WHERE numero_afiliado = ?;";
+        String sqlObtenerIdAfiliado = "SELECT id_afiliado_obra_social  FROM afiliados_obras_sociales aos WHERE numero_afiliado = ? AND id_paciente = ?;";
         
         
         try {
@@ -53,6 +53,7 @@ public class AfiliadoDAOImplementacion extends PadreDAOImplementacion implements
             //BUSCAR ID DE AFILIADO OBRA SOCIAL  
             PreparedStatement psBuscarIdFrecuencia = conexion.conexion().prepareStatement(sqlObtenerIdAfiliado);
             psBuscarIdFrecuencia.setInt(1, objetoParametro.getNumero());
+            psBuscarIdFrecuencia.setInt(2, objetoParametro.getIdPaciente());
             ResultSet rsBuscarIdAfiliado= psBuscarIdFrecuencia.executeQuery();
             if(rsBuscarIdAfiliado.next()){
                 return rsBuscarIdAfiliado.getInt("id_afiliado_obra_social");

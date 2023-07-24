@@ -58,24 +58,27 @@ public class ObraSocialPacienteDAOImplementacion extends PadreDAOImplementacion 
     public void actualizar(ObraSocialPaciente objetoParametro) throws Exception {
        String sqlActualizarObraSocialPaciente = "UPDATE afiliados_obras_sociales \n"
                 + "SET id_obra_social = ?, id_plan_obra_social = ?, numero_afiliado = ?\n"
-                + "WHERE id_obra_social = ? AND id_plan_obra_social = ? AND id_afiliado_obra_social = ? AND id_paciente = ?";
+                + "WHERE  id_afiliado_obra_social = ? ";
 
         //ACTUALIZAR OBRA SOCIAL PACIENTE
         PreparedStatement psBuscarIdCodigo = conexion.conexion().prepareStatement(sqlActualizarObraSocialPaciente);
-        psBuscarIdCodigo.setInt(1, obtenerId(objetoParametro));
+        
+        int idObraSocialPaciente = obtenerId(objetoParametro);
+        
+        
+        psBuscarIdCodigo.setInt(1, idObraSocialPaciente);
         
         daoImplementacion = new PlanObraSocialDAOImplementacion();
-        psBuscarIdCodigo.setInt(2, daoImplementacion.obtenerId(new ObraSocial(objetoParametro.getNombre(), objetoParametro.getPlan().getNombre())));
+        int idPlan = daoImplementacion.obtenerId(new ObraSocial(obtenerId(objetoParametro),objetoParametro.getNombre(), objetoParametro.getPlan().getNombre()));
+        
+        psBuscarIdCodigo.setInt(2, idPlan);
         
         psBuscarIdCodigo.setInt(3, objetoParametro.getAfiliado().getNumero());
         
-        psBuscarIdCodigo.setInt(4, objetoParametro.getId());
+        psBuscarIdCodigo.setInt(4, objetoParametro.getAfiliado().getId());
+        System.out.println(objetoParametro.getAfiliado().getId());
         
-        psBuscarIdCodigo.setInt(5, objetoParametro.getPlan().getId());
         
-        psBuscarIdCodigo.setInt(6, objetoParametro.getAfiliado().getId());
-        
-        psBuscarIdCodigo.setInt(7, objetoParametro.getIdPaciente());
         
         psBuscarIdCodigo.executeUpdate();
     }
@@ -99,8 +102,9 @@ public class ObraSocialPacienteDAOImplementacion extends PadreDAOImplementacion 
 
         daoImplementacion = new PlanObraSocialDAOImplementacion();
         
-        int idPlan = daoImplementacion.obtenerId(new ObraSocial(objetoParametro.getNombre(), objetoParametro.getPlan().getNombre()));
         int idObraSocia = obtenerId(objetoParametro);
+        int idPlan = daoImplementacion.obtenerId(new ObraSocial(idObraSocia, objetoParametro.getNombre(), objetoParametro.getPlan().getNombre()));
+        
             
         //CREAR NUEVO AFILIADO
         PreparedStatement psAfiliado = conexion.conexion().prepareStatement(sqlAfiliado);
@@ -116,7 +120,9 @@ public class ObraSocialPacienteDAOImplementacion extends PadreDAOImplementacion 
     public int obtenerId(ObraSocialPaciente objetoParametro) throws Exception {
         String sqlObtenerIdObraSocial = "SELECT os.id_obra_social FROM obras_sociales os\n" +
                                 "JOIN usuarios_obras_sociales uos ON os.id_obra_social = uos.id_obra_social \n" +
-                                "WHERE nombre = ? AND uos.id_usuario = ?;";
+                                "WHERE os.nombre = ? AND uos.id_usuario = ?;";
+        
+       
         
         try {
             
@@ -126,7 +132,7 @@ public class ObraSocialPacienteDAOImplementacion extends PadreDAOImplementacion 
             psBuscarIdObraSocial.setInt(2, VariablesEstaticas.usuario.getId());
             ResultSet rsBuscarIdObraSocial= psBuscarIdObraSocial.executeQuery();
             if(rsBuscarIdObraSocial.next()){
-                
+               
                 return rsBuscarIdObraSocial.getInt("id_obra_social");
             } 
             
