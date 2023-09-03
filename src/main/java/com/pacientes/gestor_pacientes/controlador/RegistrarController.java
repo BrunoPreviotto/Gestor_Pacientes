@@ -27,6 +27,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -72,6 +74,8 @@ public class RegistrarController extends ClasePadreController implements Initial
     private Validar validar = new Validar();
     private UsuarioDAOImplementacion usuarioDao = new UsuarioDAOImplementacion();
     private ServicioRegistrar servicioRegistrar = new ServicioRegistrar();
+    @FXML
+    private Button botonRetornarDatosPrincipales1;
     
 
     /**
@@ -79,6 +83,15 @@ public class RegistrarController extends ClasePadreController implements Initial
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+       
+        VariablesEstaticas.setImgenExito("/com/pacientes/gestor_pacientes/img/exito.png");
+        VariablesEstaticas.setImgenError("/com/pacientes/gestor_pacientes/img/error.png");
+        VariablesEstaticas.setImgenAdvertencia("/com/pacientes/gestor_pacientes/img/warning.png");
+        
+        VariablesEstaticas.setImagenVer(new Image("/com/pacientes/gestor_pacientes/img/ver.png"));
+        VariablesEstaticas.setImagenAgregar(new Image("/com/pacientes/gestor_pacientes/img/lapiz.png"));
+        VariablesEstaticas.setImagenRecordar(new Image("/com/pacientes/gestor_pacientes/img/recordatorio.png"));
+        
         VariablesEstaticas.cajasRegistrar = 
                 Arrays.asList(
                         cajaNombre, 
@@ -157,6 +170,23 @@ public class RegistrarController extends ClasePadreController implements Initial
         }
 
 
+    }
+
+    
+
+    @FXML
+    private void retronarAIngresar(MouseEvent event) {
+        try {
+             ((Node) (event.getSource())).getScene().getWindow().hide();
+                Scene scene = new Scene(loadFXML("IniciarSesion"));
+                Stage newStage = new Stage();
+                scene.setFill(Color.TRANSPARENT);
+                newStage.setScene(scene);
+                newStage.initStyle(StageStyle.TRANSPARENT);
+                newStage.getIcons().add(imagenIocono);
+                newStage.show();
+        } catch (Exception e) {
+        }
     }
     
     

@@ -25,6 +25,8 @@ import com.pacientes.gestor_pacientes.servicios.ServicioObraSocial;
 import com.pacientes.gestor_pacientes.servicios.ServicioPaciente;
 import com.pacientes.gestor_pacientes.utilidades.TablaObrasSociales;
 import com.pacientes.gestor_pacientes.utilidades.TablaSesiones;
+import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
+import static com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas.cajasObrasSociales;
 import static com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas.usuario;
 import com.pacientes.gestor_pacientes.validacion.Validar;
 import java.io.IOException;
@@ -760,57 +762,11 @@ public class ClasePadreMenuInicio extends ClasePadreController{
         Pane pane = (Pane) event.getSource();
         switch (pane.getId()) {
             case "pestanaPaciente":
-
-                /*TranslateTransition ttdp = new TranslateTransition(Duration.seconds(1), titlePaneDatosPrincipales);
-                ttdp.setFromX(-1000);
-                ttdp.setToX(0);
-                ScaleTransition stdp = new ScaleTransition(Duration.seconds(1), titlePaneDatosPrincipales);
-
-                stdp.setFromX(0);
-                stdp.setToX(1);
-
-                TranslateTransition tts = new TranslateTransition(Duration.seconds(1.5), titlePaneSesion);
-                tts.setFromX(-1000);
-                tts.setToX(0);
-                ScaleTransition sts = new ScaleTransition(Duration.seconds(1.5), titlePaneSesion);
-                sts.setFromX(0);
-                sts.setToX(1);
-
-                TranslateTransition ttpt = new TranslateTransition(Duration.seconds(2), titlePanePlan);
-                ttpt.setFromX(-1000);
-                ttpt.setToX(0);
-                ScaleTransition stpt = new ScaleTransition(Duration.seconds(2), titlePanePlan);
-                stpt.setFromX(0);
-                stpt.setToX(1);
-
-                TranslateTransition ttd = new TranslateTransition(Duration.seconds(2.5), titlePaneDiagnostico);
-                ttd.setFromX(-1000);
-                ttd.setToX(0);
-                ScaleTransition std = new ScaleTransition(Duration.seconds(2.5), titlePaneDiagnostico);
-                std.setFromX(0);
-                std.setToX(1);
-
-                TranslateTransition ttg = new TranslateTransition(Duration.seconds(3), titlePaneGenograma);
-                ttg.setFromX(-1000);
-                ttg.setToX(0);
-                ScaleTransition stg = new ScaleTransition(Duration.seconds(3), titlePaneGenograma);
-                stg.setFromX(0);
-                stg.setToX(1);
-
-                TranslateTransition ttos = new TranslateTransition(Duration.seconds(3.5), titlePaneObraSocial);
-                ttos.setFromX(-1000);
-                ttos.setToX(0);
-                ScaleTransition stos = new ScaleTransition(Duration.seconds(3.5), titlePaneObraSocial);
-                stos.setFromX(0);
-                stos.setToX(1);
-
-                ParallelTransition pt = new ParallelTransition(ttdp, ttpt, tts, ttd, ttg, ttos, stdp, stpt, sts, std, stg, stos);
-                pt.play();*/
-
                 apPacientes.setVisible(true);
                 apObraSocial.setVisible(false);
                 apAgendaPrincipal.setVisible(false);
                 apOpciones.setVisible(false);
+                vaciarPaciente();
                 break;
             case "pestanaObraSocial":
                 
@@ -818,6 +774,7 @@ public class ClasePadreMenuInicio extends ClasePadreController{
                 apPacientes.setVisible(false);
                 apAgendaPrincipal.setVisible(false);
                 apOpciones.setVisible(false);
+                vaciarPaciente();
                 break;
             case "pestanaAgenda":
                 apAgendaPrincipal.setVisible(true);
@@ -825,17 +782,99 @@ public class ClasePadreMenuInicio extends ClasePadreController{
 
                 apPacientes.setVisible(false);
                 apOpciones.setVisible(false);
+                vaciarPaciente();
                 break;
             case "pestanaOpciones":
                 apOpciones.setVisible(true);
                 apAgendaPrincipal.setVisible(false);
                 apObraSocial.setVisible(false);
                 apPacientes.setVisible(false);
+                vaciarPaciente();
                 break;
 
             default:
                 throw new AssertionError();
         }
+    }
+    
+    protected void vaciarPaciente(){
+        servicioObraSocial.
+                    vaciarListaObraSocial().
+                    habilitarCajas(cajasObrasSociales).
+                    desHabilitarEliminarActualizar(botonEliminarObraSocial, botonActualizarObraSocial).
+                    habilitarBotonCrear(botonAgregarObraSocial).
+                    vaciarCajas(VariablesEstaticas.cajasObrasSociales).
+                    vaciarChoise(VariablesEstaticas.choiceObraSocial);
+           
+           cajaBuscarObraSocial.setText("");
+           hboxPlanObraSocial.setVisible(false);
+        
+        vBoxSesiones.setVisible(false);
+                    vBoxAutorizacion.setVisible(false);
+                    hbTablasSesionesAtorizaciones.setVisible(true);
+                    cajaBuscarPaciente.setText("");
+                    setearBotones();
+                    servicioPaciente.
+                            vaciarListas().
+                            vaciarTodo().
+                            habilitarTodo().
+                            visibilizarLIstVBox(VariablesEstaticas.vboxsPlanesTratamiento).
+                            ocultarLIstVBox(VariablesEstaticas.vboxsPlanesTratamientoActualizaroVer).
+                            visibilizarLIstVBox(VariablesEstaticas.vboxsObraSocialPaciente).
+                            ocultarLIstVBox(VariablesEstaticas.vboxsObraSocialPacienteActualizaroVer).
+                            habilitarBotones(VariablesEstaticas.listaBotonesCrear).
+                            deshabilitarBotones(VariablesEstaticas.listaBotonesEliminar).
+                            deshabilitarBotones(VariablesEstaticas.listaBotonesActualizar);
+    }
+    
+    protected void setearBotones(){
+        botonAgregarDatosPrincipales.setId("botonAgregarDatosPrincipales");
+        botonActualizarDatosPrincipales.setId("botonActualizarDatosPrincipales");
+        botonEliminarDatosPrincipales.setId("botonEliminarDatosPrincipales");
+        
+        botonAgregarSesiones.setId("botonAgregarSesiones");
+        botonActualizarSesiones.setId("botonActualizarSesiones");
+        botonEliminarSesiones.setId("botonEliminarSesiones");
+        
+        botonAgregarPlanTratamiento.setId("botonAgregarPlanTratamiento");
+        botonActualizarPlanTratamiento.setId("botonActualizarPlanTratamiento");
+        botonEliminarPlanTratamiento.setId("botonEliminarPlanTratamiento");
+        
+        botonAgregarDiagnostico.setId("botonAgregarDiagnostico");
+        botonActualizarDiagnostico.setId("botonActualizarDiagnostico");
+        botonEliminarDiagnostico.setId("botonEliminarDiagnostico");
+        
+        botonActualizarObraSocialPaciente.setId("botonActualizarObraSocialPaciente");
+        botonAgregarObraSocialPaciente.setId("botonAgregarObraSocialPaciente");
+        botonEliminarObraSocialPaciente.setId("botonEliminarObraSocialPaciente");
+        botonEliminarObraSocialPaciente.setId("botonEliminarObraSocialPaciente");
+        
+        botonActualizarAgregarCodigoFacturacion.setId("botonActualizarAgregarCodigoFacturacion");
+        
+        botonAgregarCodigoFacturacion.setId("botonAgregarCodigoFacturacion");
+        botonActualizarCodigoFacturacion.setId("botonActualizarCodigoFacturacion");
+        
+        botonActualizarCrearFrecuencia.setId("botonActualizarCrearFrecuencia");
+        
+        botonActualizarCrearTipoSesion.setId("botonActualizarCrearTipoSesion");
+        
+        botonAgregarObraSocial.setId("botonAgregarObraSocial");
+        botonActualizarObraSocial.setId("botonActualizarObraSocial");
+        botonEliminarObraSocial.setId("botonEliminarObraSocial");
+        
+        botonAgregarPlanFrecuencia.setId("botonAgregarPlanFrecuencia");
+        botonActualizarPlanFrecuencia.setId("botonActualizarPlanFrecuencia");
+        
+        botonAgregarPlanTipoSesion.setId("botonAgregarPlanTipoSesion");
+        botonActualizarPlanTipoSesion.setId("botonActualizarPlanTipoSesion");
+        
+        botonAgregarPlanesObraSocial.setId("botonAgregarPlanesObraSocial");
+        botonActualizarPlanesObraSocial.setId("botonActualizarPlanesObraSocial");
+        
+        botonActualizarUsuarioOpciones.setId("botonActualizarUsuarioOpciones");
+        
+        
+               
     }
     
     

@@ -33,6 +33,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -71,6 +72,14 @@ public class IniciarSesionController extends ClasePadreController implements Ini
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+           VariablesEstaticas.setImgenExito("/com/pacientes/gestor_pacientes/img/exito.png");
+        VariablesEstaticas.setImgenError("/com/pacientes/gestor_pacientes/img/error.png");
+        VariablesEstaticas.setImgenAdvertencia("/com/pacientes/gestor_pacientes/img/warning.png");
+        
+        VariablesEstaticas.setImagenVer(new Image("/com/pacientes/gestor_pacientes/img/ver.png"));
+        VariablesEstaticas.setImagenAgregar(new Image("/com/pacientes/gestor_pacientes/img/lapiz.png"));
+        VariablesEstaticas.setImagenRecordar(new Image("/com/pacientes/gestor_pacientes/img/recordatorio.png"));
         // TODO
         this.onDraggedScene( containerIniciar );
     }    

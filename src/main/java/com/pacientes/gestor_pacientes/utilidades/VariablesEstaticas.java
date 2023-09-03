@@ -146,14 +146,27 @@ public class VariablesEstaticas {
      public static List<TextField> cajasRegistrar;
     
     //IMAGENES
-    public static final String imgenExito = "/com/pacientes/gestor_pacientes/img/exito.png";
-    public static final String imgenError = "/com/pacientes/gestor_pacientes/img/error.png";
+   /*public static  String imgenExito = "/com/pacientes/gestor_pacientes/img/exito.png";
+    public static  String imgenError = "/com/pacientes/gestor_pacientes/img/error.png";
     
-    public static final String imgenAdvertencia = "/com/pacientes/gestor_pacientes/img/warning.png";
+    public static  String imgenAdvertencia = "/com/pacientes/gestor_pacientes/img/warning.png";
     
-    public static final Image imagenVer = new Image("/com/pacientes/gestor_pacientes/img/ver.png");
-    public static final Image imagenAgregar = new Image("/com/pacientes/gestor_pacientes/img/lapiz.png");
-    public static final Image imagenRecordar = new Image("/com/pacientes/gestor_pacientes/img/recordatorio.png");
+    public static  Image imagenVer = new Image("/com/pacientes/gestor_pacientes/img/ver.png");
+    public static  Image imagenAgregar = new Image("/com/pacientes/gestor_pacientes/img/lapiz.png");
+    public static  Image imagenRecordar = new Image("/com/pacientes/gestor_pacientes/img/recordatorio.png");*/
+
+    //IMAGENES
+   public static  String imgenExito = null;
+    public static  String imgenError = null;
+    public static  String imgenAdvertencia = null;
+    public static  Image imagenVer = null;
+    public static  Image imagenAgregar = null;
+    public static  Image imagenRecordar = null;
+    
+    
+    
+
+    
      
      //MENSAJES
     //MENSAJEPREGUNTARSIONO
@@ -162,6 +175,53 @@ public class VariablesEstaticas {
     //ACORDEON
     public static List<TitledPane> listaContenedoresAcordeon;
     public static TitledPane tabDatosPricipales;
+
+    //
+
+    public VariablesEstaticas() {
+    }
+    
+    
+    //get
+    public static Usuario getUsuario() {
+        return usuario;
+    }
+    
+    //SETTERS
+
+    public static void setUsuario(Usuario usuario) {
+        VariablesEstaticas.usuario = usuario;
+    }
+
+    
+    
+    
+
+    public static void setImgenExito(String imgenExito) {
+        VariablesEstaticas.imgenExito = imgenExito;
+    }
+
+    public static void setImgenError(String imgenError) {
+        VariablesEstaticas.imgenError = imgenError;
+    }
+
+    public static void setImgenAdvertencia(String imgenAdvertencia) {
+        VariablesEstaticas.imgenAdvertencia = imgenAdvertencia;
+    }
+
+    public static void setImagenVer(Image imagenVer) {
+        VariablesEstaticas.imagenVer = imagenVer;
+    }
+
+    public static void setImagenAgregar(Image imagenAgregar) {
+        VariablesEstaticas.imagenAgregar = imagenAgregar;
+    }
+
+    public static void setImagenRecordar(Image imagenRecordar) {
+        VariablesEstaticas.imagenRecordar = imagenRecordar;
+    }
+    
+    
     
     
 }

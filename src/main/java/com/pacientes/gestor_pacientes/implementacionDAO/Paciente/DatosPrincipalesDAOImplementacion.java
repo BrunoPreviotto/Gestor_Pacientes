@@ -28,6 +28,7 @@ public class DatosPrincipalesDAOImplementacion extends PadreDAOImplementacion im
 
     @Override
     public Paciente obtener(Paciente objetoParametro) throws SQLException {
+        
         Telefono telefono;
         Honorario honorario;
         Paciente paciente;
@@ -43,7 +44,7 @@ public class DatosPrincipalesDAOImplementacion extends PadreDAOImplementacion im
             
             PreparedStatement pSDni = conexion.conexion().prepareStatement(sqlDni);
             pSDni.setInt(1, objetoParametro.getId());
-            pSDni.setInt(2, VariablesEstaticas.usuario.getId());
+            pSDni.setInt(2, VariablesEstaticas.getUsuario().getId());
             
             ResultSet rsSPaciente = pSDni.executeQuery();
             if (rsSPaciente.next()) {
