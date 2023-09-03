@@ -25,8 +25,10 @@ import com.pacientes.gestor_pacientes.servicios.ServicioObraSocial;
 import com.pacientes.gestor_pacientes.servicios.ServicioPaciente;
 import com.pacientes.gestor_pacientes.utilidades.TablaObrasSociales;
 import com.pacientes.gestor_pacientes.utilidades.TablaSesiones;
+
 import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 import static com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas.cajasObrasSociales;
+
 import static com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas.usuario;
 import com.pacientes.gestor_pacientes.validacion.Validar;
 import java.io.IOException;

@@ -74,6 +74,7 @@ import javafx.scene.control.TextArea;
 
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
+
 import javafx.scene.image.Image;
 import javafx.scene.input.InputMethodEvent;
 
@@ -113,6 +114,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
     public void initialize(URL url, ResourceBundle rb) {
         usuarioDao = new UsuarioDAOImplementacion();
         usuario = usuarioDao.obtenerUsuarioActual();
+
         
        
         VariablesEstaticas.setImgenExito("/com/pacientes/gestor_pacientes/img/exito.png");
@@ -123,6 +125,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
         VariablesEstaticas.setImagenAgregar(new Image("/com/pacientes/gestor_pacientes/img/lapiz.png"));
         VariablesEstaticas.setImagenRecordar(new Image("/com/pacientes/gestor_pacientes/img/recordatorio.png"));
         
+
         
         try {
             VariablesEstaticas.usuario.setId(usuarioDao.obtenerId(new Usuario()));
@@ -2676,6 +2679,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                     break;
             }
 
+
         }
 
     }
@@ -2692,6 +2696,24 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
         
     }
     
+
+        }
+
+    }
+    
+    
+    @FXML
+    protected void vaciarCajaBuscar(KeyEvent event){
+        TextField tf = (TextField) event.getSource();
+         if(tf.getText().length()-1 >= 0){
+          if(!Character.isDigit(tf.getText().charAt(tf.getText().length()-1))){
+              tf.deletePreviousChar();
+          }
+        }
+        
+    }
+    
+
    
     @FXML
     protected void vaciarTodasLasCajas(MouseEvent event) {

@@ -70,7 +70,9 @@ public class App extends Application {
         
         stage.getIcons().add(imagenIocono);
         
+
         VariablesEstaticas.stagePrincipal = stage;
+
         stage.show();
         
         
