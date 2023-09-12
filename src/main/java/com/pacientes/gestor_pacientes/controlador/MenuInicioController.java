@@ -537,7 +537,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
     //                          ****
     @FXML
     public void buscarPaciente() {
-       
+       blanquearCajas();
         try {
 
 
@@ -659,7 +659,8 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                             ocultarLIstVBox(VariablesEstaticas.vboxsObraSocialPacienteActualizaroVer).
                             habilitarBotones(VariablesEstaticas.listaBotonesCrear).
                             deshabilitarBotones(VariablesEstaticas.listaBotonesEliminar).
-                            deshabilitarBotones(VariablesEstaticas.listaBotonesActualizar);
+                            deshabilitarBotones(VariablesEstaticas.listaBotonesActualizar).
+                            desPintarCajaVaciaImportante(VariablesEstaticas.cajasDatosPrincipales);
     }
     
     public void buscarDatosPrincipales(Paciente pacienteResultado) {
@@ -677,8 +678,8 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                     rellenarListaDatosPrincipales(pacienteResultado).
                     deshabilitarCajas(VariablesEstaticas.cajasDatosPrincipales).
                     desHabilitarBotonCrear(botonAgregarDatosPrincipales).
-                    habilitarEliminarActualizar(botonEliminarDatosPrincipales, botonActualizarDatosPrincipales);;
-
+                    habilitarEliminarActualizar(botonEliminarDatosPrincipales, botonActualizarDatosPrincipales);
+                    
         } else {
 
             servicioPaciente.
@@ -2012,7 +2013,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
     //                              ****
     @FXML
     private void buscarObraSocial(MouseEvent event) {
-
+        blanquearCajas();
         if (event.getClickCount() == 2) {
 
             Control control = (Control) event.getSource();
@@ -2084,6 +2085,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
     }
     
     public void buscarObraSocialDesdeCaja() {
+        blanquearCajas();
         if (!cajaBuscarObraSocial.getText().isBlank()) {
 
             if (!cajaBuscarObraSocial.getText().equals("0")) {
@@ -2549,6 +2551,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
     
     @FXML
     public void vaciarCajasObraSocial(MouseEvent event){
+           blanquearCajas();
            servicioObraSocial.
                     vaciarListaObraSocial().
                     habilitarCajas(cajasObrasSociales).
@@ -2695,6 +2698,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
    
     @FXML
     protected void vaciarTodasLasCajas(MouseEvent event) {
+        blanquearCajas();
         cajaBuscarPaciente.setText("");
         servicioPaciente.
                 vaciarListas().

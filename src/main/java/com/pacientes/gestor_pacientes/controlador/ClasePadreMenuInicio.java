@@ -797,7 +797,19 @@ public class ClasePadreMenuInicio extends ClasePadreController{
         }
     }
     
+    protected void blanquearCajas(){
+        servicioPaciente.
+                desPintarCajaVaciaImportante(VariablesEstaticas.cajasDatosPrincipales).
+                desPintarCajaVaciaImportante(VariablesEstaticas.cajasObraSocialPaciente).
+                desPintarCajaVaciaImportante(VariablesEstaticas.cajasPlanes).
+                desPintarCajaAreaVaciaImportante(VariablesEstaticas.cajasAreaDiagnostico).
+                desPintarCajaAreaVaciaImportante(VariablesEstaticas.cajasAreaPlan).
+                desPintarCajaAreaVaciaImportante(VariablesEstaticas.cajasAreaSesion).
+                desPintarCajaVaciaImportante(VariablesEstaticas.cajasObrasSociales);
+    }
+    
     protected void vaciarPaciente(){
+        blanquearCajas();
         servicioObraSocial.
                     vaciarListaObraSocial().
                     habilitarCajas(cajasObrasSociales).

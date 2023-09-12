@@ -237,7 +237,7 @@ public class AgendaController extends MenuInicioController implements Initializa
         
         
         for (int row = 0; row < 6; row++) {
-            for (int col = 0; col < 8; col++) {
+            for (int col = 0; col < 7; col++) {
                 
                 Integer day = (row * 7) + col + 1 - column;
                 
@@ -404,7 +404,7 @@ public class AgendaController extends MenuInicioController implements Initializa
         
         
         //SI EL DIA NO EXEDE EL MES ACUTUAL O DA VALORES NEGATIVOSS
-        if (dia > 0 && dia <= fechaActual.getMonth().length(true)) {
+        if (dia > 0 && dia <= fechaActual.lengthOfMonth()) {
             //CONSULTA SI EXISTE UN RECORDATORIO PARA LA CELDA CONCURRENTE
              //LOCAL DATE CON LA FECHA DE LA CELDA CONCURRENTE
             LocalDate localDateConcurrente = LocalDate.of(fechaActual.getYear(), fechaActual.getMonth().getValue(), dia);
@@ -431,9 +431,18 @@ public class AgendaController extends MenuInicioController implements Initializa
         
         //SI EL DIA NO EXEDE EL MES ACUTUAL O DA VALORES NEGATIVOSS
         if (dia > 0 && dia <= fechaActual.getMonth().length(true)) {
+            
             //COMPRUEBA SI EXISTE ACCION PARA MOSTRA EL BOTON DE VER ACCION
              //LOCAL DATE CON LA FECHA DE LA CELDA CONCURRENTE
-            LocalDate localDateConcurrente = LocalDate.of(fechaActual.getYear(), fechaActual.getMonth().getValue(), dia);
+             LocalDate localDateConcurrente;
+             if((fechaActual.getYear() % 4 == 0  && fechaActual.getYear() % 100 != 0) || (fechaActual.getYear() % 400 == 0) && fechaActual.getMonth().getValue() == 2){
+                 localDateConcurrente = LocalDate.of(fechaActual.getYear(), fechaActual.getMonth().getValue(), dia);
+             }else if(fechaActual.getMonth().getValue() == 2 && dia == 29){
+                localDateConcurrente = LocalDate.of(fechaActual.getYear(), fechaActual.getMonth().getValue(), dia-1);
+             }else{
+                 localDateConcurrente = LocalDate.of(fechaActual.getYear(), fechaActual.getMonth().getValue(), dia);
+             }
+             
             try {
                 if (agendaDao.obtenerSiExisteAccion(localDateConcurrente)) {
                     agregarImagen.setImage(VariablesEstaticas.imagenVer);
@@ -448,7 +457,7 @@ public class AgendaController extends MenuInicioController implements Initializa
         
         
         HBox hboxImg = new HBox(agregarImagen);
-        hboxImg.setPrefSize(200, 200);
+        hboxImg.setPrefSize(500, 500);
         hboxImg.setAlignment(Pos.BOTTOM_RIGHT);
         hboxImg.setId("" + fechaActual.getYear() + "-" + fechaActual.getMonth().getValue() + "-" + dia);
         hboxImg.setOnMouseClicked(this::administraAccion);
@@ -460,7 +469,7 @@ public class AgendaController extends MenuInicioController implements Initializa
         vBoxAgenda.getStylesheets().add(cssCalendario);
         
         vBoxAgenda.setId("anchorCeldasCalendario");
-        vBoxAgenda.setPrefSize(200, 200);
+        vBoxAgenda.setPrefSize(500, 500);
         
        
         
