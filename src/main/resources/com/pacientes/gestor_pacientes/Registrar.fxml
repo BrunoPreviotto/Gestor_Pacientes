@@ -112,5 +112,18 @@
             <Label text="Registrar" />
          </graphic></Button>
       <Label fx:id="reg" layoutX="32.0" layoutY="300.0" text="REGISTRADISIMO" visible="false" />
+      <Button fx:id="botonRetornarDatosPrincipales1" layoutX="728.0" layoutY="6.0" mnemonicParsing="false" onMouseClicked="#retronarAIngresar" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="5.0">
+         <graphic>
+            <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@img/retornar.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <styleClass>
+            <String fx:value="botonBuscar" />
+            <String fx:value="botonBuscarChico" />
+         </styleClass>
+      </Button>
    </children>
 </AnchorPane>

@@ -54,7 +54,7 @@ public class ClasePadreController {
     protected String imagenErrorRuta = getClass().getResource("/com/pacientes/gestor_pacientes/img/error.png").toExternalForm();
     
     private Image imgError = new Image(imagenErrorRuta);
-    private Image imgOk = new Image(VariablesEstaticas.imgenExito);
+    private Image imgOk = new Image("/com/pacientes/gestor_pacientes/img/exito.png");
     @FXML
     private Label etiquetaMensaje;
     
@@ -169,6 +169,8 @@ public class ClasePadreController {
     
     
    protected void agregarImg(HBox v, int esError, String error){
+       
+       
        ImageView img = new ImageView();
        Label label = new Label(error);
        label.getStylesheets().add(cssNuevo);

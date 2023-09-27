@@ -74,6 +74,7 @@ import javafx.scene.control.TextArea;
 
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.image.Image;
 import javafx.scene.input.InputMethodEvent;
 
 import javafx.scene.input.KeyCode;
@@ -113,7 +114,14 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
         usuarioDao = new UsuarioDAOImplementacion();
         usuario = usuarioDao.obtenerUsuarioActual();
         
+       
+        VariablesEstaticas.setImgenExito("/com/pacientes/gestor_pacientes/img/exito.png");
+        VariablesEstaticas.setImgenError("/com/pacientes/gestor_pacientes/img/error.png");
+        VariablesEstaticas.setImgenAdvertencia("/com/pacientes/gestor_pacientes/img/warning.png");
         
+        VariablesEstaticas.setImagenVer(new Image("/com/pacientes/gestor_pacientes/img/ver.png"));
+        VariablesEstaticas.setImagenAgregar(new Image("/com/pacientes/gestor_pacientes/img/lapiz.png"));
+        VariablesEstaticas.setImagenRecordar(new Image("/com/pacientes/gestor_pacientes/img/recordatorio.png"));
         
         
         try {
@@ -529,7 +537,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
     //                          ****
     @FXML
     public void buscarPaciente() {
-
+       blanquearCajas();
         try {
 
 
@@ -640,6 +648,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                     vBoxAutorizacion.setVisible(false);
                     hbTablasSesionesAtorizaciones.setVisible(true);
                     mensajeAdvertenciaError("Paciente no encontrado", this, VariablesEstaticas.imgenAdvertencia);
+                    super.setearBotones();
                     servicioPaciente.
                             vaciarListas().
                             vaciarTodo().
@@ -650,7 +659,8 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                             ocultarLIstVBox(VariablesEstaticas.vboxsObraSocialPacienteActualizaroVer).
                             habilitarBotones(VariablesEstaticas.listaBotonesCrear).
                             deshabilitarBotones(VariablesEstaticas.listaBotonesEliminar).
-                            deshabilitarBotones(VariablesEstaticas.listaBotonesActualizar);
+                            deshabilitarBotones(VariablesEstaticas.listaBotonesActualizar).
+                            desPintarCajaVaciaImportante(VariablesEstaticas.cajasDatosPrincipales);
     }
     
     public void buscarDatosPrincipales(Paciente pacienteResultado) {
@@ -668,8 +678,8 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                     rellenarListaDatosPrincipales(pacienteResultado).
                     deshabilitarCajas(VariablesEstaticas.cajasDatosPrincipales).
                     desHabilitarBotonCrear(botonAgregarDatosPrincipales).
-                    habilitarEliminarActualizar(botonEliminarDatosPrincipales, botonActualizarDatosPrincipales);;
-
+                    habilitarEliminarActualizar(botonEliminarDatosPrincipales, botonActualizarDatosPrincipales);
+                    
         } else {
 
             servicioPaciente.
@@ -2003,7 +2013,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
     //                              ****
     @FXML
     private void buscarObraSocial(MouseEvent event) {
-
+        blanquearCajas();
         if (event.getClickCount() == 2) {
 
             Control control = (Control) event.getSource();
@@ -2075,6 +2085,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
     }
     
     public void buscarObraSocialDesdeCaja() {
+        blanquearCajas();
         if (!cajaBuscarObraSocial.getText().isBlank()) {
 
             if (!cajaBuscarObraSocial.getText().equals("0")) {
@@ -2186,6 +2197,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                 daoImplementacion = new ObraSocialDAOImplementacion();
                 daoImplementacion.insertar(obraSocial);
                 inicializarTableObraSocial();
+                iniciarChoicePlanObraSocialPaciente();
                 botonAgregarPlanesObraSocial.setDisable(false);
                 cajaBuscarObraSocial.setText(cajaNombreObraSocial.getText());
                 buscarObraSocial(event);
@@ -2365,6 +2377,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                             cajaBuscarObraSocial.setText(cajaNombreObraSocial.getText());
                             buscarObraSocial(event);
                             inicializarTableObraSocial();
+                            iniciarChoicePlanObraSocialPaciente();
                             servicioObraSocial.
                                     deshabilitarCajas(VariablesEstaticas.cajasObrasSociales);
                             
@@ -2514,6 +2527,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                         daoImplementacion.eliminar(obraSocial);
                         
                         inicializarTableObraSocial();
+                        iniciarChoicePlanObraSocialPaciente();
                         mensajeAdvertenciaError("Obra social eliminada con éxito", this, VariablesEstaticas.imgenExito);
                         servicioObraSocial.
                                 habilitarCajas(cajasObrasSociales).
@@ -2537,6 +2551,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
     
     @FXML
     public void vaciarCajasObraSocial(MouseEvent event){
+           blanquearCajas();
            servicioObraSocial.
                     vaciarListaObraSocial().
                     habilitarCajas(cajasObrasSociales).
@@ -2683,6 +2698,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
    
     @FXML
     protected void vaciarTodasLasCajas(MouseEvent event) {
+        blanquearCajas();
         cajaBuscarPaciente.setText("");
         servicioPaciente.
                 vaciarListas().
