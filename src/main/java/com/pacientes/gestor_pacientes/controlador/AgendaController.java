@@ -4,43 +4,53 @@
  */
 package com.pacientes.gestor_pacientes.controlador;
 
+
+
 import com.pacientes.gestor_pacientes.modelo.AccionesAgenda;
 import com.pacientes.gestor_pacientes.servicios.ServiciosAgenda;
 import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 import java.net.URL;
-import java.sql.SQLException;
+
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.Month;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAmount;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
+
+
 import java.util.Arrays;
 import java.util.List;
+
 import java.util.Objects;
 import java.util.ResourceBundle;
-import javafx.beans.NamedArg;
+import javafx.event.EventHandler;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
-import javafx.scene.image.Image;
+import javafx.scene.control.TextField;
+
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
+
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
+
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
+
+
 import javafx.stage.Stage;
 
 
@@ -51,12 +61,17 @@ import javafx.stage.Stage;
  */
 public class AgendaController extends MenuInicioController implements Initializable{
     
+    private String hboxAbiertoParaEditarAccion;
     
     private static ImageView agregarImagen;
     private  static ImageView recordarImagen;
    
      
+    @FXML
+    protected AnchorPane imagenOjoVer; 
     
+    @FXML
+    protected AnchorPane anchorAccionVer;
     
     
     private Object menu;
@@ -77,7 +92,7 @@ public class AgendaController extends MenuInicioController implements Initializa
     @FXML
     private TextArea cajaAreaVerAccionAgenda;
     
-    Pane calendarioCelda;
+    //Pane calendarioCelda;
     
     private static LocalDate fechaActual = LocalDate.now();
     @FXML
@@ -94,10 +109,32 @@ public class AgendaController extends MenuInicioController implements Initializa
     String cssCalendario = getClass().getResource("/com/pacientes/gestor_pacientes/styles/calendario.css").toExternalForm();
     @FXML
     private CheckBox checkRecordar;
+    @FXML
+    private ScrollPane panelScrollBotonesAcciones;
+    @FXML
+    private TextField CajaHora;
+    @FXML
+    private TextField cajaMinutos;
+    
+    @FXML
+    private TextField CajaId;
+    
+    @FXML
+    private AnchorPane anchorScroll;
+
+    public String getHboxAbiertoParaEditarAccion() {
+        return hboxAbiertoParaEditarAccion;
+    }
+
+    public void setHboxAbiertoParaEditarAccion(String hboxAbiertoParaEditarAccion) {
+        this.hboxAbiertoParaEditarAccion = hboxAbiertoParaEditarAccion;
+    }
    
+    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+       anchorAccionVer.setStyle(servicioPadre.iniciarColorApp());
        
     }   
 
@@ -152,49 +189,218 @@ public class AgendaController extends MenuInicioController implements Initializa
         this.menu = obj;
         this.stage = stage;
         fechaSeleccionado(hbox);
+        iniciarAccionesConHoraYRecordatorio();
+        anchorAccionVer.setStyle(servicioPadre.iniciarColorApp());
         
+        Stage newStage = new Stage();
+       newStage.initOwner(stage.getOwner());
+       
+        Scene ownerScene = stage.getOwner().getScene();
+       ownerScene.getRoot().setStyle(servicioPadre.iniciarColorApp());
+
+       
+       this.onDraggedScene(anchorAccionVer);
+        // ... (configuración adicional para el nuevo Stage)
+
+        // Mostrar el nuevo Stage
+        
+        
+        //newStage.show();
+        
+    }
+    
+    public void iniciarAccionesConHoraYRecordatorio() {
+       
+        anchorScroll.getChildren().clear();
         LocalDate d = LocalDate.of(anoSeleccionado, mesSeleccionado, diaSeleccionado);
-        
-        
-        
+
         AccionesAgenda agenda = new AccionesAgenda();
         agenda.setFecha(LocalDate.of(anoSeleccionado, mesSeleccionado, diaSeleccionado));
-        
-        
+
+        VBox vbAccionesPOrDia = new VBox();
         
         try {
-            agenda = agendaDao.obtener(agenda); 
-            if(Objects.nonNull(agenda.getAccion())){
-                cajaAreaVerAccionAgenda.setText(agenda.getAccion());
-                if(Objects.nonNull(agenda.getRecordar())){
-                    checkRecordar.setSelected(agenda.getRecordar());
+            List<AccionesAgenda> listaAccion = agendaDao.obtenerLista(agenda);
+            if (Objects.nonNull(listaAccion.get(0))) {
+                
+                
+                Label labelIdCabecera = new Label("ID");
+                labelIdCabecera.setPrefSize(60, 30);
+                labelIdCabecera.getStyleClass().add("cabeceraVerCambiarAcciones");
+
+                HBox hbIdAccionesDiaCabecera = new HBox(labelIdCabecera);
+                hbIdAccionesDiaCabecera.setId("hbIdCabecera");
+                hbIdAccionesDiaCabecera.setPadding(new Insets(1));
+
+
+                Label labelHoraCabecera = new Label("Hora");
+                labelHoraCabecera.setPrefSize(60, 30);
+                labelHoraCabecera.getStyleClass().add("cabeceraVerCambiarAcciones");
+
+                HBox hbHoraAccionesDiaCabecera = new HBox(labelHoraCabecera);
+                hbHoraAccionesDiaCabecera.setId("hbHoraCabecera");
+                hbHoraAccionesDiaCabecera.setPadding(new Insets(1));
+
+                Label labelAccionCabecera = new Label("Acción");
+                labelAccionCabecera.setPrefSize(800, 30);
+                labelAccionCabecera.getStyleClass().add("cabeceraVerCambiarAcciones");
+
+                HBox hbAccionAccionesDiaCabecera = new HBox(labelAccionCabecera);
+                hbAccionAccionesDiaCabecera.setId("hbAccionCabecera");
+                hbAccionAccionesDiaCabecera.setPadding(new Insets(1));
+                
+                
+                
+                Label labelRecordatorioCabecera = new Label("Recordatorio");
+                labelRecordatorioCabecera.setPrefSize(88, 30);
+                labelRecordatorioCabecera.getStyleClass().add("cabeceraVerCambiarAcciones");
+
+                HBox hbRecordarAccionesDiaCabecera = new HBox(labelRecordatorioCabecera);
+                hbRecordarAccionesDiaCabecera.setId("hbREcordarCabecera");
+                hbRecordarAccionesDiaCabecera.setPadding(new Insets(1));
+                
+                HBox hbConjuntoAccionHoraRecordarCabecera = new HBox();
+                hbConjuntoAccionHoraRecordarCabecera.getChildren().add(hbIdAccionesDiaCabecera);
+                hbConjuntoAccionHoraRecordarCabecera.getChildren().add(hbHoraAccionesDiaCabecera);
+                hbConjuntoAccionHoraRecordarCabecera.getChildren().add(hbAccionAccionesDiaCabecera);
+                hbConjuntoAccionHoraRecordarCabecera.getChildren().add(hbRecordarAccionesDiaCabecera);
+                
+                vbAccionesPOrDia.getChildren().add(hbConjuntoAccionHoraRecordarCabecera);
+                
+                for (AccionesAgenda accion : listaAccion) {
+                    
+                    Label labelId = new Label(String.valueOf((accion.getId())));
+                    labelId.setPrefSize(60, 60);
+                    labelId.getStyleClass().add("botonHoraYFecha");
+                    
+                    HBox hbIdAccionesDia = new HBox(labelId);
+                    hbIdAccionesDia.setId("hbId");
+                    hbIdAccionesDia.setPadding(new Insets(1));
+                    
+                    
+                    Label labelHora = new Label(String.valueOf(accion.getFechaYHora().getHour() + ":" + String.format("%02d", accion.getFechaYHora().getMinute())));
+                    labelHora.setPrefSize(60, 60);
+                    labelHora.getStyleClass().add("botonHoraYFecha");
+                    
+                    HBox hbHoraAccionesDia = new HBox(labelHora);
+                    hbHoraAccionesDia.setId("hbHora");
+                    hbHoraAccionesDia.setPadding(new Insets(1));
+                    
+                    Label labelAccion = new Label(accion.getAccion());
+                    labelAccion.setPrefSize(800, 60);
+                    labelAccion.getStyleClass().add("botonHoraYFecha");
+                    
+                    HBox hbAccionAccionesDia = new HBox(labelAccion);
+                    hbAccionAccionesDia.setId("hbAccion");
+                    hbAccionAccionesDia.setPadding(new Insets(1));
+                    
+                    
+
+                    CheckBox checkRecordarPorAccion = new CheckBox();
+                    checkRecordarPorAccion.getStyleClass().add("cbPorAccion");
+                    checkRecordarPorAccion.setDisable(true);
+                    checkRecordarPorAccion.setPrefSize(88, 60);
+                    checkRecordarPorAccion.setSelected(accion.getRecordar());
+                    checkRecordarPorAccion.setPadding(new Insets(1));
+                    
+                    
+                    HBox hbRecordatorioAccionesDia = new HBox(checkRecordarPorAccion);
+                    hbRecordatorioAccionesDia.setId("hbRecordatorio");
+                    hbRecordatorioAccionesDia.setAlignment(Pos.BASELINE_CENTER);
+                    
+                    
+
+                    
+                    
+                    
+                    HBox hbConjuntoAccionHoraRecordar = new HBox();
+                    hbConjuntoAccionHoraRecordar.getChildren().add(hbIdAccionesDia);
+                    hbConjuntoAccionHoraRecordar.getChildren().add(hbHoraAccionesDia);
+                    hbConjuntoAccionHoraRecordar.getChildren().add(hbAccionAccionesDia);
+                    hbConjuntoAccionHoraRecordar.getChildren().add(hbRecordatorioAccionesDia);
+                    
+                    hbConjuntoAccionHoraRecordar.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            seleccionarAccion(event);
+                        }
+                    });
+                    
+                    vbAccionesPOrDia.getChildren().add(hbConjuntoAccionHoraRecordar);
+
                 }
+
+                
+
+                
+                
+               
+
+                anchorScroll.getChildren().add(vbAccionesPOrDia);
             }
-            if(cajaAreaVerAccionAgenda.getText().isBlank()){
+
+            if (cajaAreaVerAccionAgenda.getText().isBlank()) {
                 botonActualizarAccionAgenda.setDisable(true);
                 botonCrearAccionAgenda.setDisable(false);
                 botonEliminarAccionAgenda.setDisable(true);
-            }else{
-                botonActualizarAccionAgenda.setDisable(false);
-                botonCrearAccionAgenda.setDisable(true);
-                botonEliminarAccionAgenda.setDisable(false);
-            }
-            
-        } catch (SQLException e) {
-          
+            } 
+
+        } catch (Exception e) {
         }
     }
-    
-    
 
     public AgendaController() {
         this.agenda = VariablesEstaticas.gridAgenda;
-        this.anchorPrincipalAgenda =  VariablesEstaticas.anchorPrincipalAgenda;
+        this.anchorPrincipalAgenda = VariablesEstaticas.anchorPrincipalAgenda;
         this.anchorAgendaAgenda = VariablesEstaticas.anchorAgendaAgenda;
     }
 
     
-   
+   public void seleccionarAccion(MouseEvent event){
+       HBox hbAccion = (HBox)event.getSource();
+       botonCrearAccionAgenda.setDisable(true);
+       botonActualizarAccionAgenda.setDisable(false);
+       botonEliminarAccionAgenda.setDisable(false);
+       for (Node node : hbAccion.getChildren()) {
+           Label label;
+           HBox hb;
+           CheckBox cb;
+           
+           if(node.getId().equals("hbHora")){
+               
+               hb = (HBox)node;
+               label = (Label)hb.getChildren().get(0);
+               String[] textoBoton = label.getText().split(":");
+               CajaHora.setText(textoBoton[0]);
+               cajaMinutos.setText(textoBoton[1]);
+           }
+           
+           if(node.getId().equals("hbAccion")){
+               
+               hb = (HBox)node;
+               label = (Label)hb.getChildren().get(0);
+               
+               cajaAreaVerAccionAgenda.setText(label.getText());
+               
+           }
+           
+           if(node.getId().equals("hbRecordatorio")){
+               
+               hb = (HBox)node;
+               cb = (CheckBox)hb.getChildren().get(0);
+               checkRecordar.setSelected(cb.isSelected());
+           }
+           
+           if(node.getId().equals("hbId")){
+               
+               hb = (HBox)node;
+               label = (Label)hb.getChildren().get(0);
+               
+               CajaId.setText(label.getText());
+               
+           }
+       }
+   }
     
     
     
@@ -335,6 +541,7 @@ public class AgendaController extends MenuInicioController implements Initializa
                     HBox hboxMes = (HBox) n;
                     Label mes = (Label) hboxMes.getChildren().get(0);
                     mes.setText(mesAEspanol(fechaActual.getMonth().toString()));
+                    mes.getStyleClass().add("labelCuerpo");
 
                 }
                 if (n.getId().equals("hboxAno")) {
@@ -342,6 +549,7 @@ public class AgendaController extends MenuInicioController implements Initializa
                     HBox hboxAno = (HBox) n;
                     Label ano = (Label) hboxAno.getChildren().get(0);
                     ano.setText(String.valueOf(fechaActual.getYear()));
+                    ano.getStyleClass().add("labelCuerpo");
 
                 }
             }
@@ -359,6 +567,7 @@ public class AgendaController extends MenuInicioController implements Initializa
             HBox hBoxMes = new HBox(mes);
             hBoxMes.setId("hboxMes");
             hBoxMes.setAlignment(Pos.BASELINE_LEFT);
+            mes.getStyleClass().add("labelCuerpo");
 
             Label ano = new Label();
             ano.setText(String.valueOf(fechaActual.getYear()));
@@ -368,6 +577,7 @@ public class AgendaController extends MenuInicioController implements Initializa
             HBox hBoxAno = new HBox(ano);
             hBoxAno.setId("hboxAno");
             hBoxAno.setAlignment(Pos.BASELINE_CENTER);
+            ano.getStyleClass().add("labelCuerpo");
 
             anchorAgendaAgenda.getChildren().add(0, hBoxAno);
             anchorAgendaAgenda.getChildren().add(1, hBoxMes);
@@ -378,8 +588,8 @@ public class AgendaController extends MenuInicioController implements Initializa
     
     public VBox aspectoCeldasCalendario(int dia) {
         
-       
-        agregarImagen = new ImageView(VariablesEstaticas.imagenVer);
+        
+        
        
         
         Label dayLabel = new Label();
@@ -424,11 +634,11 @@ public class AgendaController extends MenuInicioController implements Initializa
         hbRecordatorio.setPadding(new Insets(0, 5, 0, 0));
         
         //AGREGAR VER ACCION
-        agregarImagen.setFitWidth(20);
+        /*agregarImagen.setFitWidth(20);
         agregarImagen.setFitHeight(20);
-        agregarImagen.setId("boton" + dia + fechaActual.getMonth().getValue() + fechaActual.getYear());
+        agregarImagen.setId("boton" + dia + fechaActual.getMonth().getValue() + fechaActual.getYear());*/
         
-        
+        AnchorPane anchorOjoVer = new AnchorPane();
         //SI EL DIA NO EXEDE EL MES ACUTUAL O DA VALORES NEGATIVOSS
         if (dia > 0 && dia <= fechaActual.getMonth().length(true)) {
             
@@ -445,18 +655,33 @@ public class AgendaController extends MenuInicioController implements Initializa
              
             try {
                 if (agendaDao.obtenerSiExisteAccion(localDateConcurrente)) {
-                    agregarImagen.setImage(VariablesEstaticas.imagenVer);
+                   
+                    anchorOjoVer = servicioPadre.imagenOjo();
+                    //agregarImagen.setImage(VariablesEstaticas.imagenVer);
                     
                 }else{
-                    agregarImagen.setImage(VariablesEstaticas.imagenAgregar);
+                    anchorOjoVer =  servicioPadre.imagenLapiz();
+                    //agregarImagen.setImage(VariablesEstaticas.imagenAgregar);
                 }
             } catch (Exception e) {
+                anchorOjoVer = new AnchorPane();
             }
         }
         
         
         
-        HBox hboxImg = new HBox(agregarImagen);
+        
+      
+        
+        
+        
+        
+        //servicioPadre.imagenOjo()
+        //agregarImagen
+        
+        HBox hboxImg = new HBox(anchorOjoVer);
+        
+        
         hboxImg.setPrefSize(500, 500);
         hboxImg.setAlignment(Pos.BOTTOM_RIGHT);
         hboxImg.setId("" + fechaActual.getYear() + "-" + fechaActual.getMonth().getValue() + "-" + dia);
@@ -584,45 +809,68 @@ public class AgendaController extends MenuInicioController implements Initializa
 
     @FXML
     private void crearAccionAgenda(MouseEvent event) {
-        LocalDate fechaCrear = LocalDate.of(anoSeleccionado, mesSeleccionado, diaSeleccionado);
+        //fecha actual
+        
+       LocalDate fechaCrear = LocalDate.of(anoSeleccionado, mesSeleccionado, diaSeleccionado);
+        
         listaCajasAreaAccion = Arrays.asList(cajaAreaVerAccionAgenda);
+        
         if (cajaAreaVerAccionAgenda.getText().isBlank()) {
-            mensajeAdvertenciaError("Ingresar datos para crear acción", this, "/com/pacientes/gestor_pacientes/img/error.png");
+            mensajeAdvertenciaError("Ingresar datos para crear acción", this, VariablesEstaticas.imgenAdvertencia);
             servicioAgenda.
                     pintarCajaAreaVaciaImportante(listaCajasAreaAccion);
 
-        } else {
+        }else if(CajaHora.getText().isEmpty() || cajaMinutos.getText().isEmpty()){
+            mensajeAdvertenciaError("Ingresar horario para crear acción", this, VariablesEstaticas.imgenAdvertencia);
+        }else {
             AccionesAgenda accion
                     = new AccionesAgenda(
                             cajaAreaVerAccionAgenda.getText(),
                             fechaCrear,
-                            checkRecordar.isSelected());
-            if (Objects.nonNull(accion.getAccion())) {
+                            checkRecordar.isSelected(), 
+                            LocalDateTime.of(anoSeleccionado, mesSeleccionado, diaSeleccionado, Integer.parseInt(CajaHora.getText()), Integer.parseInt(cajaMinutos.getText()), 00));
+           
+                if (Objects.nonNull(accion.getAccion())) {
                 try {
+                    
+                    
                     agendaDao.insertar(accion);
-                    mensajeAdvertenciaError("Éxito al crear accion", this, "/com/pacientes/gestor_pacientes/img/error.png");
-                    ImageView img = (ImageView) hboxPrecionadoParaEditarOverAccion.getChildren().get(0);
-                    img.setImage(VariablesEstaticas.imagenVer);
-                    botonActualizarAccionAgenda.setDisable(false);
-                    botonEliminarAccionAgenda.setDisable(false);
-                    botonCrearAccionAgenda.setDisable(true);
-
+                    mensajeAdvertenciaError("Éxito al crear accion", this, VariablesEstaticas.imgenExito);
+                    hboxPrecionadoParaEditarOverAccion.getChildren().clear();
+                    hboxPrecionadoParaEditarOverAccion.getChildren().add(servicioPadre.imagenOjo());
+                    aspectoCeldasCalendario(diaSeleccionado);
+                    
+                    
                     String fechaParActivarRecordatorio = acomodarFechaParaPasarALocalDate(hboxPrecionadoParaEditarOverAccion.getId());
                     if (checkRecordar.isSelected()) {
-                        img = (ImageView) hboxPrecionadoRecordatorio.getChildren().get(0);
+                        
+                        ImageView img = (ImageView) hboxPrecionadoRecordatorio.getChildren().get(0);
                         img.setVisible(true);
                         if (LocalDate.parse(fechaParActivarRecordatorio).equals(LocalDate.now())) {
                             VariablesEstaticas.imagenRecordatorioAgendaLateral.setVisible(true);
-                            
+
                         }
                     }
+                    
+                    
+                    iniciarAccionesConHoraYRecordatorio();
+                    CajaHora.setText("");
+                    cajaMinutos.setText("");
+                    cajaAreaVerAccionAgenda.setText("");
+                    checkRecordar.setSelected(false);
+                        
+                    
+                    
+                    
                 } catch (Exception e) {
-                    mensajeAdvertenciaError("Error al crear accion", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                    mensajeAdvertenciaError("Error al crear acción", this, VariablesEstaticas.imgenError);
+                    e.printStackTrace();
                 }
 
-            } else {
-                mensajeAdvertenciaError("Error al crear accion", this, "/com/pacientes/gestor_pacientes/img/error.png");
-            }
+                } else {
+                    mensajeAdvertenciaError("Error al crear acción", this, VariablesEstaticas.imgenError);
+                }
+            
         }
     }
 
@@ -630,8 +878,9 @@ public class AgendaController extends MenuInicioController implements Initializa
     private void actualizarAccionAgenda(MouseEvent event) {
         LocalDate fechaCrear = LocalDate.of(anoSeleccionado, mesSeleccionado, diaSeleccionado);
         listaCajasAreaAccion = Arrays.asList(cajaAreaVerAccionAgenda);
+        
         if (cajaAreaVerAccionAgenda.getText().isBlank()) {
-            mensajeAdvertenciaError("Ingresar datos para actualizar acción", this, "/com/pacientes/gestor_pacientes/img/error.png");
+            mensajeAdvertenciaError("Ingresar datos para actualizar acción", this, VariablesEstaticas.imgenAdvertencia);
             servicioAgenda.
                     pintarCajaAreaVaciaImportante(listaCajasAreaAccion);
 
@@ -641,28 +890,45 @@ public class AgendaController extends MenuInicioController implements Initializa
                             cajaAreaVerAccionAgenda.getText(),
                             fechaCrear,
                             checkRecordar.isSelected());
-            if (Objects.nonNull(accion.getAccion())) {
+            
+            accion.setFechaYHora(LocalDateTime.of(anoSeleccionado, mesSeleccionado, diaSeleccionado, Integer.parseInt(CajaHora.getText()), Integer.parseInt(cajaMinutos.getText()), 00));
+            accion.setId(Integer.parseInt(CajaId.getText()));
+            
+            if (Objects.nonNull(accion.getAccion()) && Objects.nonNull(accion.getFechaYHora())) {
                 try {
                     agendaDao.actualizar(accion);
-                    mensajeAdvertenciaError("Éxito al actualizar accion", this, "/com/pacientes/gestor_pacientes/img/error.png");
-                    cajaAreaVerAccionAgenda.setText(agendaDao.obtener(accion).getAccion());
-                    ImageView img = (ImageView) hboxPrecionadoParaEditarOverAccion.getChildren().get(0);
-                    img.setImage(VariablesEstaticas.imagenVer);
-
+                    mensajeAdvertenciaError("Éxito al actualizar accion", this, VariablesEstaticas.imgenExito);
+                    
                     String fechaParActivarRecordatorio = acomodarFechaParaPasarALocalDate(hboxPrecionadoParaEditarOverAccion.getId());
                     if (checkRecordar.isSelected()) {
-                        img = (ImageView) hboxPrecionadoRecordatorio.getChildren().get(0);
+                        ImageView img = (ImageView) hboxPrecionadoRecordatorio.getChildren().get(0);
                         img.setVisible(true);
                         if (LocalDate.parse(fechaParActivarRecordatorio).equals(LocalDate.now())) {
                             VariablesEstaticas.imagenRecordatorioAgendaLateral.setVisible(true);
                         }
                     }
+                    
+                    cajaAreaVerAccionAgenda.setText("");
+                    CajaHora.setText("");
+                    cajaMinutos.setText("");
+                    CajaId.setText("");
+                    botonActualizarAccionAgenda.setDisable(true);
+                    botonEliminarAccionAgenda.setDisable(true);
+                    botonCrearAccionAgenda.setDisable(false);
+                    checkRecordar.setSelected(false);
+                    iniciarAccionesConHoraYRecordatorio();
+                    
+                    //setear imagen de editar ver y recordar del calendario
+                    hboxPrecionadoParaEditarOverAccion.getChildren().clear();
+                    hboxPrecionadoParaEditarOverAccion.getChildren().add(servicioPadre.imagenOjo());
+                    
                 } catch (Exception e) {
-                    mensajeAdvertenciaError("Error al actualizar accion", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                    mensajeAdvertenciaError("Error al actualizar acción", this, VariablesEstaticas.imgenError);
+                    e.printStackTrace();
                 }
 
             } else {
-                mensajeAdvertenciaError("Error al actualizar accion", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                mensajeAdvertenciaError("Seleccionar acción para actualizar", this, VariablesEstaticas.imgenAdvertencia);
             }
         }
     }
@@ -673,37 +939,52 @@ public class AgendaController extends MenuInicioController implements Initializa
         LocalDate fechaCrear = LocalDate.of(anoSeleccionado, mesSeleccionado, diaSeleccionado);
 
         if (cajaAreaVerAccionAgenda.getText().isBlank()) {
-            mensajeAdvertenciaError("No hay accion para eliminar", this, "/com/pacientes/gestor_pacientes/img/error.png");
+            mensajeAdvertenciaError("No hay accion para eliminar", this, VariablesEstaticas.imgenAdvertencia);
         } else {
-            AccionesAgenda accion
-                    = new AccionesAgenda(
-                            cajaAreaVerAccionAgenda.getText(),
-                            fechaCrear);
-            if (Objects.nonNull(accion.getAccion())) {
+            AccionesAgenda accion = new AccionesAgenda();
+            accion.setId(Integer.parseInt(CajaId.getText()));
+            if (Objects.nonNull(accion.getId())) {
                 try {
+                    
+                    
+                    
                     agendaDao.eliminar(accion);
-                    mensajeAdvertenciaError("Éxito al eliminar acción", this, "/com/pacientes/gestor_pacientes/img/error.png");
-                    cajaAreaVerAccionAgenda.setText("");
-                    botonActualizarAccionAgenda.setDisable(true);
-                    botonEliminarAccionAgenda.setDisable(true);
-                    botonCrearAccionAgenda.setDisable(false);
-                    ImageView img = (ImageView) hboxPrecionadoParaEditarOverAccion.getChildren().get(0);
-                    img.setImage(VariablesEstaticas.imagenAgregar);
-                    img = (ImageView) hboxPrecionadoRecordatorio.getChildren().get(0);
-                    img.setVisible(false);
-
+                    mensajeAdvertenciaError("Éxito al eliminar acción", this, VariablesEstaticas.imgenExito);
+                    
+                    if(!agendaDao.obtenerRecordatorio(fechaCrear)){
+                        ImageView img = (ImageView) hboxPrecionadoRecordatorio.getChildren().get(0);
+                        img.setVisible(false);
+                    }
+                    
                     String fechaParActivarRecordatorio = acomodarFechaParaPasarALocalDate(hboxPrecionadoParaEditarOverAccion.getId());
                     if (LocalDate.parse(fechaParActivarRecordatorio).equals(LocalDate.now())) {
                         VariablesEstaticas.imagenRecordatorioAgendaLateral.setVisible(false);
                         
                     }
+                    
+                    cajaAreaVerAccionAgenda.setText("");
+                    CajaHora.setText("");
+                    cajaMinutos.setText("");
+                    CajaId.setText("");
+                    botonActualizarAccionAgenda.setDisable(true);
+                    botonEliminarAccionAgenda.setDisable(true);
+                    botonCrearAccionAgenda.setDisable(false);
+                    checkRecordar.setSelected(false);
+                    iniciarAccionesConHoraYRecordatorio();
+                    
+                    //setear imagen del calendario para ver accion o editar y activaer el recordatorio
+                    hboxPrecionadoParaEditarOverAccion.getChildren().clear();
+                    hboxPrecionadoParaEditarOverAccion.getChildren().add(servicioPadre.imagenLapiz());
+                    
+                    
 
                 } catch (Exception e) {
-                    mensajeAdvertenciaError("Error al eliminar acción", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                    mensajeAdvertenciaError("Error al eliminar acción", this, VariablesEstaticas.imgenError);
+                    e.printStackTrace();
                 }
 
             } else {
-                mensajeAdvertenciaError("Error al eliminar acción", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                mensajeAdvertenciaError("Seleccionar acción a eliminar", this, VariablesEstaticas.imgenAdvertencia);
             }
         }
 
@@ -711,6 +992,14 @@ public class AgendaController extends MenuInicioController implements Initializa
 
     @FXML
     private void retornarAccionAgenda(MouseEvent event) {
+        cajaAreaVerAccionAgenda.setText("");
+        CajaHora.setText("");
+        cajaMinutos.setText("");
+        CajaId.setText("");
+        botonActualizarAccionAgenda.setDisable(true);
+        botonEliminarAccionAgenda.setDisable(true);
+        botonCrearAccionAgenda.setDisable(false);
+        checkRecordar.setSelected(false);
     }
 
     public String acomodarFechaParaPasarALocalDate(String aFecha){
@@ -728,6 +1017,51 @@ public class AgendaController extends MenuInicioController implements Initializa
                     }
                     return result;
     }
+
+    
+    
+    @FXML
+    private void soloNumersoHora(KeyEvent event) {
+        soloNumero(event);
+        
+        TextField tf = (TextField) event.getSource();
+        String caracter = event.getCharacter();
+        
+        if (Character.isDigit(caracter.charAt(0))) {
+            if (Integer.parseInt(tf.getText()) > 23 || Integer.parseInt(tf.getText()) < 0) {
+                mensajeAdvertenciaError("Ingresar hora válida", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                tf.setText("");
+            }
+        }
+
+    }
+
+    @FXML
+    private void soloNumersoMinutos(KeyEvent event) {
+        soloNumero(event);
+        
+        TextField tf = (TextField) event.getSource();
+        String caracter = event.getCharacter();
+        
+        if (Character.isDigit(caracter.charAt(0))) {
+            
+            if (Integer.parseInt(tf.getText()) > 59 || Integer.parseInt(tf.getText()) < 0) {
+                mensajeAdvertenciaError("Ingresar minutos válidos", this, "/com/pacientes/gestor_pacientes/img/error.png");
+                tf.setText("");
+            }
+        }
+        
+    }
+
+    
+    
+    
+
+   
+   
+
+
+   
     
     
     

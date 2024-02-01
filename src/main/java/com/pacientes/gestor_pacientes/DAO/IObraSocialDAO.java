@@ -4,8 +4,7 @@
  */
 package com.pacientes.gestor_pacientes.DAO;
 import com.pacientes.gestor_pacientes.modelo.ObraSocial;
-import java.sql.SQLException;
-import java.util.List;
+
 /**
  *
  * @author previotto

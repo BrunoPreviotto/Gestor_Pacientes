@@ -7,26 +7,31 @@ package com.pacientes.gestor_pacientes.controlador;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableBiMap;
+import com.pacientes.gestor_pacientes.servicios.ServiciosPadre;
 import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextInputControl;
-import javafx.scene.image.Image;
+
+
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
  *
  * @author previotto
  */
-public class EliminarSesionController {
+public class EliminarSesionController implements Initializable {
 
     private Object menu;
     private Stage stage;
@@ -47,6 +52,8 @@ public class EliminarSesionController {
     private BiMap<List<CheckBox>, Boolean> valoresElimenarSesion = HashBiMap.create();
     
     VariablesEstaticas variablesEstaticas = new VariablesEstaticas();
+    @FXML
+    private AnchorPane AnchorEliminarSesion;
     
     
     public BiMap<List<CheckBox>, Boolean> mensajeEliminarSesion(Stage stage , Object obj){
@@ -83,6 +90,12 @@ public class EliminarSesionController {
         valoresElimenarSesion =   ImmutableBiMap.of(check, eliminar);
         variablesEstaticas.valoresElimenarSesion = valoresElimenarSesion;
         salir(event);
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        ServiciosPadre serviciosPadre = new ServiciosPadre();
+        AnchorEliminarSesion.setStyle(serviciosPadre.iniciarColorApp());
     }
     
 }

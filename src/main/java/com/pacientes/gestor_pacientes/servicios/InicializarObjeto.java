@@ -5,10 +5,10 @@
 package com.pacientes.gestor_pacientes.servicios;
 import com.pacientes.gestor_pacientes.modelo.Email;
 import com.pacientes.gestor_pacientes.modelo.Paciente;
-import com.pacientes.gestor_pacientes.modelo.Usuario;
+
 import com.pacientes.gestor_pacientes.modelo.Usuario;
 import com.pacientes.gestor_pacientes.modelo.Telefono;
-import java.util.List;
+
 /**
  *
  * @author previotto

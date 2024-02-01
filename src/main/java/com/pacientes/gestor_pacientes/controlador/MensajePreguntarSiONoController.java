@@ -4,6 +4,7 @@
  */
 package com.pacientes.gestor_pacientes.controlador;
 
+import com.pacientes.gestor_pacientes.servicios.ServiciosPadre;
 import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -12,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
@@ -27,13 +29,16 @@ public class MensajePreguntarSiONoController implements Initializable {
     private Button botonNoMensajePreguntarSiONo;
     
     private Object menu;
+    @FXML
+    private AnchorPane anchorPreguntarSiONoController;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        ServiciosPadre serviciosPadre = new ServiciosPadre();
+        anchorPreguntarSiONoController.setStyle(serviciosPadre.iniciarColorApp());
     }    
     
     public void preguntarSiONo(Object obj){

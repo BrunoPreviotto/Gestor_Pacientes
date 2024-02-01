@@ -7,6 +7,26 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     Author     : previotto
 */
 
+
+
+.root{
+    -fx-color-1: #C02A00;
+    -fx-color-2: rgba(224, 111, 78);
+    -fx-color-3: rgba(255, 179, 156);
+    -fx-color-4: rgba(255, 236, 231);
+    
+    /*opaque*/
+    -fx-color-1-opaque: rgba(192, 42, 0, 0.5);
+    -fx-color-2-opaque: rgba(224, 111, 78, 0.5);
+    -fx-color-3-opaque: rgba(255, 179, 156, 0.5);
+    -fx-color-4-opaque: rgba(255, 236, 231, 0.5);
+    
+    -fx-border-color: -fx-color-1;
+}
+
+
+
+
 .calendario{
     
      -fx-effect: dropshadow( gaussian , rgba(192, 192, 192, 0.8) , 10, 0, -5, -5);
@@ -20,32 +40,32 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 }
 
 .check-box{
-    -fx-text-fill: #C02A00;
+    -fx-text-fill: -fx-color-1;
     -fx-font-family: "Sawasdee";
      -fx-font-weight: bold;
 }
 
 .check-box .box{
-    -fx-background-color: rgba(255, 179, 156, 0.5);
-    -fx-border-color: rgba(224, 111, 78, 0.5);
+    -fx-background-color: -fx-color-3-opaque;
+    -fx-border-color: -fx-color-2-opaque;
     
 }
 
 .check-box:selected .mark{
-    -fx-background-color: #C02A00;
+    -fx-background-color: -fx-color-1;
 }
 
 .calendarioCeldaPar {
-   -fx-background-color: rgba(255, 179, 156, 0.5);
-   -fx-border-color: rgba(224, 111, 78, 0.5);
+   -fx-background-color: -fx-color-3-opaque;
+   -fx-border-color: -fx-color-2-opaque;
    
    
     
 }
 
 .calendarioCeldaDiaActual {
-   -fx-background-color: rgba(172, 114, 75, 0.5);
-   -fx-border-color: rgba(118, 52, 30, 0.5);
+   -fx-background-color: -fx-color-1-opaque;
+   -fx-border-color: -fx-color-1;
 }
 
 .calendarioCeldaDistintomes {
@@ -57,12 +77,25 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     
 }
 
-.botonVerCambiar{
-    -fx-background-color: rgba(255, 179, 156);
-    -fx-border-color: rgba(224, 111, 78, 0.5);
-    -fx-text-fill: rgba(224, 111, 78);
+.cabeceraVerCambiarAcciones{
+    -fx-background-color: -fx-color-3-opaque;
+    -fx-border-color: -fx-color-1;
+    -fx-text-fill: -fx-color-2;
+    -fx-alignment: center;
 }
 
+.botonVerCambiar{
+    -fx-background-color: -fx-color-3;
+    -fx-border-color: -fx-color-2-opaque;
+    -fx-text-fill: -fx-color-2;
+}
+
+.botonHoraYFecha{
+    -fx-background-color: -fx-color-3;
+    -fx-border-color: -fx-color-2-opaque;
+    -fx-text-fill: -fx-color-1;
+    -fx-alignment: center;
+}
 
 
 .mesCalendario{
@@ -84,8 +117,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 
 .calendarioCeldaImpar {
     
-    -fx-background-color: rgba(255, 236, 231, 0.5);
-    -fx-border-color: rgba(224, 139, 116, 0.5);
+    -fx-background-color: -fx-color-4-opaque;
+    -fx-border-color: -fx-color-2-opaque;
     
     
 }
@@ -94,6 +127,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     
 }
 
+.cbPorAccion .box{
+    -fx-pref-height: 30; 	
+    -fx-pref-width: 30; 
+}
+
+.cbPorAccion .mark{
+    -fx-pref-width: 10;
+    -fx-pref-width: 10; 
+}
 
 
 .AnchorHojas{
@@ -121,3 +163,25 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 }
 
 
+
+.label{
+    /*-fx-text-fill:  -fx-color-1;*/
+    
+     
+    /*-fx-font-size: 14px; */
+    
+    
+}
+
+
+
+.scroll-pane .scroll-bar {
+    -fx-background-color: -fx-color-4-opaque;
+    -fx-border-color: rgba(224, 139, 116, 0.5);
+}
+
+.scroll-pane .increment-button,
+.scroll-pane .decrement-button {
+   fx-background-color: -fx-color-4-opaque;
+    -fx-border-color: rgba(224, 139, 116, 0.5);
+}

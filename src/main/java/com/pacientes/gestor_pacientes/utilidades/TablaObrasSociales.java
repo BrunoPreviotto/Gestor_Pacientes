@@ -4,10 +4,7 @@
  */
 package com.pacientes.gestor_pacientes.utilidades;
 
-import com.pacientes.gestor_pacientes.modelo.Email;
-import com.pacientes.gestor_pacientes.modelo.Telefono;
-import com.pacientes.gestor_pacientes.modelo.Web;
-import java.util.List;
+
 
 /**
  *

@@ -8,18 +8,25 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 */
 
 .root{
-    -fx-background-color: white; 
-    -fx-border-color: #C02A00;
-    -fx-background-radius: 5;
-    -fx-border-radius: 5;
+    -fx-color-1: #C02A00;
+    -fx-color-2: rgba(224, 111, 78);
+    -fx-color-3: rgba(255, 179, 156);
+    -fx-color-4: rgba(255, 236, 231);
+    
+    /*opaque*/
+    -fx-color-1-opaque: rgba(192, 42, 0, 0.5);
+    -fx-color-2-opaque: rgba(224, 111, 78, 0.5);
+    -fx-color-3-opaque: rgba(255, 179, 156, 0.5);
+    -fx-color-4-opaque: rgba(255, 236, 231, 0.5);
+    
+    -fx-border-color: rgba(224, 139, 116, 0.5);
 }
 
 
 
-
 .botonEntrar{
-    -fx-background-color: rgba(255, 179, 156);
-    -fx-border-color: rgba(224, 111, 78);
+    -fx-background-color: -fx-color-3;
+    -fx-border-color: -fx-color-2;
     
      
     
@@ -35,14 +42,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     
     
     
-    -fx-effect: innershadow(one-pass-box, rgba(192, 42, 0, 0.5), 25, 0, 0, 0);
+    -fx-effect: innershadow(one-pass-box, -fx-color-1-opaque, 25, 0, 0, 0);
    
     
 }
 
 .label{
     
-    -fx-text-fill: #C02A00;
+    -fx-text-fill: -fx-color-1;
     -fx-font-family: "Sawasdee";
      -fx-font-weight: bold;
      
@@ -54,8 +61,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 
 .botonRegistrarse{
     
-    -fx-border-color: rgba(255, 179, 156, 0.5);
-    -fx-background-color: rgba(255, 179, 156, 0.5);
+    -fx-border-color: -fx-color-3-opaque;
+    -fx-background-color: -fx-color-3-opaque;
     
     
     
@@ -67,11 +74,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 }
 
 .botonRegistrarse:hover{ 
-    /*-fx-effect: innershadow(one-pass-box, rgba(255, 179, 156), 30, 0, 0, 5);
-    -fx-text-fill: #C02A00;*/
+    /*-fx-effect: innershadow(one-pass-box, -fx-color-3, 30, 0, 0, 5);
+    -fx-text-fill: -fx-color-1;*/
     
     
-    -fx-effect: innershadow(one-pass-box, rgba(192, 42, 0, 0.5), 25, 0, 0, 0);
+    -fx-effect: innershadow(one-pass-box, -fx-color-1-opaque, 25, 0, 0, 0);
    
     
 }
@@ -82,12 +89,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     
     -fx-background-radius: 10px 10px 10px 10px;
     -fx-border-radius: 95 95 95 95;
-    -fx-border-color: #C02A00;
+    -fx-border-color: -fx-color-1;
 }
 
 .cajas{
     -fx-background-color: #ffffff;
-    -fx-border-color: #ffffff #ffffff #C02A00 #ffffff;
+    -fx-border-color: #ffffff #ffffff -fx-color-1 #ffffff;
     -fx-border-width: 1px 1px 1px 1px;
     -fx-border-style: solid;
 }

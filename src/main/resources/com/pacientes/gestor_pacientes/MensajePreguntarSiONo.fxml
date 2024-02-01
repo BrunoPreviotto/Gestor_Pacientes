@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
+<?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="500.0" style="-fx-border-color: C02A00;" stylesheets="@styles/mensajeError.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pacientes.gestor_pacientes.controlador.MensajePreguntarSiONoController">
+<AnchorPane fx:id="anchorPreguntarSiONoController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pacientes.gestor_pacientes.controlador.MensajePreguntarSiONoController">
    <children>
       <Button layoutX="438.0" layoutY="13.0" maxHeight="55.0" maxWidth="75.0" mnemonicParsing="false" onMouseClicked="#salir" prefHeight="55.0" prefWidth="75.0" stylesheets="@styles/mensajeError.css" text="X" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="12.0">
          <styleClass>
@@ -13,7 +15,12 @@
             <String fx:value="botonBuscarChico" />
          </styleClass>
          <graphic>
-            <Label stylesheets="@styles/menuinicio.css" text="X" />
+            <AnchorPane>
+               <children>
+                  <Line endX="15.0" layoutX="5.0" layoutY="9.0" rotate="-45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="0.0" />
+                  <Line endX="15.0" layoutX="2.0" layoutY="6.0" rotate="45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="3.0" AnchorPane.rightAnchor="0.0" />
+               </children>
+            </AnchorPane>
          </graphic>
       </Button>
       <Button fx:id="botonSiMensajePreguntarSiONo" layoutX="316.0" layoutY="153.0" mnemonicParsing="false" onMouseClicked="#botonSeleccionado" prefWidth="50.0" styleClass="botonBuscar" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="70.0">
@@ -36,4 +43,8 @@
          </children>
       </HBox>
    </children>
+   <stylesheets>
+      <URL value="@styles/mensajeError.css" />
+      <URL value="@styles/menuinicio.css" />
+   </stylesheets>
 </AnchorPane>

@@ -6,7 +6,7 @@ package com.pacientes.gestor_pacientes.implementacionDAO.Paciente;
 
 import com.pacientes.gestor_pacientes.DAO.CRUD;
 import com.pacientes.gestor_pacientes.implementacionDAO.PadreDAOImplementacion;
-import com.pacientes.gestor_pacientes.modelo.Paciente;
+
 import com.pacientes.gestor_pacientes.modelo.TipoSesion;
 import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 import java.sql.PreparedStatement;

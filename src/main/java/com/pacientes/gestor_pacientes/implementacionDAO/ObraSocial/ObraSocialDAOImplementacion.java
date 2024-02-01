@@ -4,27 +4,26 @@
  */
 package com.pacientes.gestor_pacientes.implementacionDAO.ObraSocial;
 import com.pacientes.gestor_pacientes.DAO.CRUD;
-import com.pacientes.gestor_pacientes.DAO.IObraSocialDAO;
+
 import com.pacientes.gestor_pacientes.implementacionDAO.EmailDAOImplementacion;
 import com.pacientes.gestor_pacientes.implementacionDAO.PadreDAOImplementacion;
-import com.pacientes.gestor_pacientes.implementacionDAO.TelefonoDAOImplementacion;
+
 import com.pacientes.gestor_pacientes.modelo.Email;
 import com.pacientes.gestor_pacientes.modelo.ObraSocial;
 import com.pacientes.gestor_pacientes.modelo.Telefono;
 import com.pacientes.gestor_pacientes.modelo.Web;
-import com.pacientes.gestor_pacientes.servicios.ConexionMariadb;
-import com.pacientes.gestor_pacientes.servicios.ServicioObraSocial;
+
 import com.pacientes.gestor_pacientes.utilidades.Exepciones;
 import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLOutput;
+
 import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+
+
 /**
  *
  * @author previotto

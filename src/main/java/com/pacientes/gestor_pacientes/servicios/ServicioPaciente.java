@@ -5,26 +5,23 @@
 package com.pacientes.gestor_pacientes.servicios;
 
 import com.pacientes.gestor_pacientes.modelo.AutorizacionesSesionesObraSociales;
-import com.pacientes.gestor_pacientes.modelo.CodigoFacturacion;
+
 import com.pacientes.gestor_pacientes.modelo.Paciente;
-import com.pacientes.gestor_pacientes.modelo.SesionPaciente;
+
 import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
-import java.lang.ModuleLayer.Controller;
-import java.time.LocalDate;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import javafx.animation.ScaleTransition;
-import javafx.scene.control.Button;
+
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Control;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableView;
+
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
-import javafx.util.Duration;
+import javafx.scene.web.HTMLEditor;
+
 
 /**
  *
@@ -50,17 +47,16 @@ public class ServicioPaciente extends ServiciosPadre {
 
     public ServicioPaciente vaciarTodo() {
         vaciarCajas(VariablesEstaticas.cajasDatosPrincipales).
-                vaciarCajas(VariablesEstaticas.cajasSesiones).
+               
                 vaciarCajas(VariablesEstaticas.cajasPlanes).
                 vaciarCajas(VariablesEstaticas.cajasObraSocialPaciente).
-                vaciarCajasArea(VariablesEstaticas.cajasAreaSesion).
+                
                 vaciarCajasArea(VariablesEstaticas.cajasAreaPlan).
-                vaciarCajasArea(VariablesEstaticas.cajasAreaDiagnostico).
+                vaciarCajasAreaHTML(VariablesEstaticas.cajasAreaDiagnostico).
                 vaciarTablas(VariablesEstaticas.tableSesiones).
-                vaciarChoise(VariablesEstaticas.choiseSesiones).
+                
                 vaciarChoise(VariablesEstaticas.choisePlan).
-                vaciarChoise(VariablesEstaticas.choiseObraSocialPaciente).
-                vaciarFechas(VariablesEstaticas.datePickerSesiones);
+                vaciarChoise(VariablesEstaticas.choiseObraSocialPaciente);
         
         return this;
 
@@ -190,10 +186,10 @@ public class ServicioPaciente extends ServiciosPadre {
         habilitarCajas(VariablesEstaticas.cajasDatosPrincipales).
                 habilitarCajas(VariablesEstaticas.cajasObraSocialPaciente).
                 habilitarCajas(VariablesEstaticas.cajasPlanes).
-                habilitarCajas(VariablesEstaticas.cajasSesiones).
-                habilitarCajasArea(VariablesEstaticas.cajasAreaDiagnostico).
-                habilitarCajasArea(VariablesEstaticas.cajasAreaPlan).
-                habilitarCajasArea(VariablesEstaticas.cajasAreaSesion);
+          
+                habilitarCajasAreaHTML(VariablesEstaticas.cajasAreaDiagnostico).
+                habilitarCajasArea(VariablesEstaticas.cajasAreaPlan);
+          
         return this;
     }
     
@@ -414,11 +410,11 @@ public class ServicioPaciente extends ServiciosPadre {
     
     
     public ServicioPaciente datosDiagnosticoVacios(){
-        for (TextArea c : VariablesEstaticas.cajasAreaDiagnostico) {
-            if(c.getText().isBlank()){
+        for (HTMLEditor c : VariablesEstaticas.cajasAreaDiagnostico) {
+            if(c.getHtmlText().equals("<html><head></head><body contenteditable=\"true\"></body></html>") || c.getHtmlText().equals("<html dir=\"ltr\"><head></head><body contenteditable=\"true\"></body></html>")){
                 switch (c.getId()) {
                 case "cajaObservacionDiagnostico":
-                    c.setText("-------------------");
+                    c.setHtmlText("-------------------");
                     break;
                 
                
@@ -428,20 +424,22 @@ public class ServicioPaciente extends ServiciosPadre {
         return this;
     }
     
-    public ServicioPaciente datosSesionCajasAreaVacios(){
-        for (TextArea c : VariablesEstaticas.cajasAreaSesion) {
-            if(c.getText().isBlank()){
+    public ServicioPaciente datosSesionCajasAreaVacios() {
+        for (HTMLEditor c : VariablesEstaticas.cajasAreaSesion) {
+            if (c.getHtmlText().equals("<html><head></head><body contenteditable=\"true\"></body></html>") 
+                    || c.getHtmlText().equals("<html dir=\"ltr\"><head></head><body contenteditable=\"true\"></body></html>")) {
                 switch (c.getId()) {
-                case "cajaObservacionSesion":
-                    c.setText("-------------------");
-                    break;
-                
-                case "cajaMotivoTrabajoEmergenteSesion":
-                    c.setText("-------------------");
-                    break;
-                
+                    case "cajaObservacionSesion":
+                        c.setHtmlText("-------------------");
+                        break;
+
+                    case "cajaMotivoTrabajoEmergenteSesion":
+                        c.setHtmlText("-------------------");
+                        break;
+
+                }
             }
-            }
+
         }
         return this;
     }
@@ -465,11 +463,11 @@ public class ServicioPaciente extends ServiciosPadre {
     }
     
     public ServicioPaciente datosAutorizacionSesionVacios(){
-        for (TextArea c : VariablesEstaticas.cajasAreaSesion) {
-            if (c.getText().isBlank()) {
+        for (HTMLEditor c : VariablesEstaticas.cajasAreaSesion) {
+            if (c.getHtmlText().equals("<html><head></head><body contenteditable=\"true\"></body></html>") || c.getHtmlText().equals("<html dir=\"ltr\"><head></head><body contenteditable=\"true\"></body></html>")) {
                 switch (c.getId()) {
                     case "cajaObservacionSesionObraSocial":
-                        c.setText("-------------------");
+                        c.setHtmlText("-------------------");
                         break;
                 }
             }
@@ -512,15 +510,23 @@ public class ServicioPaciente extends ServiciosPadre {
                                             
         if(VariablesEstaticas.cajaAutorizacionSesion.getText().isBlank()){
             VariablesEstaticas.cajaAutorizacionSesion.setText("0000");
+            
         }
-        if(VariablesEstaticas.cajaObservacionSesionObraSocial.getText().isBlank()){
-            VariablesEstaticas.cajaObservacionSesionObraSocial.setText("----------");
+        
+        if(VariablesEstaticas.cajaObservacionSesionObraSocial.getHtmlText().equals("<html><head></head><body contenteditable=\"true\"></body></html>") 
+                || VariablesEstaticas.cajaObservacionSesionObraSocial.getHtmlText().equals("<html dir=\"ltr\"><head></head><body contenteditable=\"true\"></body></html>") 
+                ||  VariablesEstaticas.cajaObservacionSesionObraSocial.getHtmlText().equals("")){
+            
+        VariablesEstaticas.cajaObservacionSesionObraSocial.setHtmlText("----------");
+        
         }
         if(VariablesEstaticas.cajaCopagoSesionObraSocial.getText().isBlank()){
             VariablesEstaticas.cajaCopagoSesionObraSocial.setText("0.0");
+            
         }
-        if(VariablesEstaticas.choiseCodigoFactSesionObraSocial.getValue().isBlank()){
+        if(Objects.isNull(VariablesEstaticas.choiseCodigoFactSesionObraSocial.getValue())){
             VariablesEstaticas.choiseCodigoFactSesionObraSocial.setValue("sin codigo");
+            
         }
     }
    

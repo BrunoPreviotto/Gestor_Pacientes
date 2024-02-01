@@ -5,6 +5,7 @@
 package com.pacientes.gestor_pacientes.controlador;
 
 // PROYECTO
+import com.pacientes.gestor_pacientes.controlador.Paciente.PacienteController;
 import com.pacientes.gestor_pacientes.implementacionDAO.ObraSocial.ObraSocialDAOImplementacion;
 import com.pacientes.gestor_pacientes.implementacionDAO.Paciente.PacienteDAOImplementacion;
 import com.pacientes.gestor_pacientes.implementacionDAO.*;
@@ -17,9 +18,9 @@ import com.pacientes.gestor_pacientes.utilidades.TablaSesiones;
 
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
-
 import com.pacientes.gestor_pacientes.App;
-import com.pacientes.gestor_pacientes.DAO.IPacienteDAO;
+import com.pacientes.gestor_pacientes.controlador.Paciente.DiagnosticoController;
+
 import com.pacientes.gestor_pacientes.implementacionDAO.ObraSocial.PlanObraSocialDAOImplementacion;
 import com.pacientes.gestor_pacientes.implementacionDAO.Paciente.AfiliadoDAOImplementacion;
 import com.pacientes.gestor_pacientes.implementacionDAO.Paciente.AutorizacionDAOImplementacion;
@@ -31,16 +32,22 @@ import com.pacientes.gestor_pacientes.implementacionDAO.Paciente.ObraSocialPacie
 import com.pacientes.gestor_pacientes.implementacionDAO.Paciente.PlanTratamientoDAOImplementacion;
 import com.pacientes.gestor_pacientes.implementacionDAO.Paciente.SesionDAOImplementacion;
 import com.pacientes.gestor_pacientes.implementacionDAO.Paciente.TipoSesionPlanDAOImplementacion;
+import com.pacientes.gestor_pacientes.servicios.ClienteActualizacion;
 import com.pacientes.gestor_pacientes.utilidades.Exepciones;
 
 import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import java.net.URL;
 
 
 
 import java.time.LocalDate;
-import java.time.Month;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,14 +55,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.ResourceBundle;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+
 
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -63,32 +72,35 @@ import javafx.scene.Scene;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
-
 import javafx.scene.control.Control;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.IndexRange;
+
 
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
-import javafx.scene.image.Image;
-import javafx.scene.input.InputMethodEvent;
+import javafx.scene.control.ToolBar;
 
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
+
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
+import javafx.scene.web.HTMLEditor;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+
+import javafx.stage.DirectoryChooser;
 
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.converter.IntegerStringConverter;
+import javafx.util.Duration;
+
+import org.jsoup.Jsoup;
 
 
 /**
@@ -96,7 +108,7 @@ import javafx.util.converter.IntegerStringConverter;
  *
  * @author previotto
  */
-public class MenuInicioController extends ClasePadreMenuInicio implements Initializable, DraggedScene {
+public class MenuInicioController extends PacienteController implements Initializable, DraggedScene {
 
     //                          ****
     //                          ****
@@ -109,31 +121,29 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
      * Inicializa: El nombre del usuario que ha iniciado sesion Los choise list
      * La agenda
      */
+    
+    public HBox obtenrhb(){
+        return hbTablasSesionesAtorizaciones;
+    }
+    
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        
+        
+        iniciarColorContenedores();
+        
         usuarioDao = new UsuarioDAOImplementacion();
         usuario = usuarioDao.obtenerUsuarioActual();
         
-       
-        VariablesEstaticas.setImgenExito("/com/pacientes/gestor_pacientes/img/exito.png");
-        VariablesEstaticas.setImgenError("/com/pacientes/gestor_pacientes/img/error.png");
-        VariablesEstaticas.setImgenAdvertencia("/com/pacientes/gestor_pacientes/img/warning.png");
-        
-        VariablesEstaticas.setImagenVer(new Image("/com/pacientes/gestor_pacientes/img/ver.png"));
-        VariablesEstaticas.setImagenAgregar(new Image("/com/pacientes/gestor_pacientes/img/lapiz.png"));
-        VariablesEstaticas.setImagenRecordar(new Image("/com/pacientes/gestor_pacientes/img/recordatorio.png"));
-        
-        
-        try {
-            VariablesEstaticas.usuario.setId(usuarioDao.obtenerId(new Usuario()));
-        } catch (Exception e) {
-        }
+        iniciarVariablesEstaticas();
         
         this.onDraggedScene(containerMenu);
         
         rellenarDatosUsuario();
         
-        iniciarChoiceCodigoFacturacion();
+       
         iniciarChoiceFrecuencia();
         iniciarChoiceObraSocial();
         
@@ -144,376 +154,80 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
         
         comprobarFechaAlIniciar();
         
-        //AGENDA
-        VariablesEstaticas.anchorPrincipalAgenda = apAgendaPrincipal;
-        VariablesEstaticas.anchorAgendaAgenda = apAgendaAgenda;
-        VariablesEstaticas.gridAgenda = gpCalendario;
-        AgendaController agenda = new AgendaController();
-        agenda.rellenarAgenda(1);
+        
 
         choiseTipoSesionPlan.setOnAction(this::cambiarCategoria);
 
         choiseNombreObraSocialPaciente.setOnAction(this::cambiarPlanesObraSocial);
         
-        choiseCodigoFactSesionObraSocial.setOnAction(this::cambiarCodigoFacturacion);
-
-        //INICIALIZAR CAJAS ESTATICAS
-        //USUARIO
-         VariablesEstaticas.cajasOpcionesUsuario
-                = Arrays.asList(
-                        cajaNombreOpcionesUsuario,
-                        cajaApellidoOpcionesUsuario,
-                        cajaUusarioOpcionesUsuario,
-                        cajaEmailOpcionesUsuario
-                        );
-         
         
+
         
-        //PACIENTE
-        VariablesEstaticas.cajasDatosPrincipales
-                = Arrays.asList(
-                        cajaNombreDatosPrincipales,
-                        cajaApellidoDatosPrincipales,
-                        cajaEdadDatosPrincipales,
-                        cajaDniDatosPrincipales,
-                        cajaTelefonoDatosPrincipales,
-                        cajaHonorariosDatosPrincipales);
-
-        VariablesEstaticas.cajasSesiones
-                = Arrays.asList(
-                        cajaAutorizacionSesion,
-                        cajaCopagoSesionObraSocial,
-                        cajaEstadoFacturacionSesionObraSocial,
-                        cajaCodigoFacturacion,
-                        cajaHonorariosPorSesion);
-
-        VariablesEstaticas.cajasAreaSesion
-                = Arrays.asList(
-                        cajaTrabajoSesion,
-                        cajaObservacionSesion,
-                        cajaObservacionSesionObraSocial);
-
-        VariablesEstaticas.datePickerSesiones
-                = Arrays.asList(
-                        cajaFechaSesion,
-                        cajaAsociacionSesionObraSocial);
-
-        VariablesEstaticas.choiseSesiones
-                = Arrays.asList(
-                        choiseCodigoFactSesionObraSocial);
-
-        VariablesEstaticas.tableSesiones
-                = Arrays.asList(
-                        tableSesiones,
-                        tablaAutorizacion);
-
-        VariablesEstaticas.cajasPlanes
-                = Arrays.asList(
-                        cajaPlanFrecuenciaSesiones,
-                        cajaNombreTipoSesionPlan,
-                        cajaEstrategiaPlan);
-
-        VariablesEstaticas.choisePlan
-                = Arrays.asList(
-                        choiseFrecuenciaSesionPlan,
-                        choiseTipoSesionPlan);
-
-        VariablesEstaticas.cajasAreaPlan
-                = Arrays.asList(
-                        cajaDescripcionTipoSesionPlan);
-
-        VariablesEstaticas.cajasAreaDiagnostico
-                = Arrays.asList(
-                        cajaDiagnosticoDiagnostico,
-                        cajaObservacionDiagnostico);
-
-        VariablesEstaticas.cajasObraSocialPaciente
-                = Arrays.asList(
-                        cajaNombreObraSocialPaciente,
-                        cajaPlanObraSocialPaciente,
-                        cajaNAfiliadoObraSocialPaciente);
-
-        VariablesEstaticas.choiseObraSocialPaciente
-                = Arrays.asList(
-                        choiseNombreObraSocialPaciente,
-                        choisePlanesObraSocialPacientePlan);
-
-        //OBRA SOACIAL
-        VariablesEstaticas.cajasObrasSociales
-                = Arrays.asList(
-                        cajaNombreObraSocial,
-                        cajaTelefonoObraSocial,
-                        cajaEmailObraSocial,
-                        cajaWebObraSocial);
-        
-        VariablesEstaticas.choiceObraSocial 
-                = Arrays.asList(
-                        choiceVerPlanesObraSocial);
-        
-         /*
-            1 NOMBRE
-            2 TELEFONO
-            3 MAIL
-            4 WEB
-            5 PLAN
-         */
-        VariablesEstaticas.valoresBUsquedaObraSocial 
-                = Map.of(
-                        "1", "",
-                        "2", "",
-                        "3", "",
-                        "4", "",
-                        "5", "");
-        
-        
-        /*
-            1 NOMBRE
-            2 APELLIDO
-            3 EDAD
-            4 DNI
-            5 TELEFONO
-         */
-        VariablesEstaticas.valoresBUsquedaDatosPrincipales
-                = Map.of(
-                        "1", "",
-                        "2", "",
-                        "3", "",
-                        "4", "",
-                        "5", "",
-                        "6", "");
-
-        /*
-            1 FECHA SESION
-            2 NUMERO SESION
-            3 TRABAJO SESION
-            4 OBSERVACION SESION
-            5 HONORARIOS POR SESION
-            6 ESTADO DE FACTURACION
-            
-         */
-        VariablesEstaticas.valoresBUsquedaSesiones
-                = Map.of(
-                        "1", "",
-                        "2", "",
-                        "3", "",
-                        "4", "",
-                        "5", "",
-                        "6", "");
-        
-        /*
-            1 NUMERO AUTORIZACION
-            2 OBSERVACION AUTORIZACION
-            3 ASOCIACION AUTORIZACION
-            4 COPAGO AUTORIZACION
-            5 CODIGO FACTURACION AUTORIZACION
-        */
-        VariablesEstaticas.valoresBUsquedaSesionesAtorizacion
-                = Map.of(
-                        "1", "",
-                        "2", "",
-                        "3", "",
-                        "4", "",
-                        "5", "");
-
-        /*
-        
-            1 FRECUENCIA SESIONES PLAN
-            2 TIPO SESION PLAN
-            3 DESCRIPCION PLAN
-            4 ESTRATEGIA PLAN
-        
-         */
-        VariablesEstaticas.valoresBUsquedaPlanes
-                = Map.of(
-                        "1", "",
-                        "2", "",
-                        "3", "",
-                        "4", "");
-
-        /*
-        
-            1 DIAGNOSTICO DIAGNOSTICO
-            2 OBSERVACION DIAGNOSTICO
-        
-         */
-        VariablesEstaticas.valoresBUsquedaDiagnostico
-                = Map.of(
-                        "1", "",
-                        "2", "");
-
-        /*
-            
-            1 NOMBRE OBRA SOCIAL PACIENTE
-            2 PLAN OBRA SOCIAL PACIENTE
-            3 Nº AFILIADO OBRA SOCIAL PACIENTE
-        
-         */
-        VariablesEstaticas.valoresBUsquedaObraSocialPaciente
-                = Map.of(
-                        "1", "",
-                        "2", "",
-                        "3", "");
-
-        VariablesEstaticas.listaBotonesActualizar
-                = Arrays.asList(
-                        botonActualizarDatosPrincipales,
-                        botonActualizarPlanTratamiento,
-                        botonActualizarDiagnostico,
-                        botonActualizarObraSocialPaciente);
-
-        VariablesEstaticas.listaBotonesEliminar
-                = Arrays.asList(
-                        botonEliminarDatosPrincipales,
-                        botonEliminarPlanTratamiento,
-                        botonEliminarDiagnostico,
-                        botonEliminarObraSocialPaciente);
-
-        VariablesEstaticas.listaBotonesCrear
-                = Arrays.asList(
-                        botonAgregarDatosPrincipales,
-                        botonAgregarPlanTratamiento,
-                        botonAgregarDiagnostico,
-                        botonAgregarObraSocialPaciente);
-        
-        VariablesEstaticas.listaContenedoresAcordeon
-                = Arrays.asList(
-                        titlePaneDatosPrincipales,
-                        titlePaneSesion,
-                        titlePanePlan,
-                        titlePaneDiagnostico,
-                        titlePaneGenograma,
-                        titlePaneObraSocial);
-        
-        VariablesEstaticas.tabDatosPricipales = titlePaneDatosPrincipales;
-        
-        VariablesEstaticas.vboxsPlanesTratamiento 
-                = Arrays.asList(
-                        vBoxFrecuenciaSEsionPlan,
-                        vBoxNombreTipoSEsionPlan);
-        
-        VariablesEstaticas.vboxsPlanesTratamientoActualizaroVer
-                = Arrays.asList(
-                       vBoxFrecuenciaSEsionPlanActualizaroVer,
-                        vBoxNombreTipoSEsionPlanActualizaroVer
-                );
-        
-        VariablesEstaticas.vboxsObraSocialPaciente 
-                = Arrays.asList(
-                        vboxNombreObraSocialPaciente,
-                        vboxPlanObraSocialPaciente);
-        VariablesEstaticas.vboxsObraSocialPacienteActualizaroVer 
-                = Arrays.asList(
-                        vboxNombreObraSocialPacienteActualizarVer, 
-                        vboxPlanObraSocialPacienteActualizarVer);
 
         servicioPaciente.
                 deshabilitarBotones(VariablesEstaticas.listaBotonesActualizar).
                 deshabilitarBotones(VariablesEstaticas.listaBotonesEliminar);
 
-         //cajas autrizacion
-         VariablesEstaticas.cajaAutorizacionSesion = cajaAutorizacionSesion;
-
-         VariablesEstaticas.cajaAsociacionSesionObraSocial = cajaAsociacionSesionObraSocial;
-
-         VariablesEstaticas.cajaObservacionSesionObraSocial = cajaObservacionSesionObraSocial;
-
-         VariablesEstaticas.cajaAtualizarCodigoFacturacionSesionObraSocial = cajaAtualizarCodigoFacturacionSesionObraSocial;
-
-         VariablesEstaticas.cajaAtualizarNombreCodigoFacturacionSesionObraSocial = cajaAtualizarNombreCodigoFacturacionSesionObraSocial;
-
-         VariablesEstaticas.cajaCodigoFacturacion = cajaCodigoFacturacion;
-         
-         VariablesEstaticas.cajaCopagoSesionObraSocial = cajaCopagoSesionObraSocial;
-         
-         VariablesEstaticas.choiseCodigoFactSesionObraSocial = choiseCodigoFactSesionObraSocial;
-         
-         //agenda
-         VariablesEstaticas.imagenRecordatorioAgendaLateral = imgRecordatorio;
-
-    }
-
-     private void iniciarChoicePlanObraSocialPaciente() {
         
         
-       daoImplementacion = new PlanObraSocialDAOImplementacion();
-        try {
-            listaPlanesObrasSociales = daoImplementacion.obtenerLista(new ObraSocial(choiseNombreObraSocialPaciente.getValue()));
-        } catch (Exception e) {
-        }
         
-        valorInicialNombreObraSocialPaciente = choiseNombreObraSocialPaciente.getValue();
-
-        if (!Objects.isNull(listaPlanesObrasSociales)) {
-            for (ObraSocial plan: listaPlanesObrasSociales) {
-               
-                choisePlanesObraSocialPacientePlan.getItems().add(plan.getPlan());
-            }
+        iniciarlizarHtmlEditorMenu();
+       
+        
+        
+        /*try {
             
-        }
-        
-        
-        
-    }
-     
-    public void iniciarChoiceTipoSesion(){
-         try {
-             daoImplementacion = new TipoSesionPlanDAOImplementacion();
-             List<TipoSesion> listaTiposSesiones = daoImplementacion.obtenerLista(new TipoSesion());
-             if (!Objects.isNull(listaTiposSesiones)) {
-                 for (TipoSesion h : listaTiposSesiones) {
-                     choiseTipoSesionPlan.getItems().add(h.getNombre());
-                 }
-
-             }
-         } catch (Exception e) {
-         }
-    }
-    
-    public void iniciarChoiceCodigoFacturacion(){
-        try {
-             daoImplementacion = new CodigoFacturacionDAOImplementacion();
-             List<CodigoFacturacion> listaCodigosFacturacion = daoImplementacion.obtenerLista(new CodigoFacturacion());
-             if (!Objects.isNull(listaCodigosFacturacion)) {
-                 for (CodigoFacturacion h : listaCodigosFacturacion) {
-                    choiseCodigoFactSesionObraSocial.getItems().add(h.getNombre());
-                 }
-
-             }
-         } catch (Exception e) {
-         }
-    }
-    
-    
-    
-    public void iniciarChoiceObraSocial(){
-         try {
-             daoImplementacion = new ObraSocialDAOImplementacion();
-             List<ObraSocial> listaObrasSociales = daoImplementacion.obtenerLista(new ObraSocial());
-             if (!Objects.isNull(listaObrasSociales)) {
-                 for (ObraSocial h : listaObrasSociales) {
-                     choiseNombreObraSocialPaciente.getItems().add(h.getNombre());
-
-                 }
-
-             }
-         } catch (Exception e) {
-         }
-    }
-    
-    public void iniciarChoiceFrecuencia() {
-        try {
-            daoImplementacion = new FrecuenciaSesionPlanDAOImplementacion();
-            List<FrecuenciaSesion> listaFreceunciaPlan = daoImplementacion.obtenerLista(new FrecuenciaSesion());
-
-            if (!Objects.isNull(listaFreceunciaPlan)) {
-                for (FrecuenciaSesion h : listaFreceunciaPlan) {
-                    choiseFrecuenciaSesionPlan.getItems().add(h.getFrecuencia());
-                }
-
-            }
+            htmlDiagnostico.addEventFilter(KeyEvent.KEY_TYPED, KeyEvent::consume);
+            htmlDiagnostico.addEventFilter(KeyEvent.KEY_PRESSED, KeyEvent::consume);
+            htmlDiagnostico.addEventFilter(KeyEvent.KEY_RELEASED, KeyEvent::consume);
+            htmlDiagnostico.lookup(".bottom-toolbar").setVisible(false);
+            htmlDiagnostico.lookup(".top-toolbar").setVisible(false);
+            
+            
+            htmlTrabajoSesion.addEventFilter(KeyEvent.KEY_TYPED, KeyEvent::consume);
+            htmlTrabajoSesion.addEventFilter(KeyEvent.KEY_PRESSED, KeyEvent::consume);
+            htmlTrabajoSesion.addEventFilter(KeyEvent.KEY_RELEASED, KeyEvent::consume);
+            htmlDiagnostico.lookup(".bottom-toolbar").setVisible(false);
+            htmlDiagnostico.lookup(".top-toolbar").setVisible(false);
+            
+            htmlObservacionSesion.addEventFilter(KeyEvent.KEY_TYPED, KeyEvent::consume);
+            htmlObservacionSesion.addEventFilter(KeyEvent.KEY_PRESSED, KeyEvent::consume);
+            htmlObservacionSesion.addEventFilter(KeyEvent.KEY_RELEASED, KeyEvent::consume);
+            htmlDiagnostico.lookup(".bottom-toolbar").setVisible(false);
+            htmlDiagnostico.lookup(".top-toolbar").setVisible(false);
+            
+            htmlObservacionAutorizacion.addEventFilter(KeyEvent.KEY_TYPED, KeyEvent::consume);
+            htmlObservacionAutorizacion.addEventFilter(KeyEvent.KEY_PRESSED, KeyEvent::consume);
+            htmlObservacionAutorizacion.addEventFilter(KeyEvent.KEY_RELEASED, KeyEvent::consume);
+            htmlDiagnostico.lookup(".bottom-toolbar").setVisible(false);
+            htmlDiagnostico.lookup(".top-toolbar").setVisible(false);
+            
+            htmlObservacionDiagnostico.addEventFilter(KeyEvent.KEY_TYPED, KeyEvent::consume);
+            htmlObservacionDiagnostico.addEventFilter(KeyEvent.KEY_PRESSED, KeyEvent::consume);
+            htmlObservacionDiagnostico.addEventFilter(KeyEvent.KEY_RELEASED, KeyEvent::consume);
+            htmlObservacionDiagnostico.lookup(".bottom-toolbar").setVisible(false);
+            htmlObservacionDiagnostico.lookup(".top-toolbar").setVisible(false);
+            
+           
+            
+            
+            
+           
+            
+            
+            
+            
         } catch (Exception e) {
-        }
+        }*/
+        
+        
     }
+    
+    
+
+     
+     
+   
     
     
 
@@ -537,79 +251,71 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
     //                          ****
     @FXML
     public void buscarPaciente() {
-       blanquearCajas();
+        blanquearCajas();
         try {
 
-
             Paciente pacienteBuscar = new Paciente();
-            if (!cajaBuscarPaciente.getText().isEmpty()) {
-                //BUSCAR ID PACIENTE BUSCADO
-                daoImplementacion = new PacienteDAOImplementacion();
-                pacienteBuscar.setId(daoImplementacion.obtenerId(new Paciente(Integer.valueOf(cajaBuscarPaciente.getText()))));
-                //SI PACIENTE EXISTE
-                if (pacienteBuscar.getId() != 0) {
-                    Paciente pacienteResultado;
-                    try {
-                        pacienteResultado = (Paciente)daoImplementacion.obtener(pacienteBuscar);
-                    } catch (Exception e) {
-                        pacienteResultado = null;
-                    }
+            if (Objects.nonNull(cajaBuscarPaciente.getText())) {
+                if (!cajaBuscarPaciente.getText().isEmpty()) {
+                    //BUSCAR ID PACIENTE BUSCADO
+                    daoImplementacion = new PacienteDAOImplementacion();
+                    pacienteBuscar.setId(daoImplementacion.obtenerId(new Paciente(Integer.valueOf(cajaBuscarPaciente.getText()))));
+                    //SI PACIENTE EXISTE
+                    if (pacienteBuscar.getId() != 0) {
+                        Paciente pacienteResultado;
+                        try {
+                            pacienteResultado = (Paciente) daoImplementacion.obtener(pacienteBuscar);
+                        } catch (Exception e) {
+                            pacienteResultado = null;
+                        }
 
-                     
-                    
-                    
-                    //PACIENTE NO ESTA VACIO
-                    if (Objects.nonNull(pacienteResultado)) {
+                        //PACIENTE NO ESTA VACIO
+                        if (Objects.nonNull(pacienteResultado)) {
 
-                        //SI DATOS PRINCIPALES EXISTEN
-                        buscarDatosPrincipales(pacienteResultado);
-                       
+                            //SI DATOS PRINCIPALES EXISTEN
+                            buscarDatosPrincipales(pacienteResultado);
 
-                        //SI SESIONES EXISTEN
-                         buscarSesiones(pacienteResultado);
-                        
+                            //SI SESIONES EXISTEN
+                            buscarSesiones(pacienteResultado);
 
-                        //SI PLANES DE TRATAMIENTOS EXISTEN
-                        buscarPLanes(pacienteResultado);
-                        
+                            //SI PLANES DE TRATAMIENTOS EXISTEN
+                            buscarPLanes(pacienteResultado);
 
-                        //SI DIAGNOSTICO EXISTE
-                        buscarDiagnostico(pacienteResultado);
-                        
+                            //SI DIAGNOSTICO EXISTE
+                            buscarDiagnostico(pacienteResultado);
 
-                        //SI OBRA SOCIAL PACIENTE EXISTE
-                        buscarObraSocial(pacienteResultado);  
-                        
+                            //SI OBRA SOCIAL PACIENTE EXISTE
+                            buscarObraSocial(pacienteResultado);
 
-                        servicioPaciente.
-                                comprobarSiAcordeonEstaCerrado(listaContenedoresAcordeon);
-                                
+                            servicioPaciente.
+                                    comprobarSiAcordeonEstaCerrado(listaContenedoresAcordeon);
+
+                        } else {
+                            cajaBuscarPaciente.setText("");
+                            pacienteNoEncontradoBuscar();
+                        }
 
                     } else {
-                        cajaBuscarPaciente.setText(null);
+                        cajaBuscarPaciente.setText("");
                         pacienteNoEncontradoBuscar();
                     }
 
                 } else {
-                    cajaBuscarPaciente.setText(null);
+                    cajaBuscarPaciente.setText("");
                     pacienteNoEncontradoBuscar();
-                }
 
-            } else {
-                cajaBuscarPaciente.setText(null);
+                }
+            }else{
                 pacienteNoEncontradoBuscar();
-                
+                cajaBuscarPaciente.setText("");
             }
-            
-            
-             
 
         } catch (Exception e) {
             e.printStackTrace();
             cajaBuscarPaciente.setText(null);
             mensajeAdvertenciaError("Error al buscar paciente", this, VariablesEstaticas.imgenError);
-            vBoxSesiones.setVisible(false);
-            vBoxAutorizacion.setVisible(false);
+            //vBoxSesiones.setVisible(false);
+            //vBoxAutorizacion.setVisible(false);
             hbTablasSesionesAtorizaciones.setVisible(true);
             servicioPaciente.
                     vaciarListas().
@@ -623,29 +329,26 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                     deshabilitarBotones(VariablesEstaticas.listaBotonesEliminar).
                     deshabilitarBotones(VariablesEstaticas.listaBotonesActualizar);
         }
-        hbTablasSesionesAtorizaciones.setVisible(true);
-        vBoxSesiones.setVisible(false);
-        vBoxAutorizacion.setVisible(false);
+       
+        
         choiseNombreObraSocialPaciente.getItems().clear();
         choiseNombreObraSocialPaciente.setValue("");
         choisePlanesObraSocialPacientePlan.getItems().clear();
         choiseTipoSesionPlan.getItems().clear();
         choiseFrecuenciaSesionPlan.getItems().clear();
-        choiseCodigoFactSesionObraSocial.getItems().clear();
-        iniciarChoiceCodigoFacturacion();
+        
+       
         iniciarChoiceFrecuencia();
         iniciarChoiceObraSocial();
         iniciarChoiceTipoSesion();
         inicializarTableObraSocial();
         iniciarChoicePlanObraSocialPaciente();
-        
-        
-       
+
     }
     
     public void pacienteNoEncontradoBuscar(){
-        vBoxSesiones.setVisible(false);
-                    vBoxAutorizacion.setVisible(false);
+        //vBoxSesiones.setVisible(false);
+                    //vBoxAutorizacion.setVisible(false);
                     hbTablasSesionesAtorizaciones.setVisible(true);
                     mensajeAdvertenciaError("Paciente no encontrado", this, VariablesEstaticas.imgenAdvertencia);
                     super.setearBotones();
@@ -767,28 +470,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
 
     }
     
-    public void buscarDiagnostico(Paciente pacienteResultado) {
-        
-        if (Objects.nonNull(pacienteResultado.getDiagnostico())) {
-            cajaDiagnosticoDiagnostico.setText(pacienteResultado.getDiagnostico().getDiagnostico());
-            cajaObservacionDiagnostico.setText(pacienteResultado.getDiagnostico().getObservacion());
-
-            servicioPaciente.
-                    rellenarListaDiagnostico(pacienteResultado).
-                    deshabilitarCajasArea(VariablesEstaticas.cajasAreaDiagnostico).
-                    desHabilitarBotonCrear(botonAgregarDiagnostico).
-                    habilitarEliminarActualizar(botonEliminarDiagnostico, botonActualizarDiagnostico);;
-
-        } else {
-            servicioPaciente.
-                    vaciarListaDiagnostico().
-                    vaciarCajasArea(VariablesEstaticas.cajasAreaDiagnostico).
-                    habilitarCajasArea(VariablesEstaticas.cajasAreaDiagnostico).
-                    habilitarBotonCrear(botonAgregarDiagnostico).
-                    desHabilitarEliminarActualizar(botonEliminarDiagnostico, botonActualizarDiagnostico);
-        }
-
-    }
+    
     
     public void buscarObraSocial(Paciente pacienteResultado){
         if (Objects.nonNull(pacienteResultado.getObraSocialPaciente())) {
@@ -867,114 +549,87 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
     }
 
     @FXML
-    private void crearSesion(MouseEvent event) {
-        
-        
-        if (!cajaBuscarPaciente.getText().isBlank()) {
-            try {
-                hbTablasSesionesAtorizaciones.setVisible(false);
-                
-                
-                vBoxAutorizacion.setVisible(true);
-                vBoxSesiones.setVisible(true);
-
-                if (!botonAgregarSesiones.getId().equals("1")) {
-                    botonRetornarSesiones.setDisable(false);
-
-                    cajaFechaSesion.setValue(LocalDate.now());
-                    SesionDAOImplementacion sesionDAOImplementacion = new SesionDAOImplementacion();
-                    int ultimaSesion = sesionDAOImplementacion.obtenerultimaSesion(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText()))) + 1;
-                    cajaNumeroSesion.setText(String.valueOf(ultimaSesion));
-
-                    servicioPaciente.deshabilitarBotones(List.of(botonActualizarSesiones, botonEliminarSesiones)).
-                            vaciarCajasArea(VariablesEstaticas.cajasAreaSesion).
-                            vaciarCajas(VariablesEstaticas.cajasSesiones).
-                            vaciarFechas(VariablesEstaticas.datePickerSesiones).
-                            vaciarValorChoise(VariablesEstaticas.choiseSesiones);
-                    //SI EXISTEN CAJAS PRINCIPALES VACIAS DE SESION
-                    botonAgregarSesiones.setId("1");
-                    
-                } else {
-                    botonRetornarSesiones.setDisable(false);
-                    if (Objects.isNull(
-                            cajaFechaSesion.getValue())
-                            || cajaTrabajoSesion.getText().isBlank()) {
-
-                        //MENSAJE DE ERROR AL TENER CAJAS VACIAS
-                        mensajeAdvertenciaError("Hay campos importantes vacios", this, VariablesEstaticas.imgenAdvertencia);
-                        //PINTAR CAJAS IMPORTATES VACIAS AL CREAR
-                        servicioPaciente.
-                                pintarCajaVaciaImportante(VariablesEstaticas.cajasSesiones).
-                                pintarCajaAreaVaciaImportante(VariablesEstaticas.cajasAreaSesion);
-
-                    } else {
-
-                        
-                        AutorizacionesSesionesObraSociales autorizacionesSesionesObraSociales;
-                        
-                        servicioPaciente.rellenarCajasAutorizacionVacias();
-                        
-                        autorizacionesSesionesObraSociales = new AutorizacionesSesionesObraSociales(
-                                    Integer.valueOf(cajaAutorizacionSesion.getText()),
-                                    cajaObservacionSesionObraSocial.getText(), cajaAsociacionSesionObraSocial.getValue(),
-                                    Double.valueOf(cajaCopagoSesionObraSocial.getText()),
-                                    new CodigoFacturacion(choiseCodigoFactSesionObraSocial.getValue()));
-                        
-                        servicioPaciente.
-                                datosSesionCajasAreaVacios().datosSesionCajasVacios().datosSesionChoiceVacios();
-
-                        SesionPaciente sesion = new SesionPaciente(Integer.valueOf(cajaNumeroSesion.getText()),
-                                cajaFechaSesion.getValue(),
-                                cajaTrabajoSesion.getText(),
-                                cajaObservacionSesion.getText(),
-                                Double.parseDouble(cajaHonorariosPorSesion.getText()),
-                                new EstadoFacturacion(cajaEstadoFacturacionSesionObraSocial.getText()));
-                        
-                        
-                        daoImplementacion = new PacienteDAOImplementacion();
-                        int idPaciente = daoImplementacion.obtenerId(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText())));
-                        sesion.setIdPaciente(idPaciente);
-                        autorizacionesSesionesObraSociales.setIdPaciente(idPaciente);
-                        daoImplementacion = new SesionDAOImplementacion();
-                        autorizacionesSesionesObraSociales.setIdSesion(daoImplementacion.obtenerId(sesion));
-                        
-                        
-                        sesion.setAutorizacion(autorizacionesSesionesObraSociales);
-                        if (!cajaDniDatosPrincipales.getText().isBlank()) {
-                            
-                            
-                            servicioPaciente.
-                                    datosSesionCajasAreaVacios().
-                                    datosSesionCajasVacios().
-                                    datosAutorizacionSesionVacios();
-                            daoImplementacion = new SesionDAOImplementacion();
-                            daoImplementacion.insertar(sesion);
-                            
-                            vBoxSesiones.setVisible(false);
-                            vBoxAutorizacion.setVisible(false);
-                            hbTablasSesionesAtorizaciones.setVisible(true);
-                            buscarPaciente();
-                            mensajeAdvertenciaError("Sesion creado con éxito", this, VariablesEstaticas.imgenExito);
-                            botonAgregarSesiones.setId("botonAgregarSesiones");
-                            servicioPaciente.
-                                    habilitarBotones(List.of(botonActualizarSesiones, botonEliminarSesiones));
-                        } else {
-                            mensajeAdvertenciaError("Buscar paciente para crear sesión", this, VariablesEstaticas.imgenAdvertencia);
-                        }
-                    }
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                mensajeAdvertenciaError("Error al crear sesión", this, VariablesEstaticas.imgenError);
-            }
-
-        } else {
-            mensajeAdvertenciaError("Buscar paciente para crear sesión", this, VariablesEstaticas.imgenAdvertencia);
+    public void crearSesion(MouseEvent event) {
+        iniciarFXMLSesiones(1);
+        if(!cajaBuscarPaciente.getText().isBlank()){
+            buscarPaciente();
         }
-
+    }
+    
+    @FXML
+    private void actualizarSesion(MouseEvent event) {
+        if (tableSesiones.getSelectionModel().isEmpty()) {
+                mensajeAdvertenciaError( "Seleccione sesion para pode actualizar", this, VariablesEstaticas.imgenAdvertencia);
+        } else {
+            iniciarFXMLSesiones(2);
+        }
+        
+        
+        if(!cajaBuscarPaciente.getText().isBlank()){
+            buscarPaciente();
+        }
     }
 
+    public SesionPaciente rellenarSesionSeleccionadaEnTabla(){
+        //SESION
+            ObservableList<?> selectedItems = tableSesiones.getSelectionModel().getSelectedItems();
+            
+          if(!selectedItems.isEmpty()){
+               
+                
+                return new SesionPaciente(Integer.parseInt(tableSesiones.getSelectionModel().getSelectedItem().getNumeroSesion()), 
+                    LocalDate.parse(tableSesiones.getSelectionModel().getSelectedItem().getFechaSesion()), 
+                    tableSesiones.getSelectionModel().getSelectedItem().getTrabajoSesion(), 
+                    tableSesiones.getSelectionModel().getSelectedItem().getObservacionSesion(),
+                    Double.parseDouble(tableSesiones.getSelectionModel().getSelectedItem().getHonorariosPorSesion()), 
+                    new AutorizacionesSesionesObraSociales(0,
+                            Integer.parseInt(tableSesiones.getSelectionModel().getSelectedItem().getNumeroAutorizacion()),
+                            tableSesiones.getSelectionModel().getSelectedItem().getObservacionAutorizacion(), 
+                            LocalDate.parse(tableSesiones.getSelectionModel().getSelectedItem().getAsociacion()), 
+                            Double.parseDouble(tableSesiones.getSelectionModel().getSelectedItem().getCopago()), 
+                            new CodigoFacturacion(tableSesiones.getSelectionModel().getSelectedItem().getNombreCodigo()),
+                            0, 
+                            0), 
+                    new EstadoFacturacion(tableSesiones.getSelectionModel().getSelectedItem().getEstadoFacturacion()));
+            }
+        
+            return new SesionPaciente();
+                    
+        
+    }
+    
+    public void iniciarFXMLSesiones(int num){
+        try {
+            
+            FXMLLoader Loader = new FXMLLoader(App.class.getResource("Sesiones.fxml"));
+            Parent root = Loader.load();
+            SesionesController controller = Loader.getController();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.TRANSPARENT);
+            
+            controller.setSesioneSeleccionada(rellenarSesionSeleccionadaEnTabla());
+            
+            controller.setCajaBuscarPaciente(cajaBuscarPaciente.getText());
+            
+            if(num == 2){
+                controller.rellenarCajasSesionesParaActualizar();
+            }
+            
+            stage.showAndWait();
+            
+            
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+    }
+    
+    
+    
     @FXML
     private void crearPlanTratamiento(MouseEvent event) {
         
@@ -1012,16 +667,25 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
     }
 
     @FXML
-    private void crearDiagnostico(MouseEvent event) {
-        
+    public void crearDiagnostico(MouseEvent event) {
+        DiagnosticoController d = new DiagnosticoController();
         try {
+            //daoImplementacion = new PacienteDAOImplementacion();
+            //d.crear(cajaBuscarPaciente.getText().isBlank(), new DiagnosticoPaciente(htmlDiagnostico.getHtmlText(), htmlObservacionDiagnostico.getHtmlText(), daoImplementacion.obtenerId(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText())))));
+            buscarPaciente();
+        } catch (Exception e) {
+            
+        }
+        
+       /* try {
             //SI SE BUSCO AL PACIENTE
             if (!cajaBuscarPaciente.getText().isBlank()) {
                 daoImplementacion = new PacienteDAOImplementacion();
-                DiagnosticoPaciente diagnostico = new DiagnosticoPaciente(cajaDiagnosticoDiagnostico.getText(), cajaObservacionDiagnostico.getText(), daoImplementacion.obtenerId(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText()))));
+                DiagnosticoPaciente diagnostico = new DiagnosticoPaciente(htmlDiagnostico.getHtmlText(), htmlObservacionDiagnostico.getHtmlText(), daoImplementacion.obtenerId(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText()))));
                 //SI DATOS IMPORTANTES TIENEN TEXTO
-                if (cajaDiagnosticoDiagnostico.getText().isBlank()) {
-                    servicioPaciente.pintarCajaAreaVaciaImportante(VariablesEstaticas.cajasAreaDiagnostico);
+                if (htmlDiagnostico.getHtmlText().equals("<html><head></head><body contenteditable=\"true\"></body></html>") 
+                        || htmlDiagnostico.getHtmlText().equals("<html dir=\"ltr\"><head></head><body contenteditable=\"true\"></body></html>")) {
+                    servicioPaciente.pintarCajaAreaVaciaImportanteHTML(VariablesEstaticas.cajasAreaDiagnostico);
                     mensajeAdvertenciaError("Hay campos importantes vacios", this, VariablesEstaticas.imgenAdvertencia);
                 } else {
                     mensajeAdvertenciaError("Diagnostico creado con èxito", this, VariablesEstaticas.imgenExito);
@@ -1036,7 +700,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
 
         } catch (Exception e) {
             mensajeAdvertenciaError("Error al crear diagnóstico", this, VariablesEstaticas.imgenError);
-        }
+        }*/
     }
 
     @FXML
@@ -1391,11 +1055,12 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
             //SI SE BUSCO AL PACIENTE
             if (!cajaBuscarPaciente.getText().isEmpty()) {
                 //SI LA CAJA DIAGNOSTICO NO ESTA VACIA
-                if (cajaDiagnosticoDiagnostico.getText().isBlank()) {
+                if (htmlDiagnostico.getHtmlText().equals("<html><head></head><body contenteditable=\"true\"></body></html>") 
+                        || htmlDiagnostico.getHtmlText().equals("<html dir=\"ltr\"><head></head><body contenteditable=\"true\"></body></html>")) {
                     //MENSAJE DE ERROR AL TENER CAJAS VACIAS
                     mensajeAdvertenciaError( "Hay campos importantes vacios", this, VariablesEstaticas.imgenAdvertencia);
                     //PINTAR CAJAS IMPORTATES VACIAS AL CREAR
-                    servicioPaciente.pintarCajaAreaVaciaImportante(VariablesEstaticas.cajasAreaDiagnostico);
+                    servicioPaciente.pintarCajaAreaVaciaImportanteHTML(VariablesEstaticas.cajasAreaDiagnostico);
                 } else {
                     try {
                         daoImplementacion = new PacienteDAOImplementacion();
@@ -1405,10 +1070,10 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
                         Paciente paciente = new Paciente();
                         //ACTUALIZAR
                         daoImplementacion = new DiagnosticoDAOImplementacion();
-                        daoImplementacion.actualizar(new DiagnosticoPaciente(cajaDiagnosticoDiagnostico.getText(), cajaObservacionDiagnostico.getText(), idPaciente));
+                        daoImplementacion.actualizar(new DiagnosticoPaciente(htmlDiagnostico.getHtmlText(), htmlObservacionDiagnostico.getHtmlText(), idPaciente));
                         botonActualizarDiagnostico.setId("botonActualizarDiagnostico");
                         
-                        servicioPaciente.deshabilitarCajasArea(VariablesEstaticas.cajasAreaDiagnostico);
+                        servicioPaciente.deshabilitarCajasAreaHTML(VariablesEstaticas.cajasAreaDiagnostico);
 
                         mensajeAdvertenciaError( "Diagnóstico actualizado con éxito", this, VariablesEstaticas.imgenExito);
 
@@ -1424,8 +1089,8 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
         } else {
             botonActualizarDiagnostico.setId("1");
             servicioPaciente.
-                    animarCajasAreaAlDarABoton(VariablesEstaticas.cajasAreaDiagnostico).
-                    habilitarCajasArea(VariablesEstaticas.cajasAreaDiagnostico);
+                    
+                    habilitarCajasAreaHTML(VariablesEstaticas.cajasAreaDiagnostico);
         }
 
     }
@@ -1597,138 +1262,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
 
     }
 
-    @FXML
-    private void actualizarSesion(MouseEvent event) {
-        
-        
-        try {
-            //SI NO SE SELECCIONA LA SESION
-            if (tableSesiones.getSelectionModel().isEmpty()) {
-                mensajeAdvertenciaError( "Seleccione sesion para pode actualizar", this, VariablesEstaticas.imgenAdvertencia);
-
-            } else {
-                LocalDate ldAutorizacion = LocalDate.parse(tableSesiones.getSelectionModel().getSelectedItem().getAsociacion());
-                LocalDate ldSesion = LocalDate.parse(tableSesiones.getSelectionModel().getSelectedItem().getFechaSesion());
-                
-                SesionPaciente sesion = new SesionPaciente();
-                AutorizacionesSesionesObraSociales autorizacion = new AutorizacionesSesionesObraSociales();
-                CodigoFacturacion codigo = new CodigoFacturacion();
-                
-                SesionPaciente sesionBuscar = new SesionPaciente();
-                AutorizacionesSesionesObraSociales autorizacionBuscar = new AutorizacionesSesionesObraSociales();
-                
-                //SI SE PUEDEN EDITAR LAS CAJAS
-                if (botonActualizarSesiones.getId().equals("1")) {
-                    botonRetornarSesiones.setDisable(true);
-                    
-                    daoImplementacion = new PacienteDAOImplementacion();
-                    sesionBuscar.setIdPaciente(daoImplementacion.obtenerId(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText()))));
-                    autorizacionBuscar.setNumeroAutorizacion(Integer.parseInt(cajaAutorizacionSesion.getText()));
-                    autorizacionBuscar.setAsociacion(ldAutorizacion);
-                    sesionBuscar.setAutorizacion(autorizacionBuscar);
-                    sesionBuscar.setFecha(ldSesion);
-                    sesionBuscar.setNumeroSesion(Integer.parseInt(cajaNumeroSesion.getText()));
-                    
-                    
-                    daoImplementacion = new SesionDAOImplementacion();
-                    int idSesion = daoImplementacion.obtenerId(sesionBuscar);
-                    
-                    daoImplementacion = new PacienteDAOImplementacion();
-                    int idPaciente = daoImplementacion.obtenerId(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText())));
-
-                    LocalDate ldsNuevo = LocalDate.parse(cajaFechaSesion.getValue().toString());
-                    LocalDate ldsaNuevo = LocalDate.parse(cajaAsociacionSesionObraSocial.getValue().toString());
-                    
-                    //SI LAS CAJAS DE AUTORIZACION ESTAN VACIAS LAS RELLENA CON VALORES NULOS
-                    
-                    servicioPaciente.rellenarCajasAutorizacionVacias();
-                    daoImplementacion = new AutorizacionDAOImplementacion();
-                    autorizacion.setIdPaciente(idPaciente);
-                    autorizacion.setIdSesion(idSesion);
-                    autorizacion.setId(daoImplementacion.obtenerId(new AutorizacionesSesionesObraSociales(Integer.parseInt(tableSesiones.getSelectionModel().getSelectedItem().getNumeroAutorizacion()), LocalDate.parse(tableSesiones.getSelectionModel().getSelectedItem().getAsociacion()), idSesion, idPaciente)));
-                    autorizacion.setNumeroAutorizacion(Integer.parseInt(cajaAutorizacionSesion.getText()));
-                    autorizacion.setAsociacion(ldsaNuevo);
-                    autorizacion.setObservacion(cajaObservacionSesionObraSocial.getText());
-                    autorizacion.setCopago(Double.parseDouble(cajaCopagoSesionObraSocial.getText()));
-                    codigo.setNombre(choiseCodigoFactSesionObraSocial.getValue());
-                    autorizacion.setCodigoFacturacion(codigo);
-                    
-                    
-                    
-                        
-                    sesion.setAutorizacion(autorizacion);
-                    //INICIALIZAR SESION
-                    sesion.setEstado(new EstadoFacturacion(cajaEstadoFacturacionSesionObraSocial.getText()));
-                    sesion.setIdSesion(idSesion);
-                    sesion.setNumeroSesion(Integer.parseInt(cajaNumeroSesion.getText()));
-                    sesion.setFecha(ldsNuevo);
-                    sesion.setTrabajoSesion(cajaTrabajoSesion.getText());
-                    sesion.setObservacion(cajaObservacionSesion.getText());
-                    sesion.setHonorarioPorSesion(Double.parseDouble(cajaHonorariosPorSesion.getText()));
-                    sesion.setIdPaciente(idPaciente);
-                    
-                    //ACTIVAR SERVICIOS
-                    servicioPaciente.
-                            datosSesionCajasAreaVacios().
-                            datosSesionCajasVacios().
-                            vaciarCajas(VariablesEstaticas.cajasSesiones).
-                            vaciarChoise(VariablesEstaticas.choiseSesiones).
-                            vaciarCajasArea(VariablesEstaticas.cajasAreaSesion);
-                    
-                    //ACTUALIZAR
-                    daoImplementacion = new SesionDAOImplementacion();
-                    daoImplementacion.actualizar(sesion);
-                    mensajeAdvertenciaError( "Sesión actualizada con éxito sesión", this, VariablesEstaticas.imgenExito);
-                    vBoxAutorizacion.setVisible(false);
-                    vBoxSesiones.setVisible(false);
-                    hbTablasSesionesAtorizaciones.setVisible(true);
-                    botonActualizarSesiones.setId("botonActualizarSesiones");
-                    buscarPaciente();
-                    servicioPaciente.habilitarBotones(List.of(botonAgregarSesiones, botonEliminarSesiones));
-                } else {
-                    botonRetornarSesiones.setDisable(false);
-                    //BOTONERA
-                    hbTablasSesionesAtorizaciones.setVisible(false);
-                    vBoxAutorizacion.setVisible(true);
-                    vBoxSesiones.setVisible(true);
-
-                    //SESION
-                    cajaFechaSesion.setValue(ldSesion);
-                    cajaNumeroSesion.setText(tableSesiones.getSelectionModel().getSelectedItem().getNumeroSesion());
-                    cajaTrabajoSesion.setText(tableSesiones.getSelectionModel().getSelectedItem().getTrabajoSesion());
-                    cajaObservacionSesion.setText(tableSesiones.getSelectionModel().getSelectedItem().getObservacionSesion());
-                    cajaHonorariosPorSesion.setText(tableSesiones.getSelectionModel().getSelectedItem().getHonorariosPorSesion());
-                    cajaEstadoFacturacionSesionObraSocial.setText(tableSesiones.getSelectionModel().getSelectedItem().getEstadoFacturacion());
-                    
-                    //AUTORIZACION
-                    cajaAutorizacionSesion.setText(tableSesiones.getSelectionModel().getSelectedItem().getNumeroAutorizacion());
-                    cajaObservacionSesionObraSocial.setText(tableSesiones.getSelectionModel().getSelectedItem().getObservacionAutorizacion());
-                    cajaAsociacionSesionObraSocial.setValue(ldAutorizacion);
-                    cajaCopagoSesionObraSocial.setText(tableSesiones.getSelectionModel().getSelectedItem().getCopago());
-                    choiseCodigoFactSesionObraSocial.setValue(tableSesiones.getSelectionModel().getSelectedItem().getNombreCodigo());
-                    botonActualizarSesiones.setId("1");
-                    servicioPaciente.deshabilitarBotones(List.of(botonAgregarSesiones, botonEliminarSesiones));
-                    
-                    servicioPaciente.
-                            rellenarListaSesionesAutorizaciones(
-                                    new AutorizacionesSesionesObraSociales(
-                                            Integer.parseInt(tablaAutorizacion.getSelectionModel().getSelectedItem().getNumeroAutorizacion()) ,
-                                            tablaAutorizacion.getSelectionModel().getSelectedItem().getObservacionAutorizacion(),
-                                            LocalDate.parse(tablaAutorizacion.getSelectionModel().getSelectedItem().getAsociacion()),
-                                            Double.parseDouble(tablaAutorizacion.getSelectionModel().getSelectedItem().getCopago()),
-                                            new CodigoFacturacion(tablaAutorizacion.getSelectionModel().getSelectedItem().getNombreCodigo())
-                                    ));
-                    
-                    
-                }
-                
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            mensajeAdvertenciaError( "Error al actualizar sesión", this, VariablesEstaticas.imgenError);
-        }
-
-    }
+    
 
     
 
@@ -1805,37 +1339,13 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
             }
         }
     }
+    
+    //DIAGNOSTICO
 
     @FXML
-    private void eliminarDiagnostico(MouseEvent event) {
-        mensajePreguntarSiONo();
-        if (VariablesEstaticas.esSiONoMensajePrguntarSiONo) {
-            //SI SE BUSCO AL PACIENTE
-            if (!cajaBuscarPaciente.getText().isEmpty()) {
-                //SI LAS CAJAS IMPORTANTES NO ESTAN VACIAS
-                if (!cajaDiagnosticoDiagnostico.getText().isBlank()) {
-                    try {
-                        DiagnosticoPaciente diagnosticoPaciente = new DiagnosticoPaciente();
-                        daoImplementacion = new PacienteDAOImplementacion();
-                        diagnosticoPaciente.setIdPaciente(daoImplementacion.obtenerId(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText()))));
-                        daoImplementacion = new DiagnosticoDAOImplementacion();
-                        daoImplementacion.eliminar(diagnosticoPaciente);
-                        mensajeAdvertenciaError("Diagnóstico eliminado con éxito", this, VariablesEstaticas.imgenExito);
-                        servicioPaciente.
-                                vaciarCajasArea(VariablesEstaticas.cajasAreaDiagnostico).
-                                habilitarBotonCrear(botonAgregarDiagnostico).
-                                desHabilitarEliminarActualizar(botonEliminarDiagnostico, botonActualizarDiagnostico);
-                        buscarPaciente();
-                    } catch (Exception e) {
-                        mensajeAdvertenciaError("Error al eliminar diagnóstico", this, VariablesEstaticas.imgenError);
-                    }
-                } else {
-                    mensajeAdvertenciaError("Faltan datos para eliminar diagnóstico", this, VariablesEstaticas.imgenAdvertencia);
-                }
-            } else {
-                mensajeAdvertenciaError("Buscar paciente para eliminar", this, VariablesEstaticas.imgenAdvertencia);
-            }
-        }
+    public void eliminarDiagnostico(MouseEvent event) {
+        super.eliminarDiagnostico(event);
+        buscarPaciente();
 
     }
 
@@ -2407,8 +1917,8 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
     }
     
     
-    
-    @FXML
+    //SESIONES AGREGAR
+    /*@FXML
     private void actualizarOcrear(MouseEvent event) {
 
         
@@ -2436,8 +1946,9 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
             
         }
         
-    }
-    
+    }*/
+    //SESIONES AGREGAR
+    /*
     @FXML
     private void agregarCodigoFacturacion(MouseEvent event) {
 
@@ -2467,9 +1978,10 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
         etiquetaActualizarCodigoFacturacion.setVisible(false);
         hboxEtiquetasCodigosFacturacion.setVisible(false);
         
-    }
+    }*/
     
-    
+    //SESIONES AGREGAR
+    /*
     @FXML
     private void actualizarCodigoFacturacion(MouseEvent event) {
 
@@ -2501,7 +2013,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
         cajaCodigoFacturacion.setText("");
        
     }
-    
+    */
     
     
     
@@ -2597,51 +2109,7 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
 
     
     
-    @FXML
-    public void administraAccion(MouseEvent event) {
-        
-        try {
-            HBox b = (HBox) event.getSource();
-            
-            FXMLLoader Loader = new FXMLLoader(App.class.getResource("AdministrarAccionAgenda.fxml"));
-            Parent root = Loader.load();
-            AgendaController controller = Loader.getController();
-            Scene scene = new Scene(root);
-            scene.setFill(Color.TRANSPARENT);
-            Stage stage = new Stage();
-            stage.initOwner(VariablesEstaticas.stagePrincipal);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setScene(scene);
-            stage.initStyle(StageStyle.TRANSPARENT);
-            
-            VBox vboxParent = (VBox)b.getParent();
-            HBox hboxRecordatorio = null;
-            for (Node node : vboxParent.getChildren()) {
-                if(node.getId().equals("recordatorio")){
-                    hboxRecordatorio = (HBox)node;
-                }
-            }
-            
-            controller.setHboxPrecionadoRecordatorio(hboxRecordatorio);
-            controller.setHboxPrecionadoParaEditarOverAccion(b);
-            controller.iniciarAdministrarAccion(stage, root, b);
-            
-            
-            
-            stage.showAndWait();
-            
-            
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
     
-        
-        
-        
-
-    }
     
     
     @FXML
@@ -2730,12 +2198,12 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
         choiseTipoSesionPlan.setFocusTraversable(true);
         choiseTipoSesionPlan.setMouseTransparent(false);
         
-          botonAgregarCodigoFacturacion.setDisable(false);
-        botonActualizarCodigoFacturacion.setDisable(false);
-        hboxCajasCodigosFacturacion.setVisible(false);
-        etiquetaActualizarCodigoFacturacion.setVisible(false);
-        hboxEtiquetasCodigosFacturacion.setVisible(false);
-        cajaCodigoFacturacion.setText("");
+         //botonAgregarCodigoFacturacion.setDisable(false);
+        //botonActualizarCodigoFacturacion.setDisable(false);
+        //hboxCajasCodigosFacturacion.setVisible(false);
+        //etiquetaActualizarCodigoFacturacion.setVisible(false);
+      //  hboxEtiquetasCodigosFacturacion.setVisible(false);
+       // cajaCodigoFacturacion.setText("");
     }
 
         
@@ -2779,7 +2247,521 @@ public class MenuInicioController extends ClasePadreMenuInicio implements Initia
             mensajeAdvertenciaError("Error al actualizar Usuario", this, VariablesEstaticas.imgenError);
         }
     }
+    
+    @FXML
+    public void guardarBaseDeDatos(MouseEvent event) {
+        // Crea un objeto DirectoryChooser
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("Selecciona una carpeta para guardar");
 
+        // Muestra el diálogo de selección de directorios
+        File selectedDirectory = directoryChooser.showDialog(new Stage());
+
+        if (selectedDirectory != null) {
+            // Puedes utilizar la carpeta seleccionada para guardar tu archivo
+            UsuarioDAOImplementacion dao = new UsuarioDAOImplementacion();
+            
+            String dbName = "gestion_pacientes";
+            String dbUser = "root";
+            String dbPassword = "";
+            
+            
+            String backupPath = selectedDirectory.getAbsolutePath() + "/" + VariablesEstaticas.usuario.getId() + etiquetaNombreInicio.getText().trim().replace(" ", "") + "Copia.sql";
+            
+            dao.actualizarRutaGuardaBD(selectedDirectory.getAbsolutePath() + "/" + VariablesEstaticas.usuario.getId() + etiquetaNombreInicio.getText().trim().replace(" ", "") + "Copia.sql");
+            
+            try{
+                 // Construye el comando para ejecutar mysqldump
+                String command = "mysqldump --user=" + dbUser + " --password=" + dbPassword + " " + dbName + " -r " + backupPath;
+
+                // Ejecuta el comando
+                Process process = Runtime.getRuntime().exec(command);
+
+                // Espera a que el proceso termine
+                int exitCode = process.waitFor();
+                
+                
+                InputStream errorStream = process.getErrorStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(errorStream));
+                StringBuilder errorMessage = new StringBuilder();
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                errorMessage.append(line).append("\n");
+            }
+
+                // Verifica si la copia de seguridad fue exitosa
+            if (exitCode == 0) {
+                mensajeAdvertenciaError("Copia de seguridad exitosa.", this, VariablesEstaticas.imgenExito);
+                
+            } else {
+                mensajeAdvertenciaError("Error al realizar la copia de seguridad.", this, VariablesEstaticas.imgenError);
+                
+                 System.out.println("Mensaje de error:\n" + errorMessage.toString());
+            }
+            }catch(IOException | InterruptedException e){
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Operación cancelada por el usuario.");
+        }
+    }
+    
+    @FXML
+    public void administraAccion(MouseEvent event) {
+        
+        try {
+            
+            
+            HBox b = (HBox) event.getSource();
+            
+            FXMLLoader Loader = new FXMLLoader(App.class.getResource("AdministrarAccionAgenda.fxml"));
+            Parent root = Loader.load();
+            AgendaController controller = Loader.getController();
+            Scene scene = new Scene(root);
+            //scene.setFill(Color.TRANSPARENT);
+            Stage stage = new Stage();
+            stage.initOwner(VariablesEstaticas.stagePrincipal);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.TRANSPARENT);
+            
+            
+            
+            
+            VBox vboxParent = (VBox)b.getParent();
+            HBox hboxRecordatorio = null;
+            for (Node node : vboxParent.getChildren()) {
+                if(node.getId().equals("recordatorio")){
+                    hboxRecordatorio = (HBox)node;
+                }
+            }
+            
+            controller.setHboxPrecionadoRecordatorio(hboxRecordatorio);
+            controller.setHboxPrecionadoParaEditarOverAccion(b);
+            controller.iniciarAdministrarAccion(stage, root, b);
+            controller.setHboxAbiertoParaEditarAccion(b.getId());
+            
+            
+            stage.showAndWait();
+            
+            
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+    
+        
+        
+        
+
+    }
+    
+    
+    
+    @FXML
+    public void agrandarCajaParaVer(MouseEvent event){
+        try {
+            
+            FXMLLoader Loader = new FXMLLoader(App.class.getResource( "CajaVerHtml.fxml"));
+            Parent root = Loader.load();
+            CajaVerHtmlController controller = Loader.getController();
+            
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.TRANSPARENT);
+            
+            Node ev = (Node)event.getSource();
+            String textoAVer = "";
+            
+             
+            
+            switch (ev.getId()) {
+                case "botonVerDiagnostico":
+                    textoAVer = VariablesEstaticas.valoresBUsquedaDiagnosticoHTML.get("1");
+                    break;
+                case "botonVerObservacionDiagnostico":
+                    textoAVer = VariablesEstaticas.valoresBUsquedaDiagnosticoHTML.get("2");
+                    break;
+                
+            }
+            
+            
+            if(!cajaBuscarPaciente.getText().isEmpty()){
+               
+               controller.llenarCaja(textoAVer);
+               controller.setIdBoton(ev.getId());
+               controller.setNumDNIPaciente(Integer.parseInt(cajaBuscarPaciente.getText()));
+               stage.showAndWait(); 
+            }
+            
+            if(ev.getId().equals("botonVerDiagnostico") || ev.getId().equals("botonVerObservacionDiagnostico")){
+                 buscarPaciente();
+            }
+          
+            
+           
+        
+        } catch (IOException ex) {
+            Logger.getLogger(MensajeAdvertenciaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void iniciarVariablesEstaticas(){
+        try {
+            VariablesEstaticas.usuario.setId(usuarioDao.obtenerId(new Usuario()));
+        } catch (Exception e) {
+        }
+
+//INICIALIZAR CAJAS ESTATICAS
+        //USUARIO
+         VariablesEstaticas.cajasOpcionesUsuario
+                = Arrays.asList(
+                        cajaNombreOpcionesUsuario,
+                        cajaApellidoOpcionesUsuario,
+                        cajaUusarioOpcionesUsuario,
+                        cajaEmailOpcionesUsuario
+                        );
+         
+        
+        
+        //PACIENTE
+        VariablesEstaticas.cajasDatosPrincipales
+                = Arrays.asList(
+                        cajaNombreDatosPrincipales,
+                        cajaApellidoDatosPrincipales,
+                        cajaEdadDatosPrincipales,
+                        cajaDniDatosPrincipales,
+                        cajaTelefonoDatosPrincipales,
+                        cajaHonorariosDatosPrincipales);
+
+        
+
+        /*VariablesEstaticas.cajasAreaSesion
+                = Arrays.asList(
+                        htmlTrabajoSesion,
+                        htmlObservacionSesion,
+                        htmlObservacionAutorizacion);*/
+
+        
+
+        VariablesEstaticas.tableSesiones
+                = Arrays.asList(
+                        tableSesiones,
+                        tablaAutorizacion);
+
+        VariablesEstaticas.cajasPlanes
+                = Arrays.asList(
+                        cajaPlanFrecuenciaSesiones,
+                        cajaNombreTipoSesionPlan,
+                        cajaEstrategiaPlan);
+
+        VariablesEstaticas.choisePlan
+                = Arrays.asList(
+                        choiseFrecuenciaSesionPlan,
+                        choiseTipoSesionPlan);
+
+        VariablesEstaticas.cajasAreaPlan
+                = Arrays.asList(
+                        cajaDescripcionTipoSesionPlan);
+
+        VariablesEstaticas.cajasAreaDiagnostico
+                = Arrays.asList(
+                        htmlDiagnostico,
+                        htmlObservacionDiagnostico);
+
+        VariablesEstaticas.cajasObraSocialPaciente
+                = Arrays.asList(
+                        cajaNombreObraSocialPaciente,
+                        cajaPlanObraSocialPaciente,
+                        cajaNAfiliadoObraSocialPaciente);
+
+        VariablesEstaticas.choiseObraSocialPaciente
+                = Arrays.asList(
+                        choiseNombreObraSocialPaciente,
+                        choisePlanesObraSocialPacientePlan);
+
+        //OBRA SOACIAL
+        VariablesEstaticas.cajasObrasSociales
+                = Arrays.asList(
+                        cajaNombreObraSocial,
+                        cajaTelefonoObraSocial,
+                        cajaEmailObraSocial,
+                        cajaWebObraSocial);
+        
+        VariablesEstaticas.choiceObraSocial 
+                = Arrays.asList(
+                        choiceVerPlanesObraSocial);
+        
+         /*
+            1 NOMBRE
+            2 TELEFONO
+            3 MAIL
+            4 WEB
+            5 PLAN
+         */
+        VariablesEstaticas.valoresBUsquedaObraSocial 
+                = Map.of(
+                        "1", "",
+                        "2", "",
+                        "3", "",
+                        "4", "",
+                        "5", "");
+        
+        
+        /*
+            1 NOMBRE
+            2 APELLIDO
+            3 EDAD
+            4 DNI
+            5 TELEFONO
+         */
+        VariablesEstaticas.valoresBUsquedaDatosPrincipales
+                = Map.of(
+                        "1", "",
+                        "2", "",
+                        "3", "",
+                        "4", "",
+                        "5", "",
+                        "6", "");
+
+        /*
+            1 FECHA SESION
+            2 NUMERO SESION
+            3 TRABAJO SESION
+            4 OBSERVACION SESION
+            5 HONORARIOS POR SESION
+            6 ESTADO DE FACTURACION
+            
+         */
+        VariablesEstaticas.valoresBUsquedaSesiones
+                = Map.of(
+                        "1", "",
+                        "2", "",
+                        "3", "",
+                        "4", "",
+                        "5", "",
+                        "6", "");
+        
+        /*
+            1 NUMERO AUTORIZACION
+            2 OBSERVACION AUTORIZACION
+            3 ASOCIACION AUTORIZACION
+            4 COPAGO AUTORIZACION
+            5 CODIGO FACTURACION AUTORIZACION
+        */
+        VariablesEstaticas.valoresBUsquedaSesionesAtorizacion
+                = Map.of(
+                        "1", "",
+                        "2", "",
+                        "3", "",
+                        "4", "",
+                        "5", "");
+
+        /*
+        
+            1 FRECUENCIA SESIONES PLAN
+            2 TIPO SESION PLAN
+            3 DESCRIPCION PLAN
+            4 ESTRATEGIA PLAN
+        
+         */
+        VariablesEstaticas.valoresBUsquedaPlanes
+                = Map.of(
+                        "1", "",
+                        "2", "",
+                        "3", "",
+                        "4", "");
+
+        /*
+        
+            1 DIAGNOSTICO DIAGNOSTICO
+            2 OBSERVACION DIAGNOSTICO
+        
+         */
+        VariablesEstaticas.valoresBUsquedaDiagnostico
+                = Map.of(
+                        "1", "",
+                        "2", "");
+
+        /*
+            
+            1 NOMBRE OBRA SOCIAL PACIENTE
+            2 PLAN OBRA SOCIAL PACIENTE
+            3 Nº AFILIADO OBRA SOCIAL PACIENTE
+        
+         */
+        VariablesEstaticas.valoresBUsquedaObraSocialPaciente
+                = Map.of(
+                        "1", "",
+                        "2", "",
+                        "3", "");
+        
+        /*
+            
+            1 DIAGNOSTICO
+            2 OBSERVACION
+        
+         */
+        
+        VariablesEstaticas.valoresBUsquedaDiagnosticoHTML = Map.of("1", "", "2", "");
+
+        VariablesEstaticas.listaBotonesActualizar
+                = Arrays.asList(
+                        botonActualizarDatosPrincipales,
+                        botonActualizarPlanTratamiento,
+                        
+                        botonActualizarObraSocialPaciente);
+
+        VariablesEstaticas.listaBotonesEliminar
+                = Arrays.asList(
+                        botonEliminarDatosPrincipales,
+                        botonEliminarPlanTratamiento,
+                        botonEliminarDiagnostico,
+                        botonEliminarObraSocialPaciente);
+
+        VariablesEstaticas.listaBotonesCrear
+                = Arrays.asList(
+                        botonAgregarDatosPrincipales,
+                        botonAgregarPlanTratamiento,
+                        
+                        botonAgregarObraSocialPaciente);
+        
+        VariablesEstaticas.listaContenedoresAcordeon
+                = Arrays.asList(
+                        titlePaneDatosPrincipales,
+                        titlePaneSesion,
+                        titlePanePlan,
+                        titlePaneDiagnostico,
+                        titlePaneGenograma,
+                        titlePaneObraSocial);
+        
+        VariablesEstaticas.tabDatosPricipales = titlePaneDatosPrincipales;
+        
+        VariablesEstaticas.vboxsPlanesTratamiento 
+                = Arrays.asList(
+                        vBoxFrecuenciaSEsionPlan,
+                        vBoxNombreTipoSEsionPlan);
+        
+        VariablesEstaticas.vboxsPlanesTratamientoActualizaroVer
+                = Arrays.asList(
+                       vBoxFrecuenciaSEsionPlanActualizaroVer,
+                        vBoxNombreTipoSEsionPlanActualizaroVer
+                );
+        
+        VariablesEstaticas.vboxsObraSocialPaciente 
+                = Arrays.asList(
+                        vboxNombreObraSocialPaciente,
+                        vboxPlanObraSocialPaciente);
+        VariablesEstaticas.vboxsObraSocialPacienteActualizaroVer 
+                = Arrays.asList(
+                        vboxNombreObraSocialPacienteActualizarVer, 
+                        vboxPlanObraSocialPacienteActualizarVer);
+        
+        
+         
+         //agenda
+         VariablesEstaticas.imagenRecordatorioAgendaLateral = imgRecordatorio;
+         
+         //AGENDA
+        VariablesEstaticas.anchorPrincipalAgenda = apAgendaPrincipal;
+        VariablesEstaticas.anchorAgendaAgenda = apAgendaAgenda;
+        VariablesEstaticas.gridAgenda = gpCalendario;
+        AgendaController agenda = new AgendaController();
+        agenda.rellenarAgenda(1);
+         
+         VariablesEstaticas.setImgenExito("/com/pacientes/gestor_pacientes/img/exito.png");
+        VariablesEstaticas.setImgenError("/com/pacientes/gestor_pacientes/img/error.png");
+        VariablesEstaticas.setImgenAdvertencia("/com/pacientes/gestor_pacientes/img/warning.png");
+        
+        VariablesEstaticas.setImagenVer(new Image("/com/pacientes/gestor_pacientes/img/ver.png"));
+        VariablesEstaticas.setImagenAgregar(new Image("/com/pacientes/gestor_pacientes/img/lapiz.png"));
+        VariablesEstaticas.setImagenRecordar(new Image("/com/pacientes/gestor_pacientes/img/recordatorio.png"));
+        
+        
+        
+    }
+    
+     public void iniciarChoiceTipoSesion(){
+         try {
+             daoImplementacion = new TipoSesionPlanDAOImplementacion();
+             List<TipoSesion> listaTiposSesiones = daoImplementacion.obtenerLista(new TipoSesion());
+             if (!Objects.isNull(listaTiposSesiones)) {
+                 for (TipoSesion h : listaTiposSesiones) {
+                     choiseTipoSesionPlan.getItems().add(h.getNombre());
+                 }
+
+             }
+         } catch (Exception e) {
+         }
+    }
     
    
+    
+    
+    
+    public void iniciarChoiceObraSocial(){
+         try {
+             daoImplementacion = new ObraSocialDAOImplementacion();
+             List<ObraSocial> listaObrasSociales = daoImplementacion.obtenerLista(new ObraSocial());
+             if (!Objects.isNull(listaObrasSociales)) {
+                 for (ObraSocial h : listaObrasSociales) {
+                     choiseNombreObraSocialPaciente.getItems().add(h.getNombre());
+
+                 }
+
+             }
+         } catch (Exception e) {
+         }
+    }
+    
+    public void iniciarChoiceFrecuencia() {
+        try {
+            daoImplementacion = new FrecuenciaSesionPlanDAOImplementacion();
+            List<FrecuenciaSesion> listaFreceunciaPlan = daoImplementacion.obtenerLista(new FrecuenciaSesion());
+
+            if (!Objects.isNull(listaFreceunciaPlan)) {
+                for (FrecuenciaSesion h : listaFreceunciaPlan) {
+                    choiseFrecuenciaSesionPlan.getItems().add(h.getFrecuencia());
+                }
+
+            }
+        } catch (Exception e) {
+        }
+    }
+    
+    private void iniciarChoicePlanObraSocialPaciente() {
+        
+        
+       daoImplementacion = new PlanObraSocialDAOImplementacion();
+        try {
+            listaPlanesObrasSociales = daoImplementacion.obtenerLista(new ObraSocial(choiseNombreObraSocialPaciente.getValue()));
+        } catch (Exception e) {
+        }
+        
+        valorInicialNombreObraSocialPaciente = choiseNombreObraSocialPaciente.getValue();
+
+        if (!Objects.isNull(listaPlanesObrasSociales)) {
+            for (ObraSocial plan: listaPlanesObrasSociales) {
+               
+                choisePlanesObraSocialPacientePlan.getItems().add(plan.getPlan());
+            }
+            
+        }
+        
+        
+        
+    }
+   
+    @FXML
+    public void actualizarAplicacion(){
+        ClienteActualizacion cliente = new ClienteActualizacion();
+        try {
+            cliente.descargarDrive();
+        } catch (Exception e) {
+        }
+    }
 }

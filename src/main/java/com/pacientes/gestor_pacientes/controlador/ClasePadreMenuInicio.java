@@ -7,8 +7,9 @@ package com.pacientes.gestor_pacientes.controlador;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableMap;
+import com.jfoenix.controls.JFXTextArea;
 import com.pacientes.gestor_pacientes.App;
-import com.pacientes.gestor_pacientes.DAO.CRUD;
+
 import com.pacientes.gestor_pacientes.implementacionDAO.AgendaDAOImplementacion;
 import com.pacientes.gestor_pacientes.implementacionDAO.ObraSocial.ObraSocialDAOImplementacion;
 import com.pacientes.gestor_pacientes.implementacionDAO.ObraSocial.PlanObraSocialDAOImplementacion;
@@ -20,9 +21,10 @@ import com.pacientes.gestor_pacientes.modelo.Cliente;
 import com.pacientes.gestor_pacientes.modelo.CodigoFacturacion;
 import com.pacientes.gestor_pacientes.modelo.ObraSocial;
 import com.pacientes.gestor_pacientes.modelo.TipoSesion;
-import com.pacientes.gestor_pacientes.modelo.Usuario;
+
 import com.pacientes.gestor_pacientes.servicios.ServicioObraSocial;
 import com.pacientes.gestor_pacientes.servicios.ServicioPaciente;
+import com.pacientes.gestor_pacientes.servicios.ServiciosPadre;
 import com.pacientes.gestor_pacientes.utilidades.TablaObrasSociales;
 import com.pacientes.gestor_pacientes.utilidades.TablaSesiones;
 import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
@@ -36,10 +38,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -63,7 +68,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
+
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -74,9 +79,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.HTMLEditor;
+
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
 
 /**
@@ -84,6 +91,15 @@ import javafx.stage.StageStyle;
  * @author previotto
  */
 public class ClasePadreMenuInicio extends ClasePadreController{
+    
+     public Timeline enableTimeline;
+    
+    @FXML
+    protected AnchorPane anchorBurbujas;
+    
+    
+    protected ServiciosPadre servicioPadre = new ServiciosPadre();
+
     //DENTRO DE CLASE
     protected String cssNuevo = getClass().getResource("/com/pacientes/gestor_pacientes/styles/nuevoTitledPane.css").toExternalForm();
     protected String cssViejo = getClass().getResource("/com/pacientes/gestor_pacientes/styles/menuinicio.css").toExternalForm();
@@ -203,6 +219,9 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     protected Button botonMinimizar;
     
     @FXML
+    protected Button botonCerrar;
+    
+    @FXML
     protected HBox botoneraCrudDatosPrincipales;
     
     /*
@@ -214,6 +233,13 @@ public class ClasePadreMenuInicio extends ClasePadreController{
         SESIONES            SESIONES                SESIONES
     
     */
+    
+    @FXML
+    protected HTMLEditor htmlTrabajoSesion;
+    @FXML
+    protected HTMLEditor htmlObservacionSesion;
+    @FXML
+    protected HTMLEditor htmlObservacionAutorizacion;
     
     //LABEL
     @FXML
@@ -245,10 +271,8 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     @FXML
     protected DatePicker cajaFechaSesion;
     
-    @FXML
-    protected TextArea cajaTrabajoSesion;
-    @FXML
-    protected TextArea cajaObservacionSesion;
+    
+   
     @FXML 
     protected TextField cajaHonorariosPorSesion;
     @FXML
@@ -258,8 +282,7 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     protected TextField cajaAutorizacionSesion;
     @FXML
     protected DatePicker cajaAsociacionSesionObraSocial;
-    @FXML
-    protected TextArea cajaObservacionSesionObraSocial;
+    
     @FXML
     protected TextField cajaAtualizarCodigoFacturacionSesionObraSocial;
     @FXML
@@ -410,15 +433,32 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     
     */
     
+    //HBOX
+    @FXML
+    protected HBox hbHtmlEditObsevacionDiagnostico;
+    @FXML
+    protected HBox hbHtmlEditDiagnostico;
+    
+    @FXML
+    protected HTMLEditor htmlDiagnostico;
+    
+    @FXML
+    protected HTMLEditor htmlObservacionDiagnostico;
+    
     //TITLEPANE
     @FXML
     protected TitledPane titlePaneDiagnostico;
     
     //CAJAS
-    @FXML
-    protected TextArea cajaDiagnosticoDiagnostico;
-    @FXML
-    protected TextArea cajaObservacionDiagnostico;
+    /*@FXML
+    protected JFXTextArea cajaDiagnosticoDiagnosticoJFX;*/
+    /*@FXML
+    protected TextArea cajaDiagnosticoDiagnostico;*/
+    /*@FXML
+    protected TextArea cajaObservacionDiagnostico;*/
+    
+   /* @FXML
+    protected JFXTextArea cajaObservacionDiagnosticoJFX;*/
     
     //BOTONES
     @FXML
@@ -678,6 +718,24 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     @FXML
     protected VBox vbApOpciones;
     
+    @FXML
+    protected HBox hboxColores;
+    
+    @FXML
+    protected Button botonColorVerde;
+    
+    @FXML
+    protected Button botonColorAzul;
+    
+    @FXML
+    protected Button botonColorMarron;
+    
+    @FXML
+    protected Button botonColorGris;
+    
+    @FXML
+    protected Button botonColorSalmon;
+    
     //BOTON
     @FXML
     protected Button botonActualizarUsuarioOpciones;
@@ -697,7 +755,8 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     */
     
     
-            
+    @FXML
+    protected AnchorPane imagenOjoVer; 
             
     //ANCHOR PANE
     @FXML
@@ -759,6 +818,8 @@ public class ClasePadreMenuInicio extends ClasePadreController{
      */
     @FXML
     protected void eleccionMenu(MouseEvent event) {
+        containerMenu.setStyle(servicioPadre.iniciarColorApp());
+        
         Pane pane = (Pane) event.getSource();
         switch (pane.getId()) {
             case "pestanaPaciente":
@@ -802,9 +863,8 @@ public class ClasePadreMenuInicio extends ClasePadreController{
                 desPintarCajaVaciaImportante(VariablesEstaticas.cajasDatosPrincipales).
                 desPintarCajaVaciaImportante(VariablesEstaticas.cajasObraSocialPaciente).
                 desPintarCajaVaciaImportante(VariablesEstaticas.cajasPlanes).
-                desPintarCajaAreaVaciaImportante(VariablesEstaticas.cajasAreaDiagnostico).
+                desPintarCajaAreaVaciaImportanteHTML(VariablesEstaticas.cajasAreaDiagnostico).
                 desPintarCajaAreaVaciaImportante(VariablesEstaticas.cajasAreaPlan).
-                desPintarCajaAreaVaciaImportante(VariablesEstaticas.cajasAreaSesion).
                 desPintarCajaVaciaImportante(VariablesEstaticas.cajasObrasSociales);
     }
     
@@ -821,8 +881,8 @@ public class ClasePadreMenuInicio extends ClasePadreController{
            cajaBuscarObraSocial.setText("");
            hboxPlanObraSocial.setVisible(false);
         
-        vBoxSesiones.setVisible(false);
-                    vBoxAutorizacion.setVisible(false);
+       // vBoxSesiones.setVisible(false);
+                   // vBoxAutorizacion.setVisible(false);
                     hbTablasSesionesAtorizaciones.setVisible(true);
                     cajaBuscarPaciente.setText("");
                     setearBotones();
@@ -852,8 +912,8 @@ public class ClasePadreMenuInicio extends ClasePadreController{
         botonActualizarPlanTratamiento.setId("botonActualizarPlanTratamiento");
         botonEliminarPlanTratamiento.setId("botonEliminarPlanTratamiento");
         
-        botonAgregarDiagnostico.setId("botonAgregarDiagnostico");
-        botonActualizarDiagnostico.setId("botonActualizarDiagnostico");
+        
+        
         botonEliminarDiagnostico.setId("botonEliminarDiagnostico");
         
         botonActualizarObraSocialPaciente.setId("botonActualizarObraSocialPaciente");
@@ -861,10 +921,10 @@ public class ClasePadreMenuInicio extends ClasePadreController{
         botonEliminarObraSocialPaciente.setId("botonEliminarObraSocialPaciente");
         botonEliminarObraSocialPaciente.setId("botonEliminarObraSocialPaciente");
         
-        botonActualizarAgregarCodigoFacturacion.setId("botonActualizarAgregarCodigoFacturacion");
+        //botonActualizarAgregarCodigoFacturacion.setId("botonActualizarAgregarCodigoFacturacion");
         
-        botonAgregarCodigoFacturacion.setId("botonAgregarCodigoFacturacion");
-        botonActualizarCodigoFacturacion.setId("botonActualizarCodigoFacturacion");
+        //botonAgregarCodigoFacturacion.setId("botonAgregarCodigoFacturacion");
+       // botonActualizarCodigoFacturacion.setId("botonActualizarCodigoFacturacion");
         
         botonActualizarCrearFrecuencia.setId("botonActualizarCrearFrecuencia");
         
@@ -921,7 +981,8 @@ public class ClasePadreMenuInicio extends ClasePadreController{
 
     @FXML
     protected void expandirTitledPane(MouseEvent event) {
-
+        
+        
         TitledPane tp = (TitledPane) event.getSource();
 
         if (tp.expandedProperty().get() && acordionPaciente.getStylesheets().get(0).equals(cssViejo)) {
@@ -1159,8 +1220,8 @@ public class ClasePadreMenuInicio extends ClasePadreController{
         botonAgregarSesiones.setDisable(false);
         botonEliminarSesiones.setDisable(false);
         botonRetornarSesiones.setDisable(true);
-        vBoxAutorizacion.setVisible(false);
-        vBoxSesiones.setVisible(false);
+        //vBoxAutorizacion.setVisible(false);
+        //vBoxSesiones.setVisible(false);
         botonActualizarSesiones.setId("botonActualizarSesiones");
         botonAgregarSesiones.setId("botonAgregarSesiones");
     }
@@ -1405,13 +1466,14 @@ public class ClasePadreMenuInicio extends ClasePadreController{
         
     }
     
-    @FXML
+    /*@FXML
     public void agrandarCajaParaVer(MouseEvent event){
-        try {
+        /*try {
             
-            FXMLLoader Loader = new FXMLLoader(App.class.getResource( "CajasAgrandarParaVer.fxml"));
+            FXMLLoader Loader = new FXMLLoader(App.class.getResource( "CajaVerHtml.fxml"));
             Parent root = Loader.load();
-            CajasAgrandarParaVerController controller = Loader.getController();
+            CajaVerHtmlController controller = Loader.getController();
+            
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -1420,6 +1482,8 @@ public class ClasePadreMenuInicio extends ClasePadreController{
             
             Node ev = (Node)event.getSource();
             String textoAVer = "";
+            
+             System.out.println("ID: " + ev.getId());
             
             switch (ev.getId()) {
                 case "botonVerDiagnostico":
@@ -1440,18 +1504,66 @@ public class ClasePadreMenuInicio extends ClasePadreController{
                 
             }
             
-            controller.llenarCaja(textoAVer);
-            stage.showAndWait();
             
+            if(!cajaBuscarPaciente.getText().isEmpty()){
+               
+               controller.llenarCaja(textoAVer);
+               controller.setIdBoton(ev.getId());
+               controller.setNumDNIPaciente(Integer.parseInt(cajaBuscarPaciente.getText()));
+               stage.showAndWait(); 
+            }
+           
             
            
         
         } catch (IOException ex) {
             Logger.getLogger(MensajeAdvertenciaController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+    }*/
     
-    
+   @FXML
+   public void elegirColorApp(MouseEvent event){
+       UsuarioDAOImplementacion usuarioDAOImplementacion = new UsuarioDAOImplementacion();
+       Button boton = (Button)event.getSource();
+       switch (boton.getId()) {
+           case "botonColorSalmon":
+               usuarioDAOImplementacion.actualizarColorTemaAplicacion(1);
+               hboxColores.setVisible(false);
+               mensajeAdvertenciaError("Reiniciar para cambiar de color", this, VariablesEstaticas.imgenExito);
+               break;
+           case "botonColorGris":
+               usuarioDAOImplementacion.actualizarColorTemaAplicacion(2);
+               hboxColores.setVisible(false);
+               mensajeAdvertenciaError("Reiniciar para cambiar de color", this, VariablesEstaticas.imgenExito);
+               break;
+           case "botonColorAzul":
+               usuarioDAOImplementacion.actualizarColorTemaAplicacion(4);
+               hboxColores.setVisible(false);
+               mensajeAdvertenciaError("Reiniciar para cambiar de color", this, VariablesEstaticas.imgenExito);
+               break;
+           case "botonColorVerde":
+               usuarioDAOImplementacion.actualizarColorTemaAplicacion(3);
+               hboxColores.setVisible(false);
+               mensajeAdvertenciaError("Reiniciar para cambiar de color", this, VariablesEstaticas.imgenExito);
+               break;
+           case "botonColorMarron":
+               usuarioDAOImplementacion.actualizarColorTemaAplicacion(5);
+               hboxColores.setVisible(false);
+               mensajeAdvertenciaError("Reiniciar para cambiar de color", this, VariablesEstaticas.imgenExito);
+               break;
+           
+       }
+       
+   }
+   
+   @FXML
+   public void cambiarColor(MouseEvent event){
+       hboxColores.setVisible(true);
+   }
+   
+   
+   
+   
     
     
 
@@ -1465,7 +1577,7 @@ public class ClasePadreMenuInicio extends ClasePadreController{
                 try {
                     
                         if(agenda.obtenerRecordatorio(LocalDate.now())){
-                        
+                            
                         
                         imgRecordatorio.setVisible(true);
                         
@@ -1504,5 +1616,57 @@ public class ClasePadreMenuInicio extends ClasePadreController{
         cajaEmailOpcionesUsuario.setText(usuario.getEmail().getEmail());
     }
     
+    public void iniciarColorContenedores(){
+        anchorBurbujas.getChildren().add(servicioPadre.patronBurbujas());
+        containerMenu.setStyle(servicioPadre.iniciarColorApp());
+        apPacientes.setStyle(servicioPadre.iniciarColorApp());
+        apOpciones.setStyle(servicioPadre.iniciarColorApp());
+        apObraSocial.setStyle(servicioPadre.iniciarColorApp());
+        apAgendaPrincipal.setStyle(servicioPadre.iniciarColorApp());
+        botonMinimizar.setStyle(servicioPadre.iniciarColorApp());
+        botonCerrar.setStyle(servicioPadre.iniciarColorApp());
+        botonMaximizarDesmaximizado.setStyle(servicioPadre.iniciarColorApp());
+        vbLateral.setStyle(servicioPadre.iniciarColorApp());
+        acordionPaciente.setStyle(servicioPadre.iniciarColorApp());
+    }
+    
+    public void habilitarDeshabilitar(MouseEvent event){
+        
+        HTMLEditor html = (HTMLEditor) event.getSource();
+        
+        html.setDisable(false);
+       
+       
+        
+        
+        
+        
+    }
+    
+    
+
+    public void iniciarlizarHtmlEditorMenu(){
+        List<HTMLEditor> hTMLEditor = new ArrayList();
+        
+        hTMLEditor.addAll(List.of( htmlObservacionDiagnostico, htmlDiagnostico));
+        inicializarPropiedadesHtmlEditor(hTMLEditor);
+    }
+    
+    public void iniciarlizarHtmlEditorSesion(){
+        List<HTMLEditor> hTMLEditor = new ArrayList();
+        
+        hTMLEditor.addAll(List.of(  htmlObservacionAutorizacion, htmlObservacionSesion, htmlTrabajoSesion));
+        inicializarPropiedadesHtmlEditor(hTMLEditor);
+    }
+    
+    public void inicializarPropiedadesHtmlEditor(List<HTMLEditor> listHtmlEditor) {
+        for (HTMLEditor hTMLEditor : listHtmlEditor) {
+            hTMLEditor.addEventFilter(KeyEvent.KEY_TYPED, KeyEvent::consume);
+            hTMLEditor.addEventFilter(KeyEvent.KEY_PRESSED, KeyEvent::consume);
+            hTMLEditor.addEventFilter(KeyEvent.KEY_RELEASED, KeyEvent::consume);
+            hTMLEditor.lookup(".bottom-toolbar").setVisible(false);
+            hTMLEditor.lookup(".top-toolbar").setVisible(false);
+        }
+    }
     
 }

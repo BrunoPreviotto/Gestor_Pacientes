@@ -6,15 +6,15 @@ package com.pacientes.gestor_pacientes.utilidades;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import com.jfoenix.controls.JFXTextArea;
+import com.pacientes.gestor_pacientes.modelo.TemaAplicacion;
 import com.pacientes.gestor_pacientes.modelo.Usuario;
-import java.util.Arrays;
+
 import java.util.List;
 import java.util.Map;
-import java.util.TimerTask;
+
 import java.util.regex.Pattern;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -23,13 +23,14 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputControl;
+
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.HTMLEditor;
 import javafx.stage.Stage;
 
 /**
@@ -66,7 +67,7 @@ public class VariablesEstaticas {
     
     public static DatePicker cajaAsociacionSesionObraSocial;
     
-    public static TextArea cajaObservacionSesionObraSocial;
+    public static HTMLEditor cajaObservacionSesionObraSocial;
     
     public static TextField cajaAtualizarCodigoFacturacionSesionObraSocial;
     
@@ -87,9 +88,9 @@ public class VariablesEstaticas {
     public static List<TextField> cajasPlanes;
     public static List<TextField> cajasObraSocialPaciente;
     //LISTA TEXTAREA
-    public static List<TextArea> cajasAreaSesion;
+    public static List<HTMLEditor> cajasAreaSesion;
     public static List<TextArea> cajasAreaPlan;
-    public static List<TextArea> cajasAreaDiagnostico;
+    public static List<HTMLEditor> cajasAreaDiagnostico;
     //LISTA TABLES
     public static List<TableView> tableSesiones;
     //LISTA CHOISE
@@ -114,6 +115,7 @@ public class VariablesEstaticas {
     public static Map<String, String> valoresBUsquedaListaSesionesAutorizacion;
     public static Map<String, String> valoresBUsquedaPlanes;
     public static Map<String, String> valoresBUsquedaDiagnostico;
+    public static Map<String, String> valoresBUsquedaDiagnosticoHTML;
     public static Map<String, String> valoresBUsquedaObraSocialPaciente;
     
     
@@ -163,7 +165,13 @@ public class VariablesEstaticas {
     public static  Image imagenAgregar = null;
     public static  Image imagenRecordar = null;
     
-    
+    //APLICACION
+    public static TemaAplicacion colorTeamaAplicacion  = null;
+
+    public static void setColorTeamaAplicacion(TemaAplicacion colorTeamaAplicacion) {
+        VariablesEstaticas.colorTeamaAplicacion = colorTeamaAplicacion;
+    }
+
     
 
     

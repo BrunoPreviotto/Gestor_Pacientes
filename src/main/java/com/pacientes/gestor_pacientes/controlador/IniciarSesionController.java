@@ -5,7 +5,7 @@
 package com.pacientes.gestor_pacientes.controlador;
 
 
-import com.pacientes.gestor_pacientes.App;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -16,11 +16,12 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import com.pacientes.gestor_pacientes.DAO.IUsuarioDAO;
+
 import com.pacientes.gestor_pacientes.implementacionDAO.UsuarioDAOImplementacion;
 import com.pacientes.gestor_pacientes.modelo.Usuario;
+import com.pacientes.gestor_pacientes.servicios.ServiciosPadre;
 
-import java.util.ArrayList;
+
 
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -29,8 +30,7 @@ import com.pacientes.gestor_pacientes.utilidades.DraggedScene;
 import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 import java.io.IOException;
 import javafx.event.Event;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
+
 
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -38,7 +38,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
-import javafx.stage.Modality;
+
 import javafx.stage.StageStyle;
 
 
@@ -73,7 +73,10 @@ public class IniciarSesionController extends ClasePadreController implements Ini
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-           VariablesEstaticas.setImgenExito("/com/pacientes/gestor_pacientes/img/exito.png");
+        ServiciosPadre serviciosPadre = new ServiciosPadre();
+        containerIniciar.setStyle(serviciosPadre.iniciarColorApp());
+           
+        VariablesEstaticas.setImgenExito("/com/pacientes/gestor_pacientes/img/exito.png");
         VariablesEstaticas.setImgenError("/com/pacientes/gestor_pacientes/img/error.png");
         VariablesEstaticas.setImgenAdvertencia("/com/pacientes/gestor_pacientes/img/warning.png");
         
@@ -165,6 +168,7 @@ public class IniciarSesionController extends ClasePadreController implements Ini
                 try {
                     peticionParaIngresar(event);
                 } catch (Exception e) {
+                    System.out.println("ola");
                 }
             }
             

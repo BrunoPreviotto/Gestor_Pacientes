@@ -4,8 +4,7 @@
  */
 package com.pacientes.gestor_pacientes.DAO;
 import com.pacientes.gestor_pacientes.modelo.*;
-import javafx.collections.ObservableList;
-import java.util.List;
+
 
 /**
  *

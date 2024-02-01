@@ -10,7 +10,7 @@ import com.pacientes.gestor_pacientes.implementacionDAO.PadreDAOImplementacion;
 import com.pacientes.gestor_pacientes.modelo.Afiliado;
 import com.pacientes.gestor_pacientes.modelo.ObraSocial;
 import com.pacientes.gestor_pacientes.modelo.ObraSocialPaciente;
-import com.pacientes.gestor_pacientes.modelo.Paciente;
+
 import com.pacientes.gestor_pacientes.modelo.PlanObraSocial;
 import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 import java.sql.PreparedStatement;

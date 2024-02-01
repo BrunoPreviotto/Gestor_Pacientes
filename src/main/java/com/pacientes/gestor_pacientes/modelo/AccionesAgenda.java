@@ -5,6 +5,8 @@
 package com.pacientes.gestor_pacientes.modelo;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 
 /**
  *
@@ -15,6 +17,7 @@ public class AccionesAgenda {
     private String  accion;
     private LocalDate fecha;
     private Boolean recordar;
+    private LocalDateTime fechaYHora;
     
     public AccionesAgenda() {
     }
@@ -37,6 +40,22 @@ public class AccionesAgenda {
         this.accion = accion;
         this.fecha = fecha;
         this.recordar = recordar;
+    }
+
+    public AccionesAgenda(String accion, LocalDate fecha, Boolean recordar, LocalDateTime hora) {
+        this.id = id;
+        this.accion = accion;
+        this.fecha = fecha;
+        this.recordar = recordar;
+        this.fechaYHora = hora;
+    }
+
+    public LocalDateTime getFechaYHora() {
+        return fechaYHora;
+    }
+
+    public void setFechaYHora(LocalDateTime hora) {
+        this.fechaYHora = hora;
     }
 
     
@@ -77,3 +96,6 @@ public class AccionesAgenda {
     
     
 }
+
+
+
