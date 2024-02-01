@@ -9,6 +9,8 @@ module com.pacientes.gestor_pacientes {
     requires com.jfoenix;
     
     requires org.apache.commons.io;
+    
+    requires org.eclipse.jgit;
   
     requires dropbox.core.sdk;
     
