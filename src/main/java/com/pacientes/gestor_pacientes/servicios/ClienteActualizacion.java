@@ -4,6 +4,7 @@
  */
 package com.pacientes.gestor_pacientes.servicios;
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
@@ -18,7 +19,7 @@ import java.util.zip.ZipFile;
 import javafx.scene.Scene;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-
+import org.apache.commons.io.FileUtils;
 
 public class ClienteActualizacion {
    
@@ -35,39 +36,58 @@ public class ClienteActualizacion {
 
         // Mostrar el diálogo y obtener el directorio seleccionado
         File selectedDirectory = directoryChooser.showDialog(primaryStage);
+        
+        String urlRepositorioZip = "https://github.com/BrunoPreviotto/Gestor_Pacientes/blob/brnchNueva/src/gestor_pacientes.zip";
+        String directorioDestino = selectedDirectory.getPath() + "/";
 
         // Verificar si se seleccionó un directorio
         if (selectedDirectory != null) {
-            System.out.println("Directorio seleccionado: " + selectedDirectory.getAbsolutePath());
+            System.out.println("Directorio seleccionado: " + directorioDestino);
             // Aquí puedes realizar las operaciones que necesites con el directorio seleccionado
         } else {
             System.out.println("Ningún directorio seleccionado.");
         }
         
         
-        String urlRepositorioZip = "https://github.com/usuario/repositorio/archive/refs/heads/main.zip";
-        String directorioDestino = "actualizaciones/";
+        
 
-        try {
+       
+       try {
             // Descargar el archivo ZIP del repositorio
-            descargarRepositorioZip(urlRepositorioZip, selectedDirectory.getPath());
+            descargarRepositorioZip(urlRepositorioZip, directorioDestino);
 
             // Descomprimir el archivo ZIP en el directorio de destino
-            descomprimirArchivoZip(directorioDestino + "repositorio-main.zip", directorioDestino);
+            //descomprimirArchivoZip(directorioDestino + "repositorio-main.zip", directorioDestino);
 
             // Lógica para instalar la nueva versión y reiniciar la aplicación
             // ... (implementa según tus necesidades)
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
    }
     
-  private static void descargarRepositorioZip(String urlRepositorioZip, String directorioDestino) throws IOException {
-        try (InputStream in = new URL(urlRepositorioZip).openStream()) {
-            Files.copy(in, new File(directorioDestino + "repositorio-main.zip").toPath(), StandardCopyOption.REPLACE_EXISTING);
+   
+    private static void descargarRepositorioZip(String urlRepositorioZip, String directorioDestino) throws IOException {
+        // Asegurarse de que el directorio de destino exista
+        Path destino = Path.of(directorioDestino);
+        Files.createDirectories(destino);
+
+        URL url = new URL(urlRepositorioZip);
+        
+        // Descargar el archivo ZIP utilizando java.nio.file
+        try (InputStream in = url.openStream()) {
+            
+            
+            
+            Path archivoDestino = destino.resolve("gestor_paciente.zip");
+            Files.copy(in, archivoDestino, StandardCopyOption.REPLACE_EXISTING);
+            System.out.println("Descarga exitosa del archivo ZIP.");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Error al descargar el archivo ZIP: " + e.getMessage());
         }
     }
-
+    
     private static void descomprimirArchivoZip(String archivoZip, String directorioDestino) throws IOException {
         try (ZipFile zipFile = new ZipFile(archivoZip)) {
             Enumeration<? extends ZipEntry> entries = zipFile.entries();

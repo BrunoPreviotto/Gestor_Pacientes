@@ -8,6 +8,7 @@ module com.pacientes.gestor_pacientes {
     requires com.google.common;
     requires com.jfoenix;
     
+    requires org.apache.commons.io;
   
     requires dropbox.core.sdk;
     
