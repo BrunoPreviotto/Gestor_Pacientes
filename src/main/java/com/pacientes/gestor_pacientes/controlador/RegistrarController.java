@@ -8,12 +8,14 @@ package com.pacientes.gestor_pacientes.controlador;
 import com.pacientes.gestor_pacientes.implementacionDAO.UsuarioDAOImplementacion;
 import com.pacientes.gestor_pacientes.modelo.Email;
 import com.pacientes.gestor_pacientes.modelo.Usuario;
-import com.pacientes.gestor_pacientes.servicios.InicializarObjeto;
+
 import com.pacientes.gestor_pacientes.servicios.ServicioRegistrar;
+import com.pacientes.gestor_pacientes.servicios.ServiciosPadre;
+import com.pacientes.gestor_pacientes.utilidades.DraggedScene;
 import com.pacientes.gestor_pacientes.utilidades.Exepciones;
 import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 import com.pacientes.gestor_pacientes.validacion.Validar;
-import static com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas.*;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -21,7 +23,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
+
 import javafx.scene.input.MouseEvent;
 import java.io.IOException;
 import java.util.Arrays;
@@ -29,7 +31,8 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.AnchorPane;
+
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -39,7 +42,7 @@ import javafx.stage.StageStyle;
  *
  * @author previotto
  */
-public class RegistrarController extends ClasePadreController implements Initializable {
+public class RegistrarController extends ClasePadreController implements Initializable, DraggedScene {
 
     @FXML
     private TextField cajaNombre;
@@ -70,12 +73,17 @@ public class RegistrarController extends ClasePadreController implements Initial
     @FXML
     private Label etiquetaErrorNombre;
     
+    @FXML
+    private AnchorPane anchorDecoRegistrar;
+    
     
     private Validar validar = new Validar();
     private UsuarioDAOImplementacion usuarioDao = new UsuarioDAOImplementacion();
     private ServicioRegistrar servicioRegistrar = new ServicioRegistrar();
     @FXML
     private Button botonRetornarDatosPrincipales1;
+    @FXML
+    private AnchorPane anchorRegistrar;
     
 
     /**
@@ -83,7 +91,14 @@ public class RegistrarController extends ClasePadreController implements Initial
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-       
+        
+        this.onDraggedScene(anchorRegistrar);
+        
+        ServiciosPadre serviciosPadre = new ServiciosPadre();
+        anchorRegistrar.setStyle(serviciosPadre.iniciarColorApp());
+        
+        anchorDecoRegistrar.getChildren().add(serviciosPadre.patronVariasFiguras());
+        
         VariablesEstaticas.setImgenExito("/com/pacientes/gestor_pacientes/img/exito.png");
         VariablesEstaticas.setImgenError("/com/pacientes/gestor_pacientes/img/error.png");
         VariablesEstaticas.setImgenAdvertencia("/com/pacientes/gestor_pacientes/img/warning.png");
@@ -136,19 +151,25 @@ public class RegistrarController extends ClasePadreController implements Initial
                         new Email(cajaEmail.getText().trim()), 
                         true, 
                         true);
-                System.out.println(usuarioCrear.getEmail().getEmail());
+                
                
                 try {
                     daoImplementacion = new UsuarioDAOImplementacion();
-                    daoImplementacion.insertar(usuarioCrear);
-                    ((Node) (event.getSource())).getScene().getWindow().hide();
-                    Scene scene = new Scene(loadFXML("MenuInicio"));
-                    Stage newStage = new Stage();
-                    scene.setFill(Color.TRANSPARENT);
-                    newStage.setScene(scene);
-                    newStage.initStyle(StageStyle.TRANSPARENT);
-                    newStage.getIcons().add(imagenIocono);
-                    newStage.show();
+                    UsuarioDAOImplementacion usuarioDaoImplementacion = new UsuarioDAOImplementacion();
+                    if(usuarioDaoImplementacion.existeNombreUsuario(usuarioCrear)){
+                         mensajeAdvertenciaError("Ya existe ese usuario", this, VariablesEstaticas.imgenError);
+                    }else{
+                         daoImplementacion.insertar(usuarioCrear);
+                        ((Node) (event.getSource())).getScene().getWindow().hide();
+                        Scene scene = new Scene(loadFXML("MenuInicio"));
+                        Stage newStage = new Stage();
+                        scene.setFill(Color.TRANSPARENT);
+                        newStage.setScene(scene);
+                        newStage.initStyle(StageStyle.TRANSPARENT);
+                        newStage.getIcons().add(imagenIocono);
+                        newStage.show();
+                    }
+                   
                 } catch (Exception e) {
                     if (e.getClass().equals(Exepciones.class)) {
                         mensajeAdvertenciaError(e.getMessage(), this, VariablesEstaticas.imgenAdvertencia);
@@ -188,6 +209,7 @@ public class RegistrarController extends ClasePadreController implements Initial
         } catch (Exception e) {
         }
     }
+
     
     
 }

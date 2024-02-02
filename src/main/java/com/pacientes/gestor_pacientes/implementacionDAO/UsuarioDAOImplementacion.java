@@ -10,6 +10,7 @@ import com.pacientes.gestor_pacientes.servicios.Encriptar;
 import java.util.List;
 import com.pacientes.gestor_pacientes.servicios.ConexionMariadb;
 import com.pacientes.gestor_pacientes.utilidades.Exepciones;
+import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -64,6 +65,34 @@ public class UsuarioDAOImplementacion extends PadreDAOImplementacion implements 
        
     }
     
+    
+    public boolean existeUsuario(String usuario) throws Exception{
+         
+         
+            String sql = "u.usuario \n" +
+                        "FROM usuarios u\n" +
+                        "WHERE u.usuario=?;";
+            
+            PreparedStatement pst = conexion.conexion().prepareStatement(sql);
+            pst.setString(1,usuario);
+           
+            ResultSet rs = pst.executeQuery();
+            if(rs.next()){
+                return true;
+                
+               
+            }else{
+                return false;
+                
+              
+            }
+            
+           
+            
+           
+       
+       
+    }
     
     
     
@@ -298,8 +327,88 @@ public class UsuarioDAOImplementacion extends PadreDAOImplementacion implements 
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    public int obtenerColorTemaAplicacion(){
+        String sql = "SELECT ta.color \n" +
+                        "FROM tema_aplicacion ta;";
+        
+        try {
+            PreparedStatement pst = conexion.conexion().prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            
+            
+            if(rs.next()){
+                return rs.getInt("color");
+            }
+            return 1;
+            
+        } catch (Exception e) {
+            return 1;
+        }
+        
+        
+    }
     
-
+    public void actualizarColorTemaAplicacion(int color){
+        String sql = "UPDATE tema_aplicacion SET color = ?;";
+        
+        try {
+            PreparedStatement pst = conexion.conexion().prepareStatement(sql);
+            pst.setInt(1, color);
+            pst.executeUpdate();
+            
+        } catch (Exception e) {
+            
+        }
+        
+        
+    }
     
+    public String obtenerRutaGuardarBD(){
+        String sql = "SELECT ruta FROM base_de_datos bdd WHERE id_usuario  = ?;";
+        
+        try {
+            PreparedStatement pst = conexion.conexion().prepareStatement(sql);
+            pst.setInt(1, VariablesEstaticas.usuario.getId());
+            ResultSet rs = pst.executeQuery();
+            
+            
+            if(rs.next()){
+                return rs.getString("ruta");
+            }
+            return "";
+            
+        } catch (Exception e) {
+            return "";
+        }
+        
+        
+    }
+    
+    public void actualizarRutaGuardaBD(String ruta){
+        String sqlActualizar = "UPDATE base_de_datos SET ruta = ? WHERE id_usuario = ?;";
+        
+        String sqlInsertar = "INSERT INTO base_de_datos (id_base_de_datos, ruta, id_usuario) VALUES (0, ?, ?);";
+        
+        PreparedStatement pst;
+        
+        try {
+            if(obtenerRutaGuardarBD().equals("")){
+                 pst = conexion.conexion().prepareStatement(sqlInsertar);
+                 pst.setString(1, ruta);
+                 pst.setInt(2, VariablesEstaticas.usuario.getId());
+                 pst.executeUpdate();
+            }else{
+                pst = conexion.conexion().prepareStatement(sqlActualizar);
+                pst.setString(1, ruta);
+                pst.setInt(2, VariablesEstaticas.usuario.getId());
+                pst.executeUpdate();
+            }
+            
+        } catch (Exception e) {
+            
+        }
+        
+        
+    }
     
 }

@@ -4,7 +4,7 @@
  */
 package com.pacientes.gestor_pacientes.modelo;
 
-import javafx.beans.property.StringProperty;
+
 
 /**
  *

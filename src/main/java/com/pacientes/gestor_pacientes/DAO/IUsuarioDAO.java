@@ -4,7 +4,7 @@
  */
 package com.pacientes.gestor_pacientes.DAO;
 import com.pacientes.gestor_pacientes.modelo.Usuario;
-import java.util.List;
+
 /**
  *
  * @author previotto

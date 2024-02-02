@@ -2,33 +2,99 @@
  * Empty Stylesheet file.
  */
 
+* {
+    
+}
+
 .root{
-    -fx-background-color: #ffffff;
-    -fx-background-radius: 5;
-    -fx-border-radius: 5;
-    -fx-border-color: #C02A00;
+    
+    -fx-color-fondo: #ffffff;
+    
+    -fx-background-color: -fx-color-fondo;
+    
+    -fx-color-1: #C02A00;
+    -fx-color-2: rgba(224, 111, 78);
+    -fx-color-3: rgba(255, 179, 156);
+    -fx-color-4: rgba(255, 236, 231);
+    
+    /*opaque*/
+    -fx-color-1-opaque: rgba(192, 42, 0, 0.5);
+    -fx-color-2-opaque: rgba(224, 111, 78, 0.5);
+    -fx-color-3-opaque: rgba(255, 179, 156, 0.5);
+    -fx-color-4-opaque: rgba(255, 236, 231, 0.5);
+    
+    -fx-border-color: -fx-color-1;
+}
+
+
+.labelLado{
+    -fx-text-fill:  -fx-color-1;
+    
+     
+    /*-fx-font-size: 14px; */
+    
+    
+}
+
+.labelCuerpo{
+    -fx-text-fill:  -fx-color-1;
+    
+    -fx-font-family: Sawasdee;  
+    -fx-font-size: 14px; /* Cambia el tamaño de fuente */
+    
+    -fx-font-weight: bold; /* Cambia el grosor de la fuente (negrita) */
+    
+    
+}
+
+.labelTitulo{
+    -fx-text-fill:  -fx-color-1;
+    
+     
+    -fx-font-size: 16px; /* Cambia el tamaño de fuente */
+    
+    -fx-font-weight: bold; /* Cambia el grosor de la fuente (negrita) */
+    
+    
+}
+
+.labelTituloSinTamano{
+    -fx-text-fill:  -fx-color-1;
+    
+    -fx-font-weight: bold; /* Cambia el grosor de la fuente (negrita) */
+    
     
 }
 
 .menuEleccion{
-    -fx-border-color: #C02A00;
+    -fx-border-color: -fx-color-1;
     
     -fx-background-color: #ffffff;
     
 }
 
 .apPacientes{
-    -fx-background-color: white;
-    
-    -fx-background-radius: 10px 10px 10px 10px;
-    
-    -fx-border-color: #C02A00;
+   
+    -fx-border-color: -fx-color-1;
    
     
     
 }
 
+.cajasAreaTexto{
+    
+}
 
+
+.figuraBoton{
+    -fx-fill: -fx-color-3;
+    -fx-stroke: -fx-color-1;
+}
+
+.figuraDeco{
+    -fx-fill: -fx-color-1;
+    -fx-stroke: -fx-color-1;
+}
 
 .elementoMenuEleccion{
     -fx-min-width: 90px;
@@ -37,7 +103,7 @@
    -fx-max-height: 30px;
     
     -fx-background-color: #ffffff;
-    -fx-border-color: #C02A00;
+    -fx-border-color: -fx-color-2;
     
     -fx-background-radius: 1;
     
@@ -46,23 +112,23 @@
     
     -fx-border-width: 0 0 2 0;
     
-  -fx-effect: innershadow(one-pass-box, rgba(255, 179, 156, 0.5), 5, 0, 1, -5);
+  -fx-effect: innershadow(one-pass-box, -fx-color-4, 5, 0, 1, -5);
     
 }
 
-.labelLado{
-    -fx-text-fill:  #C02A00;
-    
-     
-    /*-fx-font-size: 14px; */
-    
-    
+.cajasRellenarHtml  {
+    -fx-background-color:red;
+    -fx-border-width: 10;
+     -fx-border-color: pink;
+   
 }
+
+
 
 .elementoMenuEleccion:hover{
     
-    -fx-effect: innershadow(one-pass-box, rgba(255, 179, 156, 0.5), 10, 0, 5, -8);
-    -fx-text-fill: #C02A00;
+    -fx-effect: innershadow(one-pass-box, -fx-color-3-opaque, 10, 0, 5, -8);
+    -fx-text-fill: -fx-color-1;
 
 }
 
@@ -77,6 +143,8 @@
      
      
 }
+
+
 
 .botonBuscarGrande .label{
     -fx-font-size: 16px;
@@ -118,11 +186,11 @@
     -fx-background-radius: 1;
     -fx-background-insets: 1,2,3;
    
-    -fx-background-color: rgba(255, 179, 156);
-    -fx-border-color: rgba(224, 111, 78);
-    -fx-text-fill: #C02A00;
+    -fx-background-color: -fx-color-3;
+    -fx-border-color: -fx-color-2;
+    -fx-text-fill: -fx-color-1;
     -fx-content-display: center;
-   -fx-alignment: center;
+    -fx-alignment: center;
    
      
       
@@ -131,11 +199,11 @@
 
 
 .botonBuscar:hover{ 
-    /*-fx-effect: innershadow(one-pass-box, rgba(255, 179, 156), 30, 0, 0, 5);
-    -fx-text-fill: #C02A00;*/
+    /*-fx-effect: innershadow(one-pass-box, -fx-color-3, 30, 0, 0, 5);
+    -fx-text-fill: -fx-color-1;*/
     
-    -fx-effect: innershadow(one-pass-box, rgba(192, 42, 0, 0.5), 25, 0, 0, 0);
-    -fx-text-fill: #C02A00;
+    -fx-effect: innershadow(one-pass-box, -fx-color-1-opaque, 25, 0, 0, 0);
+    -fx-text-fill: -fx-color-1;
     
    
     
@@ -146,26 +214,26 @@
 
 .imgMenu{
     -fx-border-radius: 80;
-    -fx-border-color: #ff6337;
+    -fx-border-color: -fx-color-2;
     
 }
 
 .paneNombreUsuario{
     -fx-background-radius: 10 10 10 10;
-    -fx-background-color: #FF6638;
-    -fx-border-color: #C02A00;
+    -fx-background-color: -fx-color-2;
+    -fx-border-color: -fx-color-1;
     -fx-border-radius: 10 10 10 10;
     -fx-border-width: 3;
 }
 
 
 .elementoMenuEleccionInvertCuadrado{
-    -fx-border-color: #C02A00;
-    -fx-background-color: #FF6638;
+    -fx-border-color: -fx-color-1;
+    -fx-background-color: -fx-color-2;
     -fx-background-radius: 0 50 0 0;
     -fx-border-radius: 0 50 0 0;
     -fx-border-width: 3 3 3 3;
-    -fx-effect: innershadow( one-pass-box , #C02A00 , 50 , 0 , 0 , 10 );
+    -fx-effect: innershadow( one-pass-box , -fx-color-1 , 50 , 0 , 0 , 10 );
 }
 
 .text-field{
@@ -173,17 +241,14 @@
 }
 
 .cajas{
-    -fx-effect: innershadow( one-pass-box , rgba(224, 111, 78, 0.5) , 5 , 0 , 0 , -4);
+    -fx-effect: innershadow( one-pass-box , -fx-color-2-opaque , 5 , 0 , 0 , -4);
     -fx-background-color: #FFFFFF;
-    -fx-border-color: #ffffff #ffffff rgba(224, 111, 78) #ffffff;
+    -fx-border-color: #ffffff #ffffff -fx-color-2 #ffffff;
     -fx-border-radius: 0 0 1 1;
     -fx-background-radius: 0 0 1 1;
     -fx-border-width: 0px 0px 1px 0px;
-    
+    -fx-text-fill: -fx-color-1;
   
-    
-    
-    
 }
 
 .cajasChicas{
@@ -196,9 +261,9 @@
 }
 
 .cajasArea{
-     -fx-effect: innershadow( one-pass-box , rgba(224, 111, 78, 0.5) , 5 , 0 , 0 , -4);
+     -fx-effect: innershadow( one-pass-box , -fx-color-2-opaque , 5 , 0 , 0 , -4);
     -fx-background-color: #FFFFFF;
-    -fx-border-color: #ffffff #ffffff rgba(224, 111, 78) #ffffff;
+    -fx-border-color: #ffffff #ffffff -fx-color-2 #ffffff;
     -fx-border-radius: 0 0 1 1;
     -fx-background-radius: 0 0 1 1;
     -fx-border-width: 0px 0px 1px 0px;
@@ -213,7 +278,7 @@
 }
 
 .cajas .open-button .arrow {
-    -fx-background-color: rgba(224, 111, 78);
+    -fx-background-color: -fx-color-2;
     
    -fx-min-width: 8px;
    -fx-max-width: 8px;
@@ -249,24 +314,24 @@
 .titled-pane 
 {
    
--fx-text-fill: #C02A00;
+-fx-text-fill: -fx-color-1;
 }
 .titled-pane:focused 
 {
--fx-text-fill: #C02A00;
+-fx-text-fill: -fx-color-1;
 }
 .titled-pane > .title 
 {
-    /*-fx-background-color: rgba(255, 179, 156);
-        -fx-border-color: rgba(224, 111, 78);;*/
+    /*-fx-background-color: -fx-color-3;
+        -fx-border-color: -fx-color-3;;*/
     
--fx-background-color: rgba(255, 179, 156);
+-fx-background-color: -fx-color-3;
 
 -fx-background-insets: 0, 1, 2;
 -fx-background-radius: 1 1 1 1;
  /*-fx-pref-width: 100000000;*/
  -fx-pref-height: 40;
--fx-effect: innershadow( one-pass-box , rgba(224, 111, 78) , 10 , 0 , 0 , 3 );
+-fx-effect: innershadow( one-pass-box , -fx-color-2 , 10 , 0 , 0 , 3 );
 }
 
 .titled-pane:focused > .title 
@@ -283,7 +348,7 @@
 
 .titled-pane > .title > .arrow-button .arrow 
 {
--fx-background-color: white, #C02A00;
+-fx-background-color: white, -fx-color-1;
 -fx-background-insets: 1 0 -1 0, 0;
 -fx-shape: "M 0 0 h 7 l -3.5 4 z";
 }
@@ -313,7 +378,7 @@
     
     -fx-background-radius: 0px 50px 100px 0px;
     
-    -fx-effect: innershadow( three-pass-box , #C02A00, 1, 0 , -1, -1);
+    -fx-effect: innershadow( three-pass-box , -fx-color-1, 1, 0 , -1, -1);
 }
 
 .cajasARellenar{
@@ -322,23 +387,25 @@
 }
 
 
+
+
 .decoracionTabla {
-    /*-fx-background-color: rgba(255, 179, 156);
-        -fx-border-color: rgba(224, 111, 78);;*/
-   -fx-background-color: #FF6638;
+    /*-fx-background-color: -fx-color-3;
+        -fx-border-color: -fx-color-3;;*/
+   -fx-background-color: -fx-color-2;
 }
 
 .decoracionTabla .column-header{
-    -fx-background-color: rgba(255, 179, 156);
+    -fx-background-color: -fx-color-3;
     
 }
 
 .decoracionTabla .column-header .label{
-    -fx-text-fill: #C02A00;
+    -fx-text-fill: -fx-color-1;
 }
 
 .decoracionTabla .table-row-cell {
-    -fx-background-color: rgba(255, 236, 231);
+    -fx-background-color: -fx-color-4;
     
     
 }
@@ -353,7 +420,7 @@
 }
 
 .decoracionTabla .scroll-bar:vertical {
-    -fx-background-color: rgba(255, 179, 156);
+    -fx-background-color: -fx-color-3;
 }
 
 .decoracionTabla .scroll-bar:vertical-thumb {
@@ -370,7 +437,7 @@
 
 
 .decoracionTabla .scroll-bar:horizontal {
-    -fx-background-color: rgba(255, 179, 156);
+    -fx-background-color: -fx-color-3;
 }
 
 .decoracionTabla .scroll-bar:horizontal-thumb {
@@ -387,35 +454,7 @@
 
 
 
-.labelCuerpo{
-    -fx-text-fill:  #C02A00;
-    
-    -fx-font-family: Sawasdee;  
-    -fx-font-size: 14px; /* Cambia el tamaño de fuente */
-    
-    -fx-font-weight: bold; /* Cambia el grosor de la fuente (negrita) */
-    
-    
-}
 
-.labelTitulo{
-    -fx-text-fill:  #C02A00;
-    
-     
-    -fx-font-size: 16px; /* Cambia el tamaño de fuente */
-    
-    -fx-font-weight: bold; /* Cambia el grosor de la fuente (negrita) */
-    
-    
-}
-
-.labelTituloSinTamano{
-    -fx-text-fill:  #C02A00;
-    
-    -fx-font-weight: bold; /* Cambia el grosor de la fuente (negrita) */
-    
-    
-}
 
 
 

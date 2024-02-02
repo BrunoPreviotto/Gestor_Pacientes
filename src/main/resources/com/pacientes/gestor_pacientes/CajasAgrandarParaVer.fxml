@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-border-color: #C02A00; -fx-border-radius: 1; -fx-background-radius: 1;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pacientes.gestor_pacientes.controlador.CajasAgrandarParaVerController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-border-color: #C02A00; -fx-border-radius: 1; -fx-background-radius: 1;" stylesheets="@styles/htmlEditor.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pacientes.gestor_pacientes.controlador.CajasAgrandarParaVerController">
    <children>
       <TextArea fx:id="cajaVer" layoutX="207.0" layoutY="89.0" prefHeight="200.0" prefWidth="200.0" styleClass="cajas" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0" />
       <Button fx:id="botonMaximizarDesmaximizado" layoutX="565.0" layoutY="8.0" minHeight="10.0" minWidth="10.0" mnemonicParsing="false" onMouseClicked="#maximizarMenuInicio" prefHeight="10.0" prefWidth="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">

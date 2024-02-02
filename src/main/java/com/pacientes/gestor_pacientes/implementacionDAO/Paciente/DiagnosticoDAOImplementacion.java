@@ -7,7 +7,7 @@ package com.pacientes.gestor_pacientes.implementacionDAO.Paciente;
 import com.pacientes.gestor_pacientes.DAO.CRUD;
 import com.pacientes.gestor_pacientes.implementacionDAO.PadreDAOImplementacion;
 import com.pacientes.gestor_pacientes.modelo.DiagnosticoPaciente;
-import com.pacientes.gestor_pacientes.modelo.Paciente;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -34,6 +34,7 @@ public class DiagnosticoDAOImplementacion extends PadreDAOImplementacion impleme
             
            if(rsDiagnostico.next()){
                 diagnostico = new DiagnosticoPaciente(rsDiagnostico.getString("diagnostico"), rsDiagnostico.getString("observacion"));
+                
                 return diagnostico;
            }
            

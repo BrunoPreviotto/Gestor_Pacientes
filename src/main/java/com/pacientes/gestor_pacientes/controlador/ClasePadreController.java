@@ -6,39 +6,39 @@ package com.pacientes.gestor_pacientes.controlador;
 
 import com.pacientes.gestor_pacientes.App;
 import com.pacientes.gestor_pacientes.DAO.CRUD;
-import com.pacientes.gestor_pacientes.servicios.ServicioPaciente;
+
+import com.pacientes.gestor_pacientes.servicios.ServiciosPadre;
 import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 import static com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas.EXEDIDO_CARACTERES;
-import static com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas.NO_NUMEROS;
-import static com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas.NO_TEXTO;
+
 import com.pacientes.gestor_pacientes.validacion.Validar;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.List;
+
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
+
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter.Change;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
+
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -62,9 +62,22 @@ public class ClasePadreController {
     
     @FXML
     protected void salir(MouseEvent event) {
+        Button boton = (Button)event.getSource();
+        ServiciosPadre serviciosPadre = new ServiciosPadre();
+        if(boton.getId().equals("botonSalirRegistrar")){
+            
+        }else if(boton.getId().equals("botonSalirInciarSesion")){
+            
+        }else{
+            
+            serviciosPadre.guardarBD();
+        }
         Platform.exit();
         System.exit(0);
+        
     }
+    
+    
     
     @FXML
     protected void minimizarVentana(MouseEvent event){
@@ -78,7 +91,12 @@ public class ClasePadreController {
         Node source = (Node) event.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         stage.setMaximized(true);
-        
+        source.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                desMaximizar(event);
+            }
+        });
     }
           
     @FXML
@@ -86,6 +104,12 @@ public class ClasePadreController {
         Node source = (Node) event.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         stage.setMaximized(false);
+        source.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                maximizar(event);
+            }
+        });
     }
     
     
@@ -123,7 +147,8 @@ public class ClasePadreController {
     
     
     @FXML
-    protected void soloNumero(KeyEvent event) {        TextField tf = (TextField) event.getSource();
+    protected void soloNumero(KeyEvent event) {        
+        TextField tf = (TextField) event.getSource();
         String character = event.getCharacter();
         
         

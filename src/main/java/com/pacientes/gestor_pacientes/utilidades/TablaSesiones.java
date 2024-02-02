@@ -4,8 +4,7 @@
  */
 package com.pacientes.gestor_pacientes.utilidades;
 
-import java.time.LocalDate;
-import javafx.beans.property.SimpleStringProperty;
+
 
 /**
  *

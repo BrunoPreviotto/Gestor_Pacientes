@@ -5,10 +5,10 @@
 package com.pacientes.gestor_pacientes.servicios;
 
 import com.pacientes.gestor_pacientes.modelo.ObraSocial;
-import com.pacientes.gestor_pacientes.modelo.Paciente;
+
 import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 import java.util.Map;
-import java.util.Objects;
+
 
 /**
  *

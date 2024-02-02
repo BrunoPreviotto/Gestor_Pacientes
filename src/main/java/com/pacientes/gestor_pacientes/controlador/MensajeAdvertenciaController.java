@@ -5,6 +5,7 @@
 package com.pacientes.gestor_pacientes.controlador;
 
 
+import com.pacientes.gestor_pacientes.servicios.ServiciosPadre;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -19,6 +20,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 
 import javafx.stage.Stage;
 
@@ -37,13 +39,22 @@ public class MensajeAdvertenciaController extends ClasePadreController implement
     private Label etiquetaMensaje;
     @FXML
     private ImageView imgMensaje;
+    
+    @FXML
+    private AnchorPane AnchorMensajeAdvertencia;
+    
+    
+    
+    private ServiciosPadre serviciosPadre = new ServiciosPadre();
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+       ServiciosPadre serviciosPadre = new ServiciosPadre();
+        AnchorMensajeAdvertencia.setStyle(serviciosPadre.iniciarColorApp());
+        
     }    
     
     
@@ -56,7 +67,9 @@ public class MensajeAdvertenciaController extends ClasePadreController implement
             
             imgMensaje.setImage(img);
             
-          
+           
+            
+            
             this.menu = obj;
             this.stage = stage;
         } catch (Exception ex) {

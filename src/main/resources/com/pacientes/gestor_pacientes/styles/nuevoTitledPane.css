@@ -7,23 +7,41 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     Author     : previotto
 */
 
+.root{
+    -fx-color-1: #C02A00;
+    -fx-color-2: rgba(224, 111, 78);
+    -fx-color-3: rgba(255, 179, 156);
+    -fx-color-4: rgba(255, 236, 231);
+    
+    /*opaque*/
+    -fx-color-1-opaque: rgba(192, 42, 0, 0.5);
+    -fx-color-2-opaque: rgba(224, 111, 78, 0.5);
+    -fx-color-3-opaque: rgba(255, 179, 156, 0.5);
+    -fx-color-4-opaque: rgba(255, 236, 231, 0.5);
+    
+    -fx-color-fondo: #ffffff;
+    
+    -fx-background-color: -fx-color-fondo;
+}
+
+
 .titled-pane 
 {
-   
+   -fx-background-color: -fx-color-fondo;
 -fx-text-fill: white;
 }
 .titled-pane:focused 
 {
--fx-text-fill: #C02A00;
+-fx-text-fill: -fx-color-1;
 }
 .titled-pane > .title 
 {
--fx-background-color: rgba(255, 179, 156);
+-fx-background-color: -fx-color-3;
 -fx-background-insets: 0, 1, 2;
 -fx-background-radius: 1 1 1 1;
  /*-fx-pref-width: 100000000;*/
  -fx-pref-height: 20;
--fx-effect: innershadow( one-pass-box , rgba(224, 111, 78) , 10 , 0 , 0 , 3 );
+-fx-effect: innershadow( one-pass-box , -fx-color-2 , 10 , 0 , 0 , 3 );
 }
 
 .titled-pane:focused > .title 
@@ -40,7 +58,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 
 .titled-pane > .title > .arrow-button .arrow 
 {
--fx-background-color: white, #C02A00;
+-fx-background-color: white, -fx-color-1;
 -fx-background-insets: 1 0 -1 0, 0;
 -fx-shape: "M 0 0 h 7 l -3.5 4 z";
 }
@@ -52,7 +70,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 
 .titled-pane > *.content 
 {
--fx-background-color: -fx-box-border, linear-gradient(to bottom, derive(-fx-color,-02%), derive(-fx-color,65%) 12%,      derive(-fx-color,23%) 88%, derive(-fx-color,50%) 99%, -fx-box-border);
+
+-fx-background-color: -fx-color-fondo;
+/*-fx-box-border, linear-gradient(to bottom, derive(-fx-color,-02%), derive(-fx-color,65%) 12%,      derive(-fx-color,23%) 88%, derive(-fx-color,50%) 99%, -fx-box-border)*/
 -fx-background-insets: 0, 0 1 1 1;
 
  }

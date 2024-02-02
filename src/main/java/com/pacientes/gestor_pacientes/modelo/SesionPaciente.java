@@ -5,7 +5,7 @@
 package com.pacientes.gestor_pacientes.modelo;
 
 import java.time.LocalDate;
-import java.util.Date;
+
 
 /**
  *
@@ -27,6 +27,20 @@ public class SesionPaciente {
 
     public SesionPaciente() {
     }
+
+    public SesionPaciente(int idSesion, Integer numeroSesion, LocalDate fecha, String trabajoSesion, String observacion, String motivoTrabajoEmergente, AutorizacionesSesionesObraSociales autorizacion, EstadoFacturacion estado, Double honorarioPorSesion) {
+        this.idSesion = idSesion;
+        this.numeroSesion = numeroSesion;
+        this.fecha = fecha;
+        this.trabajoSesion = trabajoSesion;
+        this.observacion = observacion;
+        this.motivoTrabajoEmergente = motivoTrabajoEmergente;
+        this.autorizacion = autorizacion;
+        this.estado = estado;
+        this.honorarioPorSesion = honorarioPorSesion;
+    }
+    
+    
     
     public SesionPaciente(Integer numeroSesion, LocalDate fecha, String trabajoSesion, String observacion, Double honorarioPorSesion, EstadoFacturacion estado) {
         this.numeroSesion = numeroSesion;

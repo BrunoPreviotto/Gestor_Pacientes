@@ -8,19 +8,12 @@ package com.pacientes.gestor_pacientes.implementacionDAO;
 
 import com.pacientes.gestor_pacientes.DAO.CRUD;
 import com.pacientes.gestor_pacientes.implementacionDAO.Paciente.HonorarioDAOImplementacion;
-import com.pacientes.gestor_pacientes.modelo.AutorizacionesSesionesObraSociales;
-import com.pacientes.gestor_pacientes.modelo.CodigoFacturacion;
-import com.pacientes.gestor_pacientes.modelo.Email;
-import com.pacientes.gestor_pacientes.modelo.FrecuenciaSesion;
-import com.pacientes.gestor_pacientes.modelo.ObraSocialPaciente;
+
 import com.pacientes.gestor_pacientes.modelo.Paciente;
-import com.pacientes.gestor_pacientes.modelo.PlanObraSocial;
-import com.pacientes.gestor_pacientes.modelo.PlanTratamiento;
-import com.pacientes.gestor_pacientes.modelo.SesionPaciente;
-import com.pacientes.gestor_pacientes.modelo.TipoSesion;
+
 import com.pacientes.gestor_pacientes.servicios.ConexionMariadb;
 import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
-import java.sql.Date;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

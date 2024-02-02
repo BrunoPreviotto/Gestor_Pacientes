@@ -1,11 +1,9 @@
 package com.pacientes.gestor_pacientes;
 
 
-import com.pacientes.gestor_pacientes.controlador.ClasePadreController;
-import com.pacientes.gestor_pacientes.controlador.ClasePadreMenuInicio;
-import com.pacientes.gestor_pacientes.controlador.IniciarSesionController;
-import com.pacientes.gestor_pacientes.controlador.MenuInicioController;
+
 import com.pacientes.gestor_pacientes.implementacionDAO.UsuarioDAOImplementacion;
+import com.pacientes.gestor_pacientes.modelo.TemaAplicacion;
 import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -21,11 +19,11 @@ import javafx.stage.StageStyle;
 
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 
-import java.util.List;
+
+
 import javafx.scene.image.Image;
-import javafx.stage.Modality;
+
 
 /**
  * JavaFX App
@@ -49,6 +47,10 @@ public class App extends Application {
     public void start(Stage stage) throws IOException, SQLException {
         
         FXMLLoader Loader;
+        TemaAplicacion temaAplicacion = new TemaAplicacion();
+        UsuarioDAOImplementacion u = new UsuarioDAOImplementacion();
+        
+        VariablesEstaticas.setColorTeamaAplicacion(temaAplicacion.iniciarColor(u.obtenerColorTemaAplicacion()));
         
         
         if(usuarioImp.existeUsuarioReciente() == 1){

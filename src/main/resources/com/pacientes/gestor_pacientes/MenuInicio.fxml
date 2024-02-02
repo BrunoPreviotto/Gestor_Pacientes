@@ -3,14 +3,17 @@
 <?import java.lang.*?>
 <?import java.net.*?>
 <?import javafx.geometry.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.scene.web.*?>
 
-<AnchorPane fx:id="containerMenu" prefHeight="650.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pacientes.gestor_pacientes.controlador.MenuInicioController">
+<AnchorPane fx:id="containerMenu" prefHeight="650.0" prefWidth="1100.0" stylesheets="@styles/menuinicio.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pacientes.gestor_pacientes.controlador.MenuInicioController">
    <children>
-      <AnchorPane fx:id="vbLateral" prefHeight="650.0" prefWidth="100.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="vbLateral" prefHeight="650.0" prefWidth="100.0" style="-fx-background-color: white;" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <AnchorPane fx:id="pestanaPaciente" onMouseClicked="#eleccionMenu" prefHeight="30.0" prefWidth="100.0" styleClass="elementoMenuEleccion" stylesheets="@styles/menuinicio.css" AnchorPane.topAnchor="50.0">
                <children>
@@ -53,20 +56,12 @@
                   </Label>
                </children>
             </AnchorPane>
+            <AnchorPane fx:id="anchorBurbujas" prefHeight="350.0" prefWidth="100.0" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
          </children>
       </AnchorPane>
-      <AnchorPane prefHeight="200.0" prefWidth="100.0" rotate="10.0" AnchorPane.bottomAnchor="0.0">
+      <AnchorPane fx:id="apTodosLOsAPInicial" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <ImageView fitHeight="300.0" fitWidth="100.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-14.0">
-               <image>
-                  <Image url="@img/BAMBOO.png" />
-               </image>
-            </ImageView>
-         </children>
-      </AnchorPane>
-      <AnchorPane fx:id="apTodosLOsAPInicial" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <AnchorPane fx:id="anchorPanePrincipal" styleClass="apPacientes" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="anchorPanePrincipal" styleClass="apPacientes" stylesheets="@styles/menuinicio.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <VBox alignment="CENTER" layoutX="197.0" layoutY="173.0" prefHeight="600.0" prefWidth="1100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <children>
@@ -84,12 +79,12 @@
                   </VBox>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="apAgendaPrincipal" styleClass="apPacientes" stylesheets="@styles/menuinicio.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="apAgendaPrincipal" stylesheets="@styles/menuinicio.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Label fx:id="labelNombreDeUsuario3" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="1002.0" layoutY="4.0" prefHeight="20.0" prefWidth="200.0" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="10.0" />
                   <VBox fx:id="apAgendaAgenda" alignment="BOTTOM_CENTER" layoutX="380.0" layoutY="-78.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <GridPane fx:id="gpCalendario" alignment="BASELINE_LEFT" gridLinesVisible="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="1100.0" style="-fx-background-color: white;" styleClass="calendario" stylesheets="@styles/calendario.css">
+                        <GridPane fx:id="gpCalendario" alignment="BASELINE_LEFT" gridLinesVisible="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="1100.0" style="-fx-background-color: white;" styleClass="calendario">
                           <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -110,6 +105,10 @@
                            <VBox.margin>
                               <Insets bottom="20.0" top="5.0" />
                            </VBox.margin>
+                           <stylesheets>
+                              <URL value="@styles/calendario.css" />
+                              <URL value="@styles/menuinicio.css" />
+                           </stylesheets>
                         </GridPane>
                         <HBox alignment="CENTER" prefHeight="20.0" prefWidth="1100.0">
                            <children>
@@ -165,8 +164,12 @@
                      </children>
                   </VBox>
                </children>
+               <styleClass>
+                  <String fx:value="apPacientes" />
+                  <String fx:value="root" />
+               </styleClass>
             </AnchorPane>
-            <AnchorPane fx:id="apObraSocial" styleClass="apPacientes" stylesheets="@styles/menuinicio.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="apObraSocial" stylesheets="@styles/menuinicio.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Label fx:id="labelNombreDeUsuario4" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="986.0" layoutY="15.0" prefHeight="20.0" prefWidth="200.0" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="10.0" />
                   <VBox fx:id="vbObraSocial" alignment="CENTER" layoutX="375.0" layoutY="265.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
@@ -274,26 +277,22 @@
                                              </HBox.margin>
                                           </ChoiceBox>
                                           <Button fx:id="botonActualizarPlanesObraSocial" disable="true" mnemonicParsing="false" onMouseClicked="#agregarActualizarPlanesObrasSocial" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
-                                             <graphic>
-                                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@img/actualizar.png" />
-                                                   </image>
-                                                </ImageView>
-                                             </graphic>
                                              <styleClass>
                                                 <String fx:value="botonBuscar" />
                                                 <String fx:value="botonBuscarChico" />
                                              </styleClass>
+                                             <graphic>
+                                                <AnchorPane prefHeight="19.0" prefWidth="22.0">
+                                                   <children>
+                                                      <Line endX="6.0" rotate="90.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="8.0" />
+                                                      <Line endX="10.0" layoutY="18.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="16.0" />
+                                                      <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="4.2" AnchorPane.topAnchor="3.0" />
+                                                      <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="-45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.rightAnchor="4.2" AnchorPane.topAnchor="3.0" />
+                                                   </children>
+                                                </AnchorPane>
+                                             </graphic>
                                           </Button>
                                           <Button fx:id="botonAgregarPlanesObraSocial" disable="true" mnemonicParsing="false" onMouseClicked="#agregarActualizarPlanesObrasSocial" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
-                                             <graphic>
-                                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@img/agregar_%23path58.png" />
-                                                   </image>
-                                                </ImageView>
-                                             </graphic>
                                              <styleClass>
                                                 <String fx:value="botonBuscar" />
                                                 <String fx:value="botonBuscarChico" />
@@ -301,6 +300,14 @@
                                              <HBox.margin>
                                                 <Insets left="5.0" />
                                              </HBox.margin>
+                                             <graphic>
+                                                <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                                   <children>
+                                                      <Line endY="12.0" strokeWidth="5.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                      <Line endX="12.0" strokeWidth="5.0" styleClass="figuraBoton" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0" />
+                                                   </children>
+                                                </AnchorPane>
+                                             </graphic>
                                           </Button>
                                        </children>
                                     </HBox>
@@ -322,13 +329,6 @@
                                              </children>
                                           </VBox>
                                           <Button fx:id="botonCrearActualizarPlanesObraSocial" mnemonicParsing="false" prefHeight="22.0" prefWidth="23.0">
-                                             <graphic>
-                                                <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@img/actualizar.png" />
-                                                   </image>
-                                                </ImageView>
-                                             </graphic>
                                              <styleClass>
                                                 <String fx:value="botonBuscar" />
                                                 <String fx:value="botonBuscarChico" />
@@ -336,6 +336,16 @@
                                              <HBox.margin>
                                                 <Insets left="5.0" />
                                              </HBox.margin>
+                                             <graphic>
+                                                <AnchorPane prefHeight="19.0" prefWidth="22.0">
+                                                   <children>
+                                                      <Line endX="6.0" rotate="90.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="8.0" />
+                                                      <Line endX="10.0" layoutY="18.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="16.0" />
+                                                      <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="4.2" AnchorPane.topAnchor="3.0" />
+                                                      <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="-45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.rightAnchor="4.2" AnchorPane.topAnchor="3.0" />
+                                                   </children>
+                                                </AnchorPane>
+                                             </graphic>
                                           </Button>
                                        </children>
                                     </HBox>
@@ -354,13 +364,6 @@
                               <HBox fx:id="botoneraCRUDObraSocial">
                                  <children>
                                     <Button fx:id="botonAgregarObraSocial" mnemonicParsing="false" onMouseClicked="#crearObraSocial" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
-                                       <graphic>
-                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@img/agregar_%23path58.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
                                        <HBox.margin>
                                           <Insets left="5.0" />
                                        </HBox.margin>
@@ -368,15 +371,16 @@
                                           <String fx:value="botonBuscar" />
                                           <String fx:value="botonBuscarChico" />
                                        </styleClass>
+                                       <graphic>
+                                          <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                             <children>
+                                                <Line endY="12.0" strokeWidth="5.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                <Line endX="12.0" strokeWidth="5.0" styleClass="figuraBoton" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0" />
+                                             </children>
+                                          </AnchorPane>
+                                       </graphic>
                                     </Button>
                                     <Button fx:id="botonActualizarObraSocial" disable="true" mnemonicParsing="false" onMouseClicked="#actualizarObraSocial" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
-                                       <graphic>
-                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@img/actualizar.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
                                        <HBox.margin>
                                           <Insets left="5.0" />
                                        </HBox.margin>
@@ -384,15 +388,18 @@
                                           <String fx:value="botonBuscar" />
                                           <String fx:value="botonBuscarChico" />
                                        </styleClass>
+                                       <graphic>
+                                          <AnchorPane prefHeight="19.0" prefWidth="22.0">
+                                             <children>
+                                                <Line endX="6.0" rotate="90.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="8.0" />
+                                                <Line endX="10.0" layoutY="18.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="16.0" />
+                                                <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="4.2" AnchorPane.topAnchor="3.0" />
+                                                <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="-45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.rightAnchor="4.2" AnchorPane.topAnchor="3.0" />
+                                             </children>
+                                          </AnchorPane>
+                                       </graphic>
                                     </Button>
                                     <Button fx:id="botonEliminarObraSocial" disable="true" mnemonicParsing="false" onMouseClicked="#eliminarObraSocial" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
-                                       <graphic>
-                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@img/menos.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
                                        <HBox.margin>
                                           <Insets left="5.0" />
                                        </HBox.margin>
@@ -400,6 +407,13 @@
                                           <String fx:value="botonBuscar" />
                                           <String fx:value="botonBuscarChico" />
                                        </styleClass>
+                                       <graphic>
+                                          <AnchorPane>
+                                             <children>
+                                                <Rectangle fill="DODGERBLUE" height="5.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0" styleClass="figuraBoton" width="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="6.0" />
+                                             </children>
+                                          </AnchorPane>
+                                       </graphic>
                                     </Button>
                                  </children>
                                  <HBox.margin>
@@ -438,17 +452,21 @@
                   <ButtonBar layoutX="829.0" layoutY="3.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="30.0" prefWidth="364.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="10.0">
                      <buttons>
                         <Button fx:id="botonRetornarObraSocial" mnemonicParsing="false" onMouseClicked="#vaciarCajasObraSocial" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
-                           <graphic>
-                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@img/retornar.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
                            <styleClass>
                               <String fx:value="botonBuscar" />
                               <String fx:value="botonBuscarChico" />
                            </styleClass>
+                           <graphic>
+                              <AnchorPane nodeOrientation="RIGHT_TO_LEFT" prefHeight="200.0" prefWidth="200.0">
+                                 <children>
+                                    <Line endX="5.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Line endX="5.0" rotate="-45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.8" />
+                                    <Line endX="5.0" rotate="40.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="7.2" />
+                                    <Line endY="5.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                                    <Line endX="14.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="2.0" />
+                                 </children>
+                              </AnchorPane>
+                           </graphic>
                         </Button>
                         <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="30.0" maxWidth="100.0" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#buscarObraSocial" stylesheets="@styles/menuinicio.css">
                            <font>
@@ -475,8 +493,12 @@
                      </buttons>
                   </ButtonBar>
                </children>
+               <styleClass>
+                  <String fx:value="apPacientes" />
+                  <String fx:value="root" />
+               </styleClass>
             </AnchorPane>
-            <AnchorPane fx:id="apOpciones" styleClass="apPacientes" stylesheets="@styles/menuinicio.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="apOpciones" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <TabPane fx:id="tabPaneOpciones" stylesheets="@styles/opciones.css" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <tabs>
@@ -541,16 +563,9 @@
                                           </VBox>
                                        </children>
                                     </HBox>
-                                    <HBox fx:id="botoneraCRUDObraSocial1" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                                    <HBox fx:id="botoneraCRUDObraSocial1" prefHeight="25.0" prefWidth="23.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
                                        <children>
-                                          <Button fx:id="botonActualizarUsuarioOpciones" mnemonicParsing="false" onMouseClicked="#actualizarUsuarioOpciones" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
-                                             <graphic>
-                                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@img/actualizar.png" />
-                                                   </image>
-                                                </ImageView>
-                                             </graphic>
+                                          <Button fx:id="botonActualizarUsuarioOpciones" mnemonicParsing="false" onMouseClicked="#actualizarUsuarioOpciones" stylesheets="@styles/menuinicio.css">
                                              <HBox.margin>
                                                 <Insets left="5.0" />
                                              </HBox.margin>
@@ -558,6 +573,16 @@
                                                 <String fx:value="botonBuscar" />
                                                 <String fx:value="botonBuscarChico" />
                                              </styleClass>
+                                             <graphic>
+                                                <AnchorPane prefHeight="19.0" prefWidth="22.0">
+                                                   <children>
+                                                      <Line endX="6.0" rotate="90.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="9.0" />
+                                                      <Line endX="10.0" layoutY="18.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="16.0" />
+                                                      <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="4.2" AnchorPane.topAnchor="4.0" />
+                                                      <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="-45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.rightAnchor="4.2" AnchorPane.topAnchor="3.0" />
+                                                   </children>
+                                                </AnchorPane>
+                                             </graphic>
                                           </Button>
                                        </children>
                                     </HBox>
@@ -569,7 +594,35 @@
                         <content>
                           <AnchorPane fx:id="apOpcionesOpciones" maxHeight="600.0" minHeight="600.0" stylesheets="@styles/opciones.css">
                                  <children>
-                                    <Button fx:id="botonCerrarSesion" layoutX="14.0" layoutY="36.0" mnemonicParsing="false" onMouseClicked="#cerrarSesionUsuario" prefHeight="34.0" prefWidth="133.0" styleClass="botonBuscar" stylesheets="@styles/menuinicio.css" text="Cerrar sesion" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0" />
+                                    <Button fx:id="botonCerrarSesion" layoutX="14.0" layoutY="36.0" mnemonicParsing="false" onMouseClicked="#cerrarSesionUsuario" prefHeight="40.0" prefWidth="200.0" styleClass="botonBuscar" stylesheets="@styles/menuinicio.css" text="Cerrar sesion" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="20.0" />
+                                    <Button fx:id="botonCerrarSesion1" layoutX="182.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#guardarBaseDeDatos" prefHeight="40.0" prefWidth="200.0" styleClass="botonBuscar" stylesheets="@styles/menuinicio.css" text="Guardar Base de datos" AnchorPane.leftAnchor="220.0" />
+                                    <Button fx:id="botonCerrarSesion11" layoutX="420.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#cambiarColor" prefHeight="40.0" prefWidth="200.0" styleClass="botonBuscar" stylesheets="@styles/menuinicio.css" text="Cambiar color" AnchorPane.leftAnchor="430.0" />
+                                    <HBox fx:id="hboxColores" layoutX="430.0" layoutY="129.0" prefHeight="30.0" prefWidth="200.0" visible="false" AnchorPane.leftAnchor="430.0" AnchorPane.topAnchor="70.0">
+                                       <children>
+                                          <Button fx:id="botonColorSalmon" mnemonicParsing="false" onMouseClicked="#elegirColorApp" prefWidth="60.0" style="-fx-border-color: #E06F4E; -fx-background-color: #FFB39C;" />
+                                          <Button fx:id="botonColorGris" mnemonicParsing="false" onMouseClicked="#elegirColorApp" prefWidth="60.0" style="-fx-border-color: #424242; -fx-background-color: #A1A1A1;">
+                                             <HBox.margin>
+                                                <Insets left="5.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Button fx:id="botonColorAzul" mnemonicParsing="false" onMouseClicked="#elegirColorApp" prefWidth="60.0" style="-fx-border-color: #305473; -fx-background-color: #D4E7EB;">
+                                             <HBox.margin>
+                                                <Insets left="5.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Button fx:id="botonColorVerde" mnemonicParsing="false" onMouseClicked="#elegirColorApp" prefWidth="60.0" style="-fx-border-color: #284922; -fx-background-color: #8FBC63;">
+                                             <HBox.margin>
+                                                <Insets left="5.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Button fx:id="botonColorMarron" mnemonicParsing="false" onMouseClicked="#elegirColorApp" prefWidth="60.0" style="-fx-border-color: #77566F; -fx-background-color: #E7D8D2;">
+                                             <HBox.margin>
+                                                <Insets left="5.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                    <Button fx:id="botonCerrarSesion111" layoutX="630.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#actualizarAplicacion" prefHeight="40.0" prefWidth="200.0" styleClass="botonBuscar" stylesheets="@styles/menuinicio.css" text="Actualizar aplicacion" AnchorPane.leftAnchor="640.0" />
                                  </children>
                               </AnchorPane>
                         </content>
@@ -578,23 +631,31 @@
                   </TabPane>
                   <Label fx:id="labelNombreDeUsuario2" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="844.0" layoutY="12.0" prefHeight="20.0" prefWidth="200.0" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="10.0" />
                </children>
+               <styleClass>
+                  <String fx:value="apPacientes" />
+                  <String fx:value="root" />
+               </styleClass>
             </AnchorPane>
-            <AnchorPane fx:id="apPacientes" styleClass="apPacientes" stylesheets="@styles/menuinicio.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="apPacientes" stylesheets="@styles/menuinicio.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="30.0" prefWidth="300.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
                     <buttons>
                         <Button fx:id="botonRetornarDatosPrincipales1" mnemonicParsing="false" onMouseClicked="#vaciarTodasLasCajas" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
-                           <graphic>
-                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@img/retornar.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
                            <styleClass>
                               <String fx:value="botonBuscar" />
                               <String fx:value="botonBuscarChico" />
                            </styleClass>
+                           <graphic>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                 <children>
+                                    <Line endX="5.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Line endX="5.0" rotate="-45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.8" />
+                                    <Line endX="5.0" rotate="40.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="7.2" />
+                                    <Line endY="5.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                                    <Line endX="14.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="2.0" />
+                                 </children>
+                              </AnchorPane>
+                           </graphic>
                         </Button>
                       <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="30.0" maxWidth="100.0" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#buscarPaciente" stylesheets="@styles/menuinicio.css">
                            <font>
@@ -623,8 +684,7 @@
                         </TextField>
                     </buttons>
                   </ButtonBar>
-                  <Label fx:id="labelNombreDeUsuario1" alignment="BASELINE_CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="200.0" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="10.0" />
-                  <Accordion fx:id="acordionPaciente" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+                  <Accordion fx:id="acordionPaciente" styleClass="root" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
                     <panes>
                       <TitledPane fx:id="titlePaneDatosPrincipales" alignment="BASELINE_LEFT" onMouseClicked="#expandirTitledPane" text="Datos principales">
                         <content>
@@ -634,21 +694,21 @@
                                        <right>
                                           <HBox fx:id="botoneraCrudDatosPrincipales" alignment="BOTTOM_RIGHT" BorderPane.alignment="CENTER">
                                              <children>
-                                                <Button fx:id="botonAgregarDatosPrincipales" mnemonicParsing="false" onMouseClicked="#crearPaciente" prefHeight="22.0" prefWidth="23.0">
-                                                   <HBox.margin>
-                                                      <Insets left="5.0" />
-                                                   </HBox.margin>
+                                                <Button fx:id="botonAgregarDatosPrincipales" mnemonicParsing="false" onMouseClicked="#crearPaciente" prefHeight="20.0" prefWidth="20.0" stylesheets="@styles/menuinicio.css">
                                                    <styleClass>
                                                       <String fx:value="botonBuscar" />
                                                       <String fx:value="botonBuscarChico" />
-                                                      <String fx:value="crear" />
                                                    </styleClass>
+                                                   <HBox.margin>
+                                                      <Insets left="5.0" />
+                                                   </HBox.margin>
                                                    <graphic>
-                                                      <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@img/agregar_%23path58.png" />
-                                                         </image>
-                                                      </ImageView>
+                                                      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                                         <children>
+                                                            <Line endY="12.0" strokeWidth="5.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                            <Line endX="12.0" strokeWidth="5.0" styleClass="figuraBoton" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0" />
+                                                         </children>
+                                                      </AnchorPane>
                                                    </graphic>
                                                 </Button>
                                                 <Button fx:id="botonActualizarDatosPrincipales" mnemonicParsing="false" onMouseClicked="#actualizarPaciente" prefHeight="22.0" prefWidth="23.0">
@@ -661,21 +721,14 @@
                                                       <String fx:value="botonBuscarChico" />
                                                    </styleClass>
                                                    <graphic>
-                                                      <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@img/actualizar.png" />
-                                                         </image>
-                                                      </ImageView>
+                                                      <AnchorPane>
+                                                         <children>
+                                                            <Rectangle fill="DODGERBLUE" height="5.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0" styleClass="figuraBoton" width="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="5.0" />
+                                                         </children>
+                                                      </AnchorPane>
                                                    </graphic>
                                                 </Button>
                                                 <Button fx:id="botonEliminarDatosPrincipales" mnemonicParsing="false" onMouseClicked="#eliminarPaciente" prefHeight="22.0" prefWidth="23.0">
-                                                   <graphic>
-                                                      <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@img/menos.png" />
-                                                         </image>
-                                                      </ImageView>
-                                                   </graphic>
                                                    <HBox.margin>
                                                       <Insets left="5.0" />
                                                    </HBox.margin>
@@ -684,6 +737,16 @@
                                                       <String fx:value="eliminarActualizar" />
                                                       <String fx:value="botonBuscarChico" />
                                                    </styleClass>
+                                                   <graphic>
+                                                      <AnchorPane prefHeight="19.0" prefWidth="22.0">
+                                                         <children>
+                                                            <Line endX="6.0" rotate="90.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="8.0" />
+                                                            <Line endX="10.0" layoutY="18.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="16.0" />
+                                                            <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="4.2" AnchorPane.topAnchor="3.0" />
+                                                            <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="-45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.rightAnchor="4.2" AnchorPane.topAnchor="3.0" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </graphic>
                                                 </Button>
                                              </children>
                                           </HBox>
@@ -832,26 +895,20 @@
                                           <VBox alignment="CENTER_RIGHT" BorderPane.alignment="CENTER">
                                              <children>
                                                 <Button fx:id="botonAgregarSesiones" mnemonicParsing="false" onMouseClicked="#crearSesion" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
-                                                   <graphic>
-                                                      <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@img/agregar_%23path58.png" />
-                                                         </image>
-                                                      </ImageView>
-                                                   </graphic>
                                                    <styleClass>
                                                       <String fx:value="botonBuscar" />
                                                       <String fx:value="botonBuscarChico" />
                                                    </styleClass>
+                                                   <graphic>
+                                                      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                                         <children>
+                                                            <Line endY="12.0" strokeWidth="5.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                            <Line endX="12.0" strokeWidth="5.0" styleClass="figuraBoton" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </graphic>
                                                 </Button>
                                                 <Button fx:id="botonActualizarSesiones" mnemonicParsing="false" onMouseClicked="#actualizarSesion" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
-                                                   <graphic>
-                                                      <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@img/actualizar.png" />
-                                                         </image>
-                                                      </ImageView>
-                                                   </graphic>
                                                    <VBox.margin>
                                                       <Insets top="5.0" />
                                                    </VBox.margin>
@@ -859,15 +916,18 @@
                                                       <String fx:value="botonBuscar" />
                                                       <String fx:value="botonBuscarChico" />
                                                    </styleClass>
+                                                   <graphic>
+                                                      <AnchorPane prefHeight="19.0" prefWidth="22.0">
+                                                         <children>
+                                                            <Line endX="6.0" rotate="90.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="8.0" />
+                                                            <Line endX="10.0" layoutY="18.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="16.0" />
+                                                            <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="4.2" AnchorPane.topAnchor="3.0" />
+                                                            <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="-45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.rightAnchor="4.2" AnchorPane.topAnchor="3.0" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </graphic>
                                                 </Button>
                                                 <Button fx:id="botonEliminarSesiones" mnemonicParsing="false" onMouseClicked="#eliminarSesion" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
-                                                   <graphic>
-                                                      <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@img/menos.png" />
-                                                         </image>
-                                                      </ImageView>
-                                                   </graphic>
                                                    <VBox.margin>
                                                       <Insets top="5.0" />
                                                    </VBox.margin>
@@ -875,15 +935,15 @@
                                                       <String fx:value="botonBuscar" />
                                                       <String fx:value="botonBuscarChico" />
                                                    </styleClass>
+                                                   <graphic>
+                                                      <AnchorPane>
+                                                         <children>
+                                                            <Rectangle fill="DODGERBLUE" height="5.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0" styleClass="figuraBoton" width="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="5.0" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </graphic>
                                                 </Button>
                                                 <Button fx:id="botonRetornarSesiones" disable="true" mnemonicParsing="false" onMouseClicked="#retornarTablaSesion" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
-                                                   <graphic>
-                                                      <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@img/retornar.png" />
-                                                         </image>
-                                                      </ImageView>
-                                                   </graphic>
                                                    <VBox.margin>
                                                       <Insets top="5.0" />
                                                    </VBox.margin>
@@ -891,358 +951,23 @@
                                                       <String fx:value="botonBuscar" />
                                                       <String fx:value="botonBuscarChico" />
                                                    </styleClass>
+                                                   <graphic>
+                                                      <AnchorPane nodeOrientation="RIGHT_TO_LEFT" prefHeight="200.0" prefWidth="200.0">
+                                                         <children>
+                                                            <Line endX="5.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                            <Line endX="5.0" rotate="-45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.8" />
+                                                            <Line endX="5.0" rotate="40.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="7.2" />
+                                                            <Line endY="5.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                                                            <Line endX="14.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="2.0" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </graphic>
                                                 </Button>
                                              </children>
                                           </VBox>
                                        </right>
                                        <center>
                                           <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                                             <children>
-                                                <VBox fx:id="vBoxSesiones" alignment="CENTER_LEFT" prefWidth="400.0" visible="false">
-                                                   <children>
-                                                      <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelTitulo" stylesheets="@styles/menuinicio.css" text="Sesiones">
-                                                         <font>
-                                                            <Font name="Abyssinica SIL" size="13.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Fecha sesion">
-                                                         <font>
-                                                            <Font name="Abyssinica SIL" size="13.0" />
-                                                         </font>
-                                                         <VBox.margin>
-                                                            <Insets />
-                                                         </VBox.margin>
-                                                      </Label>
-                                                      <HBox prefHeight="27.0" prefWidth="358.0">
-                                                         <children>
-                                                            <DatePicker fx:id="cajaFechaSesion" accessibleHelp="controlImportante" maxWidth="421.0" onMouseClicked="#volverChoiceALaNormalidad" prefHeight="27.0" prefWidth="400.0" promptText="Ingresar fecha" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
-                                                         </children>
-                                                         <VBox.margin>
-                                                            <Insets />
-                                                         </VBox.margin>
-                                                      </HBox>
-                                                      <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Numero">
-                                                         <font>
-                                                            <Font name="Abyssinica SIL" size="13.0" />
-                                                         </font>
-                                                         <VBox.margin>
-                                                            <Insets />
-                                                         </VBox.margin>
-                                                      </Label>
-                                                      <HBox prefHeight="28.0" prefWidth="100.0">
-                                                         <children>
-                                                            <TextField fx:id="cajaNumeroSesion" alignment="BOTTOM_CENTER" disable="true" onKeyTyped="#soloNumero" prefWidth="408.0" promptText="Ingresar nombre" stylesheets="@styles/menuinicio.css">
-                                                               <styleClass>
-                                                                  <String fx:value="cajas" />
-                                                                  <String fx:value="error" />
-                                                               </styleClass>
-                                                            </TextField>
-                                                         </children>
-                                                         <VBox.margin>
-                                                            <Insets />
-                                                         </VBox.margin>
-                                                      </HBox>
-                                                      <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Trabajo de sesion">
-                                                         <font>
-                                                            <Font name="Abyssinica SIL" size="13.0" />
-                                                         </font>
-                                                         <VBox.margin>
-                                                            <Insets />
-                                                         </VBox.margin>
-                                                      </Label>
-                                                      <HBox prefWidth="200.0">
-                                                         <children>
-                                                            <TextArea fx:id="cajaTrabajoSesion" accessibleHelp="controlImportante" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="100.0" minWidth="306.0" onKeyPressed="#volverCajaALaNormalidad" prefHeight="100.0" prefWidth="306.0" promptText="Ingresat trabajo de sesión" styleClass="cajasArea" stylesheets="@styles/menuinicio.css">
-                                                               <HBox.margin>
-                                                                  <Insets />
-                                                               </HBox.margin>
-                                                            </TextArea>
-                                                            <Button fx:id="botonVerTrabajoSesion" mnemonicParsing="false" onMouseClicked="#agrandarCajaParaVer" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
-                                                               <graphic>
-                                                                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                                     <image>
-                                                                        <Image url="@img/verCajas.png" />
-                                                                     </image>
-                                                                  </ImageView>
-                                                               </graphic>
-                                                               <styleClass>
-                                                                  <String fx:value="botonBuscar" />
-                                                                  <String fx:value="botonBuscarChico" />
-                                                               </styleClass>
-                                                               <HBox.margin>
-                                                                  <Insets left="5.0" />
-                                                               </HBox.margin>
-                                                            </Button>
-                                                         </children>
-                                                         <VBox.margin>
-                                                            <Insets />
-                                                         </VBox.margin>
-                                                      </HBox>
-                                                      <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Observacion">
-                                                         <font>
-                                                            <Font name="Abyssinica SIL" size="13.0" />
-                                                         </font>
-                                                         <VBox.margin>
-                                                            <Insets />
-                                                         </VBox.margin>
-                                                      </Label>
-                                                      <HBox>
-                                                         <children>
-                                                            <TextArea fx:id="cajaObservacionSesion" minHeight="100.0" minWidth="228.0" prefHeight="100.0" prefWidth="228.0" promptText="Ingresar observación" styleClass="cajasArea" stylesheets="@styles/menuinicio.css" />
-                                                            <Button fx:id="botonVerObservacionSesion" mnemonicParsing="false" onMouseClicked="#agrandarCajaParaVer" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
-                                                               <graphic>
-                                                                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                                     <image>
-                                                                        <Image url="@img/verCajas.png" />
-                                                                     </image>
-                                                                  </ImageView>
-                                                               </graphic>
-                                                               <styleClass>
-                                                                  <String fx:value="botonBuscar" />
-                                                                  <String fx:value="botonBuscarChico" />
-                                                               </styleClass>
-                                                               <HBox.margin>
-                                                                  <Insets left="5.0" />
-                                                               </HBox.margin>
-                                                            </Button>
-                                                         </children>
-                                                         <VBox.margin>
-                                                            <Insets />
-                                                         </VBox.margin>
-                                                      </HBox>
-                                                      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="22.0" prefWidth="144.0" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Honorarios por sesion">
-                                                         <font>
-                                                            <Font name="Abyssinica SIL" size="13.0" />
-                                                         </font>
-                                                         <VBox.margin>
-                                                            <Insets />
-                                                         </VBox.margin>
-                                                      </Label>
-                                                      <TextField fx:id="cajaHonorariosPorSesion" accessibleRoleDescription="num" alignment="BOTTOM_CENTER" onKeyTyped="#onKeyTyped" prefHeight="28.0" prefWidth="409.0" promptText="Ingresar honorario" stylesheets="@styles/menuinicio.css">
-                                                         <styleClass>
-                                                            <String fx:value="cajas" />
-                                                            <String fx:value="error" />
-                                                         </styleClass>
-                                                      </TextField>
-                                                      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="22.0" prefWidth="141.0" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Estado de facturacion">
-                                                         <font>
-                                                            <Font name="Abyssinica SIL" size="13.0" />
-                                                         </font>
-                                                         <VBox.margin>
-                                                            <Insets />
-                                                         </VBox.margin>
-                                                      </Label>
-                                                      <TextField fx:id="cajaEstadoFacturacionSesionObraSocial" alignment="BOTTOM_CENTER" prefHeight="28.0" prefWidth="409.0" promptText="Ingresar estado de facturación" stylesheets="@styles/menuinicio.css">
-                                                         <styleClass>
-                                                            <String fx:value="cajas" />
-                                                            <String fx:value="error" />
-                                                         </styleClass>
-                                                      </TextField>
-                                                   </children>
-                                                   <HBox.margin>
-                                                      <Insets left="50.0" />
-                                                   </HBox.margin>
-                                                </VBox>
-                                                <VBox fx:id="vBoxAutorizacion" alignment="CENTER_LEFT" prefWidth="400.0" visible="false">
-                                                   <children>
-                                                      <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelTitulo" stylesheets="@styles/menuinicio.css" text="Obra social">
-                                                         <font>
-                                                            <Font name="Abyssinica SIL" size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Numero autorizacion">
-                                                         <font>
-                                                            <Font name="Abyssinica SIL" size="13.0" />
-                                                         </font>
-                                                         <VBox.margin>
-                                                            <Insets />
-                                                         </VBox.margin>
-                                                      </Label>
-                                                      <HBox>
-                                                         <children>
-                                                            <TextField fx:id="cajaAutorizacionSesion" alignment="BOTTOM_CENTER" onKeyPressed="#volverCajaALaNormalidad" onKeyTyped="#soloNumero" prefWidth="400.0" promptText="Ingresar numero autorizacón" stylesheets="@styles/menuinicio.css">
-                                                               <styleClass>
-                                                                  <String fx:value="cajas" />
-                                                                  <String fx:value="error" />
-                                                               </styleClass>
-                                                            </TextField>
-                                                         </children>
-                                                      </HBox>
-                                                      <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Observacion">
-                                                         <font>
-                                                            <Font name="Abyssinica SIL" size="13.0" />
-                                                         </font>
-                                                         <VBox.margin>
-                                                            <Insets top="2.0" />
-                                                         </VBox.margin>
-                                                      </Label>
-                                                      <HBox>
-                                                         <children>
-                                                            <TextArea fx:id="cajaObservacionSesionObraSocial" promptText="Ingresar observación" styleClass="cajasArea" stylesheets="@styles/menuinicio.css" />
-                                                            <Button fx:id="botonVerObservacionAutorizacion" mnemonicParsing="false" onMouseClicked="#agrandarCajaParaVer" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
-                                                               <graphic>
-                                                                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                                     <image>
-                                                                        <Image url="@img/verCajas.png" />
-                                                                     </image>
-                                                                  </ImageView>
-                                                               </graphic>
-                                                               <styleClass>
-                                                                  <String fx:value="botonBuscar" />
-                                                                  <String fx:value="botonBuscarChico" />
-                                                               </styleClass>
-                                                               <HBox.margin>
-                                                                  <Insets left="5.0" />
-                                                               </HBox.margin>
-                                                            </Button>
-                                                         </children>
-                                                      </HBox>
-                                                      <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Asociacion">
-                                                         <font>
-                                                            <Font name="Abyssinica SIL" size="13.0" />
-                                                         </font>
-                                                         <VBox.margin>
-                                                            <Insets top="2.0" />
-                                                         </VBox.margin>
-                                                      </Label>
-                                                      <HBox>
-                                                         <children>
-                                                            <DatePicker fx:id="cajaAsociacionSesionObraSocial" accessibleHelp="controlImportante" onKeyPressed="#volverCajaALaNormalidad" onMouseClicked="#volverChoiceALaNormalidad" prefWidth="400.0" promptText="Ingresar fecha" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
-                                                         </children>
-                                                      </HBox>
-                                                      <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Copago">
-                                                         <font>
-                                                            <Font name="Abyssinica SIL" size="13.0" />
-                                                         </font>
-                                                         <VBox.margin>
-                                                            <Insets top="2.0" />
-                                                         </VBox.margin>
-                                                      </Label>
-                                                      <HBox>
-                                                         <children>
-                                                            <TextField fx:id="cajaCopagoSesionObraSocial" alignment="BOTTOM_CENTER" onKeyTyped="#soloNumeroFlotantes" prefWidth="400.0" promptText="Ingresar copago" stylesheets="@styles/menuinicio.css">
-                                                               <styleClass>
-                                                                  <String fx:value="cajas" />
-                                                                  <String fx:value="error" />
-                                                               </styleClass>
-                                                            </TextField>
-                                                         </children>
-                                                      </HBox>
-                                                      <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Nombre y Codigo facturacion">
-                                                         <font>
-                                                            <Font name="Abyssinica SIL" size="13.0" />
-                                                         </font>
-                                                         <VBox.margin>
-                                                            <Insets top="2.0" />
-                                                         </VBox.margin>
-                                                      </Label>
-                                                      <VBox prefWidth="100.0">
-                                                         <children>
-                                                            <HBox>
-                                                               <children>
-                                                                  <ChoiceBox fx:id="choiseCodigoFactSesionObraSocial" accessibleHelp="controlImportante" onMouseClicked="#volverChoiceALaNormalidad" prefWidth="400.0" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
-                                                                  <TextField fx:id="cajaCodigoFacturacion" alignment="BOTTOM_CENTER" editable="false" prefWidth="400.0" promptText="Ingresar código" stylesheets="@styles/menuinicio.css">
-                                                                     <styleClass>
-                                                                        <String fx:value="cajas" />
-                                                                        <String fx:value="error" />
-                                                                     </styleClass>
-                                                                     <HBox.margin>
-                                                                        <Insets left="5.0" />
-                                                                     </HBox.margin>
-                                                                  </TextField>
-                                                                  <Button fx:id="botonAgregarCodigoFacturacion" mnemonicParsing="false" onMouseClicked="#actualizarOcrear" prefHeight="20.0" prefWidth="20.0" styleClass="botonBuscar">
-                                                                     <graphic>
-                                                                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                                                                           <image>
-                                                                              <Image url="@img/agregar_%23path58.png" />
-                                                                           </image>
-                                                                        </ImageView>
-                                                                     </graphic>
-                                                                     <HBox.margin>
-                                                                        <Insets left="5.0" />
-                                                                     </HBox.margin>
-                                                                  </Button>
-                                                                  <Button fx:id="botonActualizarCodigoFacturacion" mnemonicParsing="false" onMouseClicked="#actualizarOcrear" prefHeight="20.0" prefWidth="20.0" styleClass="botonBuscar">
-                                                                     <graphic>
-                                                                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                                                                           <image>
-                                                                              <Image url="@img/actualizar.png" />
-                                                                           </image>
-                                                                        </ImageView>
-                                                                     </graphic>
-                                                                     <HBox.margin>
-                                                                        <Insets left="5.0" />
-                                                                     </HBox.margin>
-                                                                  </Button>
-                                                               </children>
-                                                            </HBox>
-                                                         </children>
-                                                      </VBox>
-                                                      <Label fx:id="etiquetaActualizarCodigoFacturacion" alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Agregar codigo" visible="false">
-                                                         <font>
-                                                            <Font name="Abyssinica SIL" size="13.0" />
-                                                         </font>
-                                                         <VBox.margin>
-                                                            <Insets top="5.0" />
-                                                         </VBox.margin>
-                                                      </Label>
-                                                      <HBox fx:id="hboxEtiquetasCodigosFacturacion" visible="false">
-                                                         <children>
-                                                            <Label fx:id="etiquetaActualizarCodigoFacturacion11" alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Nombre">
-                                                               <font>
-                                                                  <Font name="Abyssinica SIL" size="13.0" />
-                                                               </font>
-                                                            </Label>
-                                                            <Label fx:id="etiquetaActualizarCodigoFacturacion1" alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Codigo">
-                                                               <font>
-                                                                  <Font name="Abyssinica SIL" size="13.0" />
-                                                               </font>
-                                                               <HBox.margin>
-                                                                  <Insets left="80.0" />
-                                                               </HBox.margin>
-                                                            </Label>
-                                                         </children>
-                                                      </HBox>
-                                                      <HBox fx:id="hboxCajasCodigosFacturacion" visible="false">
-                                                         <children>
-                                                            <TextField fx:id="cajaAtualizarNombreCodigoFacturacionSesionObraSocial" alignment="BOTTOM_CENTER" promptText="Ingresar telefono" stylesheets="@styles/menuinicio.css">
-                                                               <styleClass>
-                                                                  <String fx:value="cajas" />
-                                                                  <String fx:value="error" />
-                                                               </styleClass>
-                                                            </TextField>
-                                                            <TextField fx:id="cajaAtualizarCodigoFacturacionSesionObraSocial" alignment="BOTTOM_CENTER" onKeyTyped="#soloNumero" promptText="Ingresar telefono" stylesheets="@styles/menuinicio.css">
-                                                               <styleClass>
-                                                                  <String fx:value="cajas" />
-                                                                  <String fx:value="error" />
-                                                               </styleClass>
-                                                               <HBox.margin>
-                                                                  <Insets left="10.0" />
-                                                               </HBox.margin>
-                                                            </TextField>
-                                                            <Button fx:id="botonActualizarAgregarCodigoFacturacion" mnemonicParsing="false" onMouseClicked="#actualizarOcrear" styleClass="botonBuscar">
-                                                               <graphic>
-                                                                  <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                                                                     <image>
-                                                                        <Image url="@img/actualizar.png" />
-                                                                     </image>
-                                                                  </ImageView>
-                                                               </graphic>
-                                                               <HBox.margin>
-                                                                  <Insets left="5.0" />
-                                                               </HBox.margin>
-                                                            </Button>
-                                                         </children>
-                                                         <VBox.margin>
-                                                            <Insets />
-                                                         </VBox.margin>
-                                                      </HBox>
-                                                   </children>
-                                                   <HBox.margin>
-                                                      <Insets left="40.0" />
-                                                   </HBox.margin>
-                                                </VBox>
-                                             </children>
                                              <BorderPane.margin>
                                                 <Insets />
                                              </BorderPane.margin>
@@ -1326,13 +1051,6 @@
                                           <HBox fx:id="botoneraCrudPlanTratamiento" alignment="BOTTOM_RIGHT" prefWidth="122.0" BorderPane.alignment="CENTER">
                                              <children>
                                                 <Button fx:id="botonAgregarPlanTratamiento" mnemonicParsing="false" onMouseClicked="#crearPlanTratamiento" prefHeight="20.0" prefWidth="20.0" stylesheets="@styles/menuinicio.css">
-                                                   <graphic>
-                                                      <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@img/agregar_%23path58.png" />
-                                                         </image>
-                                                      </ImageView>
-                                                   </graphic>
                                                    <HBox.margin>
                                                       <Insets left="5.0" />
                                                    </HBox.margin>
@@ -1340,15 +1058,16 @@
                                                       <String fx:value="botonBuscar" />
                                                       <String fx:value="botonBuscarChico" />
                                                    </styleClass>
+                                                   <graphic>
+                                                      <AnchorPane>
+                                                         <children>
+                                                            <Line endY="12.0" strokeWidth="5.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                            <Line endX="12.0" strokeWidth="5.0" styleClass="figuraBoton" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </graphic>
                                                 </Button>
                                                 <Button fx:id="botonActualizarPlanTratamiento" mnemonicParsing="false" onMouseClicked="#actualizarPlan" prefHeight="20.0" prefWidth="20.0" stylesheets="@styles/menuinicio.css">
-                                                   <graphic>
-                                                      <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@img/actualizar.png" />
-                                                         </image>
-                                                      </ImageView>
-                                                   </graphic>
                                                    <HBox.margin>
                                                       <Insets left="5.0" />
                                                    </HBox.margin>
@@ -1356,15 +1075,18 @@
                                                       <String fx:value="botonBuscar" />
                                                       <String fx:value="botonBuscarChico" />
                                                    </styleClass>
+                                                   <graphic>
+                                                      <AnchorPane prefHeight="19.0" prefWidth="22.0">
+                                                         <children>
+                                                            <Line endX="6.0" rotate="90.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="8.0" />
+                                                            <Line endX="10.0" layoutY="18.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="16.0" />
+                                                            <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="4.2" AnchorPane.topAnchor="3.0" />
+                                                            <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="-45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.rightAnchor="4.2" AnchorPane.topAnchor="3.0" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </graphic>
                                                 </Button>
                                                 <Button fx:id="botonEliminarPlanTratamiento" mnemonicParsing="false" onMouseClicked="#eliminarPlan" prefHeight="20.0" prefWidth="20.0" stylesheets="@styles/menuinicio.css">
-                                                   <graphic>
-                                                      <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@img/menos.png" />
-                                                         </image>
-                                                      </ImageView>
-                                                   </graphic>
                                                    <HBox.margin>
                                                       <Insets left="5.0" />
                                                    </HBox.margin>
@@ -1372,6 +1094,13 @@
                                                       <String fx:value="botonBuscar" />
                                                       <String fx:value="botonBuscarChico" />
                                                    </styleClass>
+                                                   <graphic>
+                                                      <AnchorPane>
+                                                         <children>
+                                                            <Rectangle fill="DODGERBLUE" height="5.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0" styleClass="figuraBoton" width="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="5.0" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </graphic>
                                                 </Button>
                                              </children>
                                           </HBox>
@@ -1402,25 +1131,19 @@
                                                                         <String fx:value="botonBuscar" />
                                                                         <String fx:value="botonBuscarChico" />
                                                                      </styleClass>
-                                                                     <graphic>
-                                                                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                                           <image>
-                                                                              <Image url="@img/agregar_%23path58.png" />
-                                                                           </image>
-                                                                        </ImageView>
-                                                                     </graphic>
                                                                      <HBox.margin>
                                                                         <Insets left="5.0" />
                                                                      </HBox.margin>
+                                                                     <graphic>
+                                                                        <AnchorPane>
+                                                                           <children>
+                                                                              <Line endY="12.0" strokeWidth="5.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                                              <Line endX="12.0" strokeWidth="5.0" styleClass="figuraBoton" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0" />
+                                                                           </children>
+                                                                        </AnchorPane>
+                                                                     </graphic>
                                                                   </Button>
                                                                   <Button fx:id="botonActualizarPlanFrecuencia" mnemonicParsing="false" onMouseClicked="#actualizarCrearFrecuenciaPlan" prefHeight="20.0" prefWidth="20.0" stylesheets="@styles/menuinicio.css">
-                                                                     <graphic>
-                                                                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                                           <image>
-                                                                              <Image url="@img/actualizar.png" />
-                                                                           </image>
-                                                                        </ImageView>
-                                                                     </graphic>
                                                                      <styleClass>
                                                                         <String fx:value="botonBuscar" />
                                                                         <String fx:value="botonBuscarChico" />
@@ -1428,6 +1151,16 @@
                                                                      <HBox.margin>
                                                                         <Insets left="5.0" />
                                                                      </HBox.margin>
+                                                                     <graphic>
+                                                                        <AnchorPane prefHeight="19.0" prefWidth="22.0">
+                                                                           <children>
+                                                                              <Line endX="6.0" rotate="90.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="8.0" />
+                                                                              <Line endX="10.0" layoutY="18.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="16.0" />
+                                                                              <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="4.2" AnchorPane.topAnchor="3.0" />
+                                                                              <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="-45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.rightAnchor="4.2" AnchorPane.topAnchor="3.0" />
+                                                                           </children>
+                                                                        </AnchorPane>
+                                                                     </graphic>
                                                                   </Button>
                                                                </children>
                                                             </HBox>
@@ -1454,13 +1187,6 @@
                                                                      </styleClass>
                                                                   </TextField>
                                                                   <Button fx:id="botonActualizarCrearFrecuencia" mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0" stylesheets="@styles/menuinicio.css">
-                                                                     <graphic>
-                                                                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                                           <image>
-                                                                              <Image url="@img/actualizar.png" />
-                                                                           </image>
-                                                                        </ImageView>
-                                                                     </graphic>
                                                                      <styleClass>
                                                                         <String fx:value="botonBuscar" />
                                                                         <String fx:value="botonBuscarChico" />
@@ -1468,6 +1194,16 @@
                                                                      <HBox.margin>
                                                                         <Insets left="5.0" />
                                                                      </HBox.margin>
+                                                                     <graphic>
+                                                                        <AnchorPane prefHeight="19.0" prefWidth="22.0">
+                                                                           <children>
+                                                                              <Line endX="6.0" rotate="90.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="8.0" />
+                                                                              <Line endX="10.0" layoutY="18.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="16.0" />
+                                                                              <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="4.2" AnchorPane.topAnchor="3.0" />
+                                                                              <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="-45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.rightAnchor="4.2" AnchorPane.topAnchor="3.0" />
+                                                                           </children>
+                                                                        </AnchorPane>
+                                                                     </graphic>
                                                                   </Button>
                                                                </children>
                                                                <VBox.margin>
@@ -1505,25 +1241,19 @@
                                                                         <String fx:value="botonBuscar" />
                                                                         <String fx:value="botonBuscarChico" />
                                                                      </styleClass>
-                                                                     <graphic>
-                                                                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                                           <image>
-                                                                              <Image url="@img/agregar_%23path58.png" />
-                                                                           </image>
-                                                                        </ImageView>
-                                                                     </graphic>
                                                                      <HBox.margin>
                                                                         <Insets left="5.0" />
                                                                      </HBox.margin>
+                                                                     <graphic>
+                                                                        <AnchorPane>
+                                                                           <children>
+                                                                              <Line endY="12.0" strokeWidth="5.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                                              <Line endX="12.0" strokeWidth="5.0" styleClass="figuraBoton" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0" />
+                                                                           </children>
+                                                                        </AnchorPane>
+                                                                     </graphic>
                                                                   </Button>
                                                                   <Button fx:id="botonActualizarPlanTipoSesion" mnemonicParsing="false" onMouseClicked="#actualizarCrearTipoSesionPlaPlan" prefHeight="20.0" prefWidth="20.0" stylesheets="@styles/menuinicio.css">
-                                                                     <graphic>
-                                                                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                                           <image>
-                                                                              <Image url="@img/actualizar.png" />
-                                                                           </image>
-                                                                        </ImageView>
-                                                                     </graphic>
                                                                      <styleClass>
                                                                         <String fx:value="botonBuscar" />
                                                                         <String fx:value="botonBuscarChico" />
@@ -1531,6 +1261,16 @@
                                                                      <HBox.margin>
                                                                         <Insets left="5.0" />
                                                                      </HBox.margin>
+                                                                     <graphic>
+                                                                        <AnchorPane prefHeight="19.0" prefWidth="22.0">
+                                                                           <children>
+                                                                              <Line endX="6.0" rotate="90.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="8.0" />
+                                                                              <Line endX="10.0" layoutY="18.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="16.0" />
+                                                                              <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="4.2" AnchorPane.topAnchor="3.0" />
+                                                                              <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="-45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.rightAnchor="4.2" AnchorPane.topAnchor="3.0" />
+                                                                           </children>
+                                                                        </AnchorPane>
+                                                                     </graphic>
                                                                   </Button>
                                                                </children>
                                                             </HBox>
@@ -1550,7 +1290,7 @@
                                                             </Label>
                                                             <HBox accessibleText="planTratamiento" prefWidth="400.0">
                                                                <children>
-                                                                  <TextField fx:id="cajaNombreTipoSesionPlan" accessibleText="planTratamiento" alignment="BOTTOM_CENTER" onKeyTyped="#soloString" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar apellido" stylesheets="@styles/menuinicio.css">
+                                                                  <TextField fx:id="cajaNombreTipoSesionPlan" accessibleText="planTratamiento" alignment="BOTTOM_CENTER" onKeyTyped="#soloString" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar nombre" stylesheets="@styles/menuinicio.css">
                                                                      <styleClass>
                                                                         <String fx:value="cajas" />
                                                                         <String fx:value="cajasAEsconder" />
@@ -1558,13 +1298,6 @@
                                                                      </styleClass>
                                                                   </TextField>
                                                                   <Button fx:id="botonActualizarCrearTipoSesion" mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0" stylesheets="@styles/menuinicio.css">
-                                                                     <graphic>
-                                                                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                                           <image>
-                                                                              <Image url="@img/actualizar.png" />
-                                                                           </image>
-                                                                        </ImageView>
-                                                                     </graphic>
                                                                      <styleClass>
                                                                         <String fx:value="botonBuscar" />
                                                                         <String fx:value="botonBuscarChico" />
@@ -1572,6 +1305,16 @@
                                                                      <HBox.margin>
                                                                         <Insets left="5.0" />
                                                                      </HBox.margin>
+                                                                     <graphic>
+                                                                        <AnchorPane prefHeight="19.0" prefWidth="22.0">
+                                                                           <children>
+                                                                              <Line endX="6.0" rotate="90.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="8.0" />
+                                                                              <Line endX="10.0" layoutY="18.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="16.0" />
+                                                                              <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="4.2" AnchorPane.topAnchor="3.0" />
+                                                                              <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="-45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.rightAnchor="4.2" AnchorPane.topAnchor="3.0" />
+                                                                           </children>
+                                                                        </AnchorPane>
+                                                                     </graphic>
                                                                   </Button>
                                                                </children>
                                                                <VBox.margin>
@@ -1636,46 +1379,7 @@
                                        <right>
                                           <HBox fx:id="botoneraCrudDiagnostico" alignment="BOTTOM_RIGHT" BorderPane.alignment="CENTER">
                                              <children>
-                                                <Button fx:id="botonAgregarDiagnostico" mnemonicParsing="false" onMouseClicked="#crearDiagnostico" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
-                                                   <graphic>
-                                                      <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@img/agregar_%23path58.png" />
-                                                         </image>
-                                                      </ImageView>
-                                                   </graphic>
-                                                   <HBox.margin>
-                                                      <Insets left="5.0" />
-                                                   </HBox.margin>
-                                                   <styleClass>
-                                                      <String fx:value="botonBuscar" />
-                                                      <String fx:value="botonBuscarChico" />
-                                                   </styleClass>
-                                                </Button>
-                                                <Button fx:id="botonActualizarDiagnostico" mnemonicParsing="false" onMouseClicked="#actualizarDiagnostico" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
-                                                   <graphic>
-                                                      <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@img/actualizar.png" />
-                                                         </image>
-                                                      </ImageView>
-                                                   </graphic>
-                                                   <HBox.margin>
-                                                      <Insets left="5.0" />
-                                                   </HBox.margin>
-                                                   <styleClass>
-                                                      <String fx:value="botonBuscar" />
-                                                      <String fx:value="botonBuscarChico" />
-                                                   </styleClass>
-                                                </Button>
                                                 <Button fx:id="botonEliminarDiagnostico" mnemonicParsing="false" onMouseClicked="#eliminarDiagnostico" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
-                                                   <graphic>
-                                                      <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@img/menos.png" />
-                                                         </image>
-                                                      </ImageView>
-                                                   </graphic>
                                                    <HBox.margin>
                                                       <Insets left="5.0" />
                                                    </HBox.margin>
@@ -1683,6 +1387,13 @@
                                                       <String fx:value="botonBuscar" />
                                                       <String fx:value="botonBuscarChico" />
                                                    </styleClass>
+                                                   <graphic>
+                                                      <AnchorPane>
+                                                         <children>
+                                                            <Rectangle fill="DODGERBLUE" height="5.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0" styleClass="figuraBoton" width="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="5.0" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </graphic>
                                                 </Button>
                                              </children>
                                           </HBox>
@@ -1690,24 +1401,17 @@
                                        <center>
                                           <HBox alignment="CENTER" prefHeight="100.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
                                              <children>
-                                                <VBox alignment="CENTER_LEFT" prefWidth="400.0">
+                                                <VBox alignment="CENTER_LEFT">
                                                    <children>
                                                       <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Diagnostico">
                                                          <font>
                                                             <Font name="Abyssinica SIL" size="13.0" />
                                                          </font>
                                                       </Label>
-                                                      <HBox>
+                                                      <HBox fx:id="hbHtmlEditDiagnostico">
                                                          <children>
-                                                            <TextArea fx:id="cajaDiagnosticoDiagnostico" accessibleHelp="controlImportante" accessibleText="diagnostico" onKeyPressed="#volverCajaALaNormalidad" promptText="Ingresar diagnóstico" styleClass="cajasArea" stylesheets="@styles/menuinicio.css" />
+                                                            <HTMLEditor fx:id="htmlDiagnostico" accessibleHelp="controlImportante" htmlText="&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body contenteditable=&quot;true&quot;&gt;&lt;/body&gt;&lt;/html&gt;" styleClass="html-toolBar-achicar" stylesheets="@styles/htmlEditor.css" />
                                                             <Button fx:id="botonVerDiagnostico" mnemonicParsing="false" onMouseClicked="#agrandarCajaParaVer" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
-                                                               <graphic>
-                                                                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                                     <image>
-                                                                        <Image url="@img/verCajas.png" />
-                                                                     </image>
-                                                                  </ImageView>
-                                                               </graphic>
                                                                <styleClass>
                                                                   <String fx:value="botonBuscar" />
                                                                   <String fx:value="botonBuscarChico" />
@@ -1715,6 +1419,15 @@
                                                                <HBox.margin>
                                                                   <Insets left="5.0" />
                                                                </HBox.margin>
+                                                               <graphic>
+                                                                  <AnchorPane>
+                                                                     <children>
+                                                                        <CubicCurve controlX1="20.0" controlX2="30.0" controlY1="15.0" controlY2="15.0" endX="35.0" endY="25.0" fill="DODGERBLUE" layoutX="3.0" layoutY="6.0" startX="15.0" startY="25.0" stroke="BLACK" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                                        <CubicCurve controlX1="20.0" controlX2="30.0" controlY1="35.0" controlY2="35.0" endX="35.0" endY="25.0" fill="DODGERBLUE" layoutX="13.0" layoutY="16.0" startX="15.0" startY="25.0" stroke="BLACK" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="8.0" />
+                                                                        <Circle centerX="100.0" centerY="100.0" fill="DODGERBLUE" layoutX="94.0" layoutY="58.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="9.5" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="7.0" />
+                                                                     </children>
+                                                                  </AnchorPane>
+                                                               </graphic>
                                                             </Button>
                                                          </children>
                                                       </HBox>
@@ -1726,17 +1439,10 @@
                                                             <Insets top="20.0" />
                                                          </padding>
                                                       </Label>
-                                                      <HBox>
+                                                      <HBox fx:id="hbHtmlEditObsevacionDiagnostico">
                                                          <children>
-                                                            <TextArea fx:id="cajaObservacionDiagnostico" accessibleText="diagnostico" promptText="ingresar observación" styleClass="cajasArea" />
+                                                            <HTMLEditor fx:id="htmlObservacionDiagnostico" htmlText="&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body contenteditable=&quot;true&quot;&gt;&lt;/body&gt;&lt;/html&gt;" styleClass="html-toolBar-achicar" stylesheets="@styles/htmlEditor.css" />
                                                             <Button fx:id="botonVerObservacionDiagnostico" mnemonicParsing="false" onMouseClicked="#agrandarCajaParaVer" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
-                                                               <graphic>
-                                                                  <ImageView fitHeight="20.0" fitWidth="20.0" onMouseClicked="#agrandarCajaParaVer" pickOnBounds="true" preserveRatio="true">
-                                                                     <image>
-                                                                        <Image url="@img/verCajas.png" />
-                                                                     </image>
-                                                                  </ImageView>
-                                                               </graphic>
                                                                <styleClass>
                                                                   <String fx:value="botonBuscar" />
                                                                   <String fx:value="botonBuscarChico" />
@@ -1744,12 +1450,21 @@
                                                                <HBox.margin>
                                                                   <Insets left="5.0" />
                                                                </HBox.margin>
+                                                               <graphic>
+                                                                  <AnchorPane>
+                                                                     <children>
+                                                                        <CubicCurve controlX1="20.0" controlX2="30.0" controlY1="15.0" controlY2="15.0" endX="35.0" endY="25.0" fill="DODGERBLUE" layoutX="3.0" layoutY="6.0" startX="15.0" startY="25.0" stroke="BLACK" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                                        <CubicCurve controlX1="20.0" controlX2="30.0" controlY1="35.0" controlY2="35.0" endX="35.0" endY="25.0" fill="DODGERBLUE" layoutX="13.0" layoutY="16.0" startX="15.0" startY="25.0" stroke="BLACK" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="8.0" />
+                                                                        <Circle centerX="100.0" centerY="100.0" fill="DODGERBLUE" layoutX="94.0" layoutY="58.0" radius="3.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="9.5" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="7.0" />
+                                                                     </children>
+                                                                  </AnchorPane>
+                                                               </graphic>
                                                             </Button>
                                                          </children>
                                                       </HBox>
                                                    </children>
                                                    <HBox.margin>
-                                                      <Insets left="100.0" />
+                                                      <Insets />
                                                    </HBox.margin>
                                                 </VBox>
                                              </children>
@@ -1766,7 +1481,7 @@
                               <Font size="14.0" />
                            </font>
                       </TitledPane>
-                        <TitledPane fx:id="titlePaneGenograma" alignment="BASELINE_LEFT" contentDisplay="CENTER" onMouseClicked="#expandirTitledPane" text="Genograma">
+                        <TitledPane fx:id="titlePaneGenograma" alignment="BASELINE_LEFT" contentDisplay="CENTER" onMouseClicked="#expandirTitledPane" text="Informes">
                           <content>
                             <AnchorPane fx:id="apGenograma" />
                           </content>
@@ -1786,13 +1501,6 @@
                                           <HBox fx:id="botoneraCrudObraSocialPaciente" alignment="BOTTOM_RIGHT" prefHeight="30.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                                              <children>
                                                 <Button fx:id="botonAgregarObraSocialPaciente" mnemonicParsing="false" onMouseClicked="#crearObraSocialPaciente" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
-                                                   <graphic>
-                                                      <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@img/agregar_%23path58.png" />
-                                                         </image>
-                                                      </ImageView>
-                                                   </graphic>
                                                    <HBox.margin>
                                                       <Insets left="5.0" />
                                                    </HBox.margin>
@@ -1800,15 +1508,16 @@
                                                       <String fx:value="botonBuscar" />
                                                       <String fx:value="botonBuscarChico" />
                                                    </styleClass>
+                                                   <graphic>
+                                                      <AnchorPane>
+                                                         <children>
+                                                            <Line endY="12.0" strokeWidth="5.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                            <Line endX="12.0" strokeWidth="5.0" styleClass="figuraBoton" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </graphic>
                                                 </Button>
                                                 <Button fx:id="botonActualizarObraSocialPaciente" mnemonicParsing="false" onMouseClicked="#actualizarObraSocialPaciente" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
-                                                   <graphic>
-                                                      <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@img/actualizar.png" />
-                                                         </image>
-                                                      </ImageView>
-                                                   </graphic>
                                                    <HBox.margin>
                                                       <Insets left="5.0" />
                                                    </HBox.margin>
@@ -1816,15 +1525,18 @@
                                                       <String fx:value="botonBuscar" />
                                                       <String fx:value="botonBuscarChico" />
                                                    </styleClass>
+                                                   <graphic>
+                                                      <AnchorPane prefHeight="19.0" prefWidth="22.0">
+                                                         <children>
+                                                            <Line endX="6.0" rotate="90.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="8.0" />
+                                                            <Line endX="10.0" layoutY="18.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="16.0" />
+                                                            <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="4.2" AnchorPane.topAnchor="3.0" />
+                                                            <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="-45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.rightAnchor="4.2" AnchorPane.topAnchor="3.0" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </graphic>
                                                 </Button>
                                                 <Button fx:id="botonEliminarObraSocialPaciente" mnemonicParsing="false" onMouseClicked="#eliminarObraSocialPaciente" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
-                                                   <graphic>
-                                                      <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@img/menos.png" />
-                                                         </image>
-                                                      </ImageView>
-                                                   </graphic>
                                                    <HBox.margin>
                                                       <Insets left="5.0" />
                                                    </HBox.margin>
@@ -1832,12 +1544,19 @@
                                                       <String fx:value="botonBuscar" />
                                                       <String fx:value="botonBuscarChico" />
                                                    </styleClass>
+                                                   <graphic>
+                                                      <AnchorPane>
+                                                         <children>
+                                                            <Rectangle fill="DODGERBLUE" height="5.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0" styleClass="figuraBoton" width="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="5.0" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </graphic>
                                                 </Button>
                                              </children>
                                           </HBox>
                                        </right>
                                        <center>
-                                          <HBox alignment="CENTER" prefHeight="100.0" prefWidth="1000.0" BorderPane.alignment="BOTTOM_CENTER">
+                                          <HBox alignment="CENTER" prefWidth="1000.0" BorderPane.alignment="BOTTOM_CENTER">
                                              <children>
                                                 <VBox alignment="CENTER_LEFT" prefWidth="400.0">
                                                    <children>
@@ -1979,7 +1698,16 @@
                         </TitledPane>
                     </panes>
                   </Accordion>
+                  <Label fx:id="labelNombreDeUsuario1" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="552.0" layoutY="18.0" pickOnBounds="false" prefHeight="20.0" prefWidth="200.0" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" AnchorPane.rightAnchor="110.0" AnchorPane.topAnchor="10.0">
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor>
+                  </Label>
                </children>
+               <styleClass>
+                  <String fx:value="apPacientes" />
+                  <String fx:value="root" />
+               </styleClass>
             </AnchorPane>
             <Button fx:id="botonMaximizarDesmaximizado" minHeight="10.0" minWidth="10.0" mnemonicParsing="false" onMouseClicked="#maximizarMenuInicio" prefHeight="10.0" prefWidth="10.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="10.0">
                <stylesheets>
@@ -1994,14 +1722,14 @@
                   <Font name="Khmer OS System" size="22.0" />
                </font>
                <graphic>
-                  <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@img/maximizar.png" />
-                     </image>
-                  </ImageView>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Rectangle fill="DODGERBLUE" height="12.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0" styleClass="figuraBoton" width="15.0" />
+                     </children>
+                  </AnchorPane>
                </graphic>
             </Button>
-            <Button minHeight="10.0" minWidth="10.0" mnemonicParsing="false" onMouseClicked="#salir" prefHeight="10.0" prefWidth="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+            <Button fx:id="botonCerrar" minHeight="10.0" minWidth="10.0" mnemonicParsing="false" onMouseClicked="#salir" prefHeight="10.0" prefWidth="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                <stylesheets>
                   <URL value="@styles/calendario.css" />
                   <URL value="@styles/menuinicio.css" />
@@ -2014,18 +1742,15 @@
                   <Font name="Khmer OS System" size="22.0" />
                </font>
                <graphic>
-                  <Label styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="x">
-                     <font>
-                        <Font name="Ubuntu Bold" size="20.0" />
-                     </font>
-                  </Label>
+                  <AnchorPane>
+                     <children>
+                        <Line endX="15.0" layoutX="5.0" layoutY="9.0" rotate="-45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="0.0" />
+                        <Line endX="15.0" layoutX="2.0" layoutY="6.0" rotate="45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="3.0" AnchorPane.rightAnchor="0.0" />
+                     </children>
+                  </AnchorPane>
                </graphic>
             </Button>
             <Button fx:id="botonMinimizar" layoutX="10.0" layoutY="10.0" minHeight="10.0" minWidth="10.0" mnemonicParsing="false" onMouseClicked="#minimizarVentana" prefHeight="10.0" prefWidth="10.0" AnchorPane.rightAnchor="70.0">
-               <stylesheets>
-                  <URL value="@styles/calendario.css" />
-                  <URL value="@styles/menuinicio.css" />
-               </stylesheets>
                <styleClass>
                   <String fx:value="botonBuscar" />
                   <String fx:value="botonBuscarChico" />
@@ -2033,12 +1758,16 @@
                <font>
                   <Font name="Khmer OS System" size="22.0" />
                </font>
+               <stylesheets>
+                  <URL value="@styles/calendario.css" />
+                  <URL value="@styles/menuinicio.css" />
+               </stylesheets>
                <graphic>
-                  <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@img/menos.png" />
-                     </image>
-                  </ImageView>
+                  <AnchorPane>
+                     <children>
+                        <Rectangle fill="DODGERBLUE" height="5.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0" styleClass="figuraBoton" width="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="2.0" />
+                     </children>
+                  </AnchorPane>
                </graphic>
             </Button>
          </children>

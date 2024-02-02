@@ -4,32 +4,21 @@
  */
 package com.pacientes.gestor_pacientes.implementacionDAO.Paciente;
 
-import com.google.common.collect.ImmutableMap;
 
-import com.pacientes.gestor_pacientes.DAO.CRUD;
 import com.pacientes.gestor_pacientes.DAO.IPacienteDAO;
-import com.pacientes.gestor_pacientes.controlador.MenuInicioController;
-import com.pacientes.gestor_pacientes.implementacionDAO.Paciente.DatosPrincipalesDAOImplementacion;
-import com.pacientes.gestor_pacientes.implementacionDAO.Paciente.DiagnosticoDAOImplementacion;
-import com.pacientes.gestor_pacientes.implementacionDAO.Paciente.ObraSocialPacienteDAOImplementacion;
-import com.pacientes.gestor_pacientes.implementacionDAO.Paciente.PlanTratamientoDAOImplementacion;
-import com.pacientes.gestor_pacientes.implementacionDAO.Paciente.SesionDAOImplementacion;
+
 import com.pacientes.gestor_pacientes.implementacionDAO.PadreDAOImplementacion;
 import com.pacientes.gestor_pacientes.modelo.*;
-import com.pacientes.gestor_pacientes.servicios.ConexionMariadb;
-import com.pacientes.gestor_pacientes.servicios.Encriptar;
+
 import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
-import java.sql.CallableStatement;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Map;
+
 import java.util.Objects;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+
 
 /**
  *

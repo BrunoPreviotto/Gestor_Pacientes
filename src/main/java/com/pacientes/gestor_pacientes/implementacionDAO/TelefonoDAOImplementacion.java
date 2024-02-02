@@ -5,7 +5,7 @@
 package com.pacientes.gestor_pacientes.implementacionDAO;
 
 import com.pacientes.gestor_pacientes.DAO.CRUD;
-import com.pacientes.gestor_pacientes.implementacionDAO.PadreDAOImplementacion;
+
 import com.pacientes.gestor_pacientes.modelo.Telefono;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

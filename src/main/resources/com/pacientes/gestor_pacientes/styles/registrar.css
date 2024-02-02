@@ -2,29 +2,41 @@
  * Empty Stylesheet file.
  */
 
-.mainFxmlClass {
-    -fx-background-color: #ffffff;
-    -fx-border-color: #ffffff #ffffff #C02A00 #ffffff;
-    -fx-border-width: 1px 1px 1px 1px;
-    -fx-border-style: solid;
+.root{
+    -fx-color-fondo: #ffffff;
+    
+    -fx-background-color: -fx-color-fondo;
+    
+    -fx-color-1: #C02A00;
+    -fx-color-2: rgba(224, 111, 78);
+    -fx-color-3: rgba(255, 179, 156);
+    -fx-color-4: rgba(255, 236, 231);
+    
+    /*opaque*/
+    -fx-color-1-opaque: rgba(192, 42, 0, 0.5);
+    -fx-color-2-opaque: rgba(224, 111, 78, 0.5);
+    -fx-color-3-opaque: rgba(255, 179, 156, 0.5);
+    -fx-color-4-opaque: rgba(255, 236, 231, 0.5);
+    
+    -fx-border-color: -fx-color-1;
 }
 
 
 .cajas{
     -fx-background-color: #ffffff;
-    -fx-border-color: #ffffff #ffffff #C02A00 #ffffff;
+    -fx-border-color: #ffffff #ffffff -fx-color-1 #ffffff;
     -fx-border-width: 1px 1px 1px 1px;
     -fx-border-style: solid;
 }
 
 .botonRegistrarse{
     
-    -fx-text-fill: rgba(255, 179, 156, 0.5);
+    -fx-text-fill: -fx-color-3-opaque;
     -fx-font-family: "Sawasdee";
      -fx-font-weight: bold;
      
-    -fx-background-color: rgba(255, 179, 156);
-    -fx-border-color: rgba(224, 111, 78);
+    -fx-background-color: -fx-color-3;
+    -fx-border-color: -fx-color-2;
     
     -fx-border-radius: 1;
     -fx-background-radius: 1;
@@ -34,11 +46,11 @@
 }
 
 .botonRegistrarse:hover{ 
-    /*-fx-effect: innershadow(one-pass-box, rgba(255, 179, 156), 30, 0, 0, 5);
-    -fx-text-fill: #C02A00;*/
+    /*-fx-effect: innershadow(one-pass-box, -fx-color-3, 30, 0, 0, 5);
+    -fx-text-fill: -fx-color-1;*/
     
-    -fx-effect: innershadow(one-pass-box, rgba(192, 42, 0, 0.5), 25, 0, 0, 0);
-    -fx-text-fill: #C02A00;
+    -fx-effect: innershadow(one-pass-box, -fx-color-1-opaque, 25, 0, 0, 0);
+    -fx-text-fill: -fx-color-1;
     
    
     
@@ -46,7 +58,7 @@
 
 .label{
     
-    -fx-text-fill: #C02A00;
+    -fx-text-fill: -fx-color-1;
     -fx-font-family: "Sawasdee";
      -fx-font-weight: bold;
      
