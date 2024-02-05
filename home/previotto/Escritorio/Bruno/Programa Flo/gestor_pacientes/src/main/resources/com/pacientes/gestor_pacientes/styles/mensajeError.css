@@ -1,0 +1,58 @@
+.root{
+    -fx-color-1: #C02A00;
+    -fx-color-2: rgba(224, 111, 78);
+    -fx-color-3: rgba(255, 179, 156);
+    -fx-color-4: rgba(255, 236, 231);
+    
+    /*opaque*/
+    -fx-color-1-opaque: rgba(192, 42, 0, 0.5);
+    -fx-color-2-opaque: rgba(224, 111, 78, 0.5);
+    -fx-color-3-opaque: rgba(255, 179, 156, 0.5);
+    -fx-color-4-opaque: rgba(255, 236, 231, 0.5);
+    
+    -fx-border-color: -fx-color-1;
+   
+}
+
+
+
+.label{
+    -fx-text-fill: -fx-color-1;
+    -fx-font-family: "Sawasdee";
+    -fx-font-weight: bold;
+}
+
+
+.botonBuscarChico{
+   -fx-min-width: 25px;
+   -fx-min-height: 25px;
+   -fx-max-width: 25px;
+   -fx-max-height: 25px;
+   
+   
+}
+
+
+
+.botonBuscarChico .label{
+   -fx-font-size: 15px;
+   -fx-content-display: center;
+   -fx-alignment: center;
+}
+
+
+.botonBuscar{
+    
+    -fx-border-radius: 1;
+    -fx-background-radius: 1;
+    -fx-background-insets: 1,2,3;
+   
+    -fx-background-color: -fx-color-3-opaque;
+    -fx-border-color: rgba(224, 111, 78);
+    -fx-text-fill: -fx-color-1;
+    -fx-content-display: center;
+   -fx-alignment: center;
+   
+     
+      
+}

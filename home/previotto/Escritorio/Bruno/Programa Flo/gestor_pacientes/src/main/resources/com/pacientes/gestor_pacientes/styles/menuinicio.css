@@ -1,0 +1,490 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+* {
+    
+}
+
+.root{
+    
+    -fx-color-fondo: #ffffff;
+    
+    -fx-background-color: -fx-color-fondo;
+    
+    -fx-color-1: #C02A00;
+    -fx-color-2: rgba(224, 111, 78);
+    -fx-color-3: rgba(255, 179, 156);
+    -fx-color-4: rgba(255, 236, 231);
+    
+    /*opaque*/
+    -fx-color-1-opaque: rgba(192, 42, 0, 0.5);
+    -fx-color-2-opaque: rgba(224, 111, 78, 0.5);
+    -fx-color-3-opaque: rgba(255, 179, 156, 0.5);
+    -fx-color-4-opaque: rgba(255, 236, 231, 0.5);
+    
+    -fx-border-color: -fx-color-1;
+}
+
+
+.labelLado{
+    -fx-text-fill:  -fx-color-1;
+    
+     
+    /*-fx-font-size: 14px; */
+    
+    
+}
+
+.labelCuerpo{
+    -fx-text-fill:  -fx-color-1;
+    
+    -fx-font-family: Sawasdee;  
+    -fx-font-size: 14px; /* Cambia el tamaño de fuente */
+    
+    -fx-font-weight: bold; /* Cambia el grosor de la fuente (negrita) */
+    
+    
+}
+
+.labelTitulo{
+    -fx-text-fill:  -fx-color-1;
+    
+     
+    -fx-font-size: 16px; /* Cambia el tamaño de fuente */
+    
+    -fx-font-weight: bold; /* Cambia el grosor de la fuente (negrita) */
+    
+    
+}
+
+.labelTituloSinTamano{
+    -fx-text-fill:  -fx-color-1;
+    
+    -fx-font-weight: bold; /* Cambia el grosor de la fuente (negrita) */
+    
+    
+}
+
+.menuEleccion{
+    -fx-border-color: -fx-color-1;
+    
+    -fx-background-color: #ffffff;
+    
+}
+
+.apPacientes{
+   
+    -fx-border-color: -fx-color-1;
+   
+    
+    
+}
+
+.cajasAreaTexto{
+    
+}
+
+
+.figuraBoton{
+    -fx-fill: -fx-color-3;
+    -fx-stroke: -fx-color-1;
+}
+
+.figuraDeco{
+    -fx-fill: -fx-color-1;
+    -fx-stroke: -fx-color-1;
+}
+
+.elementoMenuEleccion{
+    -fx-min-width: 90px;
+   -fx-min-height: 30px;
+   -fx-max-width: 90px;
+   -fx-max-height: 30px;
+    
+    -fx-background-color: #ffffff;
+    -fx-border-color: -fx-color-2;
+    
+    -fx-background-radius: 1;
+    
+    -fx-border-radius: 1;
+    -fx-background-insets: 1,2,3;
+    
+    -fx-border-width: 0 0 2 0;
+    
+  -fx-effect: innershadow(one-pass-box, -fx-color-4, 5, 0, 1, -5);
+    
+}
+
+.cajasRellenarHtml  {
+    -fx-background-color:red;
+    -fx-border-width: 10;
+     -fx-border-color: pink;
+   
+}
+
+
+
+.elementoMenuEleccion:hover{
+    
+    -fx-effect: innershadow(one-pass-box, -fx-color-3-opaque, 10, 0, 5, -8);
+    -fx-text-fill: -fx-color-1;
+
+}
+
+.botonBuscarGrande{
+     -fx-min-width: 40px;
+   -fx-min-height: 25px;
+   -fx-max-width: 80px;
+   -fx-max-height: 25px;
+      
+     -fx-font-family: "Sawasdee";
+    
+     
+     
+}
+
+
+
+.botonBuscarGrande .label{
+    -fx-font-size: 16px;
+    -fx-content-display: center;
+    -fx-alignment: center;
+     
+     
+}
+
+.botonBuscarChico{
+   -fx-min-width: 25px;
+   -fx-min-height: 25px;
+   -fx-max-width: 25px;
+   -fx-max-height: 25px;
+   
+   
+}
+
+.botonBuscarChico .image-view{
+   -fx-min-width: 5px;
+   -fx-min-height: 5px;
+   -fx-max-width: 5px;
+   -fx-max-height: 5px;
+   -fx-pref-height: 5px;
+   -fx-pref-width: 5px;
+   
+}
+
+.botonBuscarChico .label{
+   -fx-font-size: 15px;
+   -fx-content-display: center;
+   -fx-alignment: center;
+}
+
+
+.botonBuscar{
+    
+    -fx-border-radius: 1;
+    -fx-background-radius: 1;
+    -fx-background-insets: 1,2,3;
+   
+    -fx-background-color: -fx-color-3;
+    -fx-border-color: -fx-color-2;
+    -fx-text-fill: -fx-color-1;
+    -fx-content-display: center;
+    -fx-alignment: center;
+   
+     
+      
+}
+
+
+
+.botonBuscar:hover{ 
+    /*-fx-effect: innershadow(one-pass-box, -fx-color-3, 30, 0, 0, 5);
+    -fx-text-fill: -fx-color-1;*/
+    
+    -fx-effect: innershadow(one-pass-box, -fx-color-1-opaque, 25, 0, 0, 0);
+    -fx-text-fill: -fx-color-1;
+    
+   
+    
+}
+
+
+
+
+.imgMenu{
+    -fx-border-radius: 80;
+    -fx-border-color: -fx-color-2;
+    
+}
+
+.paneNombreUsuario{
+    -fx-background-radius: 10 10 10 10;
+    -fx-background-color: -fx-color-2;
+    -fx-border-color: -fx-color-1;
+    -fx-border-radius: 10 10 10 10;
+    -fx-border-width: 3;
+}
+
+
+.elementoMenuEleccionInvertCuadrado{
+    -fx-border-color: -fx-color-1;
+    -fx-background-color: -fx-color-2;
+    -fx-background-radius: 0 50 0 0;
+    -fx-border-radius: 0 50 0 0;
+    -fx-border-width: 3 3 3 3;
+    -fx-effect: innershadow( one-pass-box , -fx-color-1 , 50 , 0 , 0 , 10 );
+}
+
+.text-field{
+    
+}
+
+.cajas{
+    -fx-effect: innershadow( one-pass-box , -fx-color-2-opaque , 5 , 0 , 0 , -4);
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #ffffff #ffffff -fx-color-2 #ffffff;
+    -fx-border-radius: 0 0 1 1;
+    -fx-background-radius: 0 0 1 1;
+    -fx-border-width: 0px 0px 1px 0px;
+    -fx-text-fill: -fx-color-1;
+  
+}
+
+.cajasChicas{
+     -fx-min-width: 400px;
+   -fx-min-height: 25px;
+   -fx-max-width: 400px;
+   -fx-max-height: 25px;
+   -fx-pref-height: 25px;
+   -fx-pref-width: 400px;
+}
+
+.cajasArea{
+     -fx-effect: innershadow( one-pass-box , -fx-color-2-opaque , 5 , 0 , 0 , -4);
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #ffffff #ffffff -fx-color-2 #ffffff;
+    -fx-border-radius: 0 0 1 1;
+    -fx-background-radius: 0 0 1 1;
+    -fx-border-width: 0px 0px 1px 0px;
+     -fx-min-width: 400px;
+   -fx-min-height: 85px;
+   -fx-max-width: 400px;
+   -fx-max-height: 85px;
+   -fx-pref-height: 85px;
+   -fx-pref-width: 400px;
+    
+    
+}
+
+.cajas .open-button .arrow {
+    -fx-background-color: -fx-color-2;
+    
+   -fx-min-width: 8px;
+   -fx-max-width: 8px;
+   -fx-min-height: 10px;
+   -fx-max-height: 10px;
+    
+    
+}
+
+
+
+.cajasRellenarDatos{
+    
+}
+
+.cajasBuscar{
+    -fx-min-width: 140px;
+   
+   -fx-max-width: 140px;
+   
+}
+
+
+
+.containerPacientes{
+   -fx-background-color: #ffffff;
+}
+
+
+
+
+
+.titled-pane 
+{
+   
+-fx-text-fill: -fx-color-1;
+}
+.titled-pane:focused 
+{
+-fx-text-fill: -fx-color-1;
+}
+.titled-pane > .title 
+{
+    /*-fx-background-color: -fx-color-3;
+        -fx-border-color: -fx-color-3;;*/
+    
+-fx-background-color: -fx-color-3;
+
+-fx-background-insets: 0, 1, 2;
+-fx-background-radius: 1 1 1 1;
+ /*-fx-pref-width: 100000000;*/
+ -fx-pref-height: 40;
+-fx-effect: innershadow( one-pass-box , -fx-color-2 , 10 , 0 , 0 , 3 );
+}
+
+.titled-pane:focused > .title 
+{
+-fx-color: blue;
+}
+
+.titled-pane > .title > .arrow-button 
+{
+-fx-background-color: null;
+-fx-background-insets: 0;
+-fx-background-radius: 0;
+}
+
+.titled-pane > .title > .arrow-button .arrow 
+{
+-fx-background-color: white, -fx-color-1;
+-fx-background-insets: 1 0 -1 0, 0;
+-fx-shape: "M 0 0 h 7 l -3.5 4 z";
+}
+
+.titled-pane:collapsed > .title > .arrow-button .arrow 
+{
+-fx-rotate: -90;
+}
+
+.titled-pane > *.content 
+{
+-fx-background-color: -fx-box-border, linear-gradient(to bottom, derive(-fx-color,-02%), derive(-fx-color,65%) 12%,      derive(-fx-color,23%) 88%, derive(-fx-color,50%) 99%, -fx-box-border);
+-fx-background-insets: 0, 0 1 1 1;
+
+
+ }
+
+.titled-pane:focused > .title > .arrow-button .arrow 
+{
+-fx-background-color: white;
+}
+
+.rectanguloMenu{
+    
+    -fx-background-color: white;
+    
+    
+    -fx-background-radius: 0px 50px 100px 0px;
+    
+    -fx-effect: innershadow( three-pass-box , -fx-color-1, 1, 0 , -1, -1);
+}
+
+.cajasARellenar{
+    -fx-background-color: pink;
+    -fx-control-inner-background: pink;
+}
+
+
+
+
+.decoracionTabla {
+    /*-fx-background-color: -fx-color-3;
+        -fx-border-color: -fx-color-3;;*/
+   -fx-background-color: -fx-color-2;
+}
+
+.decoracionTabla .column-header{
+    -fx-background-color: -fx-color-3;
+    
+}
+
+.decoracionTabla .column-header .label{
+    -fx-text-fill: -fx-color-1;
+}
+
+.decoracionTabla .table-row-cell {
+    -fx-background-color: -fx-color-4;
+    
+    
+}
+
+.decoracionTabla .table-row-cell:odd {
+    -fx-background-color: #ffffff;
+    
+}
+
+.decoracionTabla .table-row-cell:selected {
+    -fx-background-color: rgba(121, 123, 117, 0.5);
+}
+
+.decoracionTabla .scroll-bar:vertical {
+    -fx-background-color: -fx-color-3;
+}
+
+.decoracionTabla .scroll-bar:vertical-thumb {
+    -fx-background-color: #ffffff;
+}
+
+.decoracionTabla .scroll-bar:vertical-thumb:hover {
+    -fx-background-color: rgba(121, 123, 117, 0.5);
+}
+
+.decoracionTabla .scroll-bar:vertical-thumb:pressed {
+    -fx-background-color: rgba(61, 62, 59, 0.5);
+}
+
+
+.decoracionTabla .scroll-bar:horizontal {
+    -fx-background-color: -fx-color-3;
+}
+
+.decoracionTabla .scroll-bar:horizontal-thumb {
+    -fx-background-color: #ffffff;
+}
+
+.decoracionTabla .scroll-bar:horizontal-thumb:hover {
+    -fx-background-color: rgba(121, 123, 117, 0.5);
+}
+
+.decoracionTabla .scroll-bar:horizontal-thumb:pressed {
+    -fx-background-color: rgba(61, 62, 59, 0.5);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.cajasAEsconder{
+    
+}
+
+.crear{
+    
+}
+
+.eliminarActualizar{
+    
+}
+
+

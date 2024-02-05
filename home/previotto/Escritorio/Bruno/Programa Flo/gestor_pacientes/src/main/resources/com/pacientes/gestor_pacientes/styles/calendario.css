@@ -1,0 +1,187 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 2 ene 2023, 15:51:09
+    Author     : previotto
+*/
+
+
+
+.root{
+    -fx-color-1: #C02A00;
+    -fx-color-2: rgba(224, 111, 78);
+    -fx-color-3: rgba(255, 179, 156);
+    -fx-color-4: rgba(255, 236, 231);
+    
+    /*opaque*/
+    -fx-color-1-opaque: rgba(192, 42, 0, 0.5);
+    -fx-color-2-opaque: rgba(224, 111, 78, 0.5);
+    -fx-color-3-opaque: rgba(255, 179, 156, 0.5);
+    -fx-color-4-opaque: rgba(255, 236, 231, 0.5);
+    
+    -fx-border-color: -fx-color-1;
+}
+
+
+
+
+.calendario{
+    
+     -fx-effect: dropshadow( gaussian , rgba(192, 192, 192, 0.8) , 10, 0, -5, -5);
+     
+}
+
+.calendario Line {
+     
+  -fx-stroke   :  rgba(255, 255, 255);
+  
+}
+
+.check-box{
+    -fx-text-fill: -fx-color-1;
+    -fx-font-family: "Sawasdee";
+     -fx-font-weight: bold;
+}
+
+.check-box .box{
+    -fx-background-color: -fx-color-3-opaque;
+    -fx-border-color: -fx-color-2-opaque;
+    
+}
+
+.check-box:selected .mark{
+    -fx-background-color: -fx-color-1;
+}
+
+.calendarioCeldaPar {
+   -fx-background-color: -fx-color-3-opaque;
+   -fx-border-color: -fx-color-2-opaque;
+   
+   
+    
+}
+
+.calendarioCeldaDiaActual {
+   -fx-background-color: -fx-color-1-opaque;
+   -fx-border-color: -fx-color-1;
+}
+
+.calendarioCeldaDistintomes {
+   -fx-background-color: rgba(158, 158, 158, 0.5);
+   
+   -fx-border-color: rgba(109, 109, 109, 0.5);
+  
+   
+    
+}
+
+.cabeceraVerCambiarAcciones{
+    -fx-background-color: -fx-color-3-opaque;
+    -fx-border-color: -fx-color-1;
+    -fx-text-fill: -fx-color-2;
+    -fx-alignment: center;
+}
+
+.botonVerCambiar{
+    -fx-background-color: -fx-color-3;
+    -fx-border-color: -fx-color-2-opaque;
+    -fx-text-fill: -fx-color-2;
+}
+
+.botonHoraYFecha{
+    -fx-background-color: -fx-color-3;
+    -fx-border-color: -fx-color-2-opaque;
+    -fx-text-fill: -fx-color-1;
+    -fx-alignment: center;
+}
+
+
+.mesCalendario{
+    -fx-font-weight: bold; 
+    -fx-font-style: italic;
+    -fx-font-size: 30px;
+}
+
+.anoCalendario{
+    -fx-font-weight: bold; 
+    -fx-font-style: italic;
+    -fx-font-size: 60px;
+}
+
+
+.cal{
+    -fx-background-color: #FFB39C;
+}
+
+.calendarioCeldaImpar {
+    
+    -fx-background-color: -fx-color-4-opaque;
+    -fx-border-color: -fx-color-2-opaque;
+    
+    
+}
+
+.etiquetaDia{
+    
+}
+
+.cbPorAccion .box{
+    -fx-pref-height: 30; 	
+    -fx-pref-width: 30; 
+}
+
+.cbPorAccion .mark{
+    -fx-pref-width: 10;
+    -fx-pref-width: 10; 
+}
+
+
+.AnchorHojas{
+    
+   -fx-background-color: rgb(252, 237, 233);
+   -fx-border-color: rgba(192, 192, 192, 0.8);
+   -fx-border-width: 1 1 0 1;
+   -fx-effect: dropshadow( gaussian , rgba(192, 192, 192, 0.8) , 10, 0, -5, -5);
+}
+
+.AnchorBorde{
+    -fx-border-radius: 0 50 0 0;
+   -fx-effect: dropshadow( gaussian , rgba(192, 192, 192, 0.8) , 10, 0, -5, -5);
+   -fx-border-color: gray;
+   -fx-border-width: 1 1 1 1;
+   
+}
+
+.paneCalendarios{
+    -fx-border-radius: 50 50 50 50;
+}
+
+.labelDiaDeOtroMes{
+     -fx-text-fill: gray;
+}
+
+
+
+.label{
+    /*-fx-text-fill:  -fx-color-1;*/
+    
+     
+    /*-fx-font-size: 14px; */
+    
+    
+}
+
+
+
+.scroll-pane .scroll-bar {
+    -fx-background-color: -fx-color-4-opaque;
+    -fx-border-color: rgba(224, 139, 116, 0.5);
+}
+
+.scroll-pane .increment-button,
+.scroll-pane .decrement-button {
+   fx-background-color: -fx-color-4-opaque;
+    -fx-border-color: rgba(224, 139, 116, 0.5);
+}
