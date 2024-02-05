@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="anchorAccionVer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pacientes.gestor_pacientes.controlador.AgendaController">
+   <children>
+      <Label styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text=":" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="140.0">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Button layoutX="1096.0" layoutY="12.0" minHeight="10.0" minWidth="10.0" mnemonicParsing="false" onMouseClicked="#salir" prefHeight="10.0" prefWidth="10.0" stylesheets="@styles/menuinicio.css" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <font>
+            <Font name="Khmer OS System" size="22.0" />
+         </font>
+         <styleClass>
+            <String fx:value="botonBuscar" />
+            <String fx:value="botonBuscarChico" />
+         </styleClass>
+         <graphic>
+            <AnchorPane>
+               <children>
+                  <Line endX="15.0" layoutX="5.0" layoutY="9.0" rotate="-45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="0.0" />
+                  <Line endX="15.0" layoutX="2.0" layoutY="6.0" rotate="45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="3.0" AnchorPane.rightAnchor="0.0" />
+               </children>
+            </AnchorPane>
+         </graphic>
+      </Button>
+      <TextArea fx:id="cajaAreaVerAccionAgenda" accessibleHelp="controlImportante" layoutX="200.0" layoutY="100.0" onKeyPressed="#volverCajaALaNormalidad" prefHeight="90.0" prefWidth="500.0" styleClass="cajas" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="40.0" />
+      <HBox layoutX="428.0" layoutY="364.0" prefHeight="22.0" prefWidth="122.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="50.0">
+         <children>
+            <Button fx:id="botonCrearAccionAgenda" mnemonicParsing="false" onMouseClicked="#crearAccionAgenda" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+               <styleClass>
+                  <String fx:value="botonBuscar" />
+                  <String fx:value="botonBuscarChico" />
+               </styleClass>
+               <graphic>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Line endY="12.0" strokeWidth="5.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <Line endX="12.0" strokeWidth="5.0" styleClass="figuraBoton" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0" />
+                     </children>
+                  </AnchorPane>
+               </graphic>
+            </Button>
+            <Button fx:id="botonActualizarAccionAgenda" disable="true" mnemonicParsing="false" onMouseClicked="#actualizarAccionAgenda" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+               <styleClass>
+                  <String fx:value="botonBuscar" />
+                  <String fx:value="botonBuscarChico" />
+               </styleClass>
+               <graphic>
+                  <AnchorPane prefHeight="19.0" prefWidth="22.0">
+                     <children>
+                        <Line endX="6.0" rotate="90.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="8.0" />
+                        <Line endX="10.0" layoutY="18.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="16.0" />
+                        <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="4.2" AnchorPane.topAnchor="3.0" />
+                        <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="-45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.rightAnchor="4.2" AnchorPane.topAnchor="3.0" />
+                     </children>
+                  </AnchorPane>
+               </graphic>
+            </Button>
+            <Button fx:id="botonEliminarAccionAgenda" disable="true" mnemonicParsing="false" onMouseClicked="#eliminarAccionAgenda" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+               <styleClass>
+                  <String fx:value="botonBuscar" />
+                  <String fx:value="botonBuscarChico" />
+               </styleClass>
+               <graphic>
+                  <AnchorPane>
+                     <children>
+                        <Rectangle fill="DODGERBLUE" height="5.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0" styleClass="figuraBoton" width="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="5.0" />
+                     </children>
+                  </AnchorPane>
+               </graphic>
+            </Button>
+            <Button fx:id="botonRetornarAccionAgenda" mnemonicParsing="false" onMouseClicked="#retornarAccionAgenda" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+               <styleClass>
+                  <String fx:value="botonBuscar" />
+                  <String fx:value="botonBuscarChico" />
+               </styleClass>
+               <graphic>
+                  <AnchorPane nodeOrientation="RIGHT_TO_LEFT" prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Line endX="5.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <Line endX="5.0" rotate="-45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.8" />
+                        <Line endX="5.0" rotate="40.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="7.2" />
+                        <Line endY="5.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <Line endX="14.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="2.0" />
+                     </children>
+                  </AnchorPane>
+               </graphic>
+            </Button>
+         </children>
+      </HBox>
+      <CheckBox fx:id="checkRecordar" layoutX="50.0" layoutY="364.0" mnemonicParsing="false" stylesheets="@styles/calendario.css" text="Recordar" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="50.0" />
+      <ScrollPane fx:id="panelScrollBotonesAcciones" layoutX="121.0" layoutY="54.0" AnchorPane.bottomAnchor="160.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="10.0">
+        <content>
+          <AnchorPane fx:id="anchorScroll" />
+        </content>
+      </ScrollPane>
+      <TextField fx:id="CajaHora" layoutX="10.0" layoutY="318.0" onKeyTyped="#soloNumersoHora" prefHeight="35.0" prefWidth="35.0" styleClass="cajas" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="100.0" />
+      <TextField fx:id="cajaMinutos" layoutX="20.0" layoutY="328.0" onKeyTyped="#soloNumersoMinutos" prefHeight="35.0" prefWidth="35.0" styleClass="cajas" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="150.0" />
+      <Label layoutX="50.0" layoutY="280.0" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Hora" AnchorPane.bottomAnchor="135.0" AnchorPane.leftAnchor="100.0" />
+      <Label layoutX="60.0" layoutY="290.0" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Accion" AnchorPane.bottomAnchor="135.0" AnchorPane.leftAnchor="200.0" />
+      <Label layoutX="51.0" layoutY="642.0" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Id" AnchorPane.bottomAnchor="135.0" AnchorPane.leftAnchor="50.0" />
+      <TextField fx:id="CajaId" disable="true" layoutX="51.0" layoutY="682.0" onKeyTyped="#soloNumersoHora" prefHeight="35.0" prefWidth="35.0" styleClass="cajas" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="50.0" />
+   </children>
+   <stylesheets>
+      <URL value="@styles/calendario.css" />
+      <URL value="@styles/menuinicio.css" />
+   </stylesheets>
+</AnchorPane>
