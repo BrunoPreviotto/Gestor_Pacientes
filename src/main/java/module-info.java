@@ -16,8 +16,11 @@ module com.pacientes.gestor_pacientes {
     
     requires org.jsoup;
     
+    requires org.json;
     
+    requires java.net.http;
     
+    requires maven.invoker;
     
     opens com.pacientes.gestor_pacientes.controlador to javafx.fxml;
     exports com.pacientes.gestor_pacientes;
