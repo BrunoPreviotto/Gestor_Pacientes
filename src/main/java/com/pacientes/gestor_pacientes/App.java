@@ -30,7 +30,7 @@ import javafx.scene.image.Image;
  */
 public class App extends Application {
     
-    //comentario desde intellij
+    
     UsuarioDAOImplementacion usuarioImp = new UsuarioDAOImplementacion();
     
     private static Scene scenePrincipal;
