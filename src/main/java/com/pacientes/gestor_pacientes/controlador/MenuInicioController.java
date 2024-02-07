@@ -99,6 +99,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import org.json.JSONObject;
 
 import org.jsoup.Jsoup;
 
@@ -130,7 +131,7 @@ public class MenuInicioController extends PacienteController implements Initiali
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        
+       
         
         iniciarColorContenedores();
         
@@ -220,7 +221,7 @@ public class MenuInicioController extends PacienteController implements Initiali
         } catch (Exception e) {
         }*/
         
-        
+         actualizarAppAutomaticamente();
     }
     
     
@@ -2758,9 +2759,46 @@ public class MenuInicioController extends PacienteController implements Initiali
    
     @FXML
     public void actualizarAplicacion(){
+        UsuarioDAOImplementacion usuarioDAOImplementacion = new UsuarioDAOImplementacion();
+        
         ClienteActualizacion cliente = new ClienteActualizacion();
         try {
-            cliente.descargarDrive();
+            
+            Stage primaryStage = new Stage();
+
+            // Crear el selector de directorios
+            DirectoryChooser directoryChooser = new DirectoryChooser();
+            directoryChooser.setTitle("Seleccionar Directorio");
+
+            // Mostrar el diálogo y obtener el directorio seleccionado
+            File selectedDirectory = directoryChooser.showDialog(primaryStage);
+            String carpetaDestino = selectedDirectory.getPath() + "/";
+
+            JSONObject json = new  JSONObject(cliente.getReadmeContent());
+            usuarioDAOImplementacion.actualizarRutaActualizarApp(carpetaDestino, json.getString("Versión"));
+            cliente.descargarDrive(carpetaDestino);
+            
+        } catch (Exception e) {
+        }
+    }
+    
+    public void actualizarAppAutomaticamente() {
+        try {
+            UsuarioDAOImplementacion usuarioDAOImplementacion = new UsuarioDAOImplementacion();
+            ClienteActualizacion cliente = new ClienteActualizacion();
+            JSONObject json = new JSONObject(cliente.getReadmeContent());
+
+            String ruta = usuarioDAOImplementacion.obtenerRutaActualizarApp();
+             System.out.println(VariablesEstaticas.getUsuario().getId());
+            System.out.println(ruta);
+            if (ruta.equals("")) {
+               
+                mensajeAdvertenciaError("Determinar carpeta contenedora de programa", this, VariablesEstaticas.imgenAdvertencia);
+            } else {
+                if (!usuarioDAOImplementacion.obtenerVersionActualizarApp(json.getString("Versión"))) {
+                    cliente.descargarDrive(ruta);
+                }
+            }
         } catch (Exception e) {
         }
     }
