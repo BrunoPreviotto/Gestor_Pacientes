@@ -423,7 +423,7 @@ public class UsuarioDAOImplementacion extends PadreDAOImplementacion implements 
             
             
             if(rs.next()){
-                return rs.getString("ruta");
+                return rs.getString("carpeta_actualizacion");
             }
             return "";
             
@@ -474,23 +474,23 @@ public class UsuarioDAOImplementacion extends PadreDAOImplementacion implements 
         PreparedStatement pst;
         
         try {
-            if(obtenerRutaGuardarBD().equals("")){
-                 pst = conexion.conexion().prepareStatement(sqlInsertar);
-                 
-            }else{
+            if (obtenerRutaActualizarApp().equals("")) {
+
+                pst = conexion.conexion().prepareStatement(sqlInsertar);
+
+            } else {
                 pst = conexion.conexion().prepareStatement(sqlActualizar);
-                
+
             }
-            
             pst.setString(1, ruta);
             pst.setString(2, numeroActualizacion);
             pst.setInt(3, VariablesEstaticas.usuario.getId());
             pst.executeUpdate();
-            
+
             pst.close();
-            
+
         } catch (Exception e) {
-            
+            e.printStackTrace();
         }
         
         

@@ -131,7 +131,7 @@ public class MenuInicioController extends PacienteController implements Initiali
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        
+       
         
         iniciarColorContenedores();
         
@@ -221,7 +221,7 @@ public class MenuInicioController extends PacienteController implements Initiali
         } catch (Exception e) {
         }*/
         
-        
+         actualizarAppAutomaticamente();
     }
     
     
@@ -2789,8 +2789,10 @@ public class MenuInicioController extends PacienteController implements Initiali
             JSONObject json = new JSONObject(cliente.getReadmeContent());
 
             String ruta = usuarioDAOImplementacion.obtenerRutaActualizarApp();
-            
+             System.out.println(VariablesEstaticas.getUsuario().getId());
+            System.out.println(ruta);
             if (ruta.equals("")) {
+               
                 mensajeAdvertenciaError("Determinar carpeta contenedora de programa", this, VariablesEstaticas.imgenAdvertencia);
             } else {
                 if (!usuarioDAOImplementacion.obtenerVersionActualizarApp(json.getString("Versión"))) {

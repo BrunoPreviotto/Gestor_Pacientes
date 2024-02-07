@@ -498,7 +498,7 @@
                   <String fx:value="root" />
                </styleClass>
             </AnchorPane>
-            <AnchorPane fx:id="apOpciones" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="apOpciones" stylesheets="@styles/menuinicio.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <TabPane fx:id="tabPaneOpciones" stylesheets="@styles/opciones.css" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <tabs>
@@ -636,7 +636,7 @@
                   <String fx:value="root" />
                </styleClass>
             </AnchorPane>
-            <AnchorPane fx:id="apPacientes" stylesheets="@styles/menuinicio.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="apPacientes" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="30.0" prefWidth="300.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
                     <buttons>
