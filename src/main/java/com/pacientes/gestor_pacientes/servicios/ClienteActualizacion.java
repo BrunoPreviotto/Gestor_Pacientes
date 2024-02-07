@@ -46,31 +46,21 @@ public class ClienteActualizacion {
    
     
     
-    public void descargarDrive()  {
+    public void descargarDrive(String carpetaDestino)  {
        
-        Stage primaryStage = new Stage();
-        
-        // Crear el selector de directorios
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setTitle("Seleccionar Directorio");
-
-        // Mostrar el diálogo y obtener el directorio seleccionado
-        File selectedDirectory = directoryChooser.showDialog(primaryStage);
         
         
 
          String urlRepositorio = "https://github.com/BrunoPreviotto/Gestor_Pacientes.git";
-        String carpetaDestino = selectedDirectory.getPath() + "/";
+        
 
         try {
             limpiarDirectorio(carpetaDestino);
             clonarRepositorio(urlRepositorio, carpetaDestino);
-            //ConstruirApp ca = new ConstruirApp();
+            ConstruirApp ca = new ConstruirApp();
+            ca.construir(carpetaDestino);
             
-            //ca.construir();
-            
-           // JSONObject json = new  JSONObject(getReadmeContent());
-            //System.out.println(json.getString("Versión"));
+           
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -101,7 +91,7 @@ public class ClienteActualizacion {
     }
     
    
-    public static String getReadmeContent() throws IOException {
+    public String getReadmeContent() throws IOException {
         String readmeUrl = "https://raw.githubusercontent.com/BrunoPreviotto/Gestor_Pacientes/master/README.md";
         
         URL url = new URL(readmeUrl);

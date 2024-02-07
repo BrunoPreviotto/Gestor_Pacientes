@@ -13,6 +13,8 @@ import org.apache.maven.shared.invoker.InvocationRequest;
 import org.apache.maven.shared.invoker.InvocationResult;
 
 import java.util.Arrays;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 
 /**
  *
@@ -20,11 +22,14 @@ import java.util.Arrays;
  */
 public class ConstruirApp {
     
-    public void construir() {
+    public void construir(String ruta) {
         // Configurar la solicitud de invocación
         InvocationRequest request = new DefaultInvocationRequest();
-        File file = new File("/home/previotto/Descargas/gestor_pacientes/pom.xml");
-        request.setPomFile(file); // Ruta al archivo pom.xml de tu proyecto
+        
+        
+         
+        
+        request.setPomFile(new File(ruta + "pom.xml")); // Ruta al archivo pom.xml de tu proyecto
         request.setGoals(Arrays.asList("clean", "install")); // Definir las metas Maven: clean install
 
         // Configurar el invocador

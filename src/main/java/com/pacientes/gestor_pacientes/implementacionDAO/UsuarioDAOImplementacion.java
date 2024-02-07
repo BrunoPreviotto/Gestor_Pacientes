@@ -411,4 +411,89 @@ public class UsuarioDAOImplementacion extends PadreDAOImplementacion implements 
         
     }
     
+    
+    
+    public String obtenerRutaActualizarApp(){
+        String sql = "SELECT carpeta_actualizacion FROM actualizaciones a WHERE a.id_usuario = ?;";
+        
+        try {
+            PreparedStatement pst = conexion.conexion().prepareStatement(sql);
+            pst.setInt(1, VariablesEstaticas.usuario.getId());
+            ResultSet rs = pst.executeQuery();
+            
+            
+            if(rs.next()){
+                return rs.getString("ruta");
+            }
+            return "";
+            
+        } catch (Exception e) {
+            return "";
+        }
+        
+        
+    }
+    
+    public boolean obtenerVersionActualizarApp(String numeroActualizacion){
+        String sql = "SELECT numero_actualizacion FROM actualizaciones a WHERE a.id_usuario = ? AND numero_actualizacion LIKE ?;";
+        
+        try {
+            PreparedStatement pst = conexion.conexion().prepareStatement(sql);
+            pst.setInt(1, VariablesEstaticas.usuario.getId());
+            pst.setString(2, numeroActualizacion);
+            ResultSet rs = pst.executeQuery();
+            
+            
+            if(rs.next()){
+                pst.close();
+                return true;
+                 
+            }
+            
+            pst.close();
+            
+            return false;
+            
+        } catch (Exception e) {
+            return false;
+        }
+        
+        
+    }
+    
+    public void actualizarRutaActualizarApp(String ruta, String numeroActualizacion){
+        String sqlActualizar = "UPDATE actualizaciones \n" +
+                                "SET carpeta_actualizacion = ?,\n" +
+                                "numero_actualizacion = ? \n" +
+                                "WHERE  id_usuario = ?;";
+        
+        String sqlInsertar = "INSERT \n" +
+                                "INTO actualizaciones (id_actualizaciones, carpeta_actualizacion, numero_actualizacion, id_usuario) \n" +
+                                "VALUES (0, ?, ?, ?);";
+        
+        PreparedStatement pst;
+        
+        try {
+            if(obtenerRutaGuardarBD().equals("")){
+                 pst = conexion.conexion().prepareStatement(sqlInsertar);
+                 
+            }else{
+                pst = conexion.conexion().prepareStatement(sqlActualizar);
+                
+            }
+            
+            pst.setString(1, ruta);
+            pst.setString(2, numeroActualizacion);
+            pst.setInt(3, VariablesEstaticas.usuario.getId());
+            pst.executeUpdate();
+            
+            pst.close();
+            
+        } catch (Exception e) {
+            
+        }
+        
+        
+    }
+    
 }
