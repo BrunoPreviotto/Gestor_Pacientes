@@ -57,10 +57,7 @@ public class ClienteActualizacion {
         try {
             limpiarDirectorio(carpetaDestino);
             clonarRepositorio(urlRepositorio, carpetaDestino);
-            ConstruirApp ca = new ConstruirApp();
-            ca.construir(carpetaDestino);
             
-           
         } catch (Exception e) {
             e.printStackTrace();
         }
