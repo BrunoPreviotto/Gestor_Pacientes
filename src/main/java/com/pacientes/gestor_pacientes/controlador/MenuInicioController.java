@@ -2775,7 +2775,7 @@ public class MenuInicioController extends PacienteController implements Initiali
             String carpetaDestino = selectedDirectory.getPath() + "/";
 
             JSONObject json = new  JSONObject(cliente.getReadmeContent());
-            usuarioDAOImplementacion.actualizarRutaActualizarApp(carpetaDestino, json.getString("Versión"));
+            usuarioDAOImplementacion.actualizarRutaActualizarApp(carpetaDestino, json.getString("1"));
             cliente.descargarDrive(carpetaDestino);
             
         } catch (Exception e) {
