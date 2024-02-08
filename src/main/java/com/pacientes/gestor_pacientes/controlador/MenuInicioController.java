@@ -2795,7 +2795,7 @@ public class MenuInicioController extends PacienteController implements Initiali
                
                 mensajeAdvertenciaError("Determinar carpeta contenedora de programa", this, VariablesEstaticas.imgenAdvertencia);
             } else {
-                if (!usuarioDAOImplementacion.obtenerVersionActualizarApp(json.getString("Versión"))) {
+                if (!usuarioDAOImplementacion.obtenerVersionActualizarApp(json.getString("1"))) {
                     cliente.descargarDrive(ruta);
                 }
             }
