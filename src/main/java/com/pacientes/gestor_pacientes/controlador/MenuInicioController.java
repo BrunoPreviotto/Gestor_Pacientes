@@ -14,6 +14,7 @@ import static com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas.*;
 import com.pacientes.gestor_pacientes.utilidades.DraggedScene;
 import com.pacientes.gestor_pacientes.utilidades.TablaSesiones;
 
+
 // EXTERNAS
 
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -101,7 +102,7 @@ import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import org.json.JSONObject;
 
-import org.jsoup.Jsoup;
+//import org.jsoup.Jsoup;
 
 
 /**
@@ -130,8 +131,7 @@ public class MenuInicioController extends PacienteController implements Initiali
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-       
+         
         
         iniciarColorContenedores();
         

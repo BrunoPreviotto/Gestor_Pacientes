@@ -11,6 +11,7 @@
     </properties>
     <dependencies>
         
+        
        
         <dependency>
             <groupId>org.apache.maven.shared</groupId>
@@ -31,31 +32,22 @@
             <version>6.8.0.202311291450-r</version> <!-- Reemplaza con la última versión disponible -->
         </dependency>
         
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.15.1</version> <!-- Reemplaza con la última versión disponible -->
-        </dependency>
         
-        <dependency>
-            <groupId>com.dropbox.core</groupId>
-            <artifactId>dropbox-core-sdk</artifactId>
-            <version>6.0.0</version> <!-- Reemplaza con la última versión disponible -->
-        </dependency>
-
         
-        <!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
-        <dependency>
-            <groupId>org.jsoup</groupId>
-            <artifactId>jsoup</artifactId>
-            <version>1.17.2</version>
-        </dependency>
-
+        
         
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>31.1-jre</version>
+            <version>33.0.0-jre</version>
+            <type>jar</type>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-web</artifactId>
+            <version>17.0.2</version>
+            <type>jar</type>
         </dependency>
         
         <dependency>
@@ -63,11 +55,7 @@
             <artifactId>javafx-controls</artifactId>
             <version>13</version>
         </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-fxml</artifactId>
-            <version>13</version>
-        </dependency>
+       
         <!-- https://mvnrepository.com/artifact/com.jfoenix/jfoenix -->
         <dependency>
             <groupId>com.jfoenix</groupId>
@@ -79,7 +67,7 @@
         <dependency>
             <groupId>org.mariadb.jdbc</groupId>
             <artifactId>mariadb-java-client</artifactId>
-            <version>3.0.5</version>
+            <version>3.3.2</version>
         </dependency>
 
 
@@ -102,12 +90,8 @@
             <version>5.6.0</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-web</artifactId>
-            <version>17.0.2</version>
-            <type>jar</type>
-        </dependency>
+        
+        
 
         <dependency>
             <groupId>org.hamcrest</groupId>
@@ -121,32 +105,56 @@
             <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
+        
+        
+        
         <dependency>
-            <groupId>com.google.http-client</groupId>
-            <artifactId>google-http-client-jackson2</artifactId>
-            <version>1.43.3</version>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>1.33</version>
             <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>2.15.2</version>
-            <type>jar</type>
+            
+            
         </dependency>
     </dependencies>
     <build>
         <plugins>
             
             
+            
+            
+            
+           
+             
+            <!-- Agrega la referencia del contenido de la carpeta "lib" en el classpath de tu proyecto-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <archive>
+                        
+                        <manifest>
+                            <mainClass>com.pacientes.gestor_pacientes.Principal</mainClass>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            
+            
+            
            
 
-            
+          
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.6.1</version>
                 <configuration>
                     <outputDirectory>${project.build.directory}/lib</outputDirectory>
-                    <excludeTransitive>false</excludeTransitive> 
+                    
                     <stripVersion>false</stripVersion>
                 </configuration>
                 <executions>
@@ -156,42 +164,30 @@
                         <goals>
                             <goal>copy-dependencies</goal>
                         </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <!-- otras configuraciones, si las hay -->
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
-            
-            <!-- Agrega la referencia del contenido de la carpeta "lib" en el classpath de tu proyecto-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.4</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.pacientes.gestor_pacientes.Principal</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
+           
+           
             
             
             
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
-                <configuration>
-                    <release>11</release>
-                </configuration>
+                <version>3.12.1</version>
+                
             </plugin>
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.4</version>
                 <configuration>
-                    <mainClass>com.pacientes.gestor_pacientes.App</mainClass>
+                    <mainClass>com.pacientes.gestor_pacientes.Principal</mainClass>
                 </configuration>
                 <executions>
                     <execution>
@@ -236,7 +232,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.1.2</version>
+                <version>3.2.5</version>
             </plugin>
         </plugins>
     </build>

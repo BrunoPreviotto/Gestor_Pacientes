@@ -332,6 +332,7 @@ public class UsuarioDAOImplementacion extends PadreDAOImplementacion implements 
                         "FROM tema_aplicacion ta;";
         
         try {
+            
             PreparedStatement pst = conexion.conexion().prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
             
