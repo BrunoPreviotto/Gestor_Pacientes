@@ -77,6 +77,7 @@ com/pacientes/gestor_pacientes/servicios/ServiciosAgenda.class
 com/pacientes/gestor_pacientes/modelo/AutorizacionesSesionesObraSociales.class
 com/pacientes/gestor_pacientes/controlador/CajasAgrandarParaVerController.class
 com/pacientes/gestor_pacientes/controlador/RegistrarController.class
+com/pacientes/gestor_pacientes/controlador/ControladorIniciador.class
 com/pacientes/gestor_pacientes/DAO/IObraSocialDAO.class
 com/pacientes/gestor_pacientes/utilidades/DraggedScene.class
 com/pacientes/gestor_pacientes/modelo/CodigoFacturacion.class
