@@ -95,6 +95,7 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
 import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -2758,26 +2759,42 @@ public class MenuInicioController extends PacienteController implements Initiali
     }
    
     @FXML
-    public void actualizarAplicacion(){
+    public void actualizarAplicacion() {
         UsuarioDAOImplementacion usuarioDAOImplementacion = new UsuarioDAOImplementacion();
-        
+
         ClienteActualizacion cliente = new ClienteActualizacion();
         try {
-            
+            File selectedFile;
             Stage primaryStage = new Stage();
 
-            // Crear el selector de directorios
-            DirectoryChooser directoryChooser = new DirectoryChooser();
-            directoryChooser.setTitle("Seleccionar Directorio");
+            primaryStage.setTitle("JavaFX FileChooser Example");
 
-            // Mostrar el diálogo y obtener el directorio seleccionado
-            File selectedDirectory = directoryChooser.showDialog(primaryStage);
-            String carpetaDestino = selectedDirectory.getPath() + "/";
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Selecciona un archivo");
 
-            JSONObject json = new  JSONObject(cliente.getReadmeContent());
-            usuarioDAOImplementacion.actualizarRutaActualizarApp(carpetaDestino, json.getString("1"));
-            cliente.descargarDrive(carpetaDestino);
-            
+            // Configurar filtros para tipos de archivo específicos si es necesario
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("Archivos de texto", "*.txt"),
+                    new FileChooser.ExtensionFilter("Archivos de imagen", "*.png", "*.jpg", "*.gif"),
+                    new FileChooser.ExtensionFilter("Todos los archivos", "*.*")
+            );
+
+            // Mostrar el cuadro de diálogo de selección de archivo
+            selectedFile = fileChooser.showOpenDialog(primaryStage);
+
+            if (selectedFile != null) {
+                // Mostrar la ruta del archivo seleccionado
+                System.out.println("Archivo seleccionado: " + selectedFile.getAbsolutePath());
+                cliente.descargarDrive(selectedFile.getAbsolutePath());
+            } else {
+                System.out.println("Operación de selección de archivo cancelada por el usuario.");
+            }
+
+            primaryStage.show();
+
+            //JSONObject json = new  JSONObject(cliente.getReadmeContent());
+            //usuarioDAOImplementacion.actualizarRutaActualizarApp(carpetaDestino, json.getString("1"));
+            //cliente.descargarDrive(carpetaDestino);
         } catch (Exception e) {
         }
     }

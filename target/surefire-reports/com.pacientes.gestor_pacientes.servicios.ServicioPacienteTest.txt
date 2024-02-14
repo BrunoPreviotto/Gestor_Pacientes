@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.pacientes.gestor_pacientes.servicios.ServicioPacienteTest
 -------------------------------------------------------------------------------
-Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.075 s -- in com.pacientes.gestor_pacientes.servicios.ServicioPacienteTest
+Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.319 s -- in com.pacientes.gestor_pacientes.servicios.ServicioPacienteTest

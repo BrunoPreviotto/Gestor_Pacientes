@@ -55,13 +55,32 @@ public class ClienteActualizacion {
         
 
         try {
-            limpiarDirectorio(carpetaDestino);
-            clonarRepositorio(urlRepositorio, carpetaDestino);
+            actualizar(carpetaDestino);
             
         } catch (Exception e) {
             e.printStackTrace();
         }
    }
+    
+     private void actualizar(String rutaArchivo){
+        
+
+        try {
+            // Lanzar la otra aplicación
+            ProcessBuilder processBuilder = new ProcessBuilder("java", "-jar", rutaArchivo);
+            Process procesoOtraAplicacion = processBuilder.start();
+
+            // Puedes esperar a que el proceso termine si es necesario
+            // procesoOtraAplicacion.waitFor();
+
+            // Cerrar la aplicación actual
+            System.exit(0);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
     
    
     private static void clonarRepositorio(String urlRepositorio, String carpetaDestino) throws Exception {
