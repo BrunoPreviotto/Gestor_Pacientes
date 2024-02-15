@@ -1,0 +1,120 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 31 dic 2023, 17:00:37
+    Author     : previotto
+*/
+
+.root{
+    -fx-color-1: #C02A00;
+    -fx-color-2: rgba(224, 111, 78);
+    -fx-color-3: rgba(255, 179, 156);
+    -fx-color-4: rgba(255, 236, 231);
+    
+    /*opaque*/
+    -fx-color-1-opaque: rgba(192, 42, 0, 0.5);
+    -fx-color-2-opaque: rgba(224, 111, 78, 0.5);
+    -fx-color-3-opaque: rgba(255, 179, 156, 0.5);
+    -fx-color-4-opaque: rgba(255, 236, 231, 0.5);
+    
+    -fx-border-color: rgba(224, 139, 116, 0.5);
+}
+
+/* Cambiar el color del texto */
+.body { 
+    -fx-text-fill: blue;
+}
+
+/* Cambiar el color de fondo del cuerpo */
+.body {
+    -fx-background-color: blue;
+}
+
+/* Cambiar el color del borde */
+
+
+/* Cambiar el color del fondo del área del editor */
+
+
+.cajasRellenarHtml  {
+    -fx-background-color:red;
+    -fx-border-width: 10;
+     -fx-border-color: pink;
+   
+}
+
+
+.tool-bar{
+   -fx-background-color: -fx-color-3;
+   -fx-border-color: -fx-color-1;
+}
+
+.html-editor-cut, 
+.html-editor-copy,
+.html-editor-paste,
+.html-editor-align-left,
+.html-editor-align-right,
+.html-editor-align-center,
+.html-editor-align-justify,
+.html-editor-outdent,
+.html-editor-indent,
+.html-editor-bullets,
+.html-editor-numbers,
+.format-menu-button,
+.font-family-menu-button,
+.font-size-menu-button,
+.html-editor-bold,
+.html-editor-italic,
+.html-editor-underline,
+.html-editor-strike,
+.html-editor-hr,
+.html-editor-foreground,
+.html-editor-background{
+    -fx-border-color: -fx-color-2;
+    -fx-background-color: -fx-color-3;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+
+
+.combo-box{
+    -fx-background-color: -fx-color-2;
+}
+
+.list-view {
+    -fx-border-color: -fx-color-2;
+    -fx-background-color: #F09175;
+    
+}
+
+.html-toolBar-achicar .top-toolbar{
+    -fx-min-width: 0px;
+   -fx-min-height: 0px;
+   -fx-max-width: 0px;
+   -fx-max-height: 0px;
+   visibility: false;
+       
+}
+
+.html-toolBar-achicar .bottom-toolbar{
+    -fx-min-width: 0px;
+   -fx-min-height: 0px;
+   -fx-max-width: 0px;
+   -fx-max-height: 0px;
+   visibility: false;
+       
+}
+
+.combo-box-popup > .list-view {
+    -fx-border-color: -fx-color-2;
+    -fx-background-color: #F09175;
+    
+}
+
+/* Opcional: Cambiar el color del texto en el desplegable */
+.combo-box-popup > .list-view > .list-cell {
+    -fx-background-color: #F09175;
+}

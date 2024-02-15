@@ -1,4 +1,7 @@
 module com.pacientes.gestor_pacientes {
+    
+    
+    
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
@@ -12,18 +15,25 @@ module com.pacientes.gestor_pacientes {
     
     requires org.eclipse.jgit;
   
-    requires dropbox.core.sdk;
-    
-    requires org.jsoup;
     
     
+   
     
+    requires org.json;
     
-    opens com.pacientes.gestor_pacientes.controlador to javafx.fxml;
+    requires java.net.http;
+    
+    requires maven.invoker;
+    
+    opens com.pacientes.gestor_pacientes to javafx.graphics, javafx.fxml;
+    
+   opens com.pacientes.gestor_pacientes.controlador to javafx.fxml;
     exports com.pacientes.gestor_pacientes;
-    
     exports com.pacientes.gestor_pacientes.modelo;
      exports com.pacientes.gestor_pacientes.utilidades;
      exports com.pacientes.gestor_pacientes.servicios;
      
+     
+     
+      
 }

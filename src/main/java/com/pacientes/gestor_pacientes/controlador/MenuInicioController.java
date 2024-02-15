@@ -14,6 +14,7 @@ import static com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas.*;
 import com.pacientes.gestor_pacientes.utilidades.DraggedScene;
 import com.pacientes.gestor_pacientes.utilidades.TablaSesiones;
 
+
 // EXTERNAS
 
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -94,13 +95,15 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
 import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import org.json.JSONObject;
 
-import org.jsoup.Jsoup;
+//import org.jsoup.Jsoup;
 
 
 /**
@@ -129,8 +132,7 @@ public class MenuInicioController extends PacienteController implements Initiali
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-        
+         
         
         iniciarColorContenedores();
         
@@ -220,7 +222,7 @@ public class MenuInicioController extends PacienteController implements Initiali
         } catch (Exception e) {
         }*/
         
-        
+         actualizarAppAutomaticamente();
     }
     
     
@@ -2757,10 +2759,63 @@ public class MenuInicioController extends PacienteController implements Initiali
     }
    
     @FXML
-    public void actualizarAplicacion(){
+    public void actualizarAplicacion() {
+        UsuarioDAOImplementacion usuarioDAOImplementacion = new UsuarioDAOImplementacion();
+
         ClienteActualizacion cliente = new ClienteActualizacion();
         try {
-            cliente.descargarDrive();
+            File selectedFile;
+            Stage primaryStage = new Stage();
+
+            primaryStage.setTitle("JavaFX FileChooser Example");
+
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Selecciona un archivo");
+
+            // Configurar filtros para tipos de archivo específicos si es necesario
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("Archivos de texto", "*.txt"),
+                    new FileChooser.ExtensionFilter("Archivos de imagen", "*.png", "*.jpg", "*.gif"),
+                    new FileChooser.ExtensionFilter("Todos los archivos", "*.*")
+            );
+
+            // Mostrar el cuadro de diálogo de selección de archivo
+            selectedFile = fileChooser.showOpenDialog(primaryStage);
+
+            if (selectedFile != null) {
+                // Mostrar la ruta del archivo seleccionado
+                System.out.println("Archivo seleccionado: " + selectedFile.getAbsolutePath());
+                cliente.descargarDrive(selectedFile.getAbsolutePath());
+            } else {
+                System.out.println("Operación de selección de archivo cancelada por el usuario.");
+            }
+
+            primaryStage.show();
+
+            //JSONObject json = new  JSONObject(cliente.getReadmeContent());
+            //usuarioDAOImplementacion.actualizarRutaActualizarApp(carpetaDestino, json.getString("1"));
+            //cliente.descargarDrive(carpetaDestino);
+        } catch (Exception e) {
+        }
+    }
+    
+    public void actualizarAppAutomaticamente() {
+        try {
+            UsuarioDAOImplementacion usuarioDAOImplementacion = new UsuarioDAOImplementacion();
+            ClienteActualizacion cliente = new ClienteActualizacion();
+            JSONObject json = new JSONObject(cliente.getReadmeContent());
+
+            String ruta = usuarioDAOImplementacion.obtenerRutaActualizarApp();
+             System.out.println(VariablesEstaticas.getUsuario().getId());
+            System.out.println(ruta);
+            if (ruta.equals("")) {
+               
+                mensajeAdvertenciaError("Determinar carpeta contenedora de programa", this, VariablesEstaticas.imgenAdvertencia);
+            } else {
+                if (!usuarioDAOImplementacion.obtenerVersionActualizarApp(json.getString("1"))) {
+                    cliente.descargarDrive(ruta);
+                }
+            }
         } catch (Exception e) {
         }
     }

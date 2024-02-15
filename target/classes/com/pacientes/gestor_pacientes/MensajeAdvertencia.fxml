@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="AnchorMensajeAdvertencia" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="500.0" styleClass="root" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pacientes.gestor_pacientes.controlador.MensajeAdvertenciaController">
+   <children>
+      <Label fx:id="etiquetaMensaje" alignment="CENTER" layoutX="50.0" layoutY="121.0" prefHeight="44.0" prefWidth="400.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <ImageView fx:id="imgMensaje" fitHeight="100.0" fitWidth="100.0" layoutX="224.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="10.0" />
+      <Button layoutX="438.0" layoutY="13.0" maxHeight="55.0" maxWidth="75.0" mnemonicParsing="false" onMouseClicked="#salir" prefHeight="55.0" prefWidth="75.0" stylesheets="@styles/mensajeError.css" text="X" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="12.0">
+         <styleClass>
+            <String fx:value="botonBuscar" />
+            <String fx:value="botonBuscarChico" />
+         </styleClass>
+         <graphic>
+            <AnchorPane>
+               <children>
+                  <Line endX="15.0" layoutX="5.0" layoutY="9.0" rotate="-45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="0.0" />
+                  <Line endX="15.0" layoutX="2.0" layoutY="6.0" rotate="45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="3.0" AnchorPane.rightAnchor="0.0" />
+               </children>
+            </AnchorPane>
+         </graphic>
+      </Button>
+   </children>
+   <stylesheets>
+      <URL value="@styles/mensajeError.css" />
+      <URL value="@styles/menuinicio.css" />
+   </stylesheets>
+</AnchorPane>

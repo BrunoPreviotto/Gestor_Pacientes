@@ -1,0 +1,4 @@
+--patch-module
+com.pacientes.gestor_pacientes=_
+--add-reads
+com.pacientes.gestor_pacientes=ALL-UNNAMED

@@ -490,7 +490,6 @@ public class ServiciosPadre {
                 
             } else {
                 cp.mensajeAdvertenciaError("Error al realizar la copia de seguridad.", this, VariablesEstaticas.imgenError);
-                System.out.println("Mensaje de error:\n" + errorMessage.toString());
             }
             }catch(IOException | InterruptedException e){
                 e.printStackTrace();

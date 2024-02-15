@@ -6,6 +6,7 @@ package com.pacientes.gestor_pacientes.controlador;
 
 import com.pacientes.gestor_pacientes.App;
 import com.pacientes.gestor_pacientes.DAO.CRUD;
+import com.pacientes.gestor_pacientes.implementacionDAO.UsuarioDAOImplementacion;
 
 import com.pacientes.gestor_pacientes.servicios.ServiciosPadre;
 import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
@@ -69,8 +70,10 @@ public class ClasePadreController {
         }else if(boton.getId().equals("botonSalirInciarSesion")){
             
         }else{
-            
-            serviciosPadre.guardarBD();
+           UsuarioDAOImplementacion usuarioDAOImplementacion = new UsuarioDAOImplementacion();
+            if(!usuarioDAOImplementacion.obtenerRutaGuardarBD().equals("")){
+                serviciosPadre.guardarBD();
+            }
         }
         Platform.exit();
         System.exit(0);
