@@ -58,8 +58,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+
 import javafx.collections.ObservableList;
 
 import javafx.fxml.FXML;
@@ -90,6 +89,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.web.HTMLEditor;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -101,6 +101,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import org.apache.maven.shared.utils.Os;
 import org.json.JSONObject;
 
 //import org.jsoup.Jsoup;
@@ -1277,7 +1278,7 @@ public class MenuInicioController extends PacienteController implements Initiali
     //                              ****
     @FXML
     private void eliminarPaciente(MouseEvent event) {
-        mensajePreguntarSiONo();
+        mensajePreguntarSiONo("Desea eliminar");
         if (VariablesEstaticas.esSiONoMensajePrguntarSiONo) {
             daoImplementacion = new PacienteDAOImplementacion();
             //SI SE BUSCO AL PACIENTE
@@ -1310,7 +1311,7 @@ public class MenuInicioController extends PacienteController implements Initiali
 
     @FXML
     private void eliminarPlan(MouseEvent event) {
-        mensajePreguntarSiONo();
+        mensajePreguntarSiONo("¿Desea eliminar?");
         if (VariablesEstaticas.esSiONoMensajePrguntarSiONo) {
             //SI SE BUSCO AL PACIENTE
             if (!cajaBuscarPaciente.getText().isEmpty()) {
@@ -1353,7 +1354,7 @@ public class MenuInicioController extends PacienteController implements Initiali
 
     @FXML
     private void eliminarObraSocialPaciente(MouseEvent event) {
-        mensajePreguntarSiONo();
+        mensajePreguntarSiONo("¿Desea eliminar?");
         if (VariablesEstaticas.esSiONoMensajePrguntarSiONo) {
             //SI SE BUSCO AL PACIENTE
             if (!cajaBuscarPaciente.getText().isEmpty()) {
@@ -2021,7 +2022,7 @@ public class MenuInicioController extends PacienteController implements Initiali
     
     @FXML
     private void eliminarObraSocial(MouseEvent event) {
-        mensajePreguntarSiONo();
+        mensajePreguntarSiONo("¿Desea eliminar?");
         if (VariablesEstaticas.esSiONoMensajePrguntarSiONo) {
             try {
                 if (!cajaBuscarObraSocial.getText().isBlank()) {
@@ -2764,7 +2765,50 @@ public class MenuInicioController extends PacienteController implements Initiali
 
         ClienteActualizacion cliente = new ClienteActualizacion();
         try {
-            File selectedFile;
+            String rutaDeLaAplicacion = System.getProperty("user.dir");
+            File file = new File(rutaDeLaAplicacion);
+            String rutaJarActualizar = null;
+            
+            String rutaActual = usuarioDAOImplementacion.obtenerRutaActualizarApp();
+            
+            JSONObject json = new  JSONObject(cliente.getReadmeContent());
+            
+            if(Os.isFamily(Os.FAMILY_WINDOWS)){
+
+            }else{
+                rutaJarActualizar = file.getParent() + "/actualizacionGestorPaciente/target/actualizador-1.0-SNAPSHOT.jar";
+            }
+            
+
+            //SI LA RUTRA NO ES NULA ACTUALIZA SOLAMENTE
+            if(!rutaActual.isBlank() || !rutaActual.isEmpty()){
+                //SI EXISTE EL JAR ACTUALIZADOR
+                if(Objects.nonNull(rutaJarActualizar)){
+                    cliente.descargarDrive(rutaJarActualizar);
+                    //SI HAY UNA NUEVA VERSION
+                    if(!usuarioDAOImplementacion.obtenerVersionActualizarApp(json.getString("1"))){
+                        cliente.descargarDrive(rutaJarActualizar);
+                    }
+                    //usuarioDAOImplementacion.actualizarRutaActualizarApp(carpetaDestino, json.getString("1"));
+                    //cliente.descargarDrive(rutaJarActualizar);
+                }
+            }else{
+                
+                if(Objects.nonNull(rutaJarActualizar)){
+                    usuarioDAOImplementacion.actualizarRutaActualizarApp(file.getAbsolutePath(), json.getString("1"));
+                    
+                    if(!usuarioDAOImplementacion.obtenerVersionActualizarApp(json.getString("1"))){
+                       cliente.descargarDrive(rutaJarActualizar);
+                    }
+                    //usuarioDAOImplementacion.actualizarRutaActualizarApp(carpetaDestino, json.getString("1"));
+                    //cliente.descargarDrive(rutaJarActualizar);
+                }
+            }
+            
+            
+            
+            
+           /* File selectedFile;
             Stage primaryStage = new Stage();
 
             primaryStage.setTitle("JavaFX FileChooser Example");
@@ -2794,29 +2838,50 @@ public class MenuInicioController extends PacienteController implements Initiali
 
             //JSONObject json = new  JSONObject(cliente.getReadmeContent());
             //usuarioDAOImplementacion.actualizarRutaActualizarApp(carpetaDestino, json.getString("1"));
-            //cliente.descargarDrive(carpetaDestino);
+            //cliente.descargarDrive(carpetaDestino);*/
         } catch (Exception e) {
+            mensajeAdvertenciaError("Error al actualizar", this, VariablesEstaticas.imgenError);
         }
     }
     
     public void actualizarAppAutomaticamente() {
-        try {
+        mensajePreguntarSiONo("Hay una nueva actualizacion.¿Desea actualizar?");
+            
+        if(VariablesEstaticas.esSiONoMensajePrguntarSiONo){
+            System.out.println("si");   
+        }else{
+            System.out.println("no");
+        }
+        
+        /*try {
             UsuarioDAOImplementacion usuarioDAOImplementacion = new UsuarioDAOImplementacion();
             ClienteActualizacion cliente = new ClienteActualizacion();
             JSONObject json = new JSONObject(cliente.getReadmeContent());
+            
+            String rutaJarActualizar = null;
+            String rutaDeLaAplicacion = System.getProperty("user.dir");
+            File file = new File(rutaDeLaAplicacion);
 
             String ruta = usuarioDAOImplementacion.obtenerRutaActualizarApp();
-             System.out.println(VariablesEstaticas.getUsuario().getId());
-            System.out.println(ruta);
+             
+            if(Os.isFamily(Os.FAMILY_WINDOWS)){
+
+            }else{
+                rutaJarActualizar = file.getParent() + "/actualizacionGestorPaciente/target/actualizador-1.0-SNAPSHOT.jar";
+            }
+            
             if (ruta.equals("")) {
                
                 mensajeAdvertenciaError("Determinar carpeta contenedora de programa", this, VariablesEstaticas.imgenAdvertencia);
             } else {
-                if (!usuarioDAOImplementacion.obtenerVersionActualizarApp(json.getString("1"))) {
-                    cliente.descargarDrive(ruta);
+                if (Objects.nonNull(rutaJarActualizar)) {
+                    if (!usuarioDAOImplementacion.obtenerVersionActualizarApp(json.getString("1"))) {
+                        cliente.descargarDrive(rutaJarActualizar);
+                    }
                 }
             }
         } catch (Exception e) {
-        }
+            mensajeAdvertenciaError("Error al actualizar", this, VariablesEstaticas.imgenError);
+        }*/
     }
 }

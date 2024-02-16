@@ -35,7 +35,7 @@
       </Button>
       <HBox alignment="CENTER" layoutX="144.0" layoutY="13.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
          <children>
-            <Label styleClass="labelTituloSinTamano" stylesheets="@styles/menuinicio.css" text="Desea eliminar?">
+            <Label fx:id="labelMensajeSiONo" styleClass="labelTituloSinTamano" stylesheets="@styles/menuinicio.css" text="Desea eliminar?">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
