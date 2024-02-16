@@ -2847,13 +2847,9 @@ public class MenuInicioController extends PacienteController implements Initiali
     public void actualizarAppAutomaticamente() {
         mensajePreguntarSiONo("Hay una nueva actualizacion.¿Desea actualizar?");
             
-        if(VariablesEstaticas.esSiONoMensajePrguntarSiONo){
-            System.out.println("si");   
-        }else{
-            System.out.println("no");
-        }
         
-        /*try {
+        
+        try {
             UsuarioDAOImplementacion usuarioDAOImplementacion = new UsuarioDAOImplementacion();
             ClienteActualizacion cliente = new ClienteActualizacion();
             JSONObject json = new JSONObject(cliente.getReadmeContent());
@@ -2876,12 +2872,15 @@ public class MenuInicioController extends PacienteController implements Initiali
             } else {
                 if (Objects.nonNull(rutaJarActualizar)) {
                     if (!usuarioDAOImplementacion.obtenerVersionActualizarApp(json.getString("1"))) {
-                        cliente.descargarDrive(rutaJarActualizar);
+                       if(VariablesEstaticas.esSiONoMensajePrguntarSiONo){
+                             cliente.descargarDrive(rutaJarActualizar);   
+                        }
+                       
                     }
                 }
             }
         } catch (Exception e) {
             mensajeAdvertenciaError("Error al actualizar", this, VariablesEstaticas.imgenError);
-        }*/
+        }
     }
 }
