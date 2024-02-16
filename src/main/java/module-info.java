@@ -16,7 +16,7 @@ module com.pacientes.gestor_pacientes {
     requires org.eclipse.jgit;
   
     
-    
+    requires maven.shared.utils;
    
     
     requires org.json;

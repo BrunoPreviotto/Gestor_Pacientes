@@ -62,7 +62,7 @@ public class DiagnosticoController extends ClasePadreMenuInicio{
     
      @FXML
     public void eliminarDiagnostico(MouseEvent event) {
-        mensajePreguntarSiONo();
+        mensajePreguntarSiONo("¿Desea eliminar?");
         if (VariablesEstaticas.esSiONoMensajePrguntarSiONo) {
             //SI SE BUSCO AL PACIENTE
             if (!cajaBuscarPaciente.getText().isEmpty()) {

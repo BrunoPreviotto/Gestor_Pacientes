@@ -304,7 +304,7 @@ public class ClasePadreController {
     }
     
     
-     public void mensajePreguntarSiONo(){
+     public void mensajePreguntarSiONo(String texto){
         try {
             
             FXMLLoader Loader = new FXMLLoader(App.class.getResource( "MensajePreguntarSiONo.fxml"));
@@ -317,6 +317,7 @@ public class ClasePadreController {
             stage.setScene(scene);
             stage.initStyle(StageStyle.TRANSPARENT);
             stage.initModality(Modality.APPLICATION_MODAL);
+            controller.cambiarLabel(texto);
             stage.showAndWait();
            
             

@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -31,6 +32,8 @@ public class MensajePreguntarSiONoController implements Initializable {
     private Object menu;
     @FXML
     private AnchorPane anchorPreguntarSiONoController;
+    @FXML
+    private Label labelMensajeSiONo;
 
     /**
      * Initializes the controller class.
@@ -51,6 +54,11 @@ public class MensajePreguntarSiONoController implements Initializable {
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
     }
+    
+    public void cambiarLabel(String texto){
+        labelMensajeSiONo.setText(texto);
+    }
+    
 
     @FXML
     private void botonSeleccionado(MouseEvent event) {
