@@ -2774,7 +2774,7 @@ public class MenuInicioController extends PacienteController implements Initiali
             JSONObject json = new  JSONObject(cliente.getReadmeContent());
             
             if(Os.isFamily(Os.FAMILY_WINDOWS)){
-
+                rutaJarActualizar = file.getParent() + "C:\\Program Files\\App_gestor_pacientes\\actualizacionGestorPaciente\\target\\actualizador-1.0-SNAPSHOT.jar";
             }else{
                 rutaJarActualizar = file.getParent() + "/actualizacionGestorPaciente/target/actualizador-1.0-SNAPSHOT.jar";
             }
@@ -2845,7 +2845,7 @@ public class MenuInicioController extends PacienteController implements Initiali
     }
     
     public void actualizarAppAutomaticamente() {
-        mensajePreguntarSiONo("Hay una nueva actualizacion.¿Desea actualizar?");
+        
             
         
         
@@ -2861,7 +2861,7 @@ public class MenuInicioController extends PacienteController implements Initiali
             String ruta = usuarioDAOImplementacion.obtenerRutaActualizarApp();
              
             if(Os.isFamily(Os.FAMILY_WINDOWS)){
-
+                rutaJarActualizar = file.getParent() + "C:\\Program Files\\App_gestor_pacientes\\actualizacionGestorPaciente\\target\\actualizador-1.0-SNAPSHOT.jar";
             }else{
                 rutaJarActualizar = file.getParent() + "/actualizacionGestorPaciente/target/actualizador-1.0-SNAPSHOT.jar";
             }
@@ -2870,9 +2870,11 @@ public class MenuInicioController extends PacienteController implements Initiali
                
                 mensajeAdvertenciaError("Determinar carpeta contenedora de programa", this, VariablesEstaticas.imgenAdvertencia);
             } else {
+                
                 if (Objects.nonNull(rutaJarActualizar)) {
                     if (!usuarioDAOImplementacion.obtenerVersionActualizarApp(json.getString("1"))) {
-                       if(VariablesEstaticas.esSiONoMensajePrguntarSiONo){
+                       mensajePreguntarSiONo("Hay una nueva actualizacion.¿Desea actualizar?");
+                        if(VariablesEstaticas.esSiONoMensajePrguntarSiONo){
                              cliente.descargarDrive(rutaJarActualizar);   
                              usuarioDAOImplementacion.actualizarVersionActualizarApp(json.getString("1"));
                         }
