@@ -2874,6 +2874,7 @@ public class MenuInicioController extends PacienteController implements Initiali
                     if (!usuarioDAOImplementacion.obtenerVersionActualizarApp(json.getString("1"))) {
                        if(VariablesEstaticas.esSiONoMensajePrguntarSiONo){
                              cliente.descargarDrive(rutaJarActualizar);   
+                             usuarioDAOImplementacion.actualizarVersionActualizarApp(json.getString("1"));
                         }
                        
                     }

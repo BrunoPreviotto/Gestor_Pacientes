@@ -497,4 +497,37 @@ public class UsuarioDAOImplementacion extends PadreDAOImplementacion implements 
         
     }
     
+    public void actualizarVersionActualizarApp(String numeroActualizacion){
+        String sqlActualizar = "UPDATE actualizaciones \n" +
+                                "SET numero_actualizacion = ? \n" +
+                                "WHERE  id_usuario = ?;";
+        
+       
+        
+        PreparedStatement pst;
+        
+        try {
+            if (obtenerRutaActualizarApp().equals("")) {
+
+                pst = null;
+
+            } else {
+                pst = conexion.conexion().prepareStatement(sqlActualizar);
+                pst.setString(1, numeroActualizacion);
+                pst.setInt(3, VariablesEstaticas.usuario.getId());
+                pst.executeUpdate();
+
+            }
+            
+            
+
+            pst.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        
+    }
+    
 }
