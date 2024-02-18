@@ -73,6 +73,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Control;
+import javafx.scene.control.Label;
 
 
 import javafx.scene.control.TableView;
@@ -2774,7 +2775,9 @@ public class MenuInicioController extends PacienteController implements Initiali
             JSONObject json = new  JSONObject(cliente.getReadmeContent());
             
             if(Os.isFamily(Os.FAMILY_WINDOWS)){
+                file = new File(file.getParent());
                 rutaJarActualizar = file.getParent() + "\\actualizacionGestorPaciente\\target\\actualizador-1.0-SNAPSHOT.jar";
+                
             }else{
                 rutaJarActualizar = file.getParent() + "/actualizacionGestorPaciente/target/actualizador-1.0-SNAPSHOT.jar";
             }
@@ -2855,13 +2858,17 @@ public class MenuInicioController extends PacienteController implements Initiali
             JSONObject json = new JSONObject(cliente.getReadmeContent());
             
             String rutaJarActualizar = null;
+            //user.home user.dir
             String rutaDeLaAplicacion = System.getProperty("user.dir");
             File file = new File(rutaDeLaAplicacion);
 
             String ruta = usuarioDAOImplementacion.obtenerRutaActualizarApp();
              
             if(Os.isFamily(Os.FAMILY_WINDOWS)){
+                file = new File(file.getParent());
                 rutaJarActualizar = file.getParent() + "\\actualizacionGestorPaciente\\target\\actualizador-1.0-SNAPSHOT.jar";
+                
+                //containerMenu.getChildren().add(new Label(file.getParent()));
             }else{
                 rutaJarActualizar = file.getParent() + "/actualizacionGestorPaciente/target/actualizador-1.0-SNAPSHOT.jar";
             }
