@@ -223,7 +223,7 @@ public class MenuInicioController extends PacienteController implements Initiali
         } catch (Exception e) {
         }*/
         
-         actualizarAppAutomaticamente();
+        actualizarAppAutomaticamente();
     }
     
     
@@ -2774,7 +2774,7 @@ public class MenuInicioController extends PacienteController implements Initiali
             JSONObject json = new  JSONObject(cliente.getReadmeContent());
             
             if(Os.isFamily(Os.FAMILY_WINDOWS)){
-                rutaJarActualizar = file.getParent() + "C:\\Program Files\\App_gestor_pacientes\\actualizacionGestorPaciente\\target\\actualizador-1.0-SNAPSHOT.jar";
+                rutaJarActualizar = file.getParent() + "\\actualizacionGestorPaciente\\target\\actualizador-1.0-SNAPSHOT.jar";
             }else{
                 rutaJarActualizar = file.getParent() + "/actualizacionGestorPaciente/target/actualizador-1.0-SNAPSHOT.jar";
             }
@@ -2861,7 +2861,7 @@ public class MenuInicioController extends PacienteController implements Initiali
             String ruta = usuarioDAOImplementacion.obtenerRutaActualizarApp();
              
             if(Os.isFamily(Os.FAMILY_WINDOWS)){
-                rutaJarActualizar = file.getParent() + "C:\\Program Files\\App_gestor_pacientes\\actualizacionGestorPaciente\\target\\actualizador-1.0-SNAPSHOT.jar";
+                rutaJarActualizar = file.getParent() + "\\actualizacionGestorPaciente\\target\\actualizador-1.0-SNAPSHOT.jar";
             }else{
                 rutaJarActualizar = file.getParent() + "/actualizacionGestorPaciente/target/actualizador-1.0-SNAPSHOT.jar";
             }
@@ -2874,8 +2874,10 @@ public class MenuInicioController extends PacienteController implements Initiali
                 if (Objects.nonNull(rutaJarActualizar)) {
                     if (!usuarioDAOImplementacion.obtenerVersionActualizarApp(json.getString("1"))) {
                        mensajePreguntarSiONo("Hay una nueva actualizacion.¿Desea actualizar?");
+                        System.out.println(VariablesEstaticas.esSiONoMensajePrguntarSiONo);
                         if(VariablesEstaticas.esSiONoMensajePrguntarSiONo){
-                             cliente.descargarDrive(rutaJarActualizar);   
+                            System.out.println("entra"); 
+                            cliente.descargarDrive(rutaJarActualizar);   
                              usuarioDAOImplementacion.actualizarVersionActualizarApp(json.getString("1"));
                         }
                        

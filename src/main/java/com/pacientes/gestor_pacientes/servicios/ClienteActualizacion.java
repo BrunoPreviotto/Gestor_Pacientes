@@ -69,7 +69,7 @@ public class ClienteActualizacion {
             // Lanzar la otra aplicación
             ProcessBuilder processBuilder = new ProcessBuilder("java", "-jar", rutaArchivo);
             Process procesoOtraAplicacion = processBuilder.start();
-
+            System.out.println(processBuilder.toString());
             // Puedes esperar a que el proceso termine si es necesario
             // procesoOtraAplicacion.waitFor();
 
@@ -83,28 +83,7 @@ public class ClienteActualizacion {
     }
     
    
-    private static void clonarRepositorio(String urlRepositorio, String carpetaDestino) throws Exception {
-       Path rutaDestino = Paths.get(carpetaDestino);
-
-        // Clonar el repositorio
-        Git.cloneRepository()
-                .setURI(urlRepositorio)
-                .setDirectory(rutaDestino.toFile())
-                .setBranch("master") // Especifica la rama deseada
-                .call();
-
-        System.out.println("Clonación exitosa del repositorio en la carpeta: " + rutaDestino);
-    }
     
-    private static void limpiarDirectorio(String rutaDirectorio) throws IOException {
-        File directorio = new File(rutaDirectorio);
-        if (directorio.exists()) {
-            FileUtils.deleteDirectory(directorio);
-            System.out.println("Directorio limpiado: " + directorio);
-        } else {
-            System.out.println("El directorio no existe: " + directorio);
-        }
-    }
     
    
     public String getReadmeContent() throws IOException {
@@ -127,3 +106,29 @@ public class ClienteActualizacion {
     
     
 }
+
+
+/*
+private static void clonarRepositorio(String urlRepositorio, String carpetaDestino) throws Exception {
+       Path rutaDestino = Paths.get(carpetaDestino);
+
+        // Clonar el repositorio
+        Git.cloneRepository()
+                .setURI(urlRepositorio)
+                .setDirectory(rutaDestino.toFile())
+                .setBranch("master") // Especifica la rama deseada
+                .call();
+
+        System.out.println("Clonación exitosa del repositorio en la carpeta: " + rutaDestino);
+    }
+    
+    private static void limpiarDirectorio(String rutaDirectorio) throws IOException {
+        File directorio = new File(rutaDirectorio);
+        if (directorio.exists()) {
+            FileUtils.deleteDirectory(directorio);
+            System.out.println("Directorio limpiado: " + directorio);
+        } else {
+            System.out.println("El directorio no existe: " + directorio);
+        }
+    }
+*/
