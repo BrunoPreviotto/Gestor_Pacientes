@@ -1,96 +1,96 @@
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\App.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\ArrayLIst.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\controlador\AgendaController.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\controlador\CajasAgrandarParaVerController.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\controlador\CajaVerHtmlController.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\controlador\ClasePadreController.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\controlador\ClasePadreMenuInicio.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\controlador\ControladorIniciador.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\controlador\EliminarSesionController.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\controlador\IniciarSesionController.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\controlador\MensajeAdvertenciaController.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\controlador\MensajePreguntarSiONoController.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\controlador\MenuInicioController.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\controlador\Paciente\DatosPrincipalesController.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\controlador\Paciente\DiagnosticoController.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\controlador\Paciente\PacienteController.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\controlador\PadreController.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\controlador\RegistrarController.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\controlador\SesionesController.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\DAO\CRUD.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\DAO\IAgendaDAO.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\DAO\IObraSocialDAO.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\DAO\IPacienteDAO.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\DAO\IUsuarioDAO.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\enumerador\ColorAnaranjado.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\enumerador\ColorAzul.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\enumerador\ColorMarron.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\enumerador\ColorOscuro.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\enumerador\ColorVerde.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\AgendaDAOImplementacion.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\EmailDAOImplementacion.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\ObraSocial\ObraSocialDAOImplementacion.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\ObraSocial\PlanObraSocialDAOImplementacion.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\ObraSocial\TelefonoObraSocialDAOImplementacion.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\Paciente\AfiliadoDAOImplementacion.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\Paciente\AutorizacionDAOImplementacion.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\Paciente\CodigoFacturacionDAOImplementacion.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\Paciente\DatosPrincipalesDAOImplementacion.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\Paciente\DiagnosticoDAOImplementacion.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\Paciente\EstadoFacturacionDAOImplementacion.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\Paciente\FrecuenciaSesionPlanDAOImplementacion.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\Paciente\HonorarioDAOImplementacion.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\Paciente\ObraSocialPacienteDAOImplementacion.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\Paciente\PacienteDAOImplementacion.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\Paciente\PlanTratamientoDAOImplementacion.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\Paciente\SesionDAOImplementacion.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\Paciente\TipoSesionPlanDAOImplementacion.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\PadreDAOImplementacion.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\TelefonoDAOImplementacion.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\UsuarioDAOImplementacion.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\AccionesAgenda.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\Afiliado.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\Agenda.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\AutorizacionesSesionesObraSociales.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\Cliente.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\CodigoFacturacion.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\DiagnosticoPaciente.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\Email.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\EstadoFacturacion.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\FrecuenciaSesion.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\Honorario.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\ObraSocial.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\ObraSocialPaciente.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\OrdenesObrasSociales.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\Paciente.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\PlanObraSocial.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\PlanTratamiento.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\SesionPaciente.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\Telefono.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\TemaAplicacion.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\TipoSesion.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\Usuario.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\Web.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\Principal.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\servicios\ClienteActualizacion.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\servicios\ConexionMariadb.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\servicios\ConstruirApp.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\servicios\ConsultasBD.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\servicios\Encriptar.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\servicios\InicializarObjeto.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\servicios\ServicioObraSocial.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\servicios\ServicioPaciente.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\servicios\ServicioRegistrar.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\servicios\ServiciosAgenda.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\servicios\ServiciosPadre.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\utilidades\DraggedScene.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\utilidades\Exepciones.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\utilidades\Hilo.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\utilidades\MetodosComoParametros.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\utilidades\SubirArchivoGoogleDrive.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\utilidades\TablaObrasSociales.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\utilidades\TablaSesiones.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\utilidades\VariablesEstaticas.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\validacion\Validar.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\validacion\ValidarPadre.java
-C:\Program Files\App_gestor_pacientes\gestor_pacientes\src\main\java\module-info.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\App.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\ArrayLIst.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\controlador\AgendaController.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\controlador\CajasAgrandarParaVerController.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\controlador\CajaVerHtmlController.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\controlador\ClasePadreController.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\controlador\ClasePadreMenuInicio.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\controlador\ControladorIniciador.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\controlador\EliminarSesionController.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\controlador\IniciarSesionController.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\controlador\MensajeAdvertenciaController.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\controlador\MensajePreguntarSiONoController.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\controlador\MenuInicioController.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\controlador\Paciente\DatosPrincipalesController.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\controlador\Paciente\DiagnosticoController.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\controlador\Paciente\PacienteController.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\controlador\PadreController.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\controlador\RegistrarController.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\controlador\SesionesController.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\DAO\CRUD.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\DAO\IAgendaDAO.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\DAO\IObraSocialDAO.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\DAO\IPacienteDAO.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\DAO\IUsuarioDAO.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\enumerador\ColorAnaranjado.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\enumerador\ColorAzul.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\enumerador\ColorMarron.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\enumerador\ColorOscuro.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\enumerador\ColorVerde.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\AgendaDAOImplementacion.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\EmailDAOImplementacion.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\ObraSocial\ObraSocialDAOImplementacion.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\ObraSocial\PlanObraSocialDAOImplementacion.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\ObraSocial\TelefonoObraSocialDAOImplementacion.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\Paciente\AfiliadoDAOImplementacion.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\Paciente\AutorizacionDAOImplementacion.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\Paciente\CodigoFacturacionDAOImplementacion.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\Paciente\DatosPrincipalesDAOImplementacion.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\Paciente\DiagnosticoDAOImplementacion.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\Paciente\EstadoFacturacionDAOImplementacion.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\Paciente\FrecuenciaSesionPlanDAOImplementacion.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\Paciente\HonorarioDAOImplementacion.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\Paciente\ObraSocialPacienteDAOImplementacion.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\Paciente\PacienteDAOImplementacion.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\Paciente\PlanTratamientoDAOImplementacion.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\Paciente\SesionDAOImplementacion.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\Paciente\TipoSesionPlanDAOImplementacion.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\PadreDAOImplementacion.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\TelefonoDAOImplementacion.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\implementacionDAO\UsuarioDAOImplementacion.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\AccionesAgenda.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\Afiliado.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\Agenda.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\AutorizacionesSesionesObraSociales.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\Cliente.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\CodigoFacturacion.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\DiagnosticoPaciente.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\Email.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\EstadoFacturacion.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\FrecuenciaSesion.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\Honorario.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\ObraSocial.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\ObraSocialPaciente.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\OrdenesObrasSociales.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\Paciente.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\PlanObraSocial.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\PlanTratamiento.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\SesionPaciente.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\Telefono.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\TemaAplicacion.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\TipoSesion.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\Usuario.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\modelo\Web.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\Principal.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\servicios\ClienteActualizacion.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\servicios\ConexionMariadb.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\servicios\ConstruirApp.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\servicios\ConsultasBD.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\servicios\Encriptar.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\servicios\InicializarObjeto.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\servicios\ServicioObraSocial.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\servicios\ServicioPaciente.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\servicios\ServicioRegistrar.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\servicios\ServiciosAgenda.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\servicios\ServiciosPadre.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\utilidades\DraggedScene.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\utilidades\Exepciones.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\utilidades\Hilo.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\utilidades\MetodosComoParametros.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\utilidades\SubirArchivoGoogleDrive.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\utilidades\TablaObrasSociales.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\utilidades\TablaSesiones.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\utilidades\VariablesEstaticas.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\validacion\Validar.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\com\pacientes\gestor_pacientes\validacion\ValidarPadre.java
+C:\Users\Public\App_gestor_pacientes\gestor_pacientes\src\main\java\module-info.java
