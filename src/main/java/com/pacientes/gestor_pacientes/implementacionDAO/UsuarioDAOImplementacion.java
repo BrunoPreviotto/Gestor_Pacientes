@@ -514,7 +514,7 @@ public class UsuarioDAOImplementacion extends PadreDAOImplementacion implements 
             } else {
                 pst = conexion.conexion().prepareStatement(sqlActualizar);
                 pst.setString(1, numeroActualizacion);
-                pst.setInt(3, VariablesEstaticas.usuario.getId());
+                pst.setInt(2, VariablesEstaticas.usuario.getId());
                 pst.executeUpdate();
 
             }

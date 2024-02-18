@@ -2884,8 +2884,9 @@ public class MenuInicioController extends PacienteController implements Initiali
                         System.out.println(VariablesEstaticas.esSiONoMensajePrguntarSiONo);
                         if(VariablesEstaticas.esSiONoMensajePrguntarSiONo){
                             System.out.println("entra"); 
+                            usuarioDAOImplementacion.actualizarVersionActualizarApp(json.getString("1"));
                             cliente.descargarDrive(rutaJarActualizar);   
-                             usuarioDAOImplementacion.actualizarVersionActualizarApp(json.getString("1"));
+                             
                         }
                        
                     }
