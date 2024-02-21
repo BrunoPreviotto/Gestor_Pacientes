@@ -2866,7 +2866,7 @@ public class MenuInicioController extends PacienteController implements Initiali
              
             if(Os.isFamily(Os.FAMILY_WINDOWS)){
                 file = new File(file.getParent());
-                //file = new File(file.getParent());
+                file = new File(file.getParent());
                 rutaJarActualizar = file.getParent() + "\\Act\\Actualizador\\actualizacionGestorPaciente\\target\\actualizador-1.0-SNAPSHOT.jar";
                 System.out.println(rutaJarActualizar);
                 //containerMenu.getChildren().add(new Label(file.getParent()));
@@ -2885,6 +2885,7 @@ public class MenuInicioController extends PacienteController implements Initiali
                         System.out.println(VariablesEstaticas.esSiONoMensajePrguntarSiONo);
                         if(VariablesEstaticas.esSiONoMensajePrguntarSiONo){
                             System.out.println("entra"); 
+                            cliente.VaciarDirectorio(ruta + "\\paso\\gestor_pacientes");
                             //usuarioDAOImplementacion.actualizarVersionActualizarApp(json.getString("1"));
                             cliente.descargarDrive(rutaJarActualizar);   
                              
