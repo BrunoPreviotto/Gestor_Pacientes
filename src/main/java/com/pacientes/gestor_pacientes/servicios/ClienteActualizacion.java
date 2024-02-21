@@ -105,8 +105,25 @@ public class ClienteActualizacion {
     }
     
     
+    public void VaciarDirectorio(String rutaDirectorio) {
+
+        // Ruta del directorio que deseas vaciar
+        File directorio = new File(rutaDirectorio);
+
+        try {
+            FileUtils.cleanDirectory(directorio);
+            System.out.println("Directorio vaciado exitosamente.");
+        } catch (IOException e) {
+            System.out.println("Error al vaciar el directorio: " + e.getMessage());
+
+        }
+    }
+    
+    
 }
 
+
+     
 
 /*
 private static void clonarRepositorio(String urlRepositorio, String carpetaDestino) throws Exception {
