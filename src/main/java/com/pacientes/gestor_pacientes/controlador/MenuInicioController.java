@@ -2783,14 +2783,14 @@ public class MenuInicioController extends PacienteController implements Initiali
             }
             
 
-            //SI LA RUTRA NO ES NULA ACTUALIZA SOLAMENTE
+            //SI LA RUTA NO ES NULA ACTUALIZA SOLAMENTE
             if(!rutaActual.isBlank() || !rutaActual.isEmpty()){
                 //SI EXISTE EL JAR ACTUALIZADOR
                 if(Objects.nonNull(rutaJarActualizar)){
-                    cliente.descargarDrive(rutaJarActualizar);
+                    //cliente.descargarDrive(rutaJarActualizar);
                     //SI HAY UNA NUEVA VERSION
                     if(!usuarioDAOImplementacion.obtenerVersionActualizarApp(json.getString("1"))){
-                        cliente.descargarDrive(rutaJarActualizar);
+                        cliente.descargarDrive(rutaJarActualizar, rutaActual);
                     }
                     //usuarioDAOImplementacion.actualizarRutaActualizarApp(carpetaDestino, json.getString("1"));
                     //cliente.descargarDrive(rutaJarActualizar);
@@ -2799,9 +2799,9 @@ public class MenuInicioController extends PacienteController implements Initiali
                 
                 if(Objects.nonNull(rutaJarActualizar)){
                     usuarioDAOImplementacion.actualizarRutaActualizarApp(file.getAbsolutePath(), json.getString("1"));
-                    
+                    rutaActual = usuarioDAOImplementacion.obtenerRutaActualizarApp();
                     if(!usuarioDAOImplementacion.obtenerVersionActualizarApp(json.getString("1"))){
-                       cliente.descargarDrive(rutaJarActualizar);
+                       cliente.descargarDrive(rutaJarActualizar, rutaActual);
                     }
                     //usuarioDAOImplementacion.actualizarRutaActualizarApp(carpetaDestino, json.getString("1"));
                     //cliente.descargarDrive(rutaJarActualizar);
@@ -2848,52 +2848,50 @@ public class MenuInicioController extends PacienteController implements Initiali
     }
     
     public void actualizarAppAutomaticamente() {
-        
-            
-        
-        
-         try {
+
+        try {
             UsuarioDAOImplementacion usuarioDAOImplementacion = new UsuarioDAOImplementacion();
             ClienteActualizacion cliente = new ClienteActualizacion();
             JSONObject json = new JSONObject(cliente.getReadmeContent());
-            
+
             String rutaJarActualizar = null;
             //user.home user.dir
             String rutaDeLaAplicacion = System.getProperty("user.dir");
             File file = new File(rutaDeLaAplicacion);
 
             String ruta = usuarioDAOImplementacion.obtenerRutaActualizarApp();
-             
-            if(Os.isFamily(Os.FAMILY_WINDOWS)){
+
+            if (Os.isFamily(Os.FAMILY_WINDOWS)) {
                 file = new File(file.getParent());
                 file = new File(file.getParent());
                 rutaJarActualizar = file.getParent() + "\\Act\\Actualizador\\actualizacionGestorPaciente\\target\\actualizador-1.0-SNAPSHOT.jar";
                 System.out.println(rutaJarActualizar);
                 //containerMenu.getChildren().add(new Label(file.getParent()));
-            }else{
+            } else {
                 rutaJarActualizar = file.getParent() + "/actualizacionGestorPaciente/target/actualizador-1.0-SNAPSHOT.jar";
             }
-            
+
             if (ruta.equals("")) {
-               
-                mensajeAdvertenciaError("Determinar carpeta contenedora de programa", this, VariablesEstaticas.imgenAdvertencia);
-            } else {
-                
-                if (Objects.nonNull(rutaJarActualizar)) {
-                    if (!usuarioDAOImplementacion.obtenerVersionActualizarApp(json.getString("1"))) {
-                       mensajePreguntarSiONo("Hay una nueva actualizacion.¿Desea actualizar?");
-                        System.out.println(VariablesEstaticas.esSiONoMensajePrguntarSiONo);
-                        if(VariablesEstaticas.esSiONoMensajePrguntarSiONo){
-                            
-                            cliente.VaciarDirectorio(ruta + "\\paso\\gestor_pacientes");
-                            //usuarioDAOImplementacion.actualizarVersionActualizarApp(json.getString("1"));
-                            cliente.descargarDrive(rutaJarActualizar);   
-                             
-                        }
-                       
+                usuarioDAOImplementacion.actualizarRutaActualizarApp(file.getAbsolutePath(), json.getString("1"));
+                ruta = usuarioDAOImplementacion.obtenerRutaActualizarApp();
+                //mensajeAdvertenciaError("Determinar carpeta contenedora de programa", this, VariablesEstaticas.imgenAdvertencia);
+            }
+
+            if (Objects.nonNull(rutaJarActualizar)) {
+                if (!usuarioDAOImplementacion.obtenerVersionActualizarApp(json.getString("1"))) {
+                    mensajePreguntarSiONo("Hay una nueva actualizacion.¿Desea actualizar?");
+
+                    if (VariablesEstaticas.esSiONoMensajePrguntarSiONo) {
+
+                        //cliente.VaciarDirectorio(ruta + "\\paso\\gestor_pacientes");
+                        usuarioDAOImplementacion.actualizarVersionActualizarApp(json.getString("1"));
+                        cliente.descargarDrive(rutaJarActualizar, ruta);
+
                     }
+
                 }
             }
+
         } catch (Exception e) {
             mensajeAdvertenciaError("Error al actualizar", this, VariablesEstaticas.imgenError);
         }

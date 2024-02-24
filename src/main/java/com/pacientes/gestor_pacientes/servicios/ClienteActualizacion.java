@@ -7,7 +7,7 @@ package com.pacientes.gestor_pacientes.servicios;
 import java.io.BufferedReader;
 import org.eclipse.jgit.api.Git;
 
-
+import org.apache.maven.shared.utils.Os;
 
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -46,7 +46,7 @@ public class ClienteActualizacion {
    
     
     
-    public void descargarDrive(String carpetaDestino)  {
+    public void descargarDrive(String carpetaDestino, String rutaApp)  {
        
         
         
@@ -55,21 +55,25 @@ public class ClienteActualizacion {
         
 
         try {
-            actualizar(carpetaDestino);
+            actualizar(carpetaDestino, rutaApp);
             
         } catch (Exception e) {
             e.printStackTrace();
         }
    }
     
-     private void actualizar(String rutaArchivo){
+     private void actualizar(String rutaArchivo, String rutaApp){
         
 
         try {
+            if(Os.isFamily(Os.FAMILY_WINDOWS)){
+                VaciarDirectorio(rutaApp + "\\paso\\gestor_pacientes");
+            }
+            
             // Lanzar la otra aplicación
             ProcessBuilder processBuilder = new ProcessBuilder("java", "-jar", rutaArchivo);
             Process procesoOtraAplicacion = processBuilder.start();
-            System.out.println(processBuilder.toString());
+           
             // Puedes esperar a que el proceso termine si es necesario
             // procesoOtraAplicacion.waitFor();
 
