@@ -17,6 +17,23 @@ public class Usuario {
     private Email email;
     private boolean es_usuario;
     private boolean es_ultima_sesion_iniciada;
+    private long codigo;
+
+    public void setEs_ultima_sesion_iniciada(boolean es_ultima_sesion_iniciada) {
+        this.es_ultima_sesion_iniciada = es_ultima_sesion_iniciada;
+    }
+
+    public void setCodigo(long codigo) {
+        this.codigo = codigo;
+    }
+
+    public boolean isEs_ultima_sesion_iniciada() {
+        return es_ultima_sesion_iniciada;
+    }
+
+    public long getCodigo() {
+        return codigo;
+    }
     
     //CONSTRUCTOR 1
     public Usuario(){
@@ -30,6 +47,13 @@ public class Usuario {
         this.email = email;
     }
     
+    public Usuario(int id, String nombre, String apellido, String usuario, Email email) {
+        this.id = id;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.usuario = usuario;
+        this.email = email;
+    }
     
 
     public Usuario(String nombre, String apellido, String usuario, String contraseña, Email email, boolean es_usuario, boolean es_ultima_sesion_iniciada) {

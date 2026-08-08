@@ -27,17 +27,18 @@ public class ConexionMariadb {
     }
     
     public Connection conexion(){
-        Connection conexion = null;
+        //Connection conexion = null;
         String url = "jdbc:mariadb://localhost:3306/gestion_pacientes";
-        String user = "root";
+        String user = "cliente";
         String pwd = "";
         try{
-            conexion = DriverManager.getConnection(url, user, pwd);
+            return DriverManager.getConnection(url, user, pwd);
         }catch(SQLException e){
-            e.printStackTrace();
-        }finally{
+             throw new RuntimeException("Error conectando a MariaDB", e);
+           // e.printStackTrace();
+        }/*finally{
             return conexion;
-        }
+        }*/
         
         
     }

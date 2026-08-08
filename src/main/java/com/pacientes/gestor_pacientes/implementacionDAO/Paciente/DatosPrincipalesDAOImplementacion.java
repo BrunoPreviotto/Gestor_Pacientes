@@ -15,6 +15,7 @@ import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -222,7 +223,31 @@ public class DatosPrincipalesDAOImplementacion extends PadreDAOImplementacion im
 
     @Override
     public List<Paciente> obtenerLista(Paciente objetoParametro) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sqlListaPacientes = "SELECT p.id_paciente, p.edad, p.dni, n.nombre, n.apellido, h.honorario, t.numero_telefono \n" +
+                                    "FROM pacientes p \n" +
+                                    "JOIN nombres n ON p.id_nombre = n.id_nombre\n" +
+                                    "JOIN honorarios h ON p.id_honorario = h.id_honorario \n" +
+                                    "JOIN telefonos_pacientes t ON p.id_telefono_paciente = t.id_telefono_paciente\n" +
+                                    "JOIN usuarios_pacientes up ON p.id_paciente = up.id_paciente \n" +
+                                    "WHERE up.id_usuario = ?; ";
+        
+            PreparedStatement pSDni = conexion.conexion().prepareStatement(sqlListaPacientes);
+            pSDni.setInt(1, VariablesEstaticas.getUsuario().getId());
+            ResultSet rs = pSDni.executeQuery();
+            
+            List<Paciente> pacietes = new ArrayList();
+            while(rs.next()){
+                pacietes.add(new Paciente(rs.getString("nombre"),
+                        rs.getString("apellido"),
+                        rs.getInt("edad"),
+                        rs.getInt("dni"),
+                        new Honorario(rs.getDouble("honorario")),
+                        new Telefono(rs.getString("numero_telefono"))));
+            }
+            
+            return pacietes;
+        
+        
     }
 
     

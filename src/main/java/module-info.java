@@ -25,6 +25,8 @@ module com.pacientes.gestor_pacientes {
     
     requires maven.invoker;
     
+    requires jakarta.mail;
+    
     opens com.pacientes.gestor_pacientes to javafx.graphics, javafx.fxml;
     
    opens com.pacientes.gestor_pacientes.controlador to javafx.fxml;

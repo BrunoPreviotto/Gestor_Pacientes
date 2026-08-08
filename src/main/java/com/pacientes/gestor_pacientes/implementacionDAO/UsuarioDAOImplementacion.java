@@ -148,6 +148,9 @@ public class UsuarioDAOImplementacion extends PadreDAOImplementacion implements 
         
         idEmail = daoImplementacion.obtenerId(usuario.getEmail());
         
+        
+       
+        
         pst = conexion.conexion().prepareStatement(sqlActualizar);
         pst.setString(1, usuario.getUsuario());
         pst.setInt(2, IdNombre);
@@ -155,6 +158,103 @@ public class UsuarioDAOImplementacion extends PadreDAOImplementacion implements 
         pst.setInt(4, usuario.getId());
         pst.executeUpdate();
     }
+    
+    public Usuario obtenerCodigo(Usuario usuario) throws Exception{
+         Usuario usuarioObtenido = new Usuario();
+         
+            
+            
+            String sql = "SELECT codigo_recuperacion FROM usuarios WHERE id_usuario=? AND es_ultima_sesion_iniciada=true;";
+            
+            
+            PreparedStatement pst = conexion.conexion().prepareStatement(sql);
+            pst.setInt(1,usuario.getId());
+            
+            ResultSet rs = pst.executeQuery();
+            if(rs.next()){
+                usuarioObtenido.setCodigo(rs.getLong("codigo_recuperacion"));
+               
+            }else{
+                throw sqlException;
+            }
+            rs.close();
+            pst.close();
+           
+            
+            return usuarioObtenido;
+       
+       
+    }
+    
+    
+    public void insertarCodigo(long codigo, int idUsuario){
+         
+        String sqlUpdate = "UPDATE usuarios SET codigo_recuperacion = ? WHERE es_ultima_sesion_iniciada = true AND id_usuario = ?";
+        
+        try {
+            PreparedStatement pst = conexion.conexion().prepareStatement(sqlUpdate);
+            
+            pst.setLong(1, codigo);
+            pst.setInt(2, idUsuario);
+            pst.executeUpdate();
+            
+            pst.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void actualizarContraseña(Usuario usuario){
+        String sqlActualizar = "UPDATE usuarios SET contraseña = ? WHERE id_usuario = ? AND es_ultima_sesion_iniciada = true;";
+        
+        
+        try {
+            PreparedStatement pst = conexion.conexion().prepareStatement(sqlActualizar);
+            pst.setString(1, Encriptar.convertirSHA256(usuario.getContraseña()));
+            pst.setInt(2, usuario.getId());
+            pst.executeUpdate();
+            pst.close();
+            
+        } catch (SQLException e) {
+             e.printStackTrace();
+        }
+        
+       
+        
+        
+    }
+    
+    
+    public boolean obtenerCompContraContraseña(Usuario usuario) throws Exception{
+         Usuario usuarioObtenido = new Usuario();
+         
+            
+            
+            String sql = "SELECT id_usuario FROM usuarios WHERE id_usuario=? AND contraseña=?;";
+            
+            
+            PreparedStatement pst = conexion.conexion().prepareStatement(sql);
+            pst.setInt(1,usuario.getId());
+            pst.setString(2, Encriptar.convertirSHA256(usuario.getContraseña()));
+            ResultSet rs = pst.executeQuery();
+            if(rs.next()){
+                rs.close();
+                pst.close();
+                return true;
+               
+            }else{
+                rs.close();
+                pst.close();
+                return false;
+            }
+            
+           
+            
+           // return usuarioObtenido;
+       
+       
+    }
+   
 
     @Override
     public void eliminar(Usuario cliente) {
@@ -269,7 +369,7 @@ public class UsuarioDAOImplementacion extends PadreDAOImplementacion implements 
     public Usuario obtenerUsuarioActual() {
         Usuario usuarioObtenido = new Usuario();
         try {
-            String sqlSNombre = "SELECT n.nombre, n.apellido, u.usuario, u.contraseña, e.email  \n" +
+            String sqlSNombre = "SELECT u.id_usuario, n.nombre, n.apellido, u.usuario, u.contraseña, e.email  \n" +
                                 "FROM usuarios u\n" +
                                 "JOIN nombres n ON u.id_nombre = n.id_nombre \n" +
                                 "JOIN  emails e ON u.id_email = e.id_email \n" +
@@ -278,7 +378,7 @@ public class UsuarioDAOImplementacion extends PadreDAOImplementacion implements 
             ResultSet rs = pSNombre.executeQuery();
             if(rs.next()){
                
-                
+                usuarioObtenido.setId(rs.getInt("id_usuario"));
                 usuarioObtenido.setApellido(rs.getString("apellido"));
                 usuarioObtenido.setNombre(rs.getString("nombre"));
                 usuarioObtenido.setUsuario(rs.getString("usuario"));

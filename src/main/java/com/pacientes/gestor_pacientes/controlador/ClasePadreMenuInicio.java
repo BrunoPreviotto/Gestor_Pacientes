@@ -533,6 +533,8 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     @FXML
     protected Button botonRetornarObraSocialPaciente;
     
+    
+    
     //CHOISE
     @FXML
     protected ChoiceBox<String> choiseNombreObraSocialPaciente;
@@ -554,6 +556,7 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     protected VBox vboxPlanObraSocialPaciente;
     @FXML
     protected VBox vboxPlanObraSocialPacienteActualizarVer;
+   
     
     /***
      * 
@@ -682,6 +685,7 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     protected Label etiquetaNombreInicio;
     
     
+    
     /*
         <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
         <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -707,6 +711,13 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     protected TextField cajaContraseñaOpcionesUsuario;
     @FXML
     protected TextField cajaEmailOpcionesUsuario;
+    @FXML
+    protected TextField cajaRepetirRestaurarContraseñaOpcionesUsuario;
+    @FXML
+    protected TextField cajaRestaurarContraseñaopcionesUsuario;
+    
+    @FXML
+    protected TextField cajaCodigoOpcionesUsuario;
     
     //ANCHOR PANE
     @FXML
@@ -736,9 +747,21 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     @FXML
     protected Button botonColorSalmon;
     
+    @FXML
+    protected Button botonComprobarCodigoOpciones;
+    
     //BOTON
     @FXML
     protected Button botonActualizarUsuarioOpciones;
+    @FXML
+    protected Button botonActualizarContraseñaUsuario;
+    
+    
+    //VBBOX
+    @FXML
+    protected VBox vBoxRecuperarContraseña;
+    @FXML
+    protected VBox vBoxCodiRecuperacionOpciones;
     
     /*
         <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

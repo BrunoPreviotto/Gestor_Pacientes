@@ -5,6 +5,7 @@ package com.pacientes.gestor_pacientes;
 import com.pacientes.gestor_pacientes.implementacionDAO.UsuarioDAOImplementacion;
 import com.pacientes.gestor_pacientes.controlador.MenuInicioController;
 import com.pacientes.gestor_pacientes.modelo.TemaAplicacion;
+import com.pacientes.gestor_pacientes.servicios.ServicioMenuInicio;
 import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -72,7 +73,7 @@ public class App extends Application {
         //Loader = new FXMLLoader( loadFXML("MenuInicio"));
         
       
-        Parent root = loadFXML("MenuInicio");
+        Parent root = Loader.load();
         scenePrincipal = new Scene(root);
         scenePrincipal.setFill(Color.TRANSPARENT);
         stage.setScene(scenePrincipal);
@@ -105,7 +106,8 @@ public class App extends Application {
     
     @Override
     public void stop(){
-        
+        ServicioMenuInicio servicioMI = new ServicioMenuInicio();
+        servicioMI.cerrarMenu();
     }
 
 }

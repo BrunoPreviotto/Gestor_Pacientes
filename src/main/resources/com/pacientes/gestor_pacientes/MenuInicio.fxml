@@ -1,17 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.web.*?>
+<?import java.lang.String?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.effect.DisplacementMap?>
+<?import javafx.scene.effect.FloatMap?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.CubicCurve?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.web.HTMLEditor?>
 
-<AnchorPane fx:id="containerMenu" prefHeight="650.0" prefWidth="1100.0" stylesheets="@styles/menuinicio.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pacientes.gestor_pacientes.controlador.MenuInicioController">
+<AnchorPane fx:id="containerMenu" prefHeight="650.0" prefWidth="1100.0" stylesheets="@styles/menuinicio.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pacientes.gestor_pacientes.controlador.MenuInicioController">
    <children>
       <AnchorPane fx:id="vbLateral" prefHeight="650.0" prefWidth="100.0" style="-fx-background-color: white;" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -498,7 +526,7 @@
                   <String fx:value="root" />
                </styleClass>
             </AnchorPane>
-            <AnchorPane fx:id="apOpciones" stylesheets="@styles/menuinicio.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="apOpciones" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <TabPane fx:id="tabPaneOpciones" stylesheets="@styles/opciones.css" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <tabs>
@@ -557,9 +585,128 @@
                                                             <Font name="Abyssinica SIL" size="16.0" />
                                                          </font>
                                                       </Label>
+                                                      <VBox prefHeight="112.0" prefWidth="400.0">
+                                                         <children>
+                                                            <VBox fx:id="vBoxCodiRecuperacionOpciones" prefHeight="200.0" prefWidth="100.0" visible="false">
+                                                               <children>
+                                                                  <Label fx:id="labelRestaurarContraseña1" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Ingresar código de recuperación">
+                                                                     <font>
+                                                                        <Font name="Abyssinica SIL" size="16.0" />
+                                                                     </font>
+                                                                  </Label>
+                                                                  <TextField fx:id="cajaCodigoOpcionesUsuario" alignment="CENTER" onKeyTyped="#soloNumero" promptText="Ingresar Código" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
+                                                                  <HBox fx:id="botoneraCRUDObraSocial111" alignment="TOP_RIGHT" prefHeight="25.0" prefWidth="23.0">
+                                                                     <children>
+                                                                        <Button fx:id="botonComprobarCodigoOpciones" alignment="TOP_CENTER" mnemonicParsing="false" onMouseClicked="#comprobarCodigoUsuarioOpciones" stylesheets="@styles/menuinicio.css">
+                                                                           <HBox.margin>
+                                                                              <Insets />
+                                                                           </HBox.margin>
+                                                                           <styleClass>
+                                                                              <String fx:value="botonBuscar" />
+                                                                              <String fx:value="botonBuscarChico" />
+                                                                           </styleClass>
+                                                                           <graphic>
+                                                                              <AnchorPane prefHeight="19.0" prefWidth="22.0">
+                                                                                 <children>
+                                                                                    <Line endX="6.0" rotate="90.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="9.0" />
+                                                                                    <Line endX="10.0" layoutY="18.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="16.0" />
+                                                                                    <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="4.2" AnchorPane.topAnchor="4.0" />
+                                                                                    <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="-45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.rightAnchor="4.2" AnchorPane.topAnchor="3.0" />
+                                                                                 </children>
+                                                                              </AnchorPane>
+                                                                           </graphic>
+                                                                           <opaqueInsets>
+                                                                              <Insets />
+                                                                           </opaqueInsets>
+                                                                        </Button>
+                                                                     </children>
+                                                                     <opaqueInsets>
+                                                                        <Insets />
+                                                                     </opaqueInsets>
+                                                                  </HBox>
+                                                               </children>
+                                                            </VBox>
+                                                            <VBox fx:id="vBoxRecuperarContraseña" prefHeight="200.0" prefWidth="100.0" visible="false">
+                                                               <children>
+                                                                  <Label fx:id="labelRestaurarContraseña" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Nueva Contraseña">
+                                                                     <font>
+                                                                        <Font name="Abyssinica SIL" size="16.0" />
+                                                                     </font>
+                                                                  </Label>
+                                                                  <TextField fx:id="cajaRestaurarContraseñaopcionesUsuario" alignment="CENTER" promptText="Ingresar Contraseña" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
+                                                                  <Label fx:id="labelRepetirRestaurarContraseña" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Repetir contraseña">
+                                                                     <font>
+                                                                        <Font name="Abyssinica SIL" size="16.0" />
+                                                                     </font>
+                                                                  </Label>
+                                                                  <TextField fx:id="cajaRepetirRestaurarContraseñaOpcionesUsuario" alignment="CENTER" promptText="Repetir Contraseña" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
+                                                                  <HBox fx:id="botoneraCRUDObraSocial11" alignment="TOP_RIGHT" prefHeight="25.0" prefWidth="23.0">
+                                                                     <children>
+                                                                        <Button fx:id="botonActualizarContraseñaUsuario" alignment="TOP_CENTER" mnemonicParsing="false" onMouseClicked="#actualizaContraseñarUsuarioOpciones" stylesheets="@styles/menuinicio.css">
+                                                                           <HBox.margin>
+                                                                              <Insets />
+                                                                           </HBox.margin>
+                                                                           <styleClass>
+                                                                              <String fx:value="botonBuscar" />
+                                                                              <String fx:value="botonBuscarChico" />
+                                                                           </styleClass>
+                                                                           <graphic>
+                                                                              <AnchorPane prefHeight="19.0" prefWidth="22.0">
+                                                                                 <children>
+                                                                                    <Line endX="6.0" rotate="90.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="9.0" />
+                                                                                    <Line endX="10.0" layoutY="18.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="16.0" />
+                                                                                    <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="4.2" AnchorPane.topAnchor="4.0" />
+                                                                                    <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="-45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.rightAnchor="4.2" AnchorPane.topAnchor="3.0" />
+                                                                                 </children>
+                                                                              </AnchorPane>
+                                                                           </graphic>
+                                                                           <opaqueInsets>
+                                                                              <Insets />
+                                                                           </opaqueInsets>
+                                                                        </Button>
+                                                                     </children>
+                                                                     <VBox.margin>
+                                                                        <Insets top="5.0" />
+                                                                     </VBox.margin>
+                                                                     <opaqueInsets>
+                                                                        <Insets />
+                                                                     </opaqueInsets>
+                                                                  </HBox>
+                                                               </children>
+                                                            </VBox>
+                                                         </children>
+                                                      </VBox>
+                                                      <Label fx:id="contraseñasNoCoinciden" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Las contraseñas no coinciden" textFill="#eb0202" visible="false">
+                                                         <font>
+                                                            <Font name="Abyssinica SIL" size="16.0" />
+                                                         </font>
+                                                      </Label>
                                                    </children>
                                                 </VBox>
+                                                <Label fx:id="labelRecuperarContraseña" onMouseClicked="#recuperarContraseña" onMouseEntered="#subrayarLabel" onMouseExited="#desSubRayarLabel" text="Recuperar contraseña" textFill="#3e5fb9">
+                                                   <effect>
+                                                      <Lighting diffuseConstant="1.25">
+                                                         <bumpInput>
+                                                            <Shadow />
+                                                         </bumpInput>
+                                                         <light>
+                                                            <Light.Distant>
+                                                               <color>
+                                                                  <Color red="0.265350878238678" green="0.2955043911933899" blue="0.8684210777282715" />
+                                                               </color>
+                                                            </Light.Distant>
+                                                         </light>
+                                                      </Lighting>
+                                                   </effect>
+                                                </Label>
                                              </children>
+                                             <effect>
+                                                <DisplacementMap>
+                                                   <mapData>
+                                                      <FloatMap />
+                                                   </mapData>
+                                                </DisplacementMap>
+                                             </effect>
                                           </VBox>
                                        </children>
                                     </HBox>
@@ -636,7 +783,7 @@
                   <String fx:value="root" />
                </styleClass>
             </AnchorPane>
-            <AnchorPane fx:id="apPacientes" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="apPacientes" stylesheets="@styles/menuinicio.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="30.0" prefWidth="300.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
                     <buttons>
@@ -684,7 +831,7 @@
                         </TextField>
                     </buttons>
                   </ButtonBar>
-                  <Accordion fx:id="acordionPaciente" styleClass="root" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+                  <Accordion fx:id="acordionPaciente" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="40.0">
                     <panes>
                       <TitledPane fx:id="titlePaneDatosPrincipales" alignment="BASELINE_LEFT" onMouseClicked="#expandirTitledPane" text="Datos principales">
                         <content>
@@ -694,6 +841,22 @@
                                        <right>
                                           <HBox fx:id="botoneraCrudDatosPrincipales" alignment="BOTTOM_RIGHT" BorderPane.alignment="CENTER">
                                              <children>
+                                                <Button fx:id="botonListaDatosPrincipales" mnemonicParsing="false" onMouseClicked="#abrirLIstaDePacientes" prefHeight="22.0" prefWidth="23.0">
+                                                   <styleClass>
+                                                      <String fx:value="botonBuscar" />
+                                                      <String fx:value="eliminarActualizar" />
+                                                      <String fx:value="botonBuscarChico" />
+                                                   </styleClass>
+                                                   <graphic>
+                                                      <AnchorPane>
+                                                         <children>
+                                                            <Rectangle fill="DODGERBLUE" height="3.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0" styleClass="figuraBoton" width="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="5.0" />
+                                                            <Rectangle fill="DODGERBLUE" height="3.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0" styleClass="figuraBoton" width="15.0" AnchorPane.topAnchor="10.0" />
+                                                            <Rectangle fill="DODGERBLUE" height="3.0" stroke="BLACK" strokeMiterLimit="5.0" strokeType="INSIDE" strokeWidth="3.0" styleClass="figuraBoton" width="15.0" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </graphic>
+                                                </Button>
                                                 <Button fx:id="botonAgregarDatosPrincipales" mnemonicParsing="false" onMouseClicked="#crearPaciente" prefHeight="20.0" prefWidth="20.0" stylesheets="@styles/menuinicio.css">
                                                    <styleClass>
                                                       <String fx:value="botonBuscar" />
@@ -807,7 +970,7 @@
                                                             </TextField>
                                                          </children>
                                                       </HBox>
-                                                      <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="DNI">
+                                                      <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="DNI/Numero paciente">
                                                          <font>
                                                             <Font name="Abyssinica SIL" size="13.0" />
                                                          </font>
@@ -817,7 +980,7 @@
                                                       </Label>
                                                       <HBox accessibleRoleDescription="HBox" prefHeight="46.0" prefWidth="200.0">
                                                          <children>
-                                                            <TextField fx:id="cajaDniDatosPrincipales" accessibleHelp="controlImportante" accessibleRoleDescription="num" accessibleText="datosPrincipales" alignment="BOTTOM_CENTER" onKeyPressed="#volverCajaALaNormalidad" onKeyTyped="#onKeyTyped" prefHeight="24.0" prefWidth="220.0" promptText="Ingresar DNI" stylesheets="@styles/menuinicio.css">
+                                                            <TextField fx:id="cajaDniDatosPrincipales" accessibleHelp="controlImportante" accessibleRoleDescription="num" accessibleText="datosPrincipales" alignment="BOTTOM_CENTER" onKeyPressed="#volverCajaALaNormalidad" onKeyTyped="#onKeyTyped" prefHeight="24.0" prefWidth="220.0" promptText="Ingresar DNI/Número paciente" stylesheets="@styles/menuinicio.css">
                                                                <styleClass>
                                                                   <String fx:value="cajasChicas" />
                                                                   <String fx:value="cajas" />
