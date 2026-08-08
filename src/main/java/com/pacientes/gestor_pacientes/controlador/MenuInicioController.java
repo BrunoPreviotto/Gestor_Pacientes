@@ -2931,7 +2931,7 @@ public class MenuInicioController extends PacienteController implements Initiali
         }
             
     }
-    
+    //dsd
     @FXML
     void actualizaContraseñarUsuarioOpciones(MouseEvent event) {
        
