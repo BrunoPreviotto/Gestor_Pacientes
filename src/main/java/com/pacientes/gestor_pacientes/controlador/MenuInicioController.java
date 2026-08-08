@@ -20,6 +20,7 @@ import com.pacientes.gestor_pacientes.utilidades.TablaSesiones;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
 import com.pacientes.gestor_pacientes.App;
+import com.pacientes.gestor_pacientes.controlador.Paciente.DatosPrincipalesController;
 import com.pacientes.gestor_pacientes.controlador.Paciente.DiagnosticoController;
 
 import com.pacientes.gestor_pacientes.implementacionDAO.ObraSocial.PlanObraSocialDAOImplementacion;
@@ -34,6 +35,8 @@ import com.pacientes.gestor_pacientes.implementacionDAO.Paciente.PlanTratamiento
 import com.pacientes.gestor_pacientes.implementacionDAO.Paciente.SesionDAOImplementacion;
 import com.pacientes.gestor_pacientes.implementacionDAO.Paciente.TipoSesionPlanDAOImplementacion;
 import com.pacientes.gestor_pacientes.servicios.ClienteActualizacion;
+import com.pacientes.gestor_pacientes.servicios.GestorMail;
+import com.pacientes.gestor_pacientes.servicios.ServicioOpciones;
 import com.pacientes.gestor_pacientes.utilidades.Exepciones;
 
 import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
@@ -55,6 +58,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -64,6 +68,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 
 
 import javafx.scene.Node;
@@ -76,9 +81,10 @@ import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 
 
+
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToolBar;
+
 
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -87,21 +93,17 @@ import javafx.scene.input.MouseEvent;
 
 
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.web.HTMLEditor;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
+
 
 import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
+
 
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Duration;
+
 import org.apache.maven.shared.utils.Os;
 import org.json.JSONObject;
 
@@ -224,7 +226,7 @@ public class MenuInicioController extends PacienteController implements Initiali
         } catch (Exception e) {
         }*/
         
-        actualizarAppAutomaticamente();
+        //actualizarAppAutomaticamente();
     }
     
     
@@ -1242,7 +1244,7 @@ public class MenuInicioController extends PacienteController implements Initiali
                                 ocultarLIstVBox(VariablesEstaticas.vboxsObraSocialPaciente).
                                 deshabilitarCajas(VariablesEstaticas.cajasObraSocialPaciente);
                         botonActualizarObraSocialPaciente.setId("botonActualizarObraSocialPaciente");
-                        mensajeAdvertenciaError( "Obra social del paciente actualizada con éxito", this, VariablesEstaticas.imgenAdvertencia);
+                        mensajeAdvertenciaError( "Obra social del paciente actualizada con éxito", this, VariablesEstaticas.imgenExito);
                     }
                 } else {
                     mensajeAdvertenciaError( "Buscar paciente a actualizar", this, VariablesEstaticas.imgenAdvertencia);
@@ -2213,6 +2215,7 @@ public class MenuInicioController extends PacienteController implements Initiali
         
       @FXML
     public void actualizarUsuarioOpciones(MouseEvent event) {
+          
         try {
             Usuario usuarioActualizar;
             if (botonActualizarUsuarioOpciones.getId().equals("1")) {
@@ -2222,18 +2225,27 @@ public class MenuInicioController extends PacienteController implements Initiali
                         || !cajaUusarioOpcionesUsuario.getText().isBlank()) {
 
                     if (cajaEmailOpcionesUsuario.getText().isBlank()) {
-                        cajaEmailOpcionesUsuario.setText("sin Email");
+                        cajaEmailOpcionesUsuario.setText("Sin Email");
                     }
 
-                    usuarioActualizar = new Usuario(cajaNombreOpcionesUsuario.getText(), cajaApellidoOpcionesUsuario.getText(), cajaUusarioOpcionesUsuario.getText(), new Email(cajaEmailOpcionesUsuario.getText()));
+                    usuarioActualizar = new Usuario(usuario.getId(), cajaNombreOpcionesUsuario.getText(), cajaApellidoOpcionesUsuario.getText(), cajaUusarioOpcionesUsuario.getText(), new Email(cajaEmailOpcionesUsuario.getText()));
 
                     if (!usuarioDao.existeNombreUsuario(usuarioActualizar)) {
+                            
                             daoImplementacion = new UsuarioDAOImplementacion();
                             daoImplementacion.actualizar(usuarioActualizar);
                             mensajeAdvertenciaError("Usuario actualizado con éxito", this, VariablesEstaticas.imgenExito);
                             servicioPaciente.deshabilitarCajas(VariablesEstaticas.cajasOpcionesUsuario);
                     } else {
-                        mensajeAdvertenciaError("Ya existe nombre usuario", this, VariablesEstaticas.imgenAdvertencia);
+                        if(usuario.getUsuario().equals(cajaUusarioOpcionesUsuario.getText())){
+                            daoImplementacion = new UsuarioDAOImplementacion();
+                            daoImplementacion.actualizar(usuarioActualizar);
+                            mensajeAdvertenciaError("Usuario actualizado con éxito", this, VariablesEstaticas.imgenExito);
+                            servicioPaciente.deshabilitarCajas(VariablesEstaticas.cajasOpcionesUsuario);
+                        }else{
+                             mensajeAdvertenciaError("Ya existe nombre usuario", this, VariablesEstaticas.imgenAdvertencia);
+                        }
+                            
                     }
 
                 } else {
@@ -2808,40 +2820,7 @@ public class MenuInicioController extends PacienteController implements Initiali
                 }
             }
             
-            
-            
-            
-           /* File selectedFile;
-            Stage primaryStage = new Stage();
-
-            primaryStage.setTitle("JavaFX FileChooser Example");
-
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Selecciona un archivo");
-
-            // Configurar filtros para tipos de archivo específicos si es necesario
-            fileChooser.getExtensionFilters().addAll(
-                    new FileChooser.ExtensionFilter("Archivos de texto", "*.txt"),
-                    new FileChooser.ExtensionFilter("Archivos de imagen", "*.png", "*.jpg", "*.gif"),
-                    new FileChooser.ExtensionFilter("Todos los archivos", "*.*")
-            );
-
-            // Mostrar el cuadro de diálogo de selección de archivo
-            selectedFile = fileChooser.showOpenDialog(primaryStage);
-
-            if (selectedFile != null) {
-                // Mostrar la ruta del archivo seleccionado
-                System.out.println("Archivo seleccionado: " + selectedFile.getAbsolutePath());
-                cliente.descargarDrive(selectedFile.getAbsolutePath());
-            } else {
-                System.out.println("Operación de selección de archivo cancelada por el usuario.");
-            }
-
-            primaryStage.show();
-
-            //JSONObject json = new  JSONObject(cliente.getReadmeContent());
-            //usuarioDAOImplementacion.actualizarRutaActualizarApp(carpetaDestino, json.getString("1"));
-            //cliente.descargarDrive(carpetaDestino);*/
+           
         } catch (Exception e) {
             mensajeAdvertenciaError("Error al actualizar", this, VariablesEstaticas.imgenError);
         }
@@ -2865,7 +2844,7 @@ public class MenuInicioController extends PacienteController implements Initiali
                 file = new File(file.getParent());
                 file = new File(file.getParent());
                 rutaJarActualizar = file.getParent() + "\\Act\\Actualizador\\actualizacionGestorPaciente\\target\\actualizador-1.0-SNAPSHOT.jar";
-                System.out.println(rutaJarActualizar);
+                
                 //containerMenu.getChildren().add(new Label(file.getParent()));
             } else {
                 rutaJarActualizar = file.getParent() + "/actualizacionGestorPaciente/target/actualizador-1.0-SNAPSHOT.jar";
@@ -2884,8 +2863,8 @@ public class MenuInicioController extends PacienteController implements Initiali
                     if (VariablesEstaticas.esSiONoMensajePrguntarSiONo) {
 
                         //cliente.VaciarDirectorio(ruta + "\\paso\\gestor_pacientes");
-                        usuarioDAOImplementacion.actualizarVersionActualizarApp(json.getString("1"));
                         cliente.descargarDrive(rutaJarActualizar, ruta);
+                        //usuarioDAOImplementacion.actualizarVersionActualizarApp(json.getString("1"));
 
                     }
 
@@ -2896,4 +2875,108 @@ public class MenuInicioController extends PacienteController implements Initiali
             mensajeAdvertenciaError("Error al actualizar", this, VariablesEstaticas.imgenError);
         }
     }
-}
+    
+    @FXML
+    void abrirLIstaDePacientes(MouseEvent event) {
+        DatosPrincipalesController datospples = new DatosPrincipalesController();
+        datospples.rellenarLista();
+    }
+    
+    
+    @FXML
+    void subrayarLabel(MouseEvent event){
+        Label label = (Label)event.getSource();
+        label.setUnderline(true);
+        label.setCursor(Cursor.HAND);
+    }
+    
+    @FXML
+    void desSubRayarLabel(MouseEvent event){
+        Label label = (Label)event.getSource();
+        label.setUnderline(false);
+        label.setCursor(Cursor.DEFAULT);
+    }
+    
+   
+    @FXML
+    void  recuperarContraseña(MouseEvent event){
+       vBoxCodiRecuperacionOpciones.setVisible(true);
+       
+        
+       long codigo = 100000 + new Random().nextInt(900000);
+       
+        try {
+            GestorMail.enviarCodigo(cajaEmailOpcionesUsuario.getText(), Long.toString(codigo));
+            usuarioDao.insertarCodigo(codigo, usuario.getId());
+        } catch (Exception e) {
+        }
+       
+       //
+        
+    }
+    
+    @FXML
+    void  comprobarCodigoUsuarioOpciones(MouseEvent event) {
+        try {
+            
+           
+            
+            if(cajaCodigoOpcionesUsuario.getText().equals(String.valueOf(usuarioDao.obtenerCodigo(usuario).getCodigo()))) {
+                vBoxRecuperarContraseña.setVisible(true);
+                vBoxCodiRecuperacionOpciones.setVisible(false);
+            }else{
+                mensajeAdvertenciaError("El código no coincide.", this, VariablesEstaticas.imgenAdvertencia);
+            }
+        } catch (Exception e) {
+        }
+            
+    }
+    
+    @FXML
+    void actualizaContraseñarUsuarioOpciones(MouseEvent event) {
+       
+        
+        if(!cajaRestaurarContraseñaopcionesUsuario.getText().isBlank()){
+            if(cajaRestaurarContraseñaopcionesUsuario.getText().equals(cajaRepetirRestaurarContraseñaOpcionesUsuario.getText())){
+                UsuarioDAOImplementacion usuarioDaoActOp = new UsuarioDAOImplementacion();
+                vBoxRecuperarContraseña.setVisible(false);
+                
+               
+                Usuario usuarioActContra = new Usuario();
+                usuarioActContra.setContraseña(cajaRestaurarContraseñaopcionesUsuario.getText());
+                usuarioActContra.setId(usuario.getId());
+                
+                try {
+                    long codigo = usuarioDaoActOp.obtenerCodigo(usuarioActContra).getCodigo();
+                    if(codigo != 0){
+                        usuarioDaoActOp.actualizarContraseña(usuarioActContra);
+                        usuarioDao.insertarCodigo(0, usuario.getId());
+                        mensajeAdvertenciaError("contraseña actualizada con éxito.", this, VariablesEstaticas.imgenExito);
+                        vBoxRecuperarContraseña.setVisible(false);
+                        
+                        Usuario usuarioComContra = new Usuario();
+                        
+                        usuarioComContra.setContraseña(cajaRestaurarContraseñaopcionesUsuario.getText());
+                        usuarioComContra.setId(usuario.getId());
+                       
+                        
+                        
+                    }else{
+                         mensajeAdvertenciaError("El tiempo del código ha vencido.", this, VariablesEstaticas.imgenAdvertencia);
+                         vBoxRecuperarContraseña.setVisible(false);
+                    }
+                } catch (Exception e) {
+                }
+                
+                
+            }else{
+                 mensajeAdvertenciaError("Las contraseñas no coinciden.", this, VariablesEstaticas.imgenError);
+            }
+        }else{
+             mensajeAdvertenciaError("Agregar una contraseña.", this, VariablesEstaticas.imgenAdvertencia);
+        }
+        
+        
+    }
+    
+}   
