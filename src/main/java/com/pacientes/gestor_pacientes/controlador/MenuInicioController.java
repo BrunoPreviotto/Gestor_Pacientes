@@ -36,6 +36,7 @@ import com.pacientes.gestor_pacientes.implementacionDAO.Paciente.SesionDAOImplem
 import com.pacientes.gestor_pacientes.implementacionDAO.Paciente.TipoSesionPlanDAOImplementacion;
 import com.pacientes.gestor_pacientes.servicios.ClienteActualizacion;
 import com.pacientes.gestor_pacientes.servicios.GestorMail;
+import com.pacientes.gestor_pacientes.servicios.GitHubUpdateManager;
 import com.pacientes.gestor_pacientes.servicios.GoogleDriveService;
 import com.pacientes.gestor_pacientes.servicios.ServicioOpciones;
 import com.pacientes.gestor_pacientes.utilidades.Exepciones;
@@ -228,7 +229,7 @@ public class MenuInicioController extends PacienteController implements Initiali
         } catch (Exception e) {
         }*/
         
-        //actualizarAppAutomaticamente();
+        
     }
     
     
@@ -2814,107 +2815,28 @@ public class MenuInicioController extends PacienteController implements Initiali
    
     @FXML
     public void actualizarAplicacion() {
-        UsuarioDAOImplementacion usuarioDAOImplementacion = new UsuarioDAOImplementacion();
-
-        ClienteActualizacion cliente = new ClienteActualizacion();
+        GitHubUpdateManager gitHubManager = new GitHubUpdateManager("BrunoPreviotto", "Gestor_Pacientes");
+        //gitHubManager.update(imgenError);
+        
+        ActualizacionDAOImplementacion actualizacioDAO = new ActualizacionDAOImplementacion();
+        
         try {
-            String rutaDeLaAplicacion = System.getProperty("user.dir");
-            File file = new File(rutaDeLaAplicacion);
-            String rutaJarActualizar = null;
             
-            String rutaActual = usuarioDAOImplementacion.obtenerRutaActualizarApp();
-            
-            JSONObject json = new  JSONObject(cliente.getReadmeContent());
-            
-            if(Os.isFamily(Os.FAMILY_WINDOWS)){
-                file = new File(file.getParent());
-                rutaJarActualizar = file.getParent() + "\\actualizacionGestorPaciente\\target\\actualizador-1.0-SNAPSHOT.jar";
-                
-            }else{
-                rutaJarActualizar = file.getParent() + "/actualizacionGestorPaciente/target/actualizador-1.0-SNAPSHOT.jar";
-            }
-            
-
-            //SI LA RUTA NO ES NULA ACTUALIZA SOLAMENTE
-            if(!rutaActual.isBlank() || !rutaActual.isEmpty()){
-                //SI EXISTE EL JAR ACTUALIZADOR
-                if(Objects.nonNull(rutaJarActualizar)){
-                    //cliente.descargarDrive(rutaJarActualizar);
-                    //SI HAY UNA NUEVA VERSION
-                    if(!usuarioDAOImplementacion.obtenerVersionActualizarApp(json.getString("1"))){
-                        cliente.descargarDrive(rutaJarActualizar, rutaActual);
-                    }
-                    //usuarioDAOImplementacion.actualizarRutaActualizarApp(carpetaDestino, json.getString("1"));
-                    //cliente.descargarDrive(rutaJarActualizar);
-                }
-            }else{
-                
-                if(Objects.nonNull(rutaJarActualizar)){
-                    usuarioDAOImplementacion.actualizarRutaActualizarApp(file.getAbsolutePath(), json.getString("1"));
-                    rutaActual = usuarioDAOImplementacion.obtenerRutaActualizarApp();
-                    if(!usuarioDAOImplementacion.obtenerVersionActualizarApp(json.getString("1"))){
-                       cliente.descargarDrive(rutaJarActualizar, rutaActual);
-                    }
-                    //usuarioDAOImplementacion.actualizarRutaActualizarApp(carpetaDestino, json.getString("1"));
-                    //cliente.descargarDrive(rutaJarActualizar);
-                }
-            }
-            
+           System.out.println("Coinciden? : " + actualizacioDAO.obtener(new Actualizacion()).getVersionActual().equals(gitHubManager.getLatestVersion())); 
            
+           gitHubManager.update(actualizacioDAO.obtener(new Actualizacion()).getVersionActual());
+           
+           mensajeAdvertenciaError("Actualización exitosa.", this, VariablesEstaticas.imgenExito);
         } catch (Exception e) {
-            mensajeAdvertenciaError("Error al actualizar", this, VariablesEstaticas.imgenError);
+            mensajeAdvertenciaError("Error al actualizar.", this, VariablesEstaticas.imgenError);
+            e.printStackTrace();
+            
         }
+        
+        
     }
     
-    public void actualizarAppAutomaticamente() {
-
-        try {
-            UsuarioDAOImplementacion usuarioDAOImplementacion = new UsuarioDAOImplementacion();
-            ClienteActualizacion cliente = new ClienteActualizacion();
-            JSONObject json = new JSONObject(cliente.getReadmeContent());
-
-            String rutaJarActualizar = null;
-            //user.home user.dir
-            String rutaDeLaAplicacion = System.getProperty("user.dir");
-            File file = new File(rutaDeLaAplicacion);
-
-            String ruta = usuarioDAOImplementacion.obtenerRutaActualizarApp();
-
-            if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-                file = new File(file.getParent());
-                file = new File(file.getParent());
-                rutaJarActualizar = file.getParent() + "\\Act\\Actualizador\\actualizacionGestorPaciente\\target\\actualizador-1.0-SNAPSHOT.jar";
-                
-                //containerMenu.getChildren().add(new Label(file.getParent()));
-            } else {
-                rutaJarActualizar = file.getParent() + "/actualizacionGestorPaciente/target/actualizador-1.0-SNAPSHOT.jar";
-            }
-
-            if (ruta.equals("")) {
-                usuarioDAOImplementacion.actualizarRutaActualizarApp(file.getAbsolutePath(), json.getString("1"));
-                ruta = usuarioDAOImplementacion.obtenerRutaActualizarApp();
-                //mensajeAdvertenciaError("Determinar carpeta contenedora de programa", this, VariablesEstaticas.imgenAdvertencia);
-            }
-
-            if (Objects.nonNull(rutaJarActualizar)) {
-                if (!usuarioDAOImplementacion.obtenerVersionActualizarApp(json.getString("1"))) {
-                    mensajePreguntarSiONo("Hay una nueva actualizacion.¿Desea actualizar?");
-
-                    if (VariablesEstaticas.esSiONoMensajePrguntarSiONo) {
-
-                        //cliente.VaciarDirectorio(ruta + "\\paso\\gestor_pacientes");
-                        cliente.descargarDrive(rutaJarActualizar, ruta);
-                        //usuarioDAOImplementacion.actualizarVersionActualizarApp(json.getString("1"));
-
-                    }
-
-                }
-            }
-
-        } catch (Exception e) {
-            mensajeAdvertenciaError("Error al actualizar", this, VariablesEstaticas.imgenError);
-        }
-    }
+   
     
     @FXML
     void abrirLIstaDePacientes(MouseEvent event) {

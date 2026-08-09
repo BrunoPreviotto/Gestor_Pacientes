@@ -4,6 +4,8 @@
  */
 package com.pacientes.gestor_pacientes.servicios;
 
+import com.pacientes.gestor_pacientes.controlador.MenuInicioController;
+import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 import java.io.BufferedReader;
 import org.eclipse.jgit.api.Git;
 
@@ -41,7 +43,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 
-public class ClienteActualizacion {
+public class ClienteActualizacion extends MenuInicioController{
    
    
     
@@ -122,6 +124,11 @@ public class ClienteActualizacion {
 
         }
     }
+    
+    
+   
+    
+    
     
     
 }
