@@ -798,10 +798,10 @@
                                           </HBox>
                                        </children>
                                     </HBox>
-                                    <Label layoutX="392.0" layoutY="320.0" text="Rec ontra actuali" />
-                                    <Label layoutX="238.0" layoutY="292.0" text="seeeee" />
-                                    <Label layoutX="437.0" layoutY="268.0" text="AAAAAAA" />
-                                    <Label layoutX="447.0" layoutY="361.0" text="YAAAAA" />
+                                    <Label layoutX="392.0" layoutY="320.0" text="Rec ontra actLALALALALALuali" />
+                                    <Label layoutX="238.0" layoutY="292.0" text="ggggGGGGGGGGG" />
+                                    <Label layoutX="437.0" layoutY="268.0" text="AHAHAHAHAHAHA" />
+                                    <Label layoutX="447.0" layoutY="361.0" text="TTTTTTTTTTTTTTTTTTTTT" />
                                  </children>
                               </AnchorPane>
                         </content>

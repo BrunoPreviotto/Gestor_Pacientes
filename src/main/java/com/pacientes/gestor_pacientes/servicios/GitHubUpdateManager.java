@@ -73,9 +73,17 @@ public class GitHubUpdateManager extends MenuInicioController{
         }
 
         Path currentJar = getCurrentJar();
-        System.out.println("path JAR: " + currentJar);
 
-        Path newJar = currentJar.resolveSibling(jarName + ".new");
+        System.out.println("JAR actual:");
+        System.out.println(currentJar);
+
+        Path newJar =
+                currentJar.resolveSibling(
+                        jarName + ".new"
+                );
+
+        System.out.println("JAR nuevo:");
+        System.out.println(newJar);
 
         
         ActualizacionDAOImplementacion actualiazacionDAO = new ActualizacionDAOImplementacion();
@@ -245,117 +253,93 @@ public class GitHubUpdateManager extends MenuInicioController{
     }
 
     private void restart(
-            Path currentJar,
-            Path newJar)
-            throws Exception {
+        Path currentJar,
+        Path newJar) throws Exception {
 
-        boolean windows =
-                System.getProperty(
-                        "os.name"
-                )
-                .toLowerCase()
-                .contains("win");
+    boolean windows =
+            System.getProperty("os.name")
+                    .toLowerCase()
+                    .contains("win");
 
-        long pid =
-                ProcessHandle.current().pid();
+    long pid = ProcessHandle.current().pid();
 
-        if (windows) {
+    if (windows) {
 
-            Path script =
-                    currentJar.resolveSibling(
-                            "update.bat"
-                    );
+        Path script =
+                currentJar.resolveSibling("update.bat");
 
-            String text =
-                    "@echo off\r\n" +
+        String text =
+                "@echo off\r\n" +
+                "echo Esperando que termine la aplicacion...\r\n" +
+                ":wait\r\n" +
+                "tasklist /FI \"PID eq " + pid + "\" | findstr /C:\"" + pid + "\" >nul\r\n" +
+                "if not errorlevel 1 (\r\n" +
+                "    timeout /t 1 /nobreak >nul\r\n" +
+                "    goto wait\r\n" +
+                ")\r\n" +
+                "\r\n" +
+                "echo Reemplazando JAR...\r\n" +
+                "copy /Y \"" + newJar + "\" \"" + currentJar + "\"\r\n" +
+                "\r\n" +
+                "if errorlevel 1 (\r\n" +
+                "    echo ERROR al reemplazar el JAR\r\n" +
+                "    pause\r\n" +
+                "    exit\r\n" +
+                ")\r\n" +
+                "\r\n" +
+                "del /Q \"" + newJar + "\"\r\n" +
+                "\r\n" +
+                "echo Iniciando nueva version...\r\n" +
+                "start \"\" java -jar \"" + currentJar + "\"\r\n" +
+                "\r\n" +
+                "del \"%~f0\"";
 
-                    ":wait\r\n" +
+        Files.writeString(script, text);
 
-                    "tasklist /FI \"PID eq "
-                    + pid +
-                    "\" | find \""
-                    + pid +
-                    "\" >nul\r\n" +
+        System.out.println("Ejecutando actualizador:");
+        System.out.println(script);
 
-                    "if not errorlevel 1 "
-                    +
-                    "timeout /t 1 >nul & "
-                    +
-                    "goto wait\r\n" +
+        new ProcessBuilder(
+                "cmd",
+                "/c",
+                script.toString()
+        ).start();
 
-                    "copy /Y \"" +
-                    newJar +
-                    "\" \"" +
-                    currentJar +
-                    "\"\r\n" +
+    } else {
 
-                    "del /Q \"" +
-                    newJar +
-                    "\"\r\n" +
+        Path script =
+                currentJar.resolveSibling("update.sh");
 
-                    "start \"\" java -jar \"" +
-                    currentJar +
-                    "\"\r\n" +
+        String text =
+                "#!/bin/sh\n" +
+                "\n" +
+                "echo 'Esperando que termine la aplicacion...'\n" +
+                "\n" +
+                "while kill -0 " + pid + " 2>/dev/null\n" +
+                "do\n" +
+                "    sleep 1\n" +
+                "done\n" +
+                "\n" +
+                "echo 'Reemplazando JAR...'\n" +
+                "cp \"" + newJar + "\" \"" + currentJar + "\"\n" +
+                "\n" +
+                "rm -f \"" + newJar + "\"\n" +
+                "\n" +
+                "echo 'Iniciando nueva version...'\n" +
+                "java -jar \"" + currentJar + "\"\n" +
+                "\n" +
+                "rm -f \"$0\"\n";
 
-                    "del \"%~f0\"";
+        Files.writeString(script, text);
 
-            Files.writeString(
-                    script,
-                    text
-            );
+        script.toFile().setExecutable(true);
 
-            new ProcessBuilder(
-                    "cmd",
-                    "/c",
-                    script.toString()
-            ).start();
-
-        } else {
-
-            Path script =
-                    currentJar.resolveSibling(
-                            "update.sh"
-                    );
-
-            String text =
-                    "#!/bin/sh\n" +
-
-                    "while kill -0 "
-                    + pid +
-                    " 2>/dev/null; "
-                    +
-                    "do sleep 1; done\n" +
-
-                    "cp \"" +
-                    newJar +
-                    "\" \"" +
-                    currentJar +
-                    "\"\n" +
-
-                    "rm -f \"" +
-                    newJar +
-                    "\"\n" +
-
-                    "java -jar \"" +
-                    currentJar +
-                    "\"\n" +
-
-                    "rm -f \"$0\"";
-
-            Files.writeString(
-                    script,
-                    text
-            );
-
-            script.toFile()
-                    .setExecutable(true);
-
-            new ProcessBuilder(
-                    "sh",
-                    script.toString()
-            ).start();
-        }
-
-        System.exit(0);
+        new ProcessBuilder(
+                "sh",
+                script.toString()
+        ).start();
     }
+
+    System.exit(0);
+}
 }
