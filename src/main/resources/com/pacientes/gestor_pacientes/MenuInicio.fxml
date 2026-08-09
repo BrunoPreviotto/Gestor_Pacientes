@@ -8,6 +8,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Tab?>
@@ -742,8 +743,8 @@
                           <AnchorPane fx:id="apOpcionesOpciones" maxHeight="600.0" minHeight="600.0" stylesheets="@styles/opciones.css">
                                  <children>
                                     <Button fx:id="botonCerrarSesion" layoutX="14.0" layoutY="36.0" mnemonicParsing="false" onMouseClicked="#cerrarSesionUsuario" prefHeight="40.0" prefWidth="200.0" styleClass="botonBuscar" stylesheets="@styles/menuinicio.css" text="Cerrar sesion" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="20.0" />
-                                    <Button fx:id="botonCerrarSesion1" layoutX="182.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#guardarBaseDeDatos" prefHeight="40.0" prefWidth="200.0" styleClass="botonBuscar" stylesheets="@styles/menuinicio.css" text="Guardar Base de datos" AnchorPane.leftAnchor="220.0" />
-                                    <Button fx:id="botonCerrarSesion11" layoutX="420.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#cambiarColor" prefHeight="40.0" prefWidth="200.0" styleClass="botonBuscar" stylesheets="@styles/menuinicio.css" text="Cambiar color" AnchorPane.leftAnchor="430.0" />
+                                    <Button fx:id="botonGuardarBaseDeDatos" layoutX="182.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#guardarBaseDeDatos" prefHeight="40.0" prefWidth="200.0" styleClass="botonBuscar" stylesheets="@styles/menuinicio.css" text="Guardar Base de datos" AnchorPane.leftAnchor="220.0" />
+                                    <Button fx:id="botonCambiarColor" layoutX="420.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#cambiarColor" prefHeight="40.0" prefWidth="200.0" styleClass="botonBuscar" stylesheets="@styles/menuinicio.css" text="Cambiar color" AnchorPane.leftAnchor="430.0" />
                                     <HBox fx:id="hboxColores" layoutX="430.0" layoutY="129.0" prefHeight="30.0" prefWidth="200.0" visible="false" AnchorPane.leftAnchor="430.0" AnchorPane.topAnchor="70.0">
                                        <children>
                                           <Button fx:id="botonColorSalmon" mnemonicParsing="false" onMouseClicked="#elegirColorApp" prefWidth="60.0" style="-fx-border-color: #E06F4E; -fx-background-color: #FFB39C;" />
@@ -769,7 +770,8 @@
                                           </Button>
                                        </children>
                                     </HBox>
-                                    <Button fx:id="botonCerrarSesion111" layoutX="630.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#actualizarAplicacion" prefHeight="40.0" prefWidth="200.0" styleClass="botonBuscar" stylesheets="@styles/menuinicio.css" text="Actualizar aplicacion" AnchorPane.leftAnchor="640.0" />
+                                    <Button fx:id="botonActualizarApp" layoutX="630.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#actualizarAplicacion" prefHeight="40.0" prefWidth="200.0" styleClass="botonBuscar" stylesheets="@styles/menuinicio.css" text="Actualizar aplicacion" AnchorPane.leftAnchor="640.0" />
+                                    <ComboBox fx:id="comboBoxBDBackup" layoutX="220.0" layoutY="73.0" onMouseClicked="#guardarBackuipSegunEleccion" prefHeight="25.0" prefWidth="200.0" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
                                  </children>
                               </AnchorPane>
                         </content>

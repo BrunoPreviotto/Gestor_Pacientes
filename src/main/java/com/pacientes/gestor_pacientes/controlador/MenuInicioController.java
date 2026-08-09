@@ -36,6 +36,7 @@ import com.pacientes.gestor_pacientes.implementacionDAO.Paciente.SesionDAOImplem
 import com.pacientes.gestor_pacientes.implementacionDAO.Paciente.TipoSesionPlanDAOImplementacion;
 import com.pacientes.gestor_pacientes.servicios.ClienteActualizacion;
 import com.pacientes.gestor_pacientes.servicios.GestorMail;
+import com.pacientes.gestor_pacientes.servicios.GoogleDriveService;
 import com.pacientes.gestor_pacientes.servicios.ServicioOpciones;
 import com.pacientes.gestor_pacientes.utilidades.Exepciones;
 
@@ -64,6 +65,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -349,6 +351,7 @@ public class MenuInicioController extends PacienteController implements Initiali
         iniciarChoiceTipoSesion();
         inicializarTableObraSocial();
         iniciarChoicePlanObraSocialPaciente();
+        iniciarChoiceOpciones();
 
     }
     
@@ -2264,63 +2267,71 @@ public class MenuInicioController extends PacienteController implements Initiali
         }
     }
     
+     @FXML
+    public void guardarBaseDeDatos(MouseEvent event){
+        comboBoxBDBackup.setVisible(true);
+    }
+    
+    
     @FXML
-    public void guardarBaseDeDatos(MouseEvent event) {
-        // Crea un objeto DirectoryChooser
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setTitle("Selecciona una carpeta para guardar");
+    public void guardarBackuipSegunEleccion(MouseEvent event) {
+       
+        
+        
+        
+        System.out.println(comboBoxBDBackup.getValue());
+         
+        
+        
+        
+       /*             
+                   
+        Task<Void> tareaBackup = new Task<>() {
+                @Override
+                protected Void call()  {
+                    //updateMessage("Generando respaldo de MariaDB...");
+                    //updateProgress(0.3, 1.0);
+                    ServicioOpciones servicioOp = new ServicioOpciones();
+                    try {
 
-        // Muestra el diálogo de selección de directorios
-        File selectedDirectory = directoryChooser.showDialog(new Stage());
+                        File sqlFile = servicioOp.generarBackupMariaDB("localhost", "3306", "cliente", "", "gestion_pacientes");
+                        System.out.println("Guardado localmente en: " + sqlFile.getAbsolutePath());
+                        
+                         if ( comboBoxBDBackup.getValue().equals("Google Drive")) {
+                            updateMessage("Subiendo a Google Drive...");
+                            updateProgress(0.7, 1.0);
+                            GoogleDriveService.subirArchivoADrive(sqlFile);
+                            // Opcional: eliminar archivo temporal local
+                            //sqlFile.delete();
+                        } else {
+                            //updateMessage("Guardado localmente en: " + sqlFile.getAbsolutePath());
+                            // Si es local puro, puedes abrir un DirectoryChooser previamente para moverlo allí.
+                             
+                        }
+                        
+                        
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        mensajeAdvertenciaError("Error al crear copia de seguridad", this, VariablesEstaticas.imgenError);
+                    }
 
-        if (selectedDirectory != null) {
-            // Puedes utilizar la carpeta seleccionada para guardar tu archivo
-            UsuarioDAOImplementacion dao = new UsuarioDAOImplementacion();
-            
-            String dbName = "gestion_pacientes";
-            String dbUser = "root";
-            String dbPassword = "";
-            
-            
-            String backupPath = selectedDirectory.getAbsolutePath() + "/" + VariablesEstaticas.usuario.getId() + etiquetaNombreInicio.getText().trim().replace(" ", "") + "Copia.sql";
-            
-            dao.actualizarRutaGuardaBD(selectedDirectory.getAbsolutePath() + "/" + VariablesEstaticas.usuario.getId() + etiquetaNombreInicio.getText().trim().replace(" ", "") + "Copia.sql");
-            
-            try{
-                 // Construye el comando para ejecutar mysqldump
-                String command = "mysqldump --user=" + dbUser + " --password=" + dbPassword + " " + dbName + " -r " + backupPath;
+                    
+                   
 
-                // Ejecuta el comando
-                Process process = Runtime.getRuntime().exec(command);
+                    updateProgress(1.0, 1.0);
+                    updateMessage("¡Respaldo completado con éxito!");
+                    return null;
+                }
+            };
 
-                // Espera a que el proceso termine
-                int exitCode = process.waitFor();
-                
-                
-                InputStream errorStream = process.getErrorStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(errorStream));
-                StringBuilder errorMessage = new StringBuilder();
+            //progressBar.visibleProperty().bind(tareaBackup.runningProperty());
+            //lblEstado.textProperty().bind(tareaBackup.messageProperty());
 
-            String line;
-            while ((line = reader.readLine()) != null) {
-                errorMessage.append(line).append("\n");
-            }
-
-                // Verifica si la copia de seguridad fue exitosa
-            if (exitCode == 0) {
-                mensajeAdvertenciaError("Copia de seguridad exitosa.", this, VariablesEstaticas.imgenExito);
-                
-            } else {
-                mensajeAdvertenciaError("Error al realizar la copia de seguridad.", this, VariablesEstaticas.imgenError);
-                
-                 System.out.println("Mensaje de error:\n" + errorMessage.toString());
-            }
-            }catch(IOException | InterruptedException e){
-                e.printStackTrace();
-            }
-        } else {
-            System.out.println("Operación cancelada por el usuario.");
-        }
+            new Thread(tareaBackup).start();
+    
+            comboBoxBDBackup.setVisible(false);
+       
+       */
     }
     
     @FXML
@@ -2714,6 +2725,17 @@ public class MenuInicioController extends PacienteController implements Initiali
          } catch (Exception e) {
          }
     }
+     
+     
+    
+     public void iniciarChoiceOpciones(){
+         
+         
+         comboBoxBDBackup.getItems().add("Almacenamiento local");
+         comboBoxBDBackup.getItems().add("Almacenamiento Google Drive");
+         
+     }
+             
     
    
     
@@ -2978,5 +3000,7 @@ public class MenuInicioController extends PacienteController implements Initiali
         
         
     }
+    
+    
     
 }   

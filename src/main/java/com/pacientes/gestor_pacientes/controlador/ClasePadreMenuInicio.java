@@ -57,6 +57,7 @@ import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -715,9 +716,12 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     protected TextField cajaRepetirRestaurarContraseñaOpcionesUsuario;
     @FXML
     protected TextField cajaRestaurarContraseñaopcionesUsuario;
-    
     @FXML
     protected TextField cajaCodigoOpcionesUsuario;
+    
+    //CHOICE
+    @FXML
+    protected ChoiceBox comboBoxBDBackup;
     
     //ANCHOR PANE
     @FXML
