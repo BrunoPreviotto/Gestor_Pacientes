@@ -116,19 +116,15 @@ public class ServicioOpciones extends MenuInicioController{
     
     
     
-    public File generarBackupMariaDB(String host, String puerto, String usuario, String password, String nombreDb) throws IOException, InterruptedException {
+    public File generarBackupMariaDB(String host, String puerto, String usuario, String password, String nombreDb, String path) throws IOException, InterruptedException {
         
         ServicioBD sbd = new ServicioBD();
         
-        
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setTitle("Selecciona una carpeta para guardar");
-        
-        File selectedDirectory = directoryChooser.showDialog(new Stage());
+       
 
          
         
-        File archivoSalida = new File(selectedDirectory.getAbsolutePath(), "backup_" + nombreDb + "_" + System.currentTimeMillis() + ".sql");
+        File archivoSalida = new File(path, "backup_" + nombreDb + "_" + System.currentTimeMillis() + ".sql");
         
         System.out.println("rut: " + archivoSalida.getAbsolutePath());
 
@@ -144,7 +140,7 @@ public class ServicioOpciones extends MenuInicioController{
 
         ProcessBuilder pb = new ProcessBuilder(comando);
         pb.redirectOutput(archivoSalida);
-        pb.redirectError(new File(selectedDirectory.getAbsolutePath(), "error_backup.log"));
+        pb.redirectError(new File(path, "error_backup.log"));
 
         Process proceso = pb.start();
         int codigoSalida = proceso.waitFor();

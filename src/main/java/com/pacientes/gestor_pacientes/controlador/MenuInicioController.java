@@ -139,7 +139,7 @@ public class MenuInicioController extends PacienteController implements Initiali
     @Override
     public void initialize(URL url, ResourceBundle rb) {
          
-        
+        iniciarChoiceOpciones();
         iniciarColorContenedores();
         
         usuarioDao = new UsuarioDAOImplementacion();
@@ -351,7 +351,7 @@ public class MenuInicioController extends PacienteController implements Initiali
         iniciarChoiceTipoSesion();
         inicializarTableObraSocial();
         iniciarChoicePlanObraSocialPaciente();
-        iniciarChoiceOpciones();
+        
 
     }
     
@@ -2269,24 +2269,24 @@ public class MenuInicioController extends PacienteController implements Initiali
     
      @FXML
     public void guardarBaseDeDatos(MouseEvent event){
-        comboBoxBDBackup.setVisible(true);
-    }
+        hBoxCopiaBD.setVisible(true);
+    } 
     
     
     @FXML
     public void guardarBackuipSegunEleccion(MouseEvent event) {
        
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("Selecciona una carpeta para guardar");
+        
+        File selectedDirectory = directoryChooser.showDialog(new Stage());
+        
+        String path = selectedDirectory.getAbsolutePath();
         
         
-        
-        System.out.println(comboBoxBDBackup.getValue());
-         
-        
-        
-        
-       /*             
-                   
+            
         Task<Void> tareaBackup = new Task<>() {
+                
                 @Override
                 protected Void call()  {
                     //updateMessage("Generando respaldo de MariaDB...");
@@ -2294,32 +2294,39 @@ public class MenuInicioController extends PacienteController implements Initiali
                     ServicioOpciones servicioOp = new ServicioOpciones();
                     try {
 
-                        File sqlFile = servicioOp.generarBackupMariaDB("localhost", "3306", "cliente", "", "gestion_pacientes");
-                        System.out.println("Guardado localmente en: " + sqlFile.getAbsolutePath());
+                        File sqlFile = servicioOp.generarBackupMariaDB("localhost", "3306", "cliente", "", "gestion_pacientes", path);
+                        updateProgress(1.0, 1.0);
+                        updateMessage("¡Respaldo LOCAL completado con éxito!");
                         
-                         if ( comboBoxBDBackup.getValue().equals("Google Drive")) {
+                       /*  if ( "Copia en Google Drive".equals(opcionBackup)) {
+                            System.out.println("DRIVE PAPURRI");
                             updateMessage("Subiendo a Google Drive...");
                             updateProgress(0.7, 1.0);
                             GoogleDriveService.subirArchivoADrive(sqlFile);
                             // Opcional: eliminar archivo temporal local
                             //sqlFile.delete();
+                            //mensajeAdvertenciaError("Guardado correctamente en Google Drive", this, VariablesEstaticas.imgenExito);
                         } else {
+                             System.out.println("LAMENTABLEMENTE FALSO");
                             //updateMessage("Guardado localmente en: " + sqlFile.getAbsolutePath());
                             // Si es local puro, puedes abrir un DirectoryChooser previamente para moverlo allí.
-                             
-                        }
+                              //mensajeAdvertenciaError("Guardado correctamente en: " + sqlFile.getAbsolutePath(), this, VariablesEstaticas.imgenExito);
+                              updateProgress(1.0, 1.0);
+                                 updateMessage("¡Respaldo LOCAL completado con éxito!");
+                        }*/
                         
                         
                     } catch (Exception e) {
+                        updateProgress(1.0, 1.0);
+                        updateMessage("¡ERROR!");
                         e.printStackTrace();
-                        mensajeAdvertenciaError("Error al crear copia de seguridad", this, VariablesEstaticas.imgenError);
+                        //mensajeAdvertenciaError("Error al crear copia de seguridad", this, VariablesEstaticas.imgenError);
                     }
 
                     
                    
 
-                    updateProgress(1.0, 1.0);
-                    updateMessage("¡Respaldo completado con éxito!");
+                    
                     return null;
                 }
             };
@@ -2329,9 +2336,10 @@ public class MenuInicioController extends PacienteController implements Initiali
 
             new Thread(tareaBackup).start();
     
-            comboBoxBDBackup.setVisible(false);
+            hBoxCopiaBD.setVisible(false);
+            
+           
        
-       */
     }
     
     @FXML
@@ -2731,8 +2739,18 @@ public class MenuInicioController extends PacienteController implements Initiali
      public void iniciarChoiceOpciones(){
          
          
-         comboBoxBDBackup.getItems().add("Almacenamiento local");
-         comboBoxBDBackup.getItems().add("Almacenamiento Google Drive");
+         ObservableList<String> opciones = FXCollections.observableArrayList(
+            "Copia local", 
+            "Copia en Google Drive"
+        );
+
+        // 2. Asignarla al ChoiceBox
+        choiceBoxBDBackup.setItems(opciones);
+
+        // Opcional: Establecer una opción seleccionada por defecto
+        choiceBoxBDBackup.setValue("Copia local");
+         
+        
          
      }
              

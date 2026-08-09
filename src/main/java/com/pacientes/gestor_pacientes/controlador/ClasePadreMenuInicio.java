@@ -721,7 +721,7 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     
     //CHOICE
     @FXML
-    protected ChoiceBox comboBoxBDBackup;
+    protected ChoiceBox choiceBoxBDBackup;
     
     //ANCHOR PANE
     @FXML
@@ -766,6 +766,10 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     protected VBox vBoxRecuperarContraseña;
     @FXML
     protected VBox vBoxCodiRecuperacionOpciones;
+    
+    //HBOX
+    @FXML
+    protected HBox hBoxCopiaBD;
     
     /*
         <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
