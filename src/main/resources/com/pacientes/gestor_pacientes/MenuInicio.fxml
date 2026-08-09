@@ -798,6 +798,7 @@
                                           </HBox>
                                        </children>
                                     </HBox>
+                                    <Label layoutX="392.0" layoutY="320.0" text="ACTUALIZADO PA" />
                                  </children>
                               </AnchorPane>
                         </content>
