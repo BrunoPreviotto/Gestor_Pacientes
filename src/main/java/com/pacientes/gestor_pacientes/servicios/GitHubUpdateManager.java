@@ -57,6 +57,8 @@ public class GitHubUpdateManager extends MenuInicioController{
         String json = get("https://api.github.com/repos/" + owner + "/" + repository + "/releases/latest");
 
         String downloadUrl = findJarUrl(json);
+        
+        System.out.println("Download url: " + downloadUrl);
 
         if (downloadUrl == null) {
             throw new Exception(
@@ -65,6 +67,7 @@ public class GitHubUpdateManager extends MenuInicioController{
         }
 
         Path currentJar = getCurrentJar();
+        System.out.println("path JAR: " + currentJar);
 
         Path newJar = Path.of(
                 currentJar.toString() + ".new"
@@ -78,8 +81,14 @@ public class GitHubUpdateManager extends MenuInicioController{
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
+         try {
+           download(downloadUrl, newJar);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        download(downloadUrl, newJar);
+        
 
         restart(currentJar, newJar);
     }
@@ -174,10 +183,7 @@ public class GitHubUpdateManager extends MenuInicioController{
         }
     }
 
-    private void download(
-            String urlString,
-            Path destination
-    ) throws Exception {
+    private void download(String urlString, Path destination) throws Exception {
 
         System.out.println("Descargando...");
 
