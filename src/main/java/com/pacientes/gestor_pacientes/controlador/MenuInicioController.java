@@ -2815,7 +2815,7 @@ public class MenuInicioController extends PacienteController implements Initiali
    
     @FXML
     public void actualizarAplicacion() {
-        GitHubUpdateManager gitHubManager = new GitHubUpdateManager("BrunoPreviotto", "Gestor_Pacientes");
+        GitHubUpdateManager gitHubManager = new GitHubUpdateManager("BrunoPreviotto", "Gestor_Pacientes", "gestor_pacientes-1.0-SNAPSHOT.jar");
         //gitHubManager.update(imgenError);
         
         ActualizacionDAOImplementacion actualizacioDAO = new ActualizacionDAOImplementacion();

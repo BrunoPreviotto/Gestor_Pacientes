@@ -21,10 +21,16 @@ public class GitHubUpdateManager extends MenuInicioController{
 
     private String owner;
     private String repository;
+     private final String jarName;
 
-    public GitHubUpdateManager(String owner, String repository) {
+     public GitHubUpdateManager(
+            String owner,
+            String repository,
+            String jarName) {
+
         this.owner = owner;
         this.repository = repository;
+        this.jarName = jarName;
     }
 
     public String getLatestVersion() throws Exception {
@@ -42,21 +48,21 @@ public class GitHubUpdateManager extends MenuInicioController{
         return tag.replace("v", "");
     }
  
-    public void update(String currentVersion) throws Exception {
+    public boolean update(String currentVersion) throws Exception {
 
         String latestVersion = getLatestVersion();
 
         if (currentVersion.equals(latestVersion)) {
             mensajeAdvertenciaError("No hay actualización.", this, VariablesEstaticas.imgenExito);
             System.out.println("No hay actualización.");
-            return;
+            return false;
         }
 
         System.out.println( "Actualización encontrada: " + latestVersion);
 
         String json = get("https://api.github.com/repos/" + owner + "/" + repository + "/releases/latest");
 
-        String downloadUrl = findJarUrl(json);
+        String downloadUrl = findJarUrl(json, jarName);
         
         System.out.println("Download url: " + downloadUrl);
 
@@ -69,9 +75,8 @@ public class GitHubUpdateManager extends MenuInicioController{
         Path currentJar = getCurrentJar();
         System.out.println("path JAR: " + currentJar);
 
-        Path newJar = Path.of(
-                currentJar.toString() + ".new"
-        );
+        Path newJar = currentJar.resolveSibling(jarName + ".new");
+
         
         ActualizacionDAOImplementacion actualiazacionDAO = new ActualizacionDAOImplementacion();
         Actualizacion actualizacion = new Actualizacion();
@@ -91,6 +96,7 @@ public class GitHubUpdateManager extends MenuInicioController{
         
 
         restart(currentJar, newJar);
+        return true;
     }
 
     private String get(String urlString) throws Exception {
@@ -147,81 +153,92 @@ public class GitHubUpdateManager extends MenuInicioController{
         return json.substring(start, end);
     }
 
-    private String findJarUrl(String json) {
-
+    private String findJarUrl(String json, String fileName) {
+ 
         String search =
-                "\"browser_download_url\":\"";
+                "\"name\":\"" + fileName
+                        + "\"";
 
-        int position = 0;
+        int namePosition = json.indexOf(search);
 
-        while (true) {
-
-            int start =
-                    json.indexOf(search, position);
-
-            if (start == -1) {
-                return null;
-            }
-
-            start += search.length();
-
-            int end =
-                    json.indexOf("\"", start);
-
-            if (end == -1) {
-                return null;
-            }
-
-            String url =
-                    json.substring(start, end);
-
-            if (url.toLowerCase().endsWith(".jar")) {
-                return url;
-            }
-
-            position = end;
+       if (namePosition == -1) {
+            return null;
         }
+
+        int urlPosition =
+                json.indexOf(
+                        "\"browser_download_url\":\"",
+                        namePosition
+                );
+
+        if (urlPosition == -1) {
+            return null;
+        }
+
+        urlPosition +=
+                "\"browser_download_url\":\""
+                        .length();
+
+        int end =
+                json.indexOf(
+                        "\"",
+                        urlPosition
+                );
+
+        if (end == -1) {
+            return null;
+        }
+
+        return json.substring(
+                urlPosition,
+                end
+        );
+    }
+    
+    private Path getCurrentJar()
+            throws Exception {
+
+        Path path =
+                Path.of(
+                        GitHubUpdateManager.class
+                                .getProtectionDomain()
+                                .getCodeSource()
+                                .getLocation()
+                                .toURI()
+                );
+
+        return path;
     }
 
     private void download(String urlString, Path destination) throws Exception {
 
-        System.out.println("Descargando...");
+         
 
-        URL url = new URL(urlString);
+        URL url =
+                new URL(urlString);
 
         HttpURLConnection connection =
-                (HttpURLConnection) url.openConnection();
+                (HttpURLConnection)
+                        url.openConnection();
 
         connection.setRequestProperty(
                 "User-Agent",
                 "MiApp"
         );
 
-        InputStream input =
-                connection.getInputStream();
+        try (InputStream input =
+                     connection.getInputStream()) {
 
-        Files.copy(
-                input,
-                destination,
-                StandardCopyOption.REPLACE_EXISTING
-        );
-
-        input.close();
-
-        System.out.println("Descarga terminada.");
+            Files.copy(
+                    input,
+                    destination,
+                    StandardCopyOption
+                            .REPLACE_EXISTING
+            );
+        }
     }
 
-    private Path getCurrentJar()
-            throws Exception {
-
-        return Path.of(
-                GitHubUpdateManager.class
-                        .getProtectionDomain()
-                        .getCodeSource()
-                        .getLocation()
-                        .toURI()
-        );
-    }
+   
 
     public boolean isNewer(String current, String latest) {
         return current.equals(latest);
@@ -229,52 +246,62 @@ public class GitHubUpdateManager extends MenuInicioController{
 
     private void restart(
             Path currentJar,
-            Path newJar
-    ) throws Exception {
+            Path newJar)
+            throws Exception {
 
         boolean windows =
-                System.getProperty("os.name")
-                        .toLowerCase()
-                        .contains("win");
+                System.getProperty(
+                        "os.name"
+                )
+                .toLowerCase()
+                .contains("win");
 
         long pid =
                 ProcessHandle.current().pid();
 
-        Path script =
-                currentJar.resolveSibling(
-                        windows
-                                ? "update.bat"
-                                : "update.sh"
-                );
-
         if (windows) {
 
-            String content =
-                    "@echo off\n" +
-                    ":wait\n" +
-                    "tasklist /FI \"PID eq " + pid +
-                    "\" | find \"" + pid +
-                    "\" >nul\n" +
-                    "if not errorlevel 1 (\n" +
-                    " timeout /t 1 /nobreak >nul\n" +
-                    " goto wait\n" +
-                    ")\n" +
+            Path script =
+                    currentJar.resolveSibling(
+                            "update.bat"
+                    );
+
+            String text =
+                    "@echo off\r\n" +
+
+                    ":wait\r\n" +
+
+                    "tasklist /FI \"PID eq "
+                    + pid +
+                    "\" | find \""
+                    + pid +
+                    "\" >nul\r\n" +
+
+                    "if not errorlevel 1 "
+                    +
+                    "timeout /t 1 >nul & "
+                    +
+                    "goto wait\r\n" +
+
                     "copy /Y \"" +
                     newJar +
                     "\" \"" +
                     currentJar +
-                    "\"\n" +
+                    "\"\r\n" +
+
                     "del /Q \"" +
                     newJar +
-                    "\"\n" +
+                    "\"\r\n" +
+
                     "start \"\" java -jar \"" +
                     currentJar +
-                    "\"\n" +
+                    "\"\r\n" +
+
                     "del \"%~f0\"";
 
             Files.writeString(
                     script,
-                    content
+                    text
             );
 
             new ProcessBuilder(
@@ -285,30 +312,43 @@ public class GitHubUpdateManager extends MenuInicioController{
 
         } else {
 
-            String content =
+            Path script =
+                    currentJar.resolveSibling(
+                            "update.sh"
+                    );
+
+            String text =
                     "#!/bin/sh\n" +
-                    "while kill -0 " +
-                    pid +
-                    " 2>/dev/null; do sleep 1; done\n" +
+
+                    "while kill -0 "
+                    + pid +
+                    " 2>/dev/null; "
+                    +
+                    "do sleep 1; done\n" +
+
                     "cp \"" +
                     newJar +
                     "\" \"" +
                     currentJar +
                     "\"\n" +
+
                     "rm -f \"" +
                     newJar +
                     "\"\n" +
+
                     "java -jar \"" +
                     currentJar +
                     "\"\n" +
+
                     "rm -f \"$0\"";
 
             Files.writeString(
                     script,
-                    content
+                    text
             );
 
-            script.toFile().setExecutable(true);
+            script.toFile()
+                    .setExecutable(true);
 
             new ProcessBuilder(
                     "sh",
