@@ -798,10 +798,15 @@
                                           </HBox>
                                        </children>
                                     </HBox>
-                                    <Label layoutX="392.0" layoutY="320.0" text="Rec ontra actLALALALALALuali" />
-                                    <Label layoutX="238.0" layoutY="292.0" text="ggggGGGGGGGGG" />
-                                    <Label layoutX="437.0" layoutY="268.0" text="AHAHAHAHAHAHA" />
-                                    <Label layoutX="447.0" layoutY="361.0" text="TTTTTTTTTTTTTTTTTTTTT" />
+                                    <Button layoutX="800.0" layoutY="70.0" mnemonicParsing="false" onMouseClicked="#elegirDirectorioAPP" prefHeight="30.0" prefWidth="25.0" styleClass="botonBuscar" stylesheets="@styles/menuinicio.css">
+                                       <graphic>
+                                          <ImageView fitHeight="21.0" fitWidth="22.0" styleClass="men">
+                                             <image>
+                                                <Image url="@img/dir.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </Button>
                                  </children>
                               </AnchorPane>
                         </content>

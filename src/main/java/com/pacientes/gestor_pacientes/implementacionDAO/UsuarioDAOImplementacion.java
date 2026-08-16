@@ -6,6 +6,7 @@ package com.pacientes.gestor_pacientes.implementacionDAO;
 import com.pacientes.gestor_pacientes.DAO.IUsuarioDAO;
 import com.pacientes.gestor_pacientes.modelo.Email;
 import com.pacientes.gestor_pacientes.modelo.Usuario;
+import com.pacientes.gestor_pacientes.modelo.Actualizacion;
 import com.pacientes.gestor_pacientes.servicios.Encriptar;
 import java.util.List;
 import com.pacientes.gestor_pacientes.servicios.ConexionMariadb;
@@ -596,6 +597,71 @@ public class UsuarioDAOImplementacion extends PadreDAOImplementacion implements 
         
         
     }
+    
+    
+    
+     public void insertarRutaActualizacion(Actualizacion actualizacion){
+
+        String sqlInsertar = "insert into actualizacion (id_actualizacion, actualizacion, reciente, ruta, id_usuario) values (0, '00-00-00-00-00',? , ?, ?);";
+        
+         String sqlActualizar = "update actualizacion a set a.ruta =?  where  a.id_usuario = ?;";
+        
+        PreparedStatement pst;
+        
+        try {
+            if (Objects.isNull(obtenerRutaActualizacion())) {
+                pst = conexion.conexion().prepareStatement(sqlInsertar);
+                pst.setInt(1, 0);
+                pst.setString(2, actualizacion.getRuta());
+                pst.setInt(3, VariablesEstaticas.usuario.getId());
+                 
+             
+
+            } else {
+                  pst = conexion.conexion().prepareStatement(sqlActualizar);
+                  pst.setString(1, actualizacion.getRuta());
+                  pst.setInt(2, VariablesEstaticas.usuario.getId());
+                   System.out.println("ACTUALIZAR");
+            }
+         
+           pst.executeUpdate();
+
+            pst.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        
+    }
+     
+       public Actualizacion obtenerRutaActualizacion() {
+         Actualizacion actualizacion = new Actualizacion();
+        try {
+            String sqlSNombre = "select a.ruta from actualizacion a where a.id_usuario = ?;";
+            PreparedStatement pst = conexion.conexion().prepareStatement(sqlSNombre);
+            pst.setInt(1, VariablesEstaticas.usuario.getId());
+            ResultSet rs = pst.executeQuery();
+            
+            if(rs.next()){
+               
+                actualizacion.setRuta(rs.getString("ruta"));
+                
+                return actualizacion;
+            }
+            
+            pst.close();
+            rs.close();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return null;
+    }
+    
+    
+    
     
     public void actualizarVersionActualizarApp(String numeroActualizacion){
         String sqlActualizar = "UPDATE actualizaciones \n" +

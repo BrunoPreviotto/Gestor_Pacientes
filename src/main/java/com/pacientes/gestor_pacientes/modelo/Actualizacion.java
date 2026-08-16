@@ -12,6 +12,24 @@ public class Actualizacion {
     int id;
     String versionActual;
     String versionNueva;
+    String ruta;
+    int id_usuario;
+
+    public int getId_usuario() {
+        return id_usuario;
+    }
+
+    public void setId_usuario(int id_usuario) {
+        this.id_usuario = id_usuario;
+    }
+
+    public String getRuta() {
+        return ruta;
+    }
+
+    public void setRuta(String ruta) {
+        this.ruta = ruta;
+    }
 
     public Actualizacion() {
     }

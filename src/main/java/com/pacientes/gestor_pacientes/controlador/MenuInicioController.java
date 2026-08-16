@@ -39,6 +39,7 @@ import com.pacientes.gestor_pacientes.servicios.GestorMail;
 import com.pacientes.gestor_pacientes.servicios.GitHubUpdateManager;
 import com.pacientes.gestor_pacientes.servicios.GoogleDriveService;
 import com.pacientes.gestor_pacientes.servicios.ServicioOpciones;
+import com.pacientes.gestor_pacientes.utilidades.Directorios;
 import com.pacientes.gestor_pacientes.utilidades.Exepciones;
 
 import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
@@ -49,6 +50,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 
 
@@ -2815,22 +2818,47 @@ public class MenuInicioController extends PacienteController implements Initiali
    
     @FXML
     public void actualizarAplicacion() {
-        GitHubUpdateManager gitHubManager = new GitHubUpdateManager("BrunoPreviotto", "Gestor_Pacientes", "gestor_pacientes-1.0-SNAPSHOT.jar");
-        //gitHubManager.update(imgenError);
-        
-        ActualizacionDAOImplementacion actualizacioDAO = new ActualizacionDAOImplementacion();
         
         try {
             
-           System.out.println("Coinciden? : " + actualizacioDAO.obtener(new Actualizacion()).getVersionActual().equals(gitHubManager.getLatestVersion())); 
-           
-           gitHubManager.update(actualizacioDAO.obtener(new Actualizacion()).getVersionActual());
-           
-           mensajeAdvertenciaError("Actualización exitosa.", this, VariablesEstaticas.imgenExito);
-        } catch (Exception e) {
-            mensajeAdvertenciaError("Error al actualizar.", this, VariablesEstaticas.imgenError);
-            e.printStackTrace();
+            Path miJar = Paths.get(
+                    MenuInicioController.class
+                            .getProtectionDomain()
+                            .getCodeSource()
+                            .getLocation()
+                            .toURI()
+            );
             
+             System.out.println(miJar);
+
+            Path otroJar = miJar
+                    .resolveSibling("../../actualizacionGestorPaciente/target/actualizador-1.0-SNAPSHOT.jar")
+                    .normalize();
+
+            System.out.println(otroJar);
+            
+            
+            ProcessBuilder pb = new ProcessBuilder("java", "-jar", otroJar.toString());
+
+            pb.start();
+            
+            pb.redirectErrorStream(true);
+
+            Process proceso = pb.start();
+
+            BufferedReader reader = new BufferedReader( new InputStreamReader(proceso.getInputStream()));
+            
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+                System.out.println(linea);
+            }
+
+            int exitCode = proceso.waitFor();
+            System.out.println("Código de salida: " + exitCode);
+            
+          
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         
         
@@ -2939,6 +2967,19 @@ public class MenuInicioController extends PacienteController implements Initiali
         }
         
         
+    }
+    
+    
+    @FXML
+    public void elegirDirectorioAPP(MouseEvent event){
+        try {
+            String path = Directorios.buscaArchivo();
+            Actualizacion actualizacion = new Actualizacion();
+            actualizacion.setRuta(path);
+            usuarioDao.insertarRutaActualizacion(actualizacion);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     
