@@ -807,6 +807,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
+                                    <Label layoutX="73.0" layoutY="276.0" prefHeight="17.0" prefWidth="861.0" text="AALALLALAMSJDCJADDVBSJKLDBANiuygfhjKBDFHKJDGFCHJKDbvfhjydvfdhjskfvhjdCVBV BGGF" />
                                  </children>
                               </AnchorPane>
                         </content>
