@@ -20,6 +20,7 @@ import javafx.scene.Parent;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -69,14 +70,20 @@ public abstract class PadreController {
     @FXML
     protected void soloNumero(KeyEvent event) {
         TextField caja = (TextField) event.getSource();
-        HBox v = (HBox) ((Node) (event.getSource())).getParent();
+       /* HBox v = (HBox) ((Node) (event.getSource())).getParent();
         if( !(Character.isDigit(event.getCharacter().charAt(0))) && !(Character.isSpaceChar(event.getCharacter().charAt(0))) && event.getCharacter().codePointAt(0) != 8){
            agregarImg(v, 1, NO_TEXTO);
         }else if(caja.getText() == ""){
             agregarImg(v, 2, "");
         }else{
           agregarImg(v, 0, "");
-        }
+        }*/
+        
+        caja.setTextFormatter(new TextFormatter<>(change
+                -> change.getControlNewText().matches("\\d*") ? change : null
+        ));
+        
+       
     }
     
     

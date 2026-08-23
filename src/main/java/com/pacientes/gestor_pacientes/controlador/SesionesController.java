@@ -66,6 +66,11 @@ public class SesionesController extends MenuInicioController implements Initiali
     
     public String cajaBuscarPacientePasado;
     
+    @FXML
+    private Button botonVentanaAgregarSesiones;
+    
+    @FXML
+    private Button botonVentanaActualizarSesiones;
     
     private SesionPaciente sesioneSeleccionada;
 
@@ -83,7 +88,7 @@ public class SesionesController extends MenuInicioController implements Initiali
     @Override
     public void initialize(URL location, ResourceBundle resources) {
          this.onDraggedScene(anchorSesiones);
-        System.out.println("si se inicio");
+        
           iniciarChoiceCodigoFacturacion();
          
         anchorSesiones.setStyle(servicioPadre.iniciarColorApp());
@@ -140,10 +145,18 @@ public class SesionesController extends MenuInicioController implements Initiali
                             vaciarCajas(VariablesEstaticas.cajasSesiones).
                             vaciarFechas(VariablesEstaticas.datePickerSesiones).
                             vaciarValorChoise(VariablesEstaticas.choiseSesiones);
+         
+         if(VariablesEstaticas.actualizarOCrearSesion==1){
+             botonVentanaActualizarSesiones.setVisible(false);
+             botonVentanaAgregarSesiones.setVisible(true);
+         }else if(VariablesEstaticas.actualizarOCrearSesion==2){
+             botonVentanaActualizarSesiones.setVisible(true);
+             botonVentanaAgregarSesiones.setVisible(false);
+         }
     }
     
      public void iniciarChoiceCodigoFacturacion(){
-         System.out.println("entro a iniciar choise");
+        
          try {
              daoImplementacion = new CodigoFacturacionDAOImplementacion();
              List<CodigoFacturacion> listaCodigosFacturacion = daoImplementacion.obtenerLista(new CodigoFacturacion());
@@ -151,7 +164,7 @@ public class SesionesController extends MenuInicioController implements Initiali
                  
                  for (CodigoFacturacion h : listaCodigosFacturacion) {
                     choiseCodigoFactSesionObraSocial.getItems().add(h.getNombre());
-                     System.out.println("sdadasdasd");
+                    
                  }
 
              }
@@ -169,7 +182,12 @@ public class SesionesController extends MenuInicioController implements Initiali
     
     @FXML
     public void crearSesion(MouseEvent event) {
-      if (!cajaBuscarPacientePasado.isBlank()) {
+          
+         Button button = (Button)event.getSource();
+         Stage stage =  (Stage)button.getScene().getWindow();
+         
+           
+         if (!cajaBuscarPacientePasado.isBlank()) {
             try {
 
                 if (     htmlTrabajoSesion.getHtmlText().equals("<html><head></head><body contenteditable=\"true\"></body></html>")
@@ -199,9 +217,12 @@ public class SesionesController extends MenuInicioController implements Initiali
                     setearValoresCajasVaciasAutorizacionSesiones();
 
                     servicioPaciente.rellenarCajasAutorizacionVacias();
+                    
+               
+                    
 
                     autorizacionesSesionesObraSociales = new AutorizacionesSesionesObraSociales(
-                            Integer.valueOf(cajaAutorizacionSesion.getText()),
+                            Long.parseLong(cajaAutorizacionSesion.getText()),
                             htmlObservacionAutorizacion.getHtmlText(), cajaAsociacionSesionObraSocial.getValue(),
                             Double.valueOf(cajaCopagoSesionObraSocial.getText()),
                             new CodigoFacturacion(choiseCodigoFactSesionObraSocial.getValue()));
@@ -209,13 +230,14 @@ public class SesionesController extends MenuInicioController implements Initiali
                     servicioPaciente.
                             datosSesionCajasAreaVacios().datosSesionCajasVacios().datosSesionChoiceVacios();
 
+                    
                     SesionPaciente sesion = new SesionPaciente(Integer.valueOf(cajaNumeroSesion.getText()),
                             cajaFechaSesion.getValue(),
                             htmlTrabajoSesion.getHtmlText(),
                             htmlObservacionSesion.getHtmlText(),
                             Double.parseDouble(cajaHonorariosPorSesion.getText()),
                             new EstadoFacturacion(cajaEstadoFacturacionSesionObraSocial.getText()));
-                    System.out.println("trabajo:" + htmlTrabajoSesion.getHtmlText());
+                    
                     
                     daoImplementacion = new PacienteDAOImplementacion();
                     int idPaciente = daoImplementacion.obtenerId(new Paciente(Integer.parseInt(cajaBuscarPacientePasado)));
@@ -236,19 +258,25 @@ public class SesionesController extends MenuInicioController implements Initiali
 
                         mensajeAdvertenciaError("Sesion creado con éxito", this, VariablesEstaticas.imgenExito);
                         
+                        stage.close();
+                        
+                        
                         
                     } else {
                         mensajeAdvertenciaError("Buscar paciente para crear sesión", this, VariablesEstaticas.imgenAdvertencia);
+                         stage.close();
                     }
                 }
 
             } catch (Exception e) {
                 e.printStackTrace();
                 mensajeAdvertenciaError("Error al crear sesión", this, VariablesEstaticas.imgenError);
+                 stage.close();
             }
 
         } else {
             mensajeAdvertenciaError("Buscar paciente para crear sesión", this, VariablesEstaticas.imgenAdvertencia);
+             stage.close();
         }
 
     }
@@ -263,6 +291,7 @@ public class SesionesController extends MenuInicioController implements Initiali
             cajaEstadoFacturacionSesionObraSocial.setText(sesioneSeleccionada.getEstado().getEstado());
 
             //AUTORIZACION
+            
             cajaAutorizacionSesion.setText(String.valueOf(sesioneSeleccionada.getAutorizacion().getNumeroAutorizacion()));
             htmlObservacionAutorizacion.setHtmlText(sesioneSeleccionada.getAutorizacion().getObservacion());
             cajaAsociacionSesionObraSocial.setValue(sesioneSeleccionada.getAutorizacion().getAsociacion());
@@ -274,6 +303,8 @@ public class SesionesController extends MenuInicioController implements Initiali
     
     @FXML
     private void actualizarSesion(MouseEvent event) {
+         Button button = (Button)event.getSource();
+         Stage stage =  (Stage)button.getScene().getWindow();
 
         try {
             //SI NO SE SELECCIONA LA SESION
@@ -294,7 +325,7 @@ public class SesionesController extends MenuInicioController implements Initiali
 
             daoImplementacion = new PacienteDAOImplementacion();
             sesionBuscar.setIdPaciente(daoImplementacion.obtenerId(new Paciente(Integer.parseInt(cajaBuscarPacientePasado))));
-            autorizacionBuscar.setNumeroAutorizacion(Integer.parseInt(cajaAutorizacionSesion.getText()));
+            autorizacionBuscar.setNumeroAutorizacion(Long.parseLong(cajaAutorizacionSesion.getText()));
             autorizacionBuscar.setAsociacion(ldAutorizacion);
             sesionBuscar.setAutorizacion(autorizacionBuscar);
             sesionBuscar.setFecha(ldSesion);
@@ -315,7 +346,7 @@ public class SesionesController extends MenuInicioController implements Initiali
             autorizacion.setIdPaciente(idPaciente);
             autorizacion.setIdSesion(idSesion);
             autorizacion.setId(daoImplementacion.obtenerId(sesioneSeleccionada.getAutorizacion()));
-            autorizacion.setNumeroAutorizacion(Integer.parseInt(cajaAutorizacionSesion.getText()));
+            autorizacion.setNumeroAutorizacion(Long.parseLong(cajaAutorizacionSesion.getText()));
             autorizacion.setAsociacion(ldsaNuevo);
             autorizacion.setObservacion(htmlObservacionAutorizacion.getHtmlText());
             autorizacion.setCopago(Double.parseDouble(cajaCopagoSesionObraSocial.getText()));
@@ -338,11 +369,12 @@ public class SesionesController extends MenuInicioController implements Initiali
             daoImplementacion.actualizar(sesion);
             mensajeAdvertenciaError("Sesión actualizada con éxito sesión", this, VariablesEstaticas.imgenExito);
             
-            
+            stage.close();
 
         } catch (Exception e) {
             e.printStackTrace();
             mensajeAdvertenciaError("Error al actualizar sesión", this, VariablesEstaticas.imgenError);
+            stage.close();
         }
 
     }

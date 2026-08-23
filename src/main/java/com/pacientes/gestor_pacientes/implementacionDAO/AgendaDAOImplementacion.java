@@ -135,7 +135,7 @@ public class AgendaDAOImplementacion extends PadreDAOImplementacion implements I
             
             psActualizarAccion.executeUpdate();
         }else{
-            throw sqlException;
+            throw new SQLException();
         }
         
     }
@@ -153,7 +153,7 @@ public class AgendaDAOImplementacion extends PadreDAOImplementacion implements I
             psInsertarAccionAgenda.setInt(2, accion.getId());
             psInsertarAccionAgenda.executeUpdate();
         }else{
-            throw sqlException;
+            throw new SQLException();
         }
         
         
@@ -190,7 +190,7 @@ public class AgendaDAOImplementacion extends PadreDAOImplementacion implements I
            psInsertarAccionAgenda.setInt(5, idHora);
            psInsertarAccionAgenda.executeUpdate();
        }else{
-           throw sqlException;
+           throw new SQLException();
        }
         
         

@@ -17,7 +17,7 @@ public class Paciente {
     private String nombre;
     private String apellido;
     private int edad;
-    private Integer dni;
+    private Integer dni; //LONG
     private List<Telefono> listaTelefonos;
     private boolean es_paciente;
     private Honorario honorarios;
@@ -27,6 +27,12 @@ public class Paciente {
     private List<SesionPaciente> sesiones;
     private ObraSocialPaciente obraSocialPaciente;
     private Telefono telefono;
+    
+
+    @Override
+    public String toString() {
+        return "Paciente{" + "id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", edad=" + edad + ", dni=" + dni + ", listaTelefonos=" + listaTelefonos + ", es_paciente=" + es_paciente + ", honorarios=" + honorarios + ", diagnostico=" + diagnostico + ", planTratamiento=" + planTratamiento + ", sesion=" + sesion + ", sesiones=" + sesiones + ", obraSocialPaciente=" + obraSocialPaciente + ", telefono=" + telefono + '}';
+    }
     
 
     public Paciente() {
@@ -67,6 +73,21 @@ public class Paciente {
     public Paciente(int id, String nombre, int edad, Integer dni, List<Telefono> telefono, boolean es_paciente, Honorario honorarios, DiagnosticoPaciente diagnostico, PlanTratamiento planTratamiento, List<SesionPaciente> sesiones, ObraSocialPaciente obraSocialPaciente) {
         this.id = id;
         this.nombre = nombre;
+        this.edad = edad;
+        this.dni = dni;
+        this.listaTelefonos = listaTelefonos;
+        this.es_paciente = es_paciente;
+        this.honorarios = honorarios;
+        this.diagnostico = diagnostico;
+        this.planTratamiento = planTratamiento;
+        this.sesiones = sesiones;
+        this.obraSocialPaciente = obraSocialPaciente;
+    }
+    
+    public Paciente(int id, String nombre, String apellido, int edad, Integer dni, List<Telefono> telefono, boolean es_paciente, Honorario honorarios, DiagnosticoPaciente diagnostico, PlanTratamiento planTratamiento, List<SesionPaciente> sesiones, ObraSocialPaciente obraSocialPaciente) {
+        this.id = id;
+        this.nombre = nombre;
+        this.apellido = apellido;
         this.edad = edad;
         this.dni = dni;
         this.listaTelefonos = listaTelefonos;

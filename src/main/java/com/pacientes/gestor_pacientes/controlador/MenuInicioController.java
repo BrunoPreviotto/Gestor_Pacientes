@@ -38,6 +38,7 @@ import com.pacientes.gestor_pacientes.servicios.ClienteActualizacion;
 import com.pacientes.gestor_pacientes.servicios.GestorMail;
 import com.pacientes.gestor_pacientes.servicios.GitHubUpdateManager;
 import com.pacientes.gestor_pacientes.servicios.GoogleDriveService;
+import com.pacientes.gestor_pacientes.servicios.ServicioMenuInicio;
 import com.pacientes.gestor_pacientes.servicios.ServicioOpciones;
 import com.pacientes.gestor_pacientes.utilidades.Directorios;
 import com.pacientes.gestor_pacientes.utilidades.Exepciones;
@@ -142,12 +143,24 @@ public class MenuInicioController extends PacienteController implements Initiali
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-         
+        
+        ServicioMenuInicio servicio = new ServicioMenuInicio();
+       
+        
+        
+        
+        
         iniciarChoiceOpciones();
         iniciarColorContenedores();
         
         usuarioDao = new UsuarioDAOImplementacion();
         usuario = usuarioDao.obtenerUsuarioActual();
+        
+        
+        
+       
+        
+        
         
         iniciarVariablesEstaticas();
         
@@ -165,6 +178,8 @@ public class MenuInicioController extends PacienteController implements Initiali
         
         
         comprobarFechaAlIniciar();
+        
+        
         
         
 
@@ -231,6 +246,10 @@ public class MenuInicioController extends PacienteController implements Initiali
             
         } catch (Exception e) {
         }*/
+        
+         servicio.consultarEstadoActualizacion();
+        
+      
         
         
     }
@@ -563,16 +582,21 @@ public class MenuInicioController extends PacienteController implements Initiali
 
     @FXML
     public void crearSesion(MouseEvent event) {
-        iniciarFXMLSesiones(1);
+       
         if(!cajaBuscarPaciente.getText().isBlank()){
+            VariablesEstaticas.actualizarOCrearSesion = 1;
             buscarPaciente();
+             iniciarFXMLSesiones(1);
+        }else{
+             mensajeAdvertenciaError( "Buscar paciente para poder crear una sesión.", this, VariablesEstaticas.imgenAdvertencia);
         }
     }
     
     @FXML
     private void actualizarSesion(MouseEvent event) {
         if (tableSesiones.getSelectionModel().isEmpty()) {
-                mensajeAdvertenciaError( "Seleccione sesion para pode actualizar", this, VariablesEstaticas.imgenAdvertencia);
+                VariablesEstaticas.actualizarOCrearSesion = 2;
+                mensajeAdvertenciaError( "Seleccione sesión para pode actualizar.", this, VariablesEstaticas.imgenAdvertencia);
         } else {
             iniciarFXMLSesiones(2);
         }
@@ -596,7 +620,7 @@ public class MenuInicioController extends PacienteController implements Initiali
                     tableSesiones.getSelectionModel().getSelectedItem().getObservacionSesion(),
                     Double.parseDouble(tableSesiones.getSelectionModel().getSelectedItem().getHonorariosPorSesion()), 
                     new AutorizacionesSesionesObraSociales(0,
-                            Integer.parseInt(tableSesiones.getSelectionModel().getSelectedItem().getNumeroAutorizacion()),
+                            Long.parseLong(tableSesiones.getSelectionModel().getSelectedItem().getNumeroAutorizacion()),
                             tableSesiones.getSelectionModel().getSelectedItem().getObservacionAutorizacion(), 
                             LocalDate.parse(tableSesiones.getSelectionModel().getSelectedItem().getAsociacion()), 
                             Double.parseDouble(tableSesiones.getSelectionModel().getSelectedItem().getCopago()), 
@@ -633,7 +657,7 @@ public class MenuInicioController extends PacienteController implements Initiali
             
             stage.showAndWait();
             
-            
+            buscarPaciente();
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -1005,11 +1029,12 @@ public class MenuInicioController extends PacienteController implements Initiali
     //                              ****
     @FXML
     private void actualizarPaciente(MouseEvent event) {
+        
         if (botonActualizarDatosPrincipales.getId().equals("1")) {
             try {
                 daoImplementacion = new PacienteDAOImplementacion();
-                int idPaciente = daoImplementacion.obtenerId(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText())));
-                Paciente paciente = new Paciente();
+              
+               
                 List<TextField> listaCajasDatosPrincipales = new ArrayList<TextField>(Arrays.asList(cajaNombreDatosPrincipales, cajaApellidoDatosPrincipales, cajaEdadDatosPrincipales, cajaDniDatosPrincipales, cajaTelefonoDatosPrincipales));
 
                 if (!cajaBuscarPaciente.getText().isEmpty()) {
@@ -1021,15 +1046,23 @@ public class MenuInicioController extends PacienteController implements Initiali
                     } else {
                         servicioPaciente.datosPrincipalesVacios();
                         daoImplementacion = new DatosPrincipalesDAOImplementacion();
-                        daoImplementacion.actualizar(
-                                paciente.
-                                        setNombre(cajaNombreDatosPrincipales.getText()).
-                                        setApellido(cajaApellidoDatosPrincipales.getText()).
-                                        setEdad(Integer.parseInt(cajaEdadDatosPrincipales.getText())).
-                                        setDni(Integer.parseInt(cajaDniDatosPrincipales.getText())).
-                                        setId(idPaciente).
-                                        setTelefono(new Telefono(cajaTelefonoDatosPrincipales.getText())).
-                                        setHonorarios(new Honorario(Double.parseDouble(cajaHonorariosDatosPrincipales.getText()))));
+                        
+                        
+                        
+                        Paciente pacienteActualizar = new Paciente(
+                                cajaNombreDatosPrincipales.getText(), 
+                                cajaApellidoDatosPrincipales.getText(),
+                                Integer.parseInt(cajaEdadDatosPrincipales.getText()),
+                                Integer.parseInt(cajaDniDatosPrincipales.getText()), 
+                                new Honorario(Double.parseDouble(cajaHonorariosDatosPrincipales.getText())),
+                                new Telefono(cajaTelefonoDatosPrincipales.getText())
+                        );
+
+                        
+                          daoImplementacion.actualizar(pacienteActualizar);
+                        
+                          
+                        
                         servicioPaciente.deshabilitarCajas(VariablesEstaticas.cajasDatosPrincipales);
                         botonActualizarDatosPrincipales.setId("botonAgregarPlanTratamiento");
                         mensajeAdvertenciaError("Paciente actualizado con éxito", this, VariablesEstaticas.imgenExito);
@@ -1045,7 +1078,10 @@ public class MenuInicioController extends PacienteController implements Initiali
                 if(e.getClass().equals(Exepciones.class)){
                     mensajeAdvertenciaError( e.getMessage(), this, VariablesEstaticas.imgenError);
                 }else{
+                    e.printStackTrace();
                     mensajeAdvertenciaError( "Error al actualizar Paciente", this, VariablesEstaticas.imgenError);
+                    vaciarTodasLasCajas(event);
+                    servicioPaciente.deshabilitarCajas(VariablesEstaticas.cajasDatosPrincipales);
                 }
                 
             }
@@ -1054,7 +1090,22 @@ public class MenuInicioController extends PacienteController implements Initiali
             servicioPaciente.
                     animarCajasAlDarABoton(VariablesEstaticas.cajasDatosPrincipales).
                     habilitarCajas(VariablesEstaticas.cajasDatosPrincipales);
-
+            try {
+                daoImplementacion = new PacienteDAOImplementacion();
+                int idPaciente = daoImplementacion.obtenerId(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText())));
+                 VariablesEstaticas.paciente.
+                                        setNombre(cajaNombreDatosPrincipales.getText()).
+                                        setApellido(cajaApellidoDatosPrincipales.getText()).
+                                        setEdad(Integer.parseInt(cajaEdadDatosPrincipales.getText())).
+                                        setDni(Integer.parseInt(cajaDniDatosPrincipales.getText())).
+                                        setId(idPaciente).
+                                        setTelefono(new Telefono(cajaTelefonoDatosPrincipales.getText())).
+                                        setHonorarios(new Honorario(Double.parseDouble(cajaHonorariosDatosPrincipales.getText())));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+              
+            
         }
     }
 
@@ -1430,7 +1481,7 @@ public class MenuInicioController extends PacienteController implements Initiali
                         
                         sesionBuscar.setIdPaciente(idPaciente);
 
-                        autorizacionBuscar.setNumeroAutorizacion(Integer.parseInt(tablaAutorizacion.getSelectionModel().getSelectedItem().getNumeroAutorizacion()));
+                        autorizacionBuscar.setNumeroAutorizacion(Long.parseLong(tablaAutorizacion.getSelectionModel().getSelectedItem().getNumeroAutorizacion()));
                         autorizacionBuscar.setAsociacion(ldAutorizacion);
                         sesionBuscar.setAutorizacion(autorizacionBuscar);
                         sesionBuscar.setFecha(ldSesion);
@@ -1447,10 +1498,10 @@ public class MenuInicioController extends PacienteController implements Initiali
                         LocalDate ldsaNuevo = LocalDate.parse(tablaAutorizacion.getSelectionModel().getSelectedItem().getAsociacion());
 
                         daoImplementacion = new AutorizacionDAOImplementacion();
-                        int idAutorizacion = daoImplementacion.obtenerId(new AutorizacionesSesionesObraSociales(Integer.parseInt(tableSesiones.getSelectionModel().getSelectedItem().getNumeroAutorizacion()), LocalDate.parse(tableSesiones.getSelectionModel().getSelectedItem().getAsociacion()), idSesion, idPaciente));
+                        int idAutorizacion = daoImplementacion.obtenerId(new AutorizacionesSesionesObraSociales(Long.parseLong(tableSesiones.getSelectionModel().getSelectedItem().getNumeroAutorizacion()), LocalDate.parse(tableSesiones.getSelectionModel().getSelectedItem().getAsociacion()), idSesion, idPaciente));
                         autorizacion.setId(idAutorizacion);
                         System.out.println(idAutorizacion);
-                        autorizacion.setNumeroAutorizacion(Integer.parseInt(tablaAutorizacion.getSelectionModel().getSelectedItem().getNumeroAutorizacion()));
+                        autorizacion.setNumeroAutorizacion(Long.parseLong(tablaAutorizacion.getSelectionModel().getSelectedItem().getNumeroAutorizacion()));
                         autorizacion.setAsociacion(ldsaNuevo);
                         autorizacion.setObservacion(tablaAutorizacion.getSelectionModel().getSelectedItem().getObservacionAutorizacion());
                         autorizacion.setCopago(Double.parseDouble(tablaAutorizacion.getSelectionModel().getSelectedItem().getCopago()));
@@ -1488,7 +1539,7 @@ public class MenuInicioController extends PacienteController implements Initiali
                                             daoImplementacion = new AutorizacionDAOImplementacion();
                                             //ELIMINAR AUTORIZACION
                                             
-                                            daoImplementacion.actualizar(new AutorizacionesSesionesObraSociales(idAutorizacion, 0, "---------", LocalDate.now(), 0.0, codigo, idSesion, idPaciente));
+                                            daoImplementacion.actualizar(new AutorizacionesSesionesObraSociales(idAutorizacion, (long)0, "---------", LocalDate.now(), 0.0, codigo, idSesion, idPaciente));
                                         } catch (Exception e) {
                                         }
                                     } else if (check.get(0).isSelected()) {
@@ -2815,6 +2866,8 @@ public class MenuInicioController extends PacienteController implements Initiali
         
         
     }
+    
+    
    
     @FXML
     public void actualizarAplicacion() {
@@ -2842,7 +2895,7 @@ public class MenuInicioController extends PacienteController implements Initiali
 
             pb.start();
             
-            pb.redirectErrorStream(true);
+           /* pb.redirectErrorStream(true);
 
             Process proceso = pb.start();
 
@@ -2854,7 +2907,9 @@ public class MenuInicioController extends PacienteController implements Initiali
             }
 
             int exitCode = proceso.waitFor();
-            System.out.println("Código de salida: " + exitCode);
+            System.out.println("Código de salida: " + exitCode);*/
+            
+            System.exit(0);
             
           
         } catch (Exception e) {

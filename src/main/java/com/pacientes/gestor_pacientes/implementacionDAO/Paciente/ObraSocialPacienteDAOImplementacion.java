@@ -90,7 +90,7 @@ public class ObraSocialPacienteDAOImplementacion extends PadreDAOImplementacion 
         try {
             psEliminarObraSocialPaciente.setInt(1, objetoParametro.getIdPaciente());
         } catch (Exception e) {
-            throw sqlException;
+            throw new SQLException();
         }
         psEliminarObraSocialPaciente.executeUpdate();
     }

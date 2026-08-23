@@ -41,7 +41,7 @@ public class TipoSesionPlanDAOImplementacion extends PadreDAOImplementacion impl
                 return tipoSesionResultado;
             }
         }else{
-            throw sqlException;
+            throw new SQLException();
         }
 
         return tipoSesionResultado;

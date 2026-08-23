@@ -14,6 +14,24 @@ public class Actualizacion {
     String versionNueva;
     String ruta;
     int id_usuario;
+    boolean exito;
+    boolean reciente;
+
+    public boolean isExito() {
+        return exito;
+    }
+
+    public void setExito(boolean exito) {
+        this.exito = exito;
+    }
+
+    public boolean isReciente() {
+        return reciente;
+    }
+
+    public void setReciente(boolean reciente) {
+        this.reciente = reciente;
+    }
 
     public int getId_usuario() {
         return id_usuario;

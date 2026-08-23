@@ -11,7 +11,7 @@ package com.pacientes.gestor_pacientes.modelo;
 public class CodigoFacturacion {
     private int id;
     private String nombre;
-    private Integer codigo;
+    private Integer codigo; //LONG
 
     public CodigoFacturacion() {
     }

@@ -82,7 +82,7 @@ public class PlanTratamientoDAOImplementacion extends PadreDAOImplementacion imp
         try {
             psEliminarPlanTratamiento.setInt(1, objetoParametro.getIdPaciente());
         } catch (Exception e) {
-            throw sqlException;
+            throw new SQLException();
         }
         psEliminarPlanTratamiento.executeUpdate();
     }

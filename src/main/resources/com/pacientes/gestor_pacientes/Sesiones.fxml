@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.web.*?>
+<?import java.lang.String?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.CubicCurve?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.web.HTMLEditor?>
 
-<AnchorPane fx:id="anchorSesiones" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" stylesheets="@styles/menuinicio.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pacientes.gestor_pacientes.controlador.SesionesController">
+<AnchorPane fx:id="anchorSesiones" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" stylesheets="@styles/menuinicio.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pacientes.gestor_pacientes.controlador.SesionesController">
    <children>
       <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
          <children>
@@ -137,7 +146,7 @@
                         <Insets />
                      </VBox.margin>
                   </Label>
-                  <TextField fx:id="cajaHonorariosPorSesion" accessibleRoleDescription="num" alignment="BOTTOM_CENTER" onKeyTyped="#onKeyTyped" prefHeight="28.0" prefWidth="409.0" promptText="Ingresar honorario" stylesheets="@styles/menuinicio.css">
+                  <TextField fx:id="cajaHonorariosPorSesion" accessibleRoleDescription="num" alignment="BOTTOM_CENTER" onKeyPressed="#soloNumeroFlotante" onKeyTyped="#onKeyTyped" prefHeight="28.0" prefWidth="409.0" promptText="Ingresar honorario" stylesheets="@styles/menuinicio.css">
                      <styleClass>
                         <String fx:value="cajas" />
                         <String fx:value="error" />
@@ -179,7 +188,7 @@
                   </Label>
                   <HBox>
                      <children>
-                        <TextField fx:id="cajaAutorizacionSesion" alignment="BOTTOM_CENTER" onKeyPressed="#volverCajaALaNormalidad" onKeyTyped="#soloNumero" prefWidth="400.0" promptText="Ingresar numero autorización" stylesheets="@styles/menuinicio.css">
+                        <TextField fx:id="cajaAutorizacionSesion" alignment="BOTTOM_CENTER" onKeyPressed="#soloNumeroFlotante" onKeyTyped="#volverCajaALaNormalidad" prefWidth="400.0" promptText="Ingresar numero autorización" stylesheets="@styles/menuinicio.css">
                            <styleClass>
                               <String fx:value="cajas" />
                               <String fx:value="error" />
@@ -245,7 +254,7 @@
                   </Label>
                   <HBox>
                      <children>
-                        <TextField fx:id="cajaCopagoSesionObraSocial" alignment="BOTTOM_CENTER" onKeyTyped="#soloNumeroFlotantes" prefWidth="400.0" promptText="Ingresar copago" stylesheets="@styles/menuinicio.css">
+                        <TextField fx:id="cajaCopagoSesionObraSocial" alignment="BOTTOM_CENTER" onKeyPressed="#soloNumeroFlotante" prefWidth="400.0" promptText="Ingresar copago" stylesheets="@styles/menuinicio.css">
                            <styleClass>
                               <String fx:value="cajas" />
                               <String fx:value="error" />
@@ -266,7 +275,7 @@
                         <HBox>
                            <children>
                               <ChoiceBox fx:id="choiseCodigoFactSesionObraSocial" accessibleHelp="controlImportante" onMouseClicked="#volverChoiceALaNormalidad" prefWidth="400.0" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
-                              <TextField fx:id="cajaCodigoFacturacion" alignment="BOTTOM_CENTER" editable="false" prefWidth="400.0" promptText="Ingresar código" stylesheets="@styles/menuinicio.css">
+                              <TextField fx:id="cajaCodigoFacturacion" alignment="BOTTOM_CENTER" editable="false" onKeyPressed="#soloNumero" prefWidth="400.0" promptText="Ingresar código" stylesheets="@styles/menuinicio.css">
                                  <styleClass>
                                     <String fx:value="cajas" />
                                     <String fx:value="error" />
@@ -449,7 +458,7 @@
             </AnchorPane>
          </graphic>
       </Button>
-      <Button fx:id="botonAgregarSesiones" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#crearSesion" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
+      <Button fx:id="botonVentanaAgregarSesiones" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#crearSesion" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
          <styleClass>
             <String fx:value="botonBuscar" />
             <String fx:value="botonBuscarChico" />
@@ -463,7 +472,7 @@
             </AnchorPane>
          </graphic>
       </Button>
-      <Button fx:id="botonActualizarSesiones" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#actualizarSesion" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="40.0">
+      <Button fx:id="botonVentanaActualizarSesiones" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#actualizarSesion" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="40.0">
          <styleClass>
             <String fx:value="botonBuscar" />
             <String fx:value="botonBuscarChico" />

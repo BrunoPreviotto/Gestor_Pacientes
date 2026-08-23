@@ -25,7 +25,7 @@ import java.sql.SQLException;
 public class PadreDAOImplementacion {
     
     protected ConexionMariadb conexion = ConexionMariadb.getInstacia();
-    protected SQLException sqlException = new SQLException();
+    //protected SQLException sqlException = new SQLException();
     protected CRUD daoImplementacion;
     
     

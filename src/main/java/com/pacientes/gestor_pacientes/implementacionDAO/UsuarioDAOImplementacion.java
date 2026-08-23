@@ -55,7 +55,7 @@ public class UsuarioDAOImplementacion extends PadreDAOImplementacion implements 
                 usuarioObtenido.setContraseña(Encriptar.convertirSHA256(rs.getString(2)));
                 usuarioObtenido.setEmail(new Email(rs.getString("email")));
             }else{
-                throw sqlException;
+                throw new SQLException();
             }
             rs.close();
             pst.close();
@@ -176,7 +176,7 @@ public class UsuarioDAOImplementacion extends PadreDAOImplementacion implements 
                 usuarioObtenido.setCodigo(rs.getLong("codigo_recuperacion"));
                
             }else{
-                throw sqlException;
+                throw new SQLException();
             }
             rs.close();
             pst.close();

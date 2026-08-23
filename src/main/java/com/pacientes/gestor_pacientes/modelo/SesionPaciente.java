@@ -13,7 +13,7 @@ import java.time.LocalDate;
  */
 public class SesionPaciente {
     private int idSesion;
-    private Integer numeroSesion;
+    private Integer numeroSesion; //LONG
     private LocalDate fecha;
     private String trabajoSesion;
     private String observacion;

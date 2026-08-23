@@ -7,6 +7,7 @@ package com.pacientes.gestor_pacientes.utilidades;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.jfoenix.controls.JFXTextArea;
+import com.pacientes.gestor_pacientes.modelo.Paciente;
 import com.pacientes.gestor_pacientes.modelo.TemaAplicacion;
 import com.pacientes.gestor_pacientes.modelo.Usuario;
 
@@ -59,6 +60,8 @@ public class VariablesEstaticas {
     
     
     //PACIENTE
+    
+    public static Paciente paciente = new Paciente();
     
     //CAJAS AUTORIZACION
     
@@ -200,6 +203,9 @@ public class VariablesEstaticas {
     public static void setUsuario(Usuario usuario) {
         VariablesEstaticas.usuario = usuario;
     }
+    
+    //SESIONES
+    public static int actualizarOCrearSesion = 1;
 
     
     

@@ -216,7 +216,7 @@
                                     </Label>
                                     <HBox prefHeight="40.0" prefWidth="200.0">
                                        <children>
-                                          <TextField fx:id="cajaNombreObraSocial" accessibleHelp="controlImportante" alignment="BASELINE_CENTER" onKeyPressed="#volverCajaALaNormalidad" onKeyTyped="#soloString" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar nombre" stylesheets="@styles/menuinicio.css">
+                                          <TextField fx:id="cajaNombreObraSocial" accessibleHelp="controlImportante" alignment="BASELINE_CENTER" onKeyPressed="#soloString" onKeyTyped="#volverCajaALaNormalidad" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar nombre" stylesheets="@styles/menuinicio.css">
                                              <styleClass>
                                                 <String fx:value="cajas" />
                                                 <String fx:value="error" />
@@ -237,7 +237,7 @@
                                     </Label>
                                     <HBox prefHeight="40.0" prefWidth="200.0">
                                        <children>
-                                          <TextField fx:id="cajaTelefonoObraSocial" alignment="BOTTOM_CENTER" onKeyTyped="#soloNumero" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar telefono" styleClass="cajas" stylesheets="@styles/menuinicio.css">
+                                          <TextField fx:id="cajaTelefonoObraSocial" alignment="BOTTOM_CENTER" onKeyPressed="#soloNumero" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar telefono" styleClass="cajas" stylesheets="@styles/menuinicio.css">
                                              <HBox.margin>
                                                 <Insets />
                                              </HBox.margin>
@@ -526,7 +526,7 @@
                   <String fx:value="root" />
                </styleClass>
             </AnchorPane>
-            <AnchorPane fx:id="apOpciones" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="apOpciones" stylesheets="@styles/menuinicio.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <TabPane fx:id="tabPaneOpciones" stylesheets="@styles/opciones.css" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <tabs>
@@ -548,7 +548,7 @@
                                                             <Insets top="10.0" />
                                                          </VBox.margin>
                                                       </Label>
-                                                      <TextField fx:id="cajaNombreOpcionesUsuario" alignment="CENTER" editable="false" promptText="Ingresar Nombre" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
+                                                      <TextField fx:id="cajaNombreOpcionesUsuario" alignment="CENTER" editable="false" onKeyPressed="#soloString" promptText="Ingresar Nombre" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
                                                       <Label styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Apellido">
                                                          <font>
                                                             <Font name="Abyssinica SIL" size="16.0" />
@@ -557,7 +557,7 @@
                                                             <Insets top="10.0" />
                                                          </VBox.margin>
                                                       </Label>
-                                                      <TextField fx:id="cajaApellidoOpcionesUsuario" alignment="CENTER" editable="false" promptText="Ingresar Apellido" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
+                                                      <TextField fx:id="cajaApellidoOpcionesUsuario" alignment="CENTER" editable="false" onKeyPressed="#soloString" promptText="Ingresar Apellido" styleClass="cajas" stylesheets="@styles/menuinicio.css" />
                                                       <Label styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Usuario">
                                                          <VBox.margin>
                                                             <Insets top="10.0" />
@@ -807,7 +807,6 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Label layoutX="73.0" layoutY="276.0" prefHeight="17.0" prefWidth="861.0" text="AALALLALAMSJDCJADDVBSJKLDBANiuygfhjKBDFHKJDGFCHJKDbvfhjydvfdhjskfvhjdCVBV BGGF" />
                                  </children>
                               </AnchorPane>
                         </content>
@@ -821,7 +820,7 @@
                   <String fx:value="root" />
                </styleClass>
             </AnchorPane>
-            <AnchorPane fx:id="apPacientes" stylesheets="@styles/menuinicio.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="apPacientes" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="30.0" prefWidth="300.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
                     <buttons>
@@ -912,7 +911,7 @@
                                                       </AnchorPane>
                                                    </graphic>
                                                 </Button>
-                                                <Button fx:id="botonActualizarDatosPrincipales" mnemonicParsing="false" onMouseClicked="#actualizarPaciente" prefHeight="22.0" prefWidth="23.0">
+                                                <Button fx:id="botonActualizarDatosPrincipales" mnemonicParsing="false" onMouseClicked="#eliminarPaciente" prefHeight="22.0" prefWidth="23.0">
                                                    <HBox.margin>
                                                       <Insets left="5.0" />
                                                    </HBox.margin>
@@ -929,7 +928,7 @@
                                                       </AnchorPane>
                                                    </graphic>
                                                 </Button>
-                                                <Button fx:id="botonEliminarDatosPrincipales" mnemonicParsing="false" onMouseClicked="#eliminarPaciente" prefHeight="22.0" prefWidth="23.0">
+                                                <Button fx:id="botonEliminarDatosPrincipales" mnemonicParsing="false" onMouseClicked="#actualizarPaciente" prefHeight="22.0" prefWidth="23.0">
                                                    <HBox.margin>
                                                       <Insets left="5.0" />
                                                    </HBox.margin>
@@ -964,7 +963,7 @@
                                                       </Label>
                                                       <HBox accessibleRoleDescription="HBox" prefHeight="41.0" prefWidth="200.0">
                                                          <children>
-                                                            <TextField fx:id="cajaNombreDatosPrincipales" accessibleHelp="controlImportante" accessibleText="datosPrincipales" alignment="BOTTOM_CENTER" onKeyPressed="#volverCajaALaNormalidad" onKeyTyped="#soloString" prefHeight="30.0" prefWidth="220.0" promptText="Ingresar nombre" stylesheets="@styles/menuinicio.css">
+                                                            <TextField fx:id="cajaNombreDatosPrincipales" accessibleHelp="controlImportante" accessibleText="datosPrincipales" alignment="BOTTOM_CENTER" onKeyPressed="#soloString" onKeyTyped="#volverCajaALaNormalidad" prefHeight="30.0" prefWidth="220.0" promptText="Ingresar nombre" stylesheets="@styles/menuinicio.css">
                                                                <styleClass>
                                                                   <String fx:value="cajasChicas" />
                                                                   <String fx:value="cajas" />
@@ -982,7 +981,7 @@
                                                       </Label>
                                                       <HBox accessibleRoleDescription="HBox" prefHeight="40.0" prefWidth="200.0">
                                                          <children>
-                                                            <TextField fx:id="cajaApellidoDatosPrincipales" accessibleHelp="controlImportante" accessibleText="datosPrincipales" alignment="BOTTOM_CENTER" onKeyPressed="#volverCajaALaNormalidad" onKeyTyped="#soloString" prefHeight="24.0" prefWidth="220.0" promptText="Ingresar apellido" stylesheets="@styles/menuinicio.css">
+                                                            <TextField fx:id="cajaApellidoDatosPrincipales" accessibleHelp="controlImportante" accessibleText="datosPrincipales" alignment="BOTTOM_CENTER" onKeyPressed="#soloString" onKeyTyped="#volverCajaALaNormalidad" prefHeight="24.0" prefWidth="220.0" promptText="Ingresar apellido" stylesheets="@styles/menuinicio.css">
                                                                <styleClass>
                                                                   <String fx:value="cajasChicas" />
                                                                   <String fx:value="cajas" />
@@ -1000,7 +999,7 @@
                                                       </Label>
                                                       <HBox accessibleRoleDescription="HBox" prefHeight="46.0" prefWidth="200.0">
                                                          <children>
-                                                            <TextField fx:id="cajaEdadDatosPrincipales" accessibleRoleDescription="num" accessibleText="datosPrincipales" alignment="CENTER" onKeyTyped="#onKeyTyped" prefHeight="24.0" prefWidth="220.0" promptText="Ingresar edad" stylesheets="@styles/menuinicio.css">
+                                                            <TextField fx:id="cajaEdadDatosPrincipales" accessibleRoleDescription="num" accessibleText="datosPrincipales" alignment="CENTER" onKeyPressed="#soloNumero" prefHeight="24.0" prefWidth="220.0" promptText="Ingresar edad" stylesheets="@styles/menuinicio.css">
                                                                <styleClass>
                                                                   <String fx:value="cajasChicas" />
                                                                   <String fx:value="cajas" />
@@ -1018,7 +1017,7 @@
                                                       </Label>
                                                       <HBox accessibleRoleDescription="HBox" prefHeight="46.0" prefWidth="200.0">
                                                          <children>
-                                                            <TextField fx:id="cajaDniDatosPrincipales" accessibleHelp="controlImportante" accessibleRoleDescription="num" accessibleText="datosPrincipales" alignment="BOTTOM_CENTER" onKeyPressed="#volverCajaALaNormalidad" onKeyTyped="#onKeyTyped" prefHeight="24.0" prefWidth="220.0" promptText="Ingresar DNI/Número paciente" stylesheets="@styles/menuinicio.css">
+                                                            <TextField fx:id="cajaDniDatosPrincipales" alignment="BOTTOM_CENTER" onKeyPressed="#soloNumero" onKeyTyped="#volverCajaALaNormalidad" prefHeight="24.0" prefWidth="220.0" promptText="Ingresar DNI/Número paciente" stylesheets="@styles/menuinicio.css">
                                                                <styleClass>
                                                                   <String fx:value="cajasChicas" />
                                                                   <String fx:value="cajas" />
@@ -1036,7 +1035,7 @@
                                                       </Label>
                                                       <HBox accessibleRoleDescription="HBox" prefHeight="40.0" prefWidth="451.0">
                                                          <children>
-                                                            <TextField fx:id="cajaTelefonoDatosPrincipales" accessibleRoleDescription="num" accessibleText="datosPrincipales" alignment="BOTTOM_CENTER" onKeyTyped="#onKeyTyped" prefHeight="28.0" prefWidth="220.0" promptText="Ingresar telefono" stylesheets="@styles/menuinicio.css">
+                                                            <TextField fx:id="cajaTelefonoDatosPrincipales" accessibleRoleDescription="num" accessibleText="datosPrincipales" alignment="BOTTOM_CENTER" onKeyPressed="#soloTelefono" prefHeight="28.0" prefWidth="220.0" promptText="Ingresar telefono" stylesheets="@styles/menuinicio.css">
                                                                <styleClass>
                                                                   <String fx:value="cajasChicas" />
                                                                   <String fx:value="cajas" />
@@ -1054,7 +1053,7 @@
                                                       </Label>
                                                       <HBox accessibleRoleDescription="HBox" prefHeight="40.0" prefWidth="451.0">
                                                          <children>
-                                                            <TextField fx:id="cajaHonorariosDatosPrincipales" accessibleRoleDescription="num" accessibleText="datosPrincipales" alignment="BOTTOM_CENTER" onKeyTyped="#onKeyTyped" prefHeight="28.0" prefWidth="220.0" promptText="Ingresar honorarios" stylesheets="@styles/menuinicio.css">
+                                                            <TextField fx:id="cajaHonorariosDatosPrincipales" accessibleRoleDescription="num" accessibleText="datosPrincipales" alignment="BOTTOM_CENTER" onKeyPressed="#soloNumeroFlotante" prefHeight="28.0" prefWidth="220.0" promptText="Ingresar honorarios" stylesheets="@styles/menuinicio.css">
                                                                <HBox.margin>
                                                                   <Insets />
                                                                </HBox.margin>
@@ -1863,7 +1862,7 @@
                                                       </HBox>
                                                       <HBox prefHeight="27.0" prefWidth="400.0">
                                                          <children>
-                                                            <TextField fx:id="cajaNAfiliadoObraSocialPaciente" accessibleHelp="controlImportante" accessibleRoleDescription="num" alignment="BOTTOM_CENTER" onKeyPressed="#volverCajaALaNormalidad" onKeyTyped="#onKeyTyped" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar nº afiliado" stylesheets="@styles/menuinicio.css">
+                                                            <TextField fx:id="cajaNAfiliadoObraSocialPaciente" accessibleHelp="controlImportante" accessibleRoleDescription="num" alignment="BOTTOM_CENTER" onKeyPressed="#soloNumero" onKeyTyped="#volverCajaALaNormalidad" prefHeight="24.0" prefWidth="300.0" promptText="Ingresar nº afiliado" stylesheets="@styles/menuinicio.css">
                                                                <styleClass>
                                                                   <String fx:value="cajas" />
                                                                   <String fx:value="error" />

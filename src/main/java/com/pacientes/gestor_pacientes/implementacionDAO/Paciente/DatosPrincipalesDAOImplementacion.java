@@ -66,6 +66,9 @@ public class DatosPrincipalesDAOImplementacion extends PadreDAOImplementacion im
 
     @Override
     public void actualizar(Paciente objetoParametro) throws Exception {
+       
+        
+        
         String sqlPaciente = "UPDATE pacientes SET edad=?, dni=?, id_nombre=?, id_telefono_paciente=?, es_paciente = true, id_honorario=? WHERE id_paciente=?;";
 
         //String sqlIdNombre = "SELECT id_nombre FROM nombres WHERE nombre = ? AND apellido = ?";
@@ -111,16 +114,36 @@ public class DatosPrincipalesDAOImplementacion extends PadreDAOImplementacion im
 
             //crea el paciente
             pst = conexion.conexion().prepareStatement(sqlPaciente);
+            
+           
+           
 
             pst.setInt(1, objetoParametro.getEdad());
-            pst.setInt(2, objetoParametro.getDni());
+            pst.setLong(2, objetoParametro.getDni());
             pst.setInt(3, obtenerIdNombre(objetoParametro.getNombre(), objetoParametro.getApellido()));
             daoImplementacion = new TelefonoDAOImplementacion();
+            int telefono = daoImplementacion.obtenerId(objetoParametro.getTelefono());
             pst.setInt(4, daoImplementacion.obtenerId(objetoParametro.getTelefono()));
             daoImplementacion = new HonorarioDAOImplementacion();
+            int hon = daoImplementacion.obtenerId(objetoParametro.getHonorarios());
             pst.setInt(5, daoImplementacion.obtenerId(objetoParametro.getHonorarios()));
-            pst.setInt(6, obtenerIdPacientePOrUsuario(objetoParametro.getDni()));
+          
+            pst.setInt(6, obtenerIdPacientePOrUsuario(VariablesEstaticas.paciente.getDni()));
+            
+           /* System.out.println(
+                           " EDAD: " + objetoParametro.getEdad() +
+                           " DNI:" +  objetoParametro.getDni()  +
+                                   " IDNOMBRE" + obtenerIdNombre(objetoParametro.getNombre(), objetoParametro.getApellido()) +
+                                   " ID TELEFONO: " + telefono + 
+                                   " ID HONORARIO: " + hon +
+                                   " ID PACIENTE: " + obtenerIdPacientePOrUsuario(VariablesEstaticas.paciente.getDni())
+                          
+                         
+                           
+           );*/
+            
 
+           
             pst.executeUpdate();
             pst.close();
         
@@ -188,7 +211,7 @@ public class DatosPrincipalesDAOImplementacion extends PadreDAOImplementacion im
                     pst = conexion.conexion().prepareStatement(sqlPaciente);
                     pst.setInt(1, 0);
                     pst.setInt(2, objetoParametro.getEdad());
-                    pst.setInt(3, objetoParametro.getDni());
+                    pst.setLong(3, objetoParametro.getDni());
                     pst.setBoolean(4, true);
                     pst.setInt(5, obtenerIdNombre(objetoParametro.getNombre(), objetoParametro.getApellido()));
                     daoImplementacion = new HonorarioDAOImplementacion();

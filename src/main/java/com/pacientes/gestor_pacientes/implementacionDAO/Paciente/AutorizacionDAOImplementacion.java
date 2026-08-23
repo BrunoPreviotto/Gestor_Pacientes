@@ -46,7 +46,7 @@ public class AutorizacionDAOImplementacion extends PadreDAOImplementacion implem
 
         PreparedStatement psActualizarAutorizacion = conexion.conexion().prepareStatement(sqlActualizarAutorizacion);
         
-        psActualizarAutorizacion.setInt(1, objetoParametro.getNumeroAutorizacion());
+        psActualizarAutorizacion.setLong(1, objetoParametro.getNumeroAutorizacion());
 
         psActualizarAutorizacion.setString(2, objetoParametro.getObservacion());
 
@@ -95,7 +95,7 @@ public class AutorizacionDAOImplementacion extends PadreDAOImplementacion implem
         
        
         pstA.setInt(1,0);
-        pstA.setInt(2, objetoParametro.getNumeroAutorizacion());
+        pstA.setLong(2, objetoParametro.getNumeroAutorizacion());
         pstA.setString(3, objetoParametro.getObservacion());
         pstA.setDate(4, Date.valueOf(objetoParametro.getAsociacion().toString()));
         pstA.setDouble(5, objetoParametro.getCopago());

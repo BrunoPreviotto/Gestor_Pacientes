@@ -1276,7 +1276,7 @@ public class ClasePadreMenuInicio extends ClasePadreController{
         LocalDate ld = LocalDate.parse("1700-01-01");
         CodigoFacturacion codigo = new CodigoFacturacion();
         autorizacion.setId(5);
-        autorizacion.setNumeroAutorizacion(0);
+        autorizacion.setNumeroAutorizacion(new Long(0));
         autorizacion.setObservacion("-");
         autorizacion.setAsociacion(ld);
         autorizacion.setCopago(0.0);

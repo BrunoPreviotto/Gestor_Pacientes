@@ -32,6 +32,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -124,12 +125,79 @@ public class ClasePadreController {
     
     @FXML
     protected void soloString(KeyEvent event) {
-        TextField tf = (TextField) event.getSource();
-        String character = event.getCharacter();
-        if (character.matches("[0-9]")) {
-            tf.deletePreviousChar();
-        }
+        TextField tf = (TextField)event.getSource();
+        tf.setTextFormatter(new TextFormatter<>(change -> {
+            if (change.getControlNewText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]*")) {
+                return change;
+            }
+            return null;
+        }));
     }
+    
+    @FXML
+    protected void soloStringSimobolo(KeyEvent event) {
+        TextField tf = (TextField) event.getSource();
+        tf.setTextFormatter(new TextFormatter<>(change -> {
+            if (change.getControlNewText().matches("[^0-9]*")) {
+                return change;
+            }
+            return null;
+        }));
+    }
+    
+      @FXML
+    protected void soloMail(KeyEvent event) {
+          TextField tf = (TextField) event.getSource();
+          tf.setTextFormatter(new TextFormatter<>(change -> {
+              if (change.getControlNewText().matches("[a-zA-Z0-9@._%+\\-]*")) {
+                  return change;
+              }
+              return null;
+          }));
+    }
+    
+     @FXML
+    protected void soloTelefono(KeyEvent event) {
+          TextField tf = (TextField) event.getSource();
+          tf.setTextFormatter(new TextFormatter<>(change -> {
+              if (change.getControlNewText().matches("[a-zA-Z0-9@._%+\\-]*")) {
+                  return change;
+              }
+              return null;
+          }));
+    }
+    
+    @FXML
+    protected void soloNumero(KeyEvent event) {        
+        TextField tf = (TextField) event.getSource();
+      /*  String character = event.getCharacter();
+        
+        
+        if (!character.matches("[0-9]") && !event.getCode().isArrowKey()) {
+            tf.deletePreviousChar();
+        }*/
+        
+         tf.setTextFormatter(new TextFormatter<>(change
+                -> change.getControlNewText().matches("\\d*") ? change : null
+        ));
+    }
+    
+    
+    
+    @FXML
+    protected void soloNumeroFlotante(KeyEvent event) {
+        TextField tf = (TextField)event.getSource();
+        tf.setTextFormatter(new TextFormatter<>(change -> {
+            if (change.getControlNewText().matches("\\d*(\\.\\d*)?")) {
+                return change;
+            }
+            return null;
+        }));
+        
+        
+    }
+     
+    
     
     
     
@@ -149,37 +217,7 @@ public class ClasePadreController {
     }
     
     
-    @FXML
-    protected void soloNumero(KeyEvent event) {        
-        TextField tf = (TextField) event.getSource();
-        String character = event.getCharacter();
-        
-        
-        if (!character.matches("[0-9]") && !event.getCode().isArrowKey()) {
-            tf.deletePreviousChar();
-        }
-    }
     
-    
-    
-    @FXML
-    protected void soloNumeroFlotantes(KeyEvent event) {
-        
-        TextField tf = (TextField) event.getSource();
-        String character = event.getCharacter();
-        if(tf.getText().length() == 1 || existeComa(tf.getText())){
-            if (!character.matches("[0-9]")) {
-               
-                tf.deletePreviousChar();
-            }
-        }else{
-            if (!character.matches(",") && !character.matches("[0-9]")) {
-                tf.deletePreviousChar();
-            }
-        }
-        
-        
-    }
     
     public boolean existeComa(String coma){
         int cantidadComas = 0;

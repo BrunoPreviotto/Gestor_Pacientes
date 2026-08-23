@@ -52,7 +52,7 @@ public class SesionDAOImplementacion extends PadreDAOImplementacion implements C
                         rsSesiones.getString("trabajo_sesion"),
                         rsSesiones.getString("obsevacionSesion"),
                         Double.parseDouble(rsSesiones.getString("honorarios_por_sesion")),
-                        new AutorizacionesSesionesObraSociales(rsSesiones.getInt("numero_autorizacion"),
+                        new AutorizacionesSesionesObraSociales(rsSesiones.getLong("numero_autorizacion"),
                                 rsSesiones.getString("observacionAutorizacion"),
                                 LocalDate.parse(rsSesiones.getString("asociacion")),
                                 rsSesiones.getDouble("copago"), new CodigoFacturacion(rsSesiones.getString("nombre"))),
@@ -95,7 +95,7 @@ public class SesionDAOImplementacion extends PadreDAOImplementacion implements C
         try {
             idCodigoFacturacion = daoImplementacion.obtenerId(objetoParametro.getAutorizacion().getCodigoFacturacion());
         } catch (Exception e) {
-            throw sqlException;
+            throw new SQLException();
         }
 
         if (idEstadoFacturacion == 0) {
@@ -255,7 +255,7 @@ public class SesionDAOImplementacion extends PadreDAOImplementacion implements C
             if(idPaciente != 0){
                 psUltimaSesion.setInt(1, idPaciente);
             }else{
-                throw sqlException;
+                throw new SQLException();
             }
             
             ResultSet rsUltimaSesion = psUltimaSesion.executeQuery();
