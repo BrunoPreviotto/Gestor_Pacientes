@@ -5,88 +5,80 @@
 package com.pacientes.gestor_pacientes.implementacionDAO;
 
 import com.pacientes.gestor_pacientes.DAO.CRUD;
-import com.pacientes.gestor_pacientes.modelo.Email;
+import com.pacientes.gestor_pacientes.modelo.Web;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-
 /**
  *
- * @author previotto
+ * @author bruno
  */
-public class EmailDAOImplementacion extends PadreDAOImplementacion implements CRUD<Email>{
+public class WebDaoImplementacion extends PadreDAOImplementacion implements CRUD<Web>{
 
     @Override
-    public List<Email> obtenerLista(Email objetoParametro) throws SQLException {
+    public List<Web> obtenerLista(Web objetoParametro) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public Email obtener(Email objetoParametro) throws Exception {
-        
-        String sqlObtenerAccion = "SELECT e.email  FROM emails e WHERE e.id_email = ?;";
+    public Web obtener(Web objetoParametro) throws Exception {
+        String sqlObtenerAccion = "SELECT w.web  FROM web w WHERE w.id_web = ?;";
         
         PreparedStatement psAgenda = conexion.conexion().prepareStatement(sqlObtenerAccion);
-        psAgenda.setInt(1, objetoParametro.getId());
+        psAgenda.setLong(1, objetoParametro.getId());
         ResultSet rs = psAgenda.executeQuery();
         
         
         if(rs.next()){
-            return new Email(rs.getString("email"));
-            
-            
-            
-            
+            return new Web(rs.getString("web"));
             
         }
         
-        
-        
-         return new Email("---");
+        return null;
     }
 
     @Override
-    public void actualizar(Email objetoParametro) throws Exception {
+    public void actualizar(Web objetoParametro) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void eliminar(Email objetoParametro) throws Exception {
+    public void eliminar(Web objetoParametro) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void insertar(Email objetoParametro) throws Exception {
-        String sqlEmails = "INSERT INTO emails (id_email, email) VALUES (?,?)";
+    public void insertar(Web objetoParametro) throws Exception {
+       String sqlEmails = "INSERT INTO web (id_web, web) VALUES (?,?)";
         
         int idEmail = obtenerId(objetoParametro);
         //crear email
         if (idEmail == 0) {
             PreparedStatement pSEmail = conexion.conexion().prepareStatement(sqlEmails);
             pSEmail.setInt(1, 0);
-            pSEmail.setString(2, objetoParametro.getEmail());
+            pSEmail.setString(2, objetoParametro.getWeb());
             pSEmail.executeUpdate();
         }
     }
 
     @Override
-    public int obtenerId(Email objetoParametro) throws Exception {
-        String sqlObtenerIdEmail = "SELECT e.id_email \n" +
-                                        "FROM emails e \n" +
-                                        "WHERE e.email LIKE ?";
-        
-        
-        
+    public int obtenerId(Web objetoParametro) throws Exception {
+        String sqlObtenerIdEmail = "SELECT w.id_web  FROM web w WHERE w.web  LIKE ?";
+
         PreparedStatement psIdEmail = conexion.conexion().prepareStatement(sqlObtenerIdEmail);
-        psIdEmail.setString(1, objetoParametro.getEmail());
+        psIdEmail.setString(1, objetoParametro.getWeb());
         ResultSet rsIdEmail = psIdEmail.executeQuery();
-        
-        if(rsIdEmail.next()){
-            return rsIdEmail.getInt("id_email");
-        }else{
+
+        if (rsIdEmail.next()) {
+            return rsIdEmail.getInt("id_web");
+        } else {
             return 0;
         }
     }
+
+
+   
     
+        
 }

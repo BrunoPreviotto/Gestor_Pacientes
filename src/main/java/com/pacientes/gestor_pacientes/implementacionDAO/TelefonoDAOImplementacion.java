@@ -25,7 +25,18 @@ public class TelefonoDAOImplementacion extends PadreDAOImplementacion implements
 
     @Override
     public Telefono obtener(Telefono objetoParametro) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sqlObtenerAccion = "SELECT t.telefono FROM telefonos t  WHERE t.id_telefono  = ?;";
+        
+        PreparedStatement psAgenda = conexion.conexion().prepareStatement(sqlObtenerAccion);
+        psAgenda.setLong(1, objetoParametro.getId());
+        ResultSet rs = psAgenda.executeQuery();
+        
+        
+        if(rs.next()){
+            return new Telefono(rs.getString("telefono"));
+        }
+        
+        return null;
     }
 
     @Override
@@ -40,23 +51,35 @@ public class TelefonoDAOImplementacion extends PadreDAOImplementacion implements
 
     @Override
     public void insertar(Telefono objetoParametro) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+           String sqlTelefono = "INSERT INTO telefonos  (id_telefono , telefono ) VALUES(?, ?);";
+        
+            int idTelefono = obtenerId(objetoParametro);
+            System.out.println("ID TELEFONO: " + idTelefono);
+            //crear email
+            if (idTelefono == 0) {
+                PreparedStatement pSTel = conexion.conexion().prepareStatement(sqlTelefono);
+                pSTel.setInt(1, 0);
+                pSTel.setString(2, objetoParametro.getTelefono());
+                pSTel.executeUpdate();
+                pSTel.close();
+            }
     }
 
     @Override
     public int obtenerId(Telefono objetoParametro) throws Exception {
-         String sqlSTelefono = "SELECT id_telefono_paciente FROM telefonos_pacientes WHERE numero_telefono=?;";
+          String sqlSTelefono = "SELECT t.id_telefono FROM telefonos t  WHERE t.telefono   = ?";
         try {
             
             
             
             PreparedStatement pSTelefono = conexion.conexion().prepareStatement(sqlSTelefono);
             pSTelefono.setString(1, objetoParametro.getTelefono());
+          
             ResultSet rsSTelefono = pSTelefono.executeQuery();
-            
+           
             
             if(rsSTelefono.next()){
-                return rsSTelefono.getInt("id_telefono_paciente");
+                return rsSTelefono.getInt("id_telefono");
             }
             
            pSTelefono.close();

@@ -8,14 +8,33 @@ package com.pacientes.gestor_pacientes.modelo;
  *
  * @author previotto
  */
-public class Web {
+public class  Web {
+     
+    private Long id;
     private String web;
 
     public Web() {
     }
 
+    public Web(Long id) {
+        this.id = id;
+    }
+
     public Web(String web) {
         this.web = web;
+    }
+
+    public Web(Long id, String web) {
+        this.id = id;
+        this.web = web;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getWeb() {
@@ -25,6 +44,6 @@ public class Web {
     public void setWeb(String web) {
         this.web = web;
     }
-    
+
     
 }

@@ -14,6 +14,14 @@ public class Email {
 
     public Email() {
     }
+    
+    public Email(String email) {
+        this.email = email;
+    }
+
+    public Email(int id) {
+        this.id = id;
+    }
 
     public int getId() {
         return id;
@@ -24,11 +32,6 @@ public class Email {
     }
     
     
-
-    public Email(String email) {
-        this.email = email;
-    }
-
     public String getEmail() {
         return email;
     }

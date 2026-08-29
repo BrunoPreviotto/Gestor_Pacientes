@@ -177,6 +177,11 @@ public class ObraSocial {
     public void setIdPlan(int idPlan) {
         this.idPlan = idPlan;
     }
+
+    @Override
+    public String toString() {
+        return "ObraSocial{" + "id=" + id + ", nombre=" + nombre + ", telefono=" + telefono.getTelefono() + ", web=" + web.getWeb() + ", es_obra_social=" + es_obra_social + ", email=" + email.getEmail() + ", planes=" + planes + ", plan=" + plan + ", listaPlanesToString=" + listaPlanesToString + ", idPlan=" + idPlan + '}';
+    }
     
     
     

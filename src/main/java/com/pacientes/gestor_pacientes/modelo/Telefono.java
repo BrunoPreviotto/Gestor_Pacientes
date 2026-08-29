@@ -11,15 +11,40 @@ package com.pacientes.gestor_pacientes.modelo;
  * @author previotto
  */
 public class Telefono {
+    private Long id;
     private String telefono;
     private int idObjeto;
+
+    public Telefono(Long id) {
+        this.id = id;
+    }
+
+    
+    public Telefono(Long id, String telefono, int idObjeto) {
+        this.id = id;
+        this.telefono = telefono;
+        this.idObjeto = idObjeto;
+    }
+    
 
     public Telefono(String telefono, int idObjeto) {
         this.telefono = telefono;
         this.idObjeto = idObjeto;
     }
     
-    
+       public Telefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+       
+      
 
     public int getIdObjeto() {
         return idObjeto;
@@ -29,9 +54,7 @@ public class Telefono {
         this.idObjeto = idObjeto;
     }
     
-    public Telefono(String telefono) {
-        this.telefono = telefono;
-    }
+ 
 
     public String getTelefono() {
         return telefono;

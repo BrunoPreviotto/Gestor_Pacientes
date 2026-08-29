@@ -1774,8 +1774,14 @@ public class MenuInicioController extends PacienteController implements Initiali
                 iniciarChoicePlanObraSocialPaciente();
                 botonAgregarPlanesObraSocial.setDisable(false);
                 cajaBuscarObraSocial.setText(cajaNombreObraSocial.getText());
-                buscarObraSocial(event);
+               
                 mensajeAdvertenciaError( "Obra social creada con éxito", this, VariablesEstaticas.imgenExito);
+                
+                System.out.println(obraSocial.toString());
+                
+                 
+                 buscarObraSocial(event);
+                
             }else{
                 servicioObraSocial.pintarCajaVaciaImportante(VariablesEstaticas.cajasObrasSociales);
                 mensajeAdvertenciaError( "Hay campos importantes vacios", this, VariablesEstaticas.imgenAdvertencia);
