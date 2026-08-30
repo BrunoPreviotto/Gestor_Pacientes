@@ -1615,6 +1615,7 @@ public class MenuInicioController extends PacienteController implements Initiali
                                 deshabilitarCajas(VariablesEstaticas.cajasObrasSociales);
                         botonAgregarPlanesObraSocial.setDisable(false);
                         botonActualizarPlanesObraSocial.setDisable(false);
+                        VariablesEstaticas.obraSocial.setNombre(tablaObraSocial.getSelectionModel().getSelectedItem().getNombre());
                     }else{
                         mensajeAdvertenciaError( "Error al buscar obra social", this, VariablesEstaticas.imgenError);
                         servicioObraSocial.
@@ -1652,6 +1653,8 @@ public class MenuInicioController extends PacienteController implements Initiali
                 botonAgregarPlanesObraSocial.setDisable(true);
                 botonActualizarPlanesObraSocial.setDisable(true);
             }
+            
+            
         } else {
             buscarObraSocialDesdeCaja();
         }
@@ -1684,6 +1687,7 @@ public class MenuInicioController extends PacienteController implements Initiali
                                 deshabilitarCajas(VariablesEstaticas.cajasObrasSociales);;
                         botonAgregarPlanesObraSocial.setDisable(false);
                         botonActualizarPlanesObraSocial.setDisable(false);
+                        VariablesEstaticas.obraSocial.setNombre(obraSocial.getNombre());
                     } else {
                         mensajeAdvertenciaError( "Obra Social no encontrada", this, VariablesEstaticas.imgenAdvertencia);
                         servicioObraSocial.
@@ -1799,7 +1803,7 @@ public class MenuInicioController extends PacienteController implements Initiali
         }
         
         
-        
+        vaciarCajasObraSocial(event);
         
     }
     
@@ -1975,6 +1979,7 @@ public class MenuInicioController extends PacienteController implements Initiali
                 }else{
                     mensajeAdvertenciaError( "Buscar obra social para actualizar", this, VariablesEstaticas.imgenAdvertencia);
                 }
+                vaciarCajasObraSocial(event);
             } else {
                 botonActualizarObraSocial.setId("1");
                 servicioObraSocial.
@@ -1984,106 +1989,8 @@ public class MenuInicioController extends PacienteController implements Initiali
         } catch (Exception e) {
             mensajeAdvertenciaError( "Error al actualizar obra social", this, VariablesEstaticas.imgenError);
         }
+        
     }
-    
-    
-    //SESIONES AGREGAR
-    /*@FXML
-    private void actualizarOcrear(MouseEvent event) {
-
-        
-            Button boton = (Button) event.getSource();
-            switch (boton.getId()) {
-                case "botonAgregarCodigoFacturacion":
-                    botonActualizarAgregarCodigoFacturacion.setOnMouseClicked(this::agregarCodigoFacturacion);
-                    
-                    break;
-                case "botonActualizarCodigoFacturacion":
-                    botonActualizarAgregarCodigoFacturacion.setOnMouseClicked(this::actualizarCodigoFacturacion);
-                    break;
-            }
-            
-        if (Objects.isNull(choiseCodigoFactSesionObraSocial.getValue()) && boton.getId().equals("botonActualizarCodigoFacturacion")) {
-            mensajeAdvertenciaError( "Ingresar datos para Agregar nuevo código", this, VariablesEstaticas.imgenAdvertencia);
-        } else {
-            cajaAtualizarNombreCodigoFacturacionSesionObraSocial.setText(choiseCodigoFactSesionObraSocial.getValue());
-            cajaAtualizarCodigoFacturacionSesionObraSocial.setText(cajaCodigoFacturacion.getText());
-            botonActualizarCodigoFacturacion.setDisable(true);
-            botonAgregarCodigoFacturacion.setDisable(true);
-            hboxCajasCodigosFacturacion.setVisible(true);
-            etiquetaActualizarCodigoFacturacion.setVisible(true);
-            hboxEtiquetasCodigosFacturacion.setVisible(true);
-            
-        }
-        
-    }*/
-    //SESIONES AGREGAR
-    /*
-    @FXML
-    private void agregarCodigoFacturacion(MouseEvent event) {
-
-        try {
-
-            if (!cajaAtualizarNombreCodigoFacturacionSesionObraSocial.getText().isBlank() || !cajaAtualizarNombreCodigoFacturacionSesionObraSocial.getText().isBlank()) {
-                CodigoFacturacion codigoFacturacion = new CodigoFacturacion(cajaAtualizarNombreCodigoFacturacionSesionObraSocial.getText(), Integer.parseInt(cajaAtualizarCodigoFacturacionSesionObraSocial.getText()));
-                daoImplementacion = new CodigoFacturacionDAOImplementacion();
-                daoImplementacion.insertar(codigoFacturacion);
-                choiseCodigoFactSesionObraSocial.getItems().clear();
-                
-                
-                iniciarChoiceCodigoFacturacion();
-                mensajeAdvertenciaError( "Código agregado con éxito", this, VariablesEstaticas.imgenExito);
-            }else{
-                mensajeAdvertenciaError( "ingresar datos para agregar", this, VariablesEstaticas.imgenAdvertencia);
-            }
-
-        } catch (Exception e) {
-            mensajeAdvertenciaError( "Error al agregar código", this, VariablesEstaticas.imgenError);
-        }
-        
-      
-        botonActualizarCodigoFacturacion.setDisable(false);
-        botonAgregarCodigoFacturacion.setDisable(false);
-        hboxCajasCodigosFacturacion.setVisible(false);
-        etiquetaActualizarCodigoFacturacion.setVisible(false);
-        hboxEtiquetasCodigosFacturacion.setVisible(false);
-        
-    }*/
-    
-    //SESIONES AGREGAR
-    /*
-    @FXML
-    private void actualizarCodigoFacturacion(MouseEvent event) {
-
-        try {
-            if (!cajaAtualizarNombreCodigoFacturacionSesionObraSocial.getText().isBlank() || !cajaAtualizarCodigoFacturacionSesionObraSocial.getText().isBlank()) {
-            
-            CodigoFacturacion codigoFacturacion = new CodigoFacturacion(choiseCodigoFactSesionObraSocial.getValue(), Integer.parseInt(cajaCodigoFacturacion.getText()));
-            
-            daoImplementacion = new CodigoFacturacionDAOImplementacion();
-            codigoFacturacion.setId(daoImplementacion.obtenerId(codigoFacturacion));
-            codigoFacturacion.setNombre(cajaAtualizarNombreCodigoFacturacionSesionObraSocial.getText());
-            codigoFacturacion.setCodigo(Integer.parseInt(cajaAtualizarCodigoFacturacionSesionObraSocial.getText()));
-            daoImplementacion.actualizar(codigoFacturacion);
-            choiseCodigoFactSesionObraSocial.getItems().clear();
-            iniciarChoiceCodigoFacturacion();
-            mensajeAdvertenciaError( "Código actualizado con éxito", this, VariablesEstaticas.imgenExito);
-            }else{
-                mensajeAdvertenciaError( "inngresar datos para actualizar", this, VariablesEstaticas.imgenAdvertencia);
-            }
-        } catch (Exception e) {
-            mensajeAdvertenciaError( "Error al actualizar código", this, VariablesEstaticas.imgenError);
-        }
-
-        botonAgregarCodigoFacturacion.setDisable(false);
-        botonActualizarCodigoFacturacion.setDisable(false);
-        hboxCajasCodigosFacturacion.setVisible(false);
-        etiquetaActualizarCodigoFacturacion.setVisible(false);
-        hboxEtiquetasCodigosFacturacion.setVisible(false);
-        cajaCodigoFacturacion.setText("");
-       
-    }
-    */
     
     
     

@@ -7,6 +7,7 @@ package com.pacientes.gestor_pacientes.utilidades;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.jfoenix.controls.JFXTextArea;
+import com.pacientes.gestor_pacientes.modelo.ObraSocial;
 import com.pacientes.gestor_pacientes.modelo.Paciente;
 import com.pacientes.gestor_pacientes.modelo.TemaAplicacion;
 import com.pacientes.gestor_pacientes.modelo.Usuario;
@@ -63,6 +64,11 @@ public class VariablesEstaticas {
     
     public static Paciente paciente = new Paciente();
     
+    
+   //OBRA SOCIAL
+   
+    public static ObraSocial obraSocial = new ObraSocial();
+   
     //CAJAS AUTORIZACION
     
     

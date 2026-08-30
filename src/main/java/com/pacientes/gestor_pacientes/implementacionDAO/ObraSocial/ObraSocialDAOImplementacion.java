@@ -22,8 +22,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -37,18 +39,23 @@ public class ObraSocialDAOImplementacion extends PadreDAOImplementacion implemen
     public EmailDAOImplementacion emailOImplementacion  =  new EmailDAOImplementacion();
     public WebDaoImplementacion webDaoImplementacion = new WebDaoImplementacion();
     public TelefonoDAOImplementacion telefonoObraSocialDAOImplementacion = new TelefonoDAOImplementacion();
-    
+    public boolean loopInfinito=false;
 
     @Override
     public List<ObraSocial> obtenerLista(ObraSocial objetoParametro) throws SQLException{
+ 
         
-        String sqlObtenerObrasSociales = "SELECT os.id_obra_social,  os.nombre, osw.id_web, ose.id_email, ost.id_telefono, uos.es_obra_social \n" +
-"                                            FROM obras_sociales os\n" +
-"                                            join obras_sociales_web osw on os.id_obra_social  = osw.id_obra_social \n" +
-"                                            JOIN obra_social_email ose ON os.id_obra_social = ose.id_obra_social \n" +
-"                                            JOIN obras_sociales_telefonos ost ON os.id_obra_social = ost.id_obra_social\n" +
-"                                            JOIN usuarios_obras_sociales uos ON os.id_obra_social = uos.id_obra_social\n" +
-"                                            WHERE uos.id_usuario = ? AND uos.es_obra_social =1;";
+         String sqlObtenerObrasSociales = "  SELECT uos.id_obra_social, os.nombre, w.web, e.email, ost.telefono, uos.es_obra_social \n" +
+"                                            FROM usuarios_obras_sociales uos\n" +
+"                                            join web w on uos.id_web  = w.id_web \n" +
+"                                            JOIN emails e ON uos.id_email = e.id_email \n" +
+"                                            JOIN telefonos ost ON uos.id_telefono  = ost.id_telefono\n" +
+"                                            JOIN obras_sociales os ON os.id_obra_social = uos.id_obra_social\n" +
+"                                            WHERE uos.id_usuario = 10 AND uos.es_obra_social =1;";
+        
+        
+      
+        
         
         String email = "";
         String web = "";
@@ -78,11 +85,11 @@ public class ObraSocialDAOImplementacion extends PadreDAOImplementacion implemen
                         
                     }
                     
-                     email = emailOImplementacion.obtener(new Email(rs.getInt("id_email"))).getEmail();
+                     email = rs.getString("email");
                      
-                     web = webDaoImplementacion.obtener(new Web((Long)rs.getLong("id_web"))).getWeb();
+                     web = rs.getString("web");
                     
-                     telefono = telefonoObraSocialDAOImplementacion.obtener(new Telefono((Long)rs.getLong("id_telefono"))).getTelefono();
+                     telefono = rs.getString("telefono");
                      
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -122,14 +129,17 @@ public class ObraSocialDAOImplementacion extends PadreDAOImplementacion implemen
             
             String sqlIdObraSocial = "SELECT id_obra_social FROM obras_sociales WHERE nombre = ?";
             
-            String sqlObraSocial = "SELECT os.nombre, osw.id_web , ose.id_email, ost.id_telefono , uos.es_obra_social\n" +
-"                                    FROM obras_sociales os \n" +
-"                                    join obras_sociales_web osw on os.id_obra_social = osw.id_obra_social \n" +
-"                                    JOIN obra_social_email ose  ON os.id_obra_social  = ose.id_obra_social \n" +
-"                                    JOIN obras_sociales_telefonos ost ON os.id_obra_social = ost.id_obra_social\n" +
-"                                    JOIN usuarios_obras_sociales uos ON os.id_obra_social = uos.id_obra_social \n" +
+            
+            String sqlObraSocial = "  SELECT os.nombre, w.web , e.email, t.telefono , uos.es_obra_social\n" +
+"                                    FROM usuarios_obras_sociales uos\n" +
+"                                    join web w on uos.id_web  = w.id_web\n" +
+"                                    JOIN emails e  ON uos.id_email   = e.id_email  \n" +
+"                                    JOIN telefonos t ON uos.id_telefono  = t.id_telefono \n" +
+"                                    JOIN obras_sociales os  ON os.id_obra_social = uos.id_obra_social \n" +
 "                                    JOIN usuarios us ON us.id_usuario = uos.id_usuario \n" +
 "                                    WHERE os.nombre = ? AND us.es_ultima_sesion_iniciada = true";
+            
+          
             
             String sqlPlanes = "SELECT pos.nombre FROM planes_obras_sociales pos \n" +
                                "JOIN obras_sociales_planes_obras_sociales ospos \n" +
@@ -148,9 +158,9 @@ public class ObraSocialDAOImplementacion extends PadreDAOImplementacion implemen
             
             if(rsObraSocial.next()){
                 
-                 email = emailOImplementacion.obtener(new Email(rsObraSocial.getInt("id_email"))).getEmail();
-                 web = webDaoImplementacion.obtener(new Web((Long)rsObraSocial.getLong("id_web"))).getWeb();
-                 telefono = telefonoObraSocialDAOImplementacion.obtener(new Telefono((Long)rsObraSocial.getLong("id_telefono"))).getTelefono();
+                 email = rsObraSocial.getString("email");
+                 web = rsObraSocial.getString("web");
+                 telefono = rsObraSocial.getString("telefono");
                
                 //ID OBRA SOCIAL
                 PreparedStatement psIdObraSocial = conexion.conexion().prepareStatement(sqlIdObraSocial);
@@ -186,14 +196,42 @@ public class ObraSocialDAOImplementacion extends PadreDAOImplementacion implemen
     @Override
     public void actualizar(ObraSocial  obraSocial) throws Exception{
        
-        if(obraSocial.getId() != 0){
+        int idObraSocial = obtenerId(obraSocial);
+        
+        if(idObraSocial != 0){
             
-            eliminar(obraSocial);
-            insertar(obraSocial);
+           
             
+            Map<String, Integer> ids = new HashMap<>();
+            ids = obtenerIdsValoresObraSocial(obraSocial);
+            
+            String sqlActualizarObraSocial = "UPDATE usuarios_obras_sociales uos set es_obra_social = 1, id_email = ?, id_telefono = ?, id_web = ? WHERE uos.id_obra_social = ? AND uos.id_usuario = ?;";
+            
+            
+            
+            PreparedStatement pSAsociarObraSocialUsuario = conexion.conexion().prepareStatement(sqlActualizarObraSocial);
+            pSAsociarObraSocialUsuario.setInt(1, ids.get("id_email"));
+            pSAsociarObraSocialUsuario.setInt(2, ids.get("id_telefono"));
+            pSAsociarObraSocialUsuario.setInt(3, ids.get("id_web"));
+            pSAsociarObraSocialUsuario.setInt(4, idObraSocial);
+            pSAsociarObraSocialUsuario.setInt(5, VariablesEstaticas.usuario.getId());
+            
+            pSAsociarObraSocialUsuario.executeUpdate();
+
+            pSAsociarObraSocialUsuario.close();
+            
+             if(!obraSocial.getNombre().equals(VariablesEstaticas.obraSocial.getNombre())){
+                 System.out.println();
+                 eliminar(VariablesEstaticas.obraSocial);
+                 // VariablesEstaticas.obraSocial.setNombre(obraSocial.getNombre());
+            }
+             
             
         }else{
+            
+            eliminar(VariablesEstaticas.obraSocial);
             insertar(obraSocial);
+            //VariablesEstaticas.obraSocial.setNombre(obraSocial.getNombre());
         }
             
         
@@ -205,29 +243,29 @@ public class ObraSocialDAOImplementacion extends PadreDAOImplementacion implemen
 
     @Override
     public void eliminar(ObraSocial  obraSocial) throws SQLException{
-        String sqlEliminarObraSocial = "DELETE FROM usuarios_obras_sociales \n" +
-                                        "WHERE id_obra_social = ? \n" +
-                                        "AND id_usuario = ?;";
-        
-        PreparedStatement psEliminarObraSocial = conexion.conexion().prepareStatement(sqlEliminarObraSocial);
-        psEliminarObraSocial.setInt(1, obraSocial.getId());
-         psEliminarObraSocial.setInt(2, VariablesEstaticas.usuario.getId());
-        psEliminarObraSocial.executeUpdate();
+        try {
+            actualizarEsObraSocial(false, obtenerId(obraSocial), VariablesEstaticas.usuario.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         
     }
 
     @Override
     public void insertar(ObraSocial obraSocial) throws Exception {
+        VariablesEstaticas.obraSocial.setNombre(obraSocial.getNombre());        
         String sqlCrearObraSocial = "INSERT "
                 + "INTO obras_sociales "
                 + "(id_obra_social, nombre) "
                 + "VALUES (?,?)";
         
-        String sqlAsociarObraSocialUsuario = "INSERT INTO usuarios_obras_sociales (id_usuario, id_obra_social, es_obra_social) VALUES (?,?,?);";
+        
+        
+      
 
         try {
-           
-            if (obtenerIdConUsuario(obraSocial) == 0) {
+             int idOsConUsuario = obtenerIdConUsuario(obraSocial);
+            if (idOsConUsuario == 0) {
               
 
                 int idObraSocial = obtenerId(obraSocial);
@@ -248,76 +286,11 @@ public class ObraSocialDAOImplementacion extends PadreDAOImplementacion implemen
                 idObraSocial = obtenerId(obraSocial);
                 
                 
-                 //////////////////////////TELEFONO//////////////////////////
-                if(obraSocial.getTelefono().getTelefono().isBlank() || obraSocial.getTelefono().getTelefono().isEmpty()){
-                           obraSocial.getTelefono().setTelefono("0");
-                           System.out.println("ENTRA A CREAR TEL: " + obraSocial.getTelefono().getTelefono() );
-                           
-                 }
-                  daoImplementacion = new TelefonoDAOImplementacion();
-                int idTelefono = daoImplementacion.obtenerId(new Telefono(obraSocial.getTelefono().getTelefono(), idObraSocial));
-               
-                if (idTelefono == 0) {
-                     
-                    daoImplementacion.insertar(new Telefono(obraSocial.getTelefono().getTelefono(),  idObraSocial));
-                }
-                System.out.println("ID TEL: " + idTelefono);
-                idTelefono = daoImplementacion.obtenerId(new Telefono(obraSocial.getTelefono().getTelefono()));
-               
-                String sqlAgregaTel =  "INSERT INTO obras_sociales_telefonos (id_telefono , id_obra_social) VALUES(?, ?);";
-                PreparedStatement pS = conexion.conexion().prepareStatement(sqlAgregaTel);
-                pS.setInt(1, idTelefono);
-                pS.setInt(2, idObraSocial);
-                pS.executeUpdate();
-                
-                ///////////////////////
-                
-                //////////////////////////EMAIL///////////////////////////////////
-                 if(obraSocial.getEmail().getEmail().isBlank() || obraSocial.getEmail().getEmail().isEmpty()){
-                           obraSocial.getEmail().setEmail("-");
-                           
-                 }
-                daoImplementacion = new EmailDAOImplementacion();
-                int idEmail = daoImplementacion.obtenerId(new Email(obraSocial.getEmail().getEmail()));
-               
-                //email
-                if (idEmail == 0) {
-                    daoImplementacion.insertar(new Email(obraSocial.getEmail().getEmail()));
-                    
-                }
-                
-                 idEmail = daoImplementacion.obtenerId(new Email(obraSocial.getEmail().getEmail()));
-                String sqlAgregarEmail =  "INSERT INTO obra_social_email (id_email, id_obra_social) VALUES(?, ?);";
-                pS = conexion.conexion().prepareStatement(sqlAgregarEmail);
-                pS.setInt(1,idEmail);
-                pS.setInt(2,idObraSocial);
-                pS.executeUpdate();
+                Map <String, Integer> ids = new HashMap<>();
+                ids =  obtenerIdsValoresObraSocial(obraSocial); 
                 
                 
-                /////////////
-                
-                ////////////////////////////////WEB/////////////////////////////////////////
-                 if(obraSocial.getWeb().getWeb().isBlank() || obraSocial.getWeb().getWeb().isEmpty()){
-                           obraSocial.getWeb().setWeb("-");
-                           
-                 }
-                
-                daoImplementacion = new WebDaoImplementacion();
-                int idWeb = daoImplementacion.obtenerId(new Web(obraSocial.getWeb().getWeb()));
-               
-                
-                if (idWeb == 0) {
-                    daoImplementacion.insertar(new Web(obraSocial.getWeb().getWeb()));
-                }
-                idWeb = daoImplementacion.obtenerId(new Web(obraSocial.getWeb().getWeb()));
-                String sqlAgregarWeb = "INSERT INTO obras_sociales_web (id_obra_social, id_web) VALUES (?, ?);";
-                
-                pS = conexion.conexion().prepareStatement(sqlAgregarWeb);
-                pS.setInt(1,idObraSocial);
-                pS.setInt(2,idWeb);
-                pS.executeUpdate();
-                pS.close();
-              //////////////////////
+                String sqlAsociarObraSocialUsuario = "INSERT INTO usuarios_obras_sociales (id_usuario, id_obra_social, es_obra_social, id_telefono, id_web, id_email ) VALUES (?,?,?,?,?,?);";
                 obraSocial.setId(idObraSocial);
                 if (!existeObraSocialAsociada(obraSocial)) {
                     //asociar obra social con usuario
@@ -325,16 +298,76 @@ public class ObraSocialDAOImplementacion extends PadreDAOImplementacion implemen
                     pSAsociarObraSocialUsuario.setInt(1, VariablesEstaticas.usuario.getId());
                     pSAsociarObraSocialUsuario.setInt(2, idObraSocial);
                     pSAsociarObraSocialUsuario.setInt(3, 1);
+                    pSAsociarObraSocialUsuario.setInt(4, ids.get("id_telefono"));
+                    pSAsociarObraSocialUsuario.setInt(5, ids.get("id_web"));
+                    pSAsociarObraSocialUsuario.setInt(6, ids.get("id_email"));
                     pSAsociarObraSocialUsuario.executeUpdate();
+                    
+                    pSAsociarObraSocialUsuario.close();
                 }
             }else{
-                throw new Exepciones(333);
+             
+                    
+                    String sqlObtenerIdEsObraSocial = "SELECT UOS.es_obra_social  FROM usuarios_obras_sociales uos WHERE uos.id_obra_social = ? AND uos.id_usuario = ?;";
+
+                    PreparedStatement psIdEsObraSocial = conexion.conexion().prepareStatement(sqlObtenerIdEsObraSocial);
+                    psIdEsObraSocial.setInt(1, idOsConUsuario);
+                    psIdEsObraSocial.setInt(2, VariablesEstaticas.usuario.getId());
+                    ResultSet rsIdEsObraSocial = psIdEsObraSocial.executeQuery();
+
+                    if (rsIdEsObraSocial.next()) {
+                           if((rsIdEsObraSocial.getInt("es_obra_social") == 1)){
+                               throw new Exepciones(333);
+                           }else{
+                                   
+                                    actualizarEsObraSocial(true, idOsConUsuario, VariablesEstaticas.usuario.getId());
+                                    if(loopInfinito){
+                                        throw new Exception();
+                                    }else{
+                                        loopInfinito=true;
+                                         actualizar(obraSocial);
+                                    }
+                                        
+                                   
+                           }
+                               
+                    } 
+                    
+                    
+                    
+             
+              
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+    
+   
+    public void actualizarEsObraSocial(boolean existe, int idObraSocial, int idUsuario){
+       
+            try {
+                int actualizarEsObra;
+                 if(existe){
+                   actualizarEsObra=1;
+                 }else{
+                     actualizarEsObra=0;
+                 }
+                 
+                   String sqlActualizar = "UPDATE usuarios_obras_sociales uos set es_obra_social = ? WHERE uos.id_obra_social = ? AND uos.id_usuario = ?;";
+                    PreparedStatement  pSAct = conexion.conexion().prepareStatement(sqlActualizar);
+                    pSAct.setInt(1,actualizarEsObra);
+                    pSAct.setInt(2,idObraSocial);
+                    pSAct.setInt(3,idUsuario);
+                    pSAct.executeUpdate();
+                    pSAct.close();
+            } catch (Exception e) {
+            }
+        
+    }
+    
+   
 
     
     
@@ -441,6 +474,76 @@ public class ObraSocialDAOImplementacion extends PadreDAOImplementacion implemen
             return rsIdObraSocial.getInt("id_obra_social");
         } else {
             return 0;
+        }
+    }
+    
+    
+    
+      public Map<String, Integer> obtenerIdsValoresObraSocial(ObraSocial obraSocial) {
+        try {
+
+            int idObraSocial = obtenerIdConUsuario(obraSocial);
+
+            //////////////////////////TELEFONO//////////////////////////
+                if (obraSocial.getTelefono().getTelefono().isBlank() || obraSocial.getTelefono().getTelefono().isEmpty()) {
+                obraSocial.getTelefono().setTelefono("0");
+
+            }
+            daoImplementacion = new TelefonoDAOImplementacion();
+            int idTelefono = daoImplementacion.obtenerId(new Telefono(obraSocial.getTelefono().getTelefono(), idObraSocial));
+
+            if (idTelefono == 0) {
+
+                daoImplementacion.insertar(new Telefono(obraSocial.getTelefono().getTelefono(), idObraSocial));
+            }
+
+            idTelefono = daoImplementacion.obtenerId(new Telefono(obraSocial.getTelefono().getTelefono()));
+
+            ///////////////////////
+                
+                //////////////////////////EMAIL///////////////////////////////////
+                 if (obraSocial.getEmail().getEmail().isBlank() || obraSocial.getEmail().getEmail().isEmpty()) {
+                obraSocial.getEmail().setEmail("-");
+
+            }
+            daoImplementacion = new EmailDAOImplementacion();
+            int idEmail = daoImplementacion.obtenerId(new Email(obraSocial.getEmail().getEmail()));
+
+            //email
+            if (idEmail == 0) {
+                daoImplementacion.insertar(new Email(obraSocial.getEmail().getEmail()));
+
+            }
+
+            idEmail = daoImplementacion.obtenerId(new Email(obraSocial.getEmail().getEmail()));
+
+            ///////////////////////////////////////////////////////////////////////////////
+                
+                ////////////////////////////////WEB/////////////////////////////////////////
+                 if (obraSocial.getWeb().getWeb().isBlank() || obraSocial.getWeb().getWeb().isEmpty()) {
+                obraSocial.getWeb().setWeb("-");
+
+            }
+
+            daoImplementacion = new WebDaoImplementacion();
+            int idWeb = daoImplementacion.obtenerId(new Web(obraSocial.getWeb().getWeb()));
+
+            if (idWeb == 0) {
+                daoImplementacion.insertar(new Web(obraSocial.getWeb().getWeb()));
+            }
+            idWeb = daoImplementacion.obtenerId(new Web(obraSocial.getWeb().getWeb()));
+
+            Map<String, Integer> ids = new HashMap<>();
+
+            ids.put("id_telefono", idTelefono);
+            ids.put("id_email", idEmail);
+            ids.put("id_web", idWeb);
+
+            return ids;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
