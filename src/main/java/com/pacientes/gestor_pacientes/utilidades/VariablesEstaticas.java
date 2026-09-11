@@ -62,7 +62,7 @@ public class VariablesEstaticas {
     
     //PACIENTE
     
-    public static Paciente paciente = new Paciente();
+    public static Paciente paciente = null;
     
     
    //OBRA SOCIAL

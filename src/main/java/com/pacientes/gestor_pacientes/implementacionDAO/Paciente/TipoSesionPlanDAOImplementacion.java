@@ -49,20 +49,40 @@ public class TipoSesionPlanDAOImplementacion extends PadreDAOImplementacion impl
     }
 
     @Override
-    public void actualizar(TipoSesion objetoParametro) throws SQLException {
+    public void actualizar(TipoSesion objetoParametro) throws Exception {
+
         String sqlActualizarTipoSesion = "UPDATE tipos_sesiones SET nombre = ?, descripcion = ? WHERE id_tipo_sesion = ? AND id_usuario = ?;";
 
-        PreparedStatement psTipoSesion = conexion.conexion().prepareStatement(sqlActualizarTipoSesion);
-        psTipoSesion.setString(1, objetoParametro.getNombre());
-        psTipoSesion.setString(2, objetoParametro.getDecripcion());
-        psTipoSesion.setInt(3, objetoParametro.getId());
-        psTipoSesion.setInt(4, VariablesEstaticas.usuario.getId());
-        psTipoSesion.executeUpdate(); 
+       
+        
+        if(objetoParametro.getId() != 0){
+            PreparedStatement psTipoSesion = conexion.conexion().prepareStatement(sqlActualizarTipoSesion);
+            psTipoSesion.setString(1, objetoParametro.getNombre());
+            psTipoSesion.setString(2, objetoParametro.getDecripcion());
+            psTipoSesion.setInt(3, objetoParametro.getId());
+            psTipoSesion.setInt(4, VariablesEstaticas.usuario.getId());
+            psTipoSesion.executeUpdate(); 
+        }
+        
+        
     }
 
     @Override
-    public void eliminar(TipoSesion objetoParametro) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void eliminar(TipoSesion objetoParametro) throws Exception {
+        String sqlActualizarTipoSesion = "DELETE FROM tipos_sesiones  WHERE id_tipo_sesion = ? AND id_usuario = ?;";
+
+        
+        
+         int idTipoSesion = obtenerId(objetoParametro);
+         
+         if(idTipoSesion != 0){
+            PreparedStatement psTipoSesion = conexion.conexion().prepareStatement(sqlActualizarTipoSesion);
+            psTipoSesion.setInt(1, idTipoSesion);
+            psTipoSesion.setInt(2, VariablesEstaticas.usuario.getId());
+            psTipoSesion.executeUpdate(); 
+         }
+        
+        
     }
 
     @Override

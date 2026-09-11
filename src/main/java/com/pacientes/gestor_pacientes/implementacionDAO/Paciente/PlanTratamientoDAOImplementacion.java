@@ -11,10 +11,12 @@ import com.pacientes.gestor_pacientes.modelo.FrecuenciaSesion;
 
 import com.pacientes.gestor_pacientes.modelo.PlanTratamiento;
 import com.pacientes.gestor_pacientes.modelo.TipoSesion;
+import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -35,14 +37,20 @@ public class PlanTratamientoDAOImplementacion extends PadreDAOImplementacion imp
 
         PreparedStatement psPlan = conexion.conexion().prepareStatement(sqlPlanes);
         
-        psPlan.setInt(1, objetoParametro.getIdPaciente());
-        ResultSet rsPlan = psPlan.executeQuery();
+        if(Objects.nonNull(VariablesEstaticas.paciente)){
+            psPlan.setInt(1, VariablesEstaticas.paciente.getId());
+            ResultSet rsPlan = psPlan.executeQuery();
 
-        if (rsPlan.next()) {
-            planTratamiento = new PlanTratamiento(rsPlan.getString("estrategia"), new FrecuenciaSesion(rsPlan.getString("frecuencia")), new TipoSesion(rsPlan.getString("nombre"), rsPlan.getString("descripcion")));
-            return planTratamiento;
-        }
+            if (rsPlan.next()) {
+                planTratamiento = new PlanTratamiento(rsPlan.getString("estrategia"), new FrecuenciaSesion(rsPlan.getString("frecuencia")), new TipoSesion(rsPlan.getString("nombre"), rsPlan.getString("descripcion")));
+                return planTratamiento;
+            }
         return null;
+        }else{
+            return null;
+        }
+        
+        
 
     }
 

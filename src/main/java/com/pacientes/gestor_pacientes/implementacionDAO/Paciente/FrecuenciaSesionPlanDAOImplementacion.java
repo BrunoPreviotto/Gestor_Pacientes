@@ -30,7 +30,7 @@ public class FrecuenciaSesionPlanDAOImplementacion extends PadreDAOImplementacio
     @Override
     public void actualizar(FrecuenciaSesion objetoParametro) throws SQLException {
         String sqlActualizarFrecuencia = "UPDATE frecuencias_sesiones SET frecuencia = ? WHERE id_frecuencia_sesion = ? AND id_usuario = ?;";
-        
+         
         PreparedStatement psFrecuencia = conexion.conexion().prepareStatement(sqlActualizarFrecuencia);
         psFrecuencia.setString(1, objetoParametro.getFrecuencia());
         psFrecuencia.setInt(2, objetoParametro.getIdFrecuencia());
@@ -39,16 +39,35 @@ public class FrecuenciaSesionPlanDAOImplementacion extends PadreDAOImplementacio
     }
 
     @Override
-    public void eliminar(FrecuenciaSesion objetoParametro) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void eliminar(FrecuenciaSesion objetoParametro) throws Exception {
+       String sqlFrecuencia = "DELETE FROM frecuencias_sesiones WHERE id_frecuencia_sesion = ?;";
+       
+     
+            int idFrecuencia = obtenerId(objetoParametro);
+            
+            
+            if (idFrecuencia != 0) {
+                //INSERTAR FRECUENCIA SI NO EXISTE
+                PreparedStatement pstFs = conexion.conexion().prepareStatement(sqlFrecuencia);
+                pstFs.setInt(1, idFrecuencia);
+               
+                pstFs.executeUpdate();
+                
+                pstFs.close();
+            }
+
+       
     }
 
     @Override
     public void insertar(FrecuenciaSesion objetoParametro) throws Exception {
         String sqlFrecuenciaSesion = "INSERT INTO frecuencias_sesiones (id_frecuencia_sesion, frecuencia, id_usuario) VALUES (?,?,?)";
 
+            
        
             int idFrecuencia = obtenerId(objetoParametro);
+            
+          
 
             if (idFrecuencia == 0) {
                 //INSERTAR FRECUENCIA SI NO EXISTE

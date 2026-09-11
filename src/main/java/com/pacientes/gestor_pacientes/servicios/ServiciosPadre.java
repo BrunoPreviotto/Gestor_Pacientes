@@ -6,6 +6,7 @@ package com.pacientes.gestor_pacientes.servicios;
 
 import com.jfoenix.controls.JFXTextArea;
 import com.pacientes.gestor_pacientes.controlador.ClasePadreController;
+import com.pacientes.gestor_pacientes.controlador.ClasePadreMenuInicio;
 import com.pacientes.gestor_pacientes.implementacionDAO.UsuarioDAOImplementacion;
 import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 import java.io.BufferedReader;
@@ -45,7 +46,7 @@ import javafx.scene.web.HTMLEditor;
  *
  * @author previotto
  */
-public class ServiciosPadre {
+public class ServiciosPadre{
     
     public ServiciosPadre vaciarCajas(List<TextField> textfield) {
         for (TextField tf : textfield) {

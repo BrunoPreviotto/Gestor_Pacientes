@@ -45,7 +45,7 @@ public class ObraSocialPacienteDAOImplementacion extends PadreDAOImplementacion 
             ResultSet rsObraSocial = psObraSocial.executeQuery();
             
             if(rsObraSocial.next()){
-                return new ObraSocialPaciente(new Afiliado(rsObraSocial.getInt("numero_afiliado")), rsObraSocial.getString("nombreObraSocial"), new PlanObraSocial(rsObraSocial.getString("nombrePlan"), ""));
+                return new ObraSocialPaciente(new Afiliado(rsObraSocial.getLong("numero_afiliado")), rsObraSocial.getString("nombreObraSocial"), new PlanObraSocial(rsObraSocial.getString("nombrePlan"), ""));
             }
             return null;
             
@@ -73,14 +73,16 @@ public class ObraSocialPacienteDAOImplementacion extends PadreDAOImplementacion 
         
         psBuscarIdCodigo.setInt(2, idPlan);
         
-        psBuscarIdCodigo.setInt(3, objetoParametro.getAfiliado().getNumero());
+        psBuscarIdCodigo.setLong(3, objetoParametro.getAfiliado().getNumero());
         
         psBuscarIdCodigo.setInt(4, objetoParametro.getAfiliado().getId());
-        System.out.println(objetoParametro.getAfiliado().getId());
+        
         
         
         
         psBuscarIdCodigo.executeUpdate();
+        
+        System.out.println("Id plan: " + idPlan + " id Obra: " + idObraSocialPaciente + " num Afil: " + objetoParametro.getAfiliado().getNumero() + " idAfil: " +  objetoParametro.getAfiliado().getId());
     }
 
     @Override
@@ -105,11 +107,12 @@ public class ObraSocialPacienteDAOImplementacion extends PadreDAOImplementacion 
         int idObraSocia = obtenerId(objetoParametro);
         int idPlan = daoImplementacion.obtenerId(new ObraSocial(idObraSocia, objetoParametro.getNombre(), objetoParametro.getPlan().getNombre()));
         
-            
+        
+        
         //CREAR NUEVO AFILIADO
         PreparedStatement psAfiliado = conexion.conexion().prepareStatement(sqlAfiliado);
         psAfiliado.setInt(1, 0);
-        psAfiliado.setInt(2, objetoParametro.getAfiliado().getNumero());
+        psAfiliado.setLong(2, objetoParametro.getAfiliado().getNumero());
         psAfiliado.setInt(3, objetoParametro.getIdPaciente());
         psAfiliado.setInt(4, idObraSocia);
         psAfiliado.setInt(5, idPlan);

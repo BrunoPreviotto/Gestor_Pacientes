@@ -391,8 +391,13 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     protected Button botonAgregarPlanFrecuencia;
     @FXML
     protected Button botonAgregarPlanTipoSesion;
-    @FXML
-    protected Button botonAgregarPlanTratamiento;
+    
+     @FXML
+    protected Button botonEliminarPLanFrecuencia;
+      @FXML
+    protected Button botonEliminarTipoSesionPlan;
+    
+    
     @FXML
     protected Button botonActualizarPlanTratamiento;
     @FXML
@@ -423,6 +428,13 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     protected VBox vBoxFrecuenciaSEsionPlanActualizaroVer;
     @FXML
     protected VBox vBoxNombreTipoSEsionPlanActualizaroVer;
+    
+        //HBOX
+    @FXML  
+     protected  HBox hboxBotoneraTipoSesionPlanesTratamiento;
+    
+    @FXML  
+     protected  HBox hboxBotoneraFrecuenciaPLanTratamiento;
     
     /*
     
@@ -557,6 +569,8 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     protected VBox vboxPlanObraSocialPaciente;
     @FXML
     protected VBox vboxPlanObraSocialPacienteActualizarVer;
+    
+
    
     
     /***
@@ -642,6 +656,8 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     protected Button botonAgregarPlanesObraSocial;
     @FXML
     protected Button botonActualizarPlanesObraSocial;
+    @FXML
+    protected Button botonEliminarPlanesObraSocial;
     @FXML
     protected Button botonAgregarObraSocial;
     @FXML
@@ -939,7 +955,7 @@ public class ClasePadreMenuInicio extends ClasePadreController{
         botonActualizarSesiones.setId("botonActualizarSesiones");
         botonEliminarSesiones.setId("botonEliminarSesiones");
         
-        botonAgregarPlanTratamiento.setId("botonAgregarPlanTratamiento");
+      
         botonActualizarPlanTratamiento.setId("botonActualizarPlanTratamiento");
         botonEliminarPlanTratamiento.setId("botonEliminarPlanTratamiento");
         
@@ -1210,6 +1226,7 @@ public class ClasePadreMenuInicio extends ClasePadreController{
            
             if (Objects.nonNull(choiseNombreObraSocialPaciente.getValue())) {
                 if (!choiseNombreObraSocialPaciente.getValue().equals(valorInicialNombreObraSocialPaciente)) {
+                    
                     choisePlanesObraSocialPacientePlan.getItems().setAll(listaNuevaPlanes);
                     valorInicialNombreObraSocialPaciente = choiseNombreObraSocialPaciente.getValue();
                 }
@@ -1437,9 +1454,28 @@ public class ClasePadreMenuInicio extends ClasePadreController{
             daoImplementacion = new ObraSocialDAOImplementacion();
             listaObraSocial = daoImplementacion.obtenerLista(new ObraSocial());
             ObservableList<TablaObrasSociales> olObraSocial = FXCollections.observableArrayList();
+            
             if (Objects.nonNull(listaObraSocial)) {
 
-                for (ObraSocial o : listaObraSocial) {
+                 for (ObraSocial o : listaObraSocial) {
+                  
+                   
+               
+                
+              if(o.getPlanes().size()==0){
+                         ObraSocial os = new ObraSocial();
+                
+                        os.setPlan("Sin Plan");
+                        os.setNombre(o.getNombre());
+                       daoImplementacion = new PlanObraSocialDAOImplementacion();
+                       daoImplementacion.insertar(os);
+                        o.setearSetListaPlanesToString("Sin Plan");
+                    
+                      
+                }
+                
+                
+                    
                     olObraSocial.add(new TablaObrasSociales(
                             o.getNombre(),
                             o.getTelefono().getTelefono(),
@@ -1447,6 +1483,8 @@ public class ClasePadreMenuInicio extends ClasePadreController{
                             o.getWeb().getWeb(),
                             o.setListaPlanesToString().getListaPlanesToString()));
                 }
+                 
+                 
 
                 tablaObraSocial.setItems(olObraSocial);
 
@@ -1458,6 +1496,7 @@ public class ClasePadreMenuInicio extends ClasePadreController{
 
         }
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
     

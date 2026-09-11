@@ -158,6 +158,10 @@ public class ObraSocial {
     public String getListaPlanesToString() {
         return listaPlanesToString;
     }
+    
+      public void setearSetListaPlanesToString(String listaPlanesToString) {
+          this.listaPlanesToString = listaPlanesToString;
+    }
 
     public ObraSocial setListaPlanesToString() {
         if (Objects.nonNull(planes)) {

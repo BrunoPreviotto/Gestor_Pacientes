@@ -35,10 +35,10 @@ public class DatosPrincipalesDAOImplementacion extends PadreDAOImplementacion im
         Paciente paciente;
         Paciente pacienteNull = new Paciente();
         try {
-            String sqlDni = "SELECT n.nombre, n.apellido, p.edad, p.dni, t.numero_telefono, h.honorario \n" +
+            String sqlDni = "SELECT n.nombre, n.apellido, p.edad, p.dni, t.telefono, h.honorario \n" +
                             "FROM pacientes p \n" +
                             "JOIN nombres n ON p.id_nombre = n.id_nombre \n" +
-                            "JOIN telefonos_pacientes t ON p.id_telefono_paciente = t.id_telefono_paciente \n" +
+                            "JOIN telefonos t ON p.id_telefono = t.id_telefono \n" +
                             "JOIN honorarios h ON p.id_honorario = h.id_honorario\n" +
                             "JOIN usuarios_pacientes up ON p.id_paciente = up.id_paciente \n" +
                             "WHERE p.id_paciente = ? AND up.id_usuario = ?;";
@@ -69,13 +69,13 @@ public class DatosPrincipalesDAOImplementacion extends PadreDAOImplementacion im
        
         
         
-        String sqlPaciente = "UPDATE pacientes SET edad=?, dni=?, id_nombre=?, id_telefono_paciente=?, es_paciente = true, id_honorario=? WHERE id_paciente=?;";
+        String sqlPaciente = "UPDATE pacientes SET edad=?, dni=?, id_nombre=?, id_telefono=?, es_paciente = true, id_honorario=? WHERE id_paciente=?;";
 
         //String sqlIdNombre = "SELECT id_nombre FROM nombres WHERE nombre = ? AND apellido = ?";
         String sqlNombre = "INSERT INTO nombres(id_nombre, nombre, apellido) VALUES(?,?,?)";
 
         //String sqlIdTelefono = "SELECT id_telefono_paciente FROM telefonos_pacientes WHERE numero_telefono = ?";
-        String sqlTelefono = "INSERT INTO telefonos_pacientes(id_telefono_paciente, numero_telefono) VALUES(?,?)";
+        String sqlTelefono = "INSERT INTO telefonos(id_telefono, telefono) VALUES(?,?)";
 
         String sqlHonorario = "INSERT INTO honorarios (id_honorario, honorario) VALUES (?, ?);";
 
@@ -159,9 +159,9 @@ public class DatosPrincipalesDAOImplementacion extends PadreDAOImplementacion im
     public void insertar(Paciente objetoParametro) throws Exception {
         String sqlNombre = "INSERT INTO nombres(id_nombre, nombre, apellido) VALUES(?,?,?)";
 
-        String sqlPaciente = "INSERT INTO pacientes(id_paciente, edad, dni, es_paciente, id_nombre, id_honorario, id_telefono_paciente) VALUES(?, ?, ?, ?, ?, ?, ?)";
+        String sqlPaciente = "INSERT INTO pacientes(id_paciente, edad, dni, es_paciente, id_nombre, id_honorario, id_telefono) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
-        String sqlTelefono = "INSERT INTO telefonos_pacientes(id_telefono_paciente, numero_telefono) VALUES(?,?)";
+        String sqlTelefono = "INSERT INTO telefonos(id_telefono, telefono) VALUES(?,?)";
 
         String sqlHonorario = "INSERT INTO honorarios (id_honorario, honorario) VALUES (?, ?);";
 
@@ -232,8 +232,9 @@ public class DatosPrincipalesDAOImplementacion extends PadreDAOImplementacion im
 
                 pst.close();
             } catch (Exception e) {
-                Exepciones exepcioSql = new Exepciones(222);
-                throw exepcioSql;
+                e.printStackTrace();
+                //Exepciones exepcioSql = new Exepciones(222);
+                throw new Exception();
             }
 
         }
@@ -246,13 +247,13 @@ public class DatosPrincipalesDAOImplementacion extends PadreDAOImplementacion im
 
     @Override
     public List<Paciente> obtenerLista(Paciente objetoParametro) throws SQLException {
-        String sqlListaPacientes = "SELECT p.id_paciente, p.edad, p.dni, n.nombre, n.apellido, h.honorario, t.numero_telefono \n" +
-                                    "FROM pacientes p \n" +
-                                    "JOIN nombres n ON p.id_nombre = n.id_nombre\n" +
-                                    "JOIN honorarios h ON p.id_honorario = h.id_honorario \n" +
-                                    "JOIN telefonos_pacientes t ON p.id_telefono_paciente = t.id_telefono_paciente\n" +
-                                    "JOIN usuarios_pacientes up ON p.id_paciente = up.id_paciente \n" +
-                                    "WHERE up.id_usuario = ?; ";
+        String sqlListaPacientes = "SELECT p.id_paciente, p.edad, p.dni, n.nombre, n.apellido, h.honorario, t.telefono\n" +
+"                                    FROM pacientes p\n" +
+"                                    JOIN nombres n ON p.id_nombre = n.id_nombre\n" +
+"                                    JOIN honorarios h ON p.id_honorario = h.id_honorario\n" +
+"                                    JOIN telefonos t ON p.id_telefono = t.id_telefono\n" +
+"                                    JOIN usuarios_pacientes up ON p.id_paciente = up.id_paciente\n" +
+"                                    WHERE up.id_usuario = ?; ";
         
             PreparedStatement pSDni = conexion.conexion().prepareStatement(sqlListaPacientes);
             pSDni.setInt(1, VariablesEstaticas.getUsuario().getId());
@@ -265,7 +266,7 @@ public class DatosPrincipalesDAOImplementacion extends PadreDAOImplementacion im
                         rs.getInt("edad"),
                         rs.getInt("dni"),
                         new Honorario(rs.getDouble("honorario")),
-                        new Telefono(rs.getString("numero_telefono"))));
+                        new Telefono(rs.getString("telefono"))));
             }
             
             return pacietes;

@@ -7,18 +7,21 @@ package com.pacientes.gestor_pacientes.servicios;
 import com.pacientes.gestor_pacientes.modelo.AutorizacionesSesionesObraSociales;
 
 import com.pacientes.gestor_pacientes.modelo.Paciente;
+import com.pacientes.gestor_pacientes.modelo.PlanTratamiento;
 
 import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import javafx.fxml.FXML;
 
 import javafx.scene.control.ChoiceBox;
 
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.HTMLEditor;
 
@@ -54,9 +57,9 @@ public class ServicioPaciente extends ServiciosPadre {
                 vaciarCajasArea(VariablesEstaticas.cajasAreaPlan).
                 vaciarCajasAreaHTML(VariablesEstaticas.cajasAreaDiagnostico).
                 vaciarTablas(VariablesEstaticas.tableSesiones).
-                
-                vaciarChoise(VariablesEstaticas.choisePlan).
-                vaciarChoise(VariablesEstaticas.choiseObraSocialPaciente);
+                vaciarChoise(VariablesEstaticas.choisePlan);
+                //vaciarChoise(VariablesEstaticas.choiseObraSocialPaciente);
+               
         
         return this;
 
@@ -193,7 +196,7 @@ public class ServicioPaciente extends ServiciosPadre {
         return this;
     }
     
-    public ServicioPaciente rellenarListaPlan(Paciente pacienteParametro) {
+    public ServicioPaciente rellenarListaPlan(PlanTratamiento plan) {
         /*
             1 FRECUENCIA SESIONES PLAN
             2 TIPO SESION PLAN
@@ -202,10 +205,10 @@ public class ServicioPaciente extends ServiciosPadre {
          */
         VariablesEstaticas.valoresBUsquedaPlanes
                 = Map.of(
-                        "1", pacienteParametro.getPlanTratamiento().getFrecuenciaSesion().getFrecuencia(),
-                        "2", pacienteParametro.getPlanTratamiento().getTipoSEsion().getNombre(),
-                        "3", pacienteParametro.getPlanTratamiento().getTipoSEsion().getDecripcion(),
-                        "4", pacienteParametro.getPlanTratamiento().getEstrategia());
+                        "1", plan.getFrecuenciaSesion().getFrecuencia(),
+                        "2", plan.getTipoSEsion().getNombre(),
+                        "3", plan.getTipoSEsion().getDecripcion(),
+                        "4", plan.getEstrategia());
         return this;
     }
     

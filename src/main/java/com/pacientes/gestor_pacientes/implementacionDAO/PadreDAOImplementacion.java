@@ -46,7 +46,7 @@ public class PadreDAOImplementacion {
                 + "AND p.dni=? \n"
                 + "AND p.id_nombre = ? \n"
                 + "AND id_honorario = ? \n"
-                + "AND id_telefono_paciente";
+                + "AND id_telefono";
         PreparedStatement pSDni = conexion.conexion().prepareStatement(sqlDni);
         pSDni.setInt(1, pacienteParametro.getEdad());
         pSDni.setInt(2, pacienteParametro.getDni());

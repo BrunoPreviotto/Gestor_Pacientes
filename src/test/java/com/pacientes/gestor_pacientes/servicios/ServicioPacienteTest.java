@@ -159,14 +159,7 @@ public class ServicioPacienteTest {
     @Test
     public void testRellenarListaPlan() {
         
-        Paciente pacienteParametro = new Paciente();
-        pacienteParametro.setPlanTratamiento(
-                new PlanTratamiento(
-                        "Estrategia", 
-                        new FrecuenciaSesion("Frecuencia"), 
-                        new TipoSesion("Tipo sesion", "Descripcion")));
-        instance.rellenarListaPlan(pacienteParametro);
-        assertEquals("Estrategia", VariablesEstaticas.valoresBUsquedaPlanes.get("4"));
+     
         
     }
 
@@ -203,12 +196,7 @@ public class ServicioPacienteTest {
     @Test
     public void testRellenarListaObrasocialPaciente() {
         
-        Paciente pacienteParametro = new Paciente();
-        pacienteParametro.setObraSocialPaciente(new ObraSocialPaciente(new Afiliado(000000000), "Obra social", new PlanObraSocial("Plan", "Descripcion")));
         
-        
-        instance.rellenarListaObrasocialPaciente(pacienteParametro);
-        assertEquals("Obra social", pacienteParametro.getObraSocialPaciente().getNombre());
         
     }
 

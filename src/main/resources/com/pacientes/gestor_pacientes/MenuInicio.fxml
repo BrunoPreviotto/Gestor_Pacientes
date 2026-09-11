@@ -197,7 +197,7 @@
                   <String fx:value="root" />
                </styleClass>
             </AnchorPane>
-            <AnchorPane fx:id="apObraSocial" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="apObraSocial" stylesheets="@styles/menuinicio.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Label fx:id="labelNombreDeUsuario4" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="986.0" layoutY="15.0" prefHeight="20.0" prefWidth="200.0" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="10.0" />
                   <VBox fx:id="vbObraSocial" alignment="CENTER" layoutX="375.0" layoutY="265.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
@@ -304,6 +304,23 @@
                                                 <Insets right="5.0" />
                                              </HBox.margin>
                                           </ChoiceBox>
+                                          <Button fx:id="botonAgregarPlanesObraSocial" disable="true" mnemonicParsing="false" onMouseClicked="#agregarActualizarPlanesObrasSocial" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
+                                             <styleClass>
+                                                <String fx:value="botonBuscar" />
+                                                <String fx:value="botonBuscarChico" />
+                                             </styleClass>
+                                             <graphic>
+                                                <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                                   <children>
+                                                      <Line endY="12.0" strokeWidth="5.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                      <Line endX="12.0" strokeWidth="5.0" styleClass="figuraBoton" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0" />
+                                                   </children>
+                                                </AnchorPane>
+                                             </graphic>
+                                             <HBox.margin>
+                                                <Insets right="5.0" />
+                                             </HBox.margin>
+                                          </Button>
                                           <Button fx:id="botonActualizarPlanesObraSocial" disable="true" mnemonicParsing="false" onMouseClicked="#agregarActualizarPlanesObrasSocial" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
                                              <styleClass>
                                                 <String fx:value="botonBuscar" />
@@ -319,20 +336,19 @@
                                                    </children>
                                                 </AnchorPane>
                                              </graphic>
+                                             <HBox.margin>
+                                                <Insets right="5.0" />
+                                             </HBox.margin>
                                           </Button>
-                                          <Button fx:id="botonAgregarPlanesObraSocial" disable="true" mnemonicParsing="false" onMouseClicked="#agregarActualizarPlanesObrasSocial" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
+                                          <Button fx:id="botonEliminarPlanesObraSocial" disable="true" mnemonicParsing="false" onMouseClicked="#eliminarPlanesObrasSocial" prefHeight="22.0" prefWidth="23.0" stylesheets="@styles/menuinicio.css">
                                              <styleClass>
                                                 <String fx:value="botonBuscar" />
                                                 <String fx:value="botonBuscarChico" />
                                              </styleClass>
-                                             <HBox.margin>
-                                                <Insets left="5.0" />
-                                             </HBox.margin>
                                              <graphic>
-                                                <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                                <AnchorPane>
                                                    <children>
-                                                      <Line endY="12.0" strokeWidth="5.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                                      <Line endX="12.0" strokeWidth="5.0" styleClass="figuraBoton" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0" />
+                                                      <Rectangle fill="DODGERBLUE" height="5.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0" styleClass="figuraBoton" width="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="6.0" />
                                                    </children>
                                                 </AnchorPane>
                                              </graphic>
@@ -820,7 +836,7 @@
                   <String fx:value="root" />
                </styleClass>
             </AnchorPane>
-            <AnchorPane fx:id="apPacientes" stylesheets="@styles/menuinicio.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="apPacientes" stylesheets="@styles/menuinicio.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="30.0" prefWidth="300.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
                     <buttons>
@@ -1250,24 +1266,7 @@
                                        <right>
                                           <HBox fx:id="botoneraCrudPlanTratamiento" alignment="BOTTOM_RIGHT" prefWidth="122.0" BorderPane.alignment="CENTER">
                                              <children>
-                                                <Button fx:id="botonAgregarPlanTratamiento" mnemonicParsing="false" onMouseClicked="#crearPlanTratamiento" prefHeight="20.0" prefWidth="20.0" stylesheets="@styles/menuinicio.css">
-                                                   <HBox.margin>
-                                                      <Insets left="5.0" />
-                                                   </HBox.margin>
-                                                   <styleClass>
-                                                      <String fx:value="botonBuscar" />
-                                                      <String fx:value="botonBuscarChico" />
-                                                   </styleClass>
-                                                   <graphic>
-                                                      <AnchorPane>
-                                                         <children>
-                                                            <Line endY="12.0" strokeWidth="5.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                                            <Line endX="12.0" strokeWidth="5.0" styleClass="figuraBoton" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0" />
-                                                         </children>
-                                                      </AnchorPane>
-                                                   </graphic>
-                                                </Button>
-                                                <Button fx:id="botonActualizarPlanTratamiento" mnemonicParsing="false" onMouseClicked="#actualizarPlan" prefHeight="20.0" prefWidth="20.0" stylesheets="@styles/menuinicio.css">
+                                                <Button fx:id="botonActualizarPlanTratamiento" mnemonicParsing="false" onMouseClicked="#actualizarPlanTratamientoPaciente" prefHeight="20.0" prefWidth="20.0" stylesheets="@styles/menuinicio.css">
                                                    <HBox.margin>
                                                       <Insets left="5.0" />
                                                    </HBox.margin>
@@ -1310,7 +1309,7 @@
                                              <children>
                                                 <VBox alignment="CENTER_LEFT">
                                                    <children>
-                                                      <VBox fx:id="vBoxFrecuenciaSEsionPlan">
+                                                      <VBox fx:id="vBoxFrecuenciaSEsionPlan" prefHeight="70.0" prefWidth="528.0">
                                                          <children>
                                                             <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Frecuencia de sesiones">
                                                                <font>
@@ -1326,42 +1325,62 @@
                                                                         <String fx:value="cajasChicas" />
                                                                      </styleClass>
                                                                   </ChoiceBox>
-                                                                  <Button fx:id="botonAgregarPlanFrecuencia" mnemonicParsing="false" onMouseClicked="#actualizarCrearFrecuenciaPlan" stylesheets="@styles/menuinicio.css" text="+">
-                                                                     <styleClass>
-                                                                        <String fx:value="botonBuscar" />
-                                                                        <String fx:value="botonBuscarChico" />
-                                                                     </styleClass>
-                                                                     <HBox.margin>
-                                                                        <Insets left="5.0" />
-                                                                     </HBox.margin>
-                                                                     <graphic>
-                                                                        <AnchorPane>
-                                                                           <children>
-                                                                              <Line endY="12.0" strokeWidth="5.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                                                              <Line endX="12.0" strokeWidth="5.0" styleClass="figuraBoton" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0" />
-                                                                           </children>
-                                                                        </AnchorPane>
-                                                                     </graphic>
-                                                                  </Button>
-                                                                  <Button fx:id="botonActualizarPlanFrecuencia" mnemonicParsing="false" onMouseClicked="#actualizarCrearFrecuenciaPlan" prefHeight="20.0" prefWidth="20.0" stylesheets="@styles/menuinicio.css">
-                                                                     <styleClass>
-                                                                        <String fx:value="botonBuscar" />
-                                                                        <String fx:value="botonBuscarChico" />
-                                                                     </styleClass>
-                                                                     <HBox.margin>
-                                                                        <Insets left="5.0" />
-                                                                     </HBox.margin>
-                                                                     <graphic>
-                                                                        <AnchorPane prefHeight="19.0" prefWidth="22.0">
-                                                                           <children>
-                                                                              <Line endX="6.0" rotate="90.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="8.0" />
-                                                                              <Line endX="10.0" layoutY="18.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="16.0" />
-                                                                              <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="4.2" AnchorPane.topAnchor="3.0" />
-                                                                              <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="-45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.rightAnchor="4.2" AnchorPane.topAnchor="3.0" />
-                                                                           </children>
-                                                                        </AnchorPane>
-                                                                     </graphic>
-                                                                  </Button>
+                                                                  <HBox fx:id="hboxBotoneraFrecuenciaPLanTratamiento" prefHeight="25.0" prefWidth="91.0">
+                                                                     <children>
+                                                                        <Button fx:id="botonAgregarPlanFrecuencia" mnemonicParsing="false" onMouseClicked="#actualizarCrearFrecuenciaPlan" stylesheets="@styles/menuinicio.css" text="+">
+                                                                           <styleClass>
+                                                                              <String fx:value="botonBuscar" />
+                                                                              <String fx:value="botonBuscarChico" />
+                                                                           </styleClass>
+                                                                           <HBox.margin>
+                                                                              <Insets left="5.0" />
+                                                                           </HBox.margin>
+                                                                           <graphic>
+                                                                              <AnchorPane>
+                                                                                 <children>
+                                                                                    <Line endY="12.0" strokeWidth="5.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                                                    <Line endX="12.0" strokeWidth="5.0" styleClass="figuraBoton" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0" />
+                                                                                 </children>
+                                                                              </AnchorPane>
+                                                                           </graphic>
+                                                                        </Button>
+                                                                        <Button fx:id="botonActualizarPlanFrecuencia" mnemonicParsing="false" onMouseClicked="#actualizarCrearFrecuenciaPlan" prefHeight="20.0" prefWidth="20.0" stylesheets="@styles/menuinicio.css">
+                                                                           <styleClass>
+                                                                              <String fx:value="botonBuscar" />
+                                                                              <String fx:value="botonBuscarChico" />
+                                                                           </styleClass>
+                                                                           <HBox.margin>
+                                                                              <Insets left="5.0" />
+                                                                           </HBox.margin>
+                                                                           <graphic>
+                                                                              <AnchorPane prefHeight="19.0" prefWidth="22.0">
+                                                                                 <children>
+                                                                                    <Line endX="6.0" rotate="90.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="8.0" />
+                                                                                    <Line endX="10.0" layoutY="18.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="16.0" />
+                                                                                    <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="4.2" AnchorPane.topAnchor="3.0" />
+                                                                                    <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="-45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.rightAnchor="4.2" AnchorPane.topAnchor="3.0" />
+                                                                                 </children>
+                                                                              </AnchorPane>
+                                                                           </graphic>
+                                                                        </Button>
+                                                                        <Button fx:id="botonEliminarPLanFrecuencia" mnemonicParsing="false" onMouseClicked="#actualizarCrearFrecuenciaPlan" prefHeight="20.0" prefWidth="20.0" stylesheets="@styles/menuinicio.css">
+                                                                           <styleClass>
+                                                                              <String fx:value="botonBuscar" />
+                                                                              <String fx:value="botonBuscarChico" />
+                                                                           </styleClass>
+                                                                           <graphic>
+                                                                              <AnchorPane>
+                                                                                 <children>
+                                                                                    <Rectangle fill="DODGERBLUE" height="5.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0" styleClass="figuraBoton" width="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="5.0" />
+                                                                                 </children>
+                                                                              </AnchorPane>
+                                                                           </graphic>
+                                                                           <HBox.margin>
+                                                                              <Insets left="5.0" />
+                                                                           </HBox.margin>
+                                                                        </Button>
+                                                                     </children>
+                                                                  </HBox>
                                                                </children>
                                                             </HBox>
                                                          </children>
@@ -1412,14 +1431,30 @@
                                                             </HBox>
                                                          </children>
                                                       </VBox>
+                                                      <HBox prefHeight="382.0" prefWidth="275.0" visible="false">
+                                                         <children>
+                                                            <TextField fx:id="cajaEstrategiaPlan" accessibleText="planTratamiento" alignment="BOTTOM_CENTER" promptText="Ingresar estrategia" stylesheets="@styles/menuinicio.css">
+                                                               <styleClass>
+                                                                  <String fx:value="cajas" />
+                                                                  <String fx:value="error" />
+                                                                  <String fx:value="cajasChicas" />
+                                                               </styleClass>
+                                                            </TextField>
+                                                         </children>
+                                                      </HBox>
                                                       <VBox fx:id="vBoxNombreTipoSEsionPlan" prefWidth="100.0">
                                                          <children>
+                                                            <Separator disable="true" halignment="LEFT" prefWidth="200.0" valignment="TOP">
+                                                               <VBox.margin>
+                                                                  <Insets top="5.0" />
+                                                               </VBox.margin>
+                                                            </Separator>
                                                             <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Tipo de sesion">
                                                                <font>
                                                                   <Font name="Abyssinica SIL" size="13.0" />
                                                                </font>
                                                                <VBox.margin>
-                                                                  <Insets />
+                                                                  <Insets top="10.0" />
                                                                </VBox.margin>
                                                             </Label>
                                                             <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="Nombre">
@@ -1436,45 +1471,68 @@
                                                                         <String fx:value="cajasChicas" />
                                                                      </styleClass>
                                                                   </ChoiceBox>
-                                                                  <Button fx:id="botonAgregarPlanTipoSesion" mnemonicParsing="false" onMouseClicked="#actualizarCrearTipoSesionPlaPlan" prefHeight="20.0" prefWidth="20.0" stylesheets="@styles/menuinicio.css" text="+">
-                                                                     <styleClass>
-                                                                        <String fx:value="botonBuscar" />
-                                                                        <String fx:value="botonBuscarChico" />
-                                                                     </styleClass>
-                                                                     <HBox.margin>
-                                                                        <Insets left="5.0" />
-                                                                     </HBox.margin>
-                                                                     <graphic>
-                                                                        <AnchorPane>
-                                                                           <children>
-                                                                              <Line endY="12.0" strokeWidth="5.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                                                              <Line endX="12.0" strokeWidth="5.0" styleClass="figuraBoton" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0" />
-                                                                           </children>
-                                                                        </AnchorPane>
-                                                                     </graphic>
-                                                                  </Button>
-                                                                  <Button fx:id="botonActualizarPlanTipoSesion" mnemonicParsing="false" onMouseClicked="#actualizarCrearTipoSesionPlaPlan" prefHeight="20.0" prefWidth="20.0" stylesheets="@styles/menuinicio.css">
-                                                                     <styleClass>
-                                                                        <String fx:value="botonBuscar" />
-                                                                        <String fx:value="botonBuscarChico" />
-                                                                     </styleClass>
-                                                                     <HBox.margin>
-                                                                        <Insets left="5.0" />
-                                                                     </HBox.margin>
-                                                                     <graphic>
-                                                                        <AnchorPane prefHeight="19.0" prefWidth="22.0">
-                                                                           <children>
-                                                                              <Line endX="6.0" rotate="90.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="8.0" />
-                                                                              <Line endX="10.0" layoutY="18.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="16.0" />
-                                                                              <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="4.2" AnchorPane.topAnchor="3.0" />
-                                                                              <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="-45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.rightAnchor="4.2" AnchorPane.topAnchor="3.0" />
-                                                                           </children>
-                                                                        </AnchorPane>
-                                                                     </graphic>
-                                                                  </Button>
+                                                                  <HBox fx:id="hboxBotoneraTipoSesionPlanesTratamiento" prefHeight="100.0" prefWidth="200.0">
+                                                                     <children>
+                                                                        <Button fx:id="botonAgregarPlanTipoSesion" mnemonicParsing="false" onMouseClicked="#actualizarCrearTipoSesionPlaPlan" prefHeight="20.0" prefWidth="20.0" stylesheets="@styles/menuinicio.css" text="+">
+                                                                           <styleClass>
+                                                                              <String fx:value="botonBuscar" />
+                                                                              <String fx:value="botonBuscarChico" />
+                                                                           </styleClass>
+                                                                           <HBox.margin>
+                                                                              <Insets left="5.0" />
+                                                                           </HBox.margin>
+                                                                           <graphic>
+                                                                              <AnchorPane>
+                                                                                 <children>
+                                                                                    <Line endY="12.0" strokeWidth="5.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                                                    <Line endX="12.0" strokeWidth="5.0" styleClass="figuraBoton" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0" />
+                                                                                 </children>
+                                                                              </AnchorPane>
+                                                                           </graphic>
+                                                                        </Button>
+                                                                        <Button fx:id="botonActualizarPlanTipoSesion" mnemonicParsing="false" onMouseClicked="#actualizarCrearTipoSesionPlaPlan" prefHeight="20.0" prefWidth="20.0" stylesheets="@styles/menuinicio.css">
+                                                                           <styleClass>
+                                                                              <String fx:value="botonBuscar" />
+                                                                              <String fx:value="botonBuscarChico" />
+                                                                           </styleClass>
+                                                                           <HBox.margin>
+                                                                              <Insets left="5.0" />
+                                                                           </HBox.margin>
+                                                                           <graphic>
+                                                                              <AnchorPane prefHeight="19.0" prefWidth="22.0">
+                                                                                 <children>
+                                                                                    <Line endX="6.0" rotate="90.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="8.0" />
+                                                                                    <Line endX="10.0" layoutY="18.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="16.0" />
+                                                                                    <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.leftAnchor="4.2" AnchorPane.topAnchor="3.0" />
+                                                                                    <Line endX="5.0" layoutX="10.0" layoutY="10.0" rotate="-45.0" strokeWidth="3.0" styleClass="figuraBoton" AnchorPane.rightAnchor="4.2" AnchorPane.topAnchor="3.0" />
+                                                                                 </children>
+                                                                              </AnchorPane>
+                                                                           </graphic>
+                                                                        </Button>
+                                                                        <Button fx:id="botonEliminarTipoSesionPlan" mnemonicParsing="false" onMouseClicked="#actualizarCrearTipoSesionPlaPlan" prefHeight="20.0" prefWidth="20.0" stylesheets="@styles/menuinicio.css">
+                                                                           <styleClass>
+                                                                              <String fx:value="botonBuscar" />
+                                                                              <String fx:value="botonBuscarChico" />
+                                                                           </styleClass>
+                                                                           <graphic>
+                                                                              <AnchorPane>
+                                                                                 <children>
+                                                                                    <Rectangle fill="DODGERBLUE" height="5.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0" styleClass="figuraBoton" width="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="5.0" />
+                                                                                 </children>
+                                                                              </AnchorPane>
+                                                                           </graphic>
+                                                                           <HBox.margin>
+                                                                              <Insets left="5.0" />
+                                                                           </HBox.margin>
+                                                                        </Button>
+                                                                     </children>
+                                                                  </HBox>
                                                                </children>
                                                             </HBox>
                                                          </children>
+                                                         <VBox.margin>
+                                                            <Insets top="15.0" />
+                                                         </VBox.margin>
                                                       </VBox>
                                                       <VBox fx:id="vBoxNombreTipoSEsionPlanActualizaroVer" visible="false">
                                                          <children>
@@ -1533,25 +1591,14 @@
                                                             <TextArea fx:id="cajaDescripcionTipoSesionPlan" accessibleText="planTratamiento" disable="true" promptText="Ingresae descripción" styleClass="cajasArea" />
                                                          </children>
                                                       </HBox>
-                                                      <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="estrategia">
+                                                      <Label alignment="CENTER" contentDisplay="CENTER" styleClass="labelCuerpo" stylesheets="@styles/menuinicio.css" text="estrategia" visible="false">
                                                          <font>
                                                             <Font name="Abyssinica SIL" size="13.0" />
                                                          </font>
                                                          <VBox.margin>
-                                                            <Insets top="10.0" />
+                                                            <Insets />
                                                          </VBox.margin>
                                                       </Label>
-                                                      <HBox prefWidth="400.0">
-                                                         <children>
-                                                            <TextField fx:id="cajaEstrategiaPlan" accessibleText="planTratamiento" alignment="BOTTOM_CENTER" promptText="Ingresar estrategia" stylesheets="@styles/menuinicio.css">
-                                                               <styleClass>
-                                                                  <String fx:value="cajas" />
-                                                                  <String fx:value="error" />
-                                                                  <String fx:value="cajasChicas" />
-                                                               </styleClass>
-                                                            </TextField>
-                                                         </children>
-                                                      </HBox>
                                                    </children>
                                                    <HBox.margin>
                                                       <Insets left="100.0" />

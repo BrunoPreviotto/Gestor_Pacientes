@@ -10,18 +10,18 @@ package com.pacientes.gestor_pacientes.modelo;
  */
 public class Afiliado {
     private Integer id;
-    private Integer numero;
+    private Long numero;
     private int idPaciente;
     
      public Afiliado() {
         
     }
 
-    public Afiliado(Integer numero) {
+    public Afiliado(Long numero) {
         this.numero = numero;
     }
 
-    public Afiliado(Integer numero, int idPaciente) {
+    public Afiliado(Long numero, int idPaciente) {
         this.numero = numero;
         this.idPaciente = idPaciente;
     }
@@ -36,11 +36,11 @@ public class Afiliado {
         this.id = id;
     }
 
-    public Integer getNumero() {
+    public Long getNumero() {
         return numero;
     }
 
-    public void setNumero(Integer numero) {
+    public void setNumero(Long numero) {
         this.numero = numero;
     }
 

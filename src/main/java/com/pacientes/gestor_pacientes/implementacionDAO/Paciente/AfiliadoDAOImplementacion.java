@@ -30,7 +30,7 @@ public class AfiliadoDAOImplementacion extends PadreDAOImplementacion implements
 
     @Override
     public void actualizar(Afiliado objetoParametro) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       
     }
 
     @Override
@@ -52,7 +52,7 @@ public class AfiliadoDAOImplementacion extends PadreDAOImplementacion implements
             
             //BUSCAR ID DE AFILIADO OBRA SOCIAL  
             PreparedStatement psBuscarIdFrecuencia = conexion.conexion().prepareStatement(sqlObtenerIdAfiliado);
-            psBuscarIdFrecuencia.setInt(1, objetoParametro.getNumero());
+            psBuscarIdFrecuencia.setLong(1, objetoParametro.getNumero());
             psBuscarIdFrecuencia.setInt(2, objetoParametro.getIdPaciente());
             ResultSet rsBuscarIdAfiliado= psBuscarIdFrecuencia.executeQuery();
             if(rsBuscarIdAfiliado.next()){

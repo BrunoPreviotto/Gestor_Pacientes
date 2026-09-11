@@ -51,7 +51,7 @@ public class ObraSocialDAOImplementacion extends PadreDAOImplementacion implemen
 "                                            JOIN emails e ON uos.id_email = e.id_email \n" +
 "                                            JOIN telefonos ost ON uos.id_telefono  = ost.id_telefono\n" +
 "                                            JOIN obras_sociales os ON os.id_obra_social = uos.id_obra_social\n" +
-"                                            WHERE uos.id_usuario = 10 AND uos.es_obra_social =1;";
+"                                            WHERE uos.id_usuario = ? AND uos.es_obra_social =1;";
         
         
       
@@ -111,7 +111,8 @@ public class ObraSocialDAOImplementacion extends PadreDAOImplementacion implemen
             
             return listaObraSocial;
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         listaObraSocial = null;
         return listaObraSocial;
@@ -145,7 +146,7 @@ public class ObraSocialDAOImplementacion extends PadreDAOImplementacion implemen
                                "JOIN obras_sociales_planes_obras_sociales ospos \n" +
                                "ON pos.id_plan_obra_social = ospos.id_plan_obra_social \n" +
                                "JOIN obras_sociales os ON os.id_obra_social = ospos.id_obra_social \n" +
-                               "WHERE os.id_obra_social = ?";
+                               "WHERE os.id_obra_social = ? AND ospos.id_usuario = ?";
             
             
            
@@ -173,6 +174,7 @@ public class ObraSocialDAOImplementacion extends PadreDAOImplementacion implemen
                 if (rsIdObraSocial.next()) {
 
                     psPlanes.setInt(1, rsIdObraSocial.getInt("id_obra_social"));
+                    psPlanes.setInt(2, VariablesEstaticas.usuario.getId());
                     ResultSet rsPlanes = psPlanes.executeQuery();
                     while (rsPlanes.next()) {
                         listaPlanes.add(rsPlanes.getString("nombre"));
