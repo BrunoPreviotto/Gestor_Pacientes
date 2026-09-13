@@ -65,21 +65,27 @@ public class PlanTratamientoDAOImplementacion extends PadreDAOImplementacion imp
             daoImplementacion = new TipoSesionPlanDAOImplementacion();
             int idTipoSesion = daoImplementacion.obtenerId(objetoParametro.getTipoSEsion());
             
-            System.out.println(idFrecuencia);
+             int idPlan =  obtenerId(objetoParametro);
             //Actualiza Planes
-            PreparedStatement psPlanes = conexion.conexion().prepareStatement(sqlPlanesTratamientos);
-            psPlanes.setString(1, objetoParametro.getEstrategia());
-            psPlanes.setInt(2, idFrecuencia);
-            psPlanes.setInt(3, idTipoSesion);
-            psPlanes.setInt(4, objetoParametro.getIdPaciente());
-            psPlanes.executeQuery();
             
-            psPlanes.close();
+            if(idPlan==0){
+                insertar(objetoParametro);
+            }else{
+                    PreparedStatement psPlanes = conexion.conexion().prepareStatement(sqlPlanesTratamientos);
+                    psPlanes.setString(1, objetoParametro.getEstrategia());
+                    psPlanes.setInt(2, idFrecuencia);
+                    psPlanes.setInt(3, idTipoSesion);
+                    psPlanes.setInt(4, objetoParametro.getIdPaciente());
+                    psPlanes.executeQuery();
+
+                    psPlanes.close();
+            }
+          
             
            
            
         } catch (SQLException e) {
-            
+           e.printStackTrace();
         }
     }
 
@@ -122,7 +128,23 @@ public class PlanTratamientoDAOImplementacion extends PadreDAOImplementacion imp
 
     @Override
     public int obtenerId(PlanTratamiento objetoParametro) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         String sqlPlanes = "SELECT pt.id_plan_tratamiento  \n" +
+                                        "  FROM gestion_pacientes.planes_tratamientos pt \n" +
+                                        "  WHERE id_paciente=?;";
+
+        PreparedStatement psPlan = conexion.conexion().prepareStatement(sqlPlanes);
+        
+        if(Objects.nonNull(VariablesEstaticas.paciente)){
+            psPlan.setInt(1, VariablesEstaticas.paciente.getId());
+            ResultSet rsPlan = psPlan.executeQuery();
+
+            if (rsPlan.next()) {
+                return rsPlan.getInt("id_plan_tratamiento");
+            }
+        return 0;
+        }else{
+            return 0;
+        }
     }
 
     

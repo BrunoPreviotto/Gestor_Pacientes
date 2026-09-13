@@ -1431,17 +1431,6 @@
                                                             </HBox>
                                                          </children>
                                                       </VBox>
-                                                      <HBox prefHeight="382.0" prefWidth="275.0" visible="false">
-                                                         <children>
-                                                            <TextField fx:id="cajaEstrategiaPlan" accessibleText="planTratamiento" alignment="BOTTOM_CENTER" promptText="Ingresar estrategia" stylesheets="@styles/menuinicio.css">
-                                                               <styleClass>
-                                                                  <String fx:value="cajas" />
-                                                                  <String fx:value="error" />
-                                                                  <String fx:value="cajasChicas" />
-                                                               </styleClass>
-                                                            </TextField>
-                                                         </children>
-                                                      </HBox>
                                                       <VBox fx:id="vBoxNombreTipoSEsionPlan" prefWidth="100.0">
                                                          <children>
                                                             <Separator disable="true" halignment="LEFT" prefWidth="200.0" valignment="TOP">
@@ -1607,6 +1596,22 @@
                                              </children>
                                           </HBox>
                                        </center>
+                                       <left>
+                                          <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="0.0" prefWidth="0.0" visible="false" BorderPane.alignment="CENTER">
+                                             <children>
+                                                <TextField fx:id="cajaEstrategiaPlan" accessibleText="planTratamiento" alignment="BOTTOM_CENTER" promptText="Ingresar estrategia" stylesheets="@styles/menuinicio.css">
+                                                   <styleClass>
+                                                      <String fx:value="cajas" />
+                                                      <String fx:value="error" />
+                                                      <String fx:value="cajasChicas" />
+                                                   </styleClass>
+                                                </TextField>
+                                             </children>
+                                             <BorderPane.margin>
+                                                <Insets />
+                                             </BorderPane.margin>
+                                          </HBox>
+                                       </left>
                                     </BorderPane>
                                  </children>
                               </AnchorPane>

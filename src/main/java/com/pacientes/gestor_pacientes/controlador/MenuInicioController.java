@@ -1132,7 +1132,7 @@ public class MenuInicioController extends PacienteController implements Initiali
 
     @FXML
     private void actualizarPlanTratamientoPaciente(MouseEvent event) {
-
+         System.out.println("SIUUUUUUUUU");
         //SI CAJAS ESTAN HABILITADAS
         if (botonActualizarPlanTratamiento.getId().equals("1")) {
             //SI SE BUSCO AL PACIENTE
@@ -1140,6 +1140,7 @@ public class MenuInicioController extends PacienteController implements Initiali
                 //SI LAS CAJAS IMPORTATES TIENEN VALOR
 
                 try {
+                    
                     daoImplementacion = new PacienteDAOImplementacion();
                     int idPaciente = daoImplementacion.obtenerId(new Paciente(Integer.parseInt(cajaBuscarPaciente.getText())));
                     servicioPaciente.datosPlanVacios();
@@ -1164,6 +1165,7 @@ public class MenuInicioController extends PacienteController implements Initiali
 
                 } catch (Exception e) {
                     mensajeAdvertenciaError("Error al actualizar Plan", this, VariablesEstaticas.imgenError);
+                    e.printStackTrace();
                 }
 
             } else {
