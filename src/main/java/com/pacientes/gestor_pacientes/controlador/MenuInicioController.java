@@ -44,6 +44,7 @@ import com.pacientes.gestor_pacientes.utilidades.Directorios;
 import com.pacientes.gestor_pacientes.utilidades.Exepciones;
 
 import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
+import com.pacientes.gestor_pacientes.utilidades.WebUtilidades;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -334,17 +335,24 @@ public class MenuInicioController extends PacienteController implements Initiali
     }
 
     public void buscarSesiones(Paciente pacienteResultado) {
+        VariablesEstaticas.mapObservacionAutorizacionSesionesHTML.clear();
+        VariablesEstaticas.mapObservacionSesionesHTML.clear();
+        VariablesEstaticas.mapTrabajoSesionesHTML.clear();
         if (Objects.nonNull(pacienteResultado.getSesiones())) {
             ObservableList<TablaSesiones> olSesiones = FXCollections.observableArrayList();
             for (SesionPaciente sp : pacienteResultado.getSesiones()) {
 
+                
+                
                 olSesiones.add(new TablaSesiones(
-                        String.valueOf(sp.getNumeroSesion()),
+                        String.valueOf(sp.getIdSesion()),
+                       String.valueOf(sp.getNumeroSesion()),
                         sp.getFecha().toString(),
-                        sp.getTrabajoSesion(),
-                        sp.getObservacion(),
+                        WebUtilidades.deHTMLAString(sp.getTrabajoSesion()),
+                         WebUtilidades.deHTMLAString(sp.getObservacion()),
                         String.valueOf(sp.getHonorarioPorSesion()),
                         sp.getEstado().getEstado(),
+                        String.valueOf(sp.getAutorizacion().getId()),
                         String.valueOf(sp.getAutorizacion().getNumeroAutorizacion()),
                         sp.getAutorizacion().getObservacion(),
                         sp.getAutorizacion().getAsociacion().toString(),
@@ -355,6 +363,7 @@ public class MenuInicioController extends PacienteController implements Initiali
 
             tablaAutorizacion.setItems(olSesiones);
             tableSesiones.setItems(olSesiones);
+            ColumnaSesionId.setCellValueFactory(new PropertyValueFactory<>("idSesion"));
             ColumnaSesionNumero.setCellValueFactory(new PropertyValueFactory<>("numeroSesion"));
             ColumnaSesionFecha.setCellValueFactory(new PropertyValueFactory<>("fechaSesion"));
             ColumnaSesionTrabajo.setCellValueFactory(new PropertyValueFactory<>("trabajoSesion"));
@@ -362,6 +371,7 @@ public class MenuInicioController extends PacienteController implements Initiali
             ColumnaSesionHonorarioPorSesion.setCellValueFactory(new PropertyValueFactory<>("honorariosPorSesion"));
             ColumnaSesionEstadoFacturacion.setCellValueFactory(new PropertyValueFactory<>("estadoFacturacion"));
 
+            columnaIdAutorizacion.setCellValueFactory(new PropertyValueFactory<>("idAutorizacion"));
             columnaAutorizacionNumero.setCellValueFactory(new PropertyValueFactory<>("numeroAutorizacion"));
             columnaAutorizacionObservacion.setCellValueFactory(new PropertyValueFactory<>("observacionAutorizacion"));
             columnaAutorizacionAsociacion.setCellValueFactory(new PropertyValueFactory<>("asociacion"));
@@ -388,7 +398,7 @@ public class MenuInicioController extends PacienteController implements Initiali
             e.printStackTrace();
         }
 
-        System.out.println(" Plan: " + Objects.nonNull(plan) + " Paciente: " + Objects.nonNull(VariablesEstaticas.paciente));
+       
 
         if (Objects.nonNull(plan)) {
             hboxBotoneraFrecuenciaPLanTratamiento.setVisible(false);
@@ -409,7 +419,7 @@ public class MenuInicioController extends PacienteController implements Initiali
                     deshabilitarCajas(VariablesEstaticas.cajasPlanes);
                     botonEliminarPlanTratamiento.setDisable(false);
 
-            System.out.println("ENTRA A 1");
+            
 
         } else {
             hboxBotoneraFrecuenciaPLanTratamiento.setVisible(true);
@@ -435,7 +445,7 @@ public class MenuInicioController extends PacienteController implements Initiali
 
             choiseTipoSesionPlan.setFocusTraversable(true);
             choiseTipoSesionPlan.setMouseTransparent(false);
-            System.out.println("ENTRA A 2");
+            
 
         }
 
@@ -547,22 +557,32 @@ public class MenuInicioController extends PacienteController implements Initiali
         //SESION
         ObservableList<?> selectedItems = tableSesiones.getSelectionModel().getSelectedItems();
 
+      
+        
         if (!selectedItems.isEmpty()) {
 
-            return new SesionPaciente(Integer.parseInt(tableSesiones.getSelectionModel().getSelectedItem().getNumeroSesion()),
+            
+            
+            return new SesionPaciente(
+                    
+                    Integer.parseInt(tableSesiones.getSelectionModel().getSelectedItem().getIdSesion()),
+                    Integer.parseInt(tableSesiones.getSelectionModel().getSelectedItem().getNumeroSesion()),
                     LocalDate.parse(tableSesiones.getSelectionModel().getSelectedItem().getFechaSesion()),
                     tableSesiones.getSelectionModel().getSelectedItem().getTrabajoSesion(),
                     tableSesiones.getSelectionModel().getSelectedItem().getObservacionSesion(),
                     Double.parseDouble(tableSesiones.getSelectionModel().getSelectedItem().getHonorariosPorSesion()),
-                    new AutorizacionesSesionesObraSociales(0,
+                    new AutorizacionesSesionesObraSociales(
+                            Integer.parseInt(tableSesiones.getSelectionModel().getSelectedItem().getIdAutorizacion()),
                             Long.parseLong(tableSesiones.getSelectionModel().getSelectedItem().getNumeroAutorizacion()),
                             tableSesiones.getSelectionModel().getSelectedItem().getObservacionAutorizacion(),
                             LocalDate.parse(tableSesiones.getSelectionModel().getSelectedItem().getAsociacion()),
                             Double.parseDouble(tableSesiones.getSelectionModel().getSelectedItem().getCopago()),
                             new CodigoFacturacion(tableSesiones.getSelectionModel().getSelectedItem().getNombreCodigo()),
                             0,
-                            0),
-                    new EstadoFacturacion(tableSesiones.getSelectionModel().getSelectedItem().getEstadoFacturacion()));
+                            0
+                    ),
+                    new EstadoFacturacion(tableSesiones.getSelectionModel().getSelectedItem().getEstadoFacturacion())
+            );
         }
 
         return new SesionPaciente();
@@ -1132,7 +1152,7 @@ public class MenuInicioController extends PacienteController implements Initiali
 
     @FXML
     private void actualizarPlanTratamientoPaciente(MouseEvent event) {
-         System.out.println("SIUUUUUUUUU");
+        
         //SI CAJAS ESTAN HABILITADAS
         if (botonActualizarPlanTratamiento.getId().equals("1")) {
             //SI SE BUSCO AL PACIENTE
@@ -1456,7 +1476,7 @@ public class MenuInicioController extends PacienteController implements Initiali
                     daoImplementacion = new AutorizacionDAOImplementacion();
                     int idAutorizacion = daoImplementacion.obtenerId(new AutorizacionesSesionesObraSociales(Long.parseLong(tableSesiones.getSelectionModel().getSelectedItem().getNumeroAutorizacion()), LocalDate.parse(tableSesiones.getSelectionModel().getSelectedItem().getAsociacion()), idSesion, idPaciente));
                     autorizacion.setId(idAutorizacion);
-                    System.out.println(idAutorizacion);
+                    
                     autorizacion.setNumeroAutorizacion(Long.parseLong(tablaAutorizacion.getSelectionModel().getSelectedItem().getNumeroAutorizacion()));
                     autorizacion.setAsociacion(ldsaNuevo);
                     autorizacion.setObservacion(tablaAutorizacion.getSelectionModel().getSelectedItem().getObservacionAutorizacion());
@@ -1550,9 +1570,7 @@ public class MenuInicioController extends PacienteController implements Initiali
                     servicioObraSocial.desPintarCajaVaciaImportante(VariablesEstaticas.cajasObrasSociales);
                     if (control.getId().equals("tablaObraSocial")) {
                         
-                        if(tablaObraSocial.getSelectionModel().getSelectedItem().getPlanes().length()==0){
-                                System.out.println(tablaObraSocial.getSelectionModel().getSelectedItem().getPlanes().length());
-                        }
+                        
                     
                         
                         
@@ -1811,7 +1829,7 @@ public class MenuInicioController extends PacienteController implements Initiali
                 mensajeAdvertenciaError("Plan eliminado con exito", this, VariablesEstaticas.imgenExito);
 
             } else {
-                System.out.println(choiceVerPlanesObraSocial.getItems().size());
+               
                 servicioObraSocial.pintarCajaVaciaImportante(VariablesEstaticas.cajasObrasSociales);
                 mensajeAdvertenciaError("No hay elementos seleccionados para eliminar", this, VariablesEstaticas.imgenAdvertencia);
             }
@@ -2039,7 +2057,7 @@ public class MenuInicioController extends PacienteController implements Initiali
 
                     daoImplementacion = new ObraSocialDAOImplementacion();
                     obraSocial.setId(daoImplementacion.obtenerId(obraSocial));
-                    System.out.println(obraSocial.getId());
+                   
                     if (Objects.nonNull(obraSocial.getId())) {
                         daoImplementacion.eliminar(obraSocial);
 
@@ -2252,8 +2270,7 @@ public class MenuInicioController extends PacienteController implements Initiali
 
             @Override
             protected Void call() {
-                //updateMessage("Generando respaldo de MariaDB...");
-                //updateProgress(0.3, 1.0);
+               
                 ServicioOpciones servicioOp = new ServicioOpciones();
                 try {
 
@@ -2261,22 +2278,7 @@ public class MenuInicioController extends PacienteController implements Initiali
                     updateProgress(1.0, 1.0);
                     updateMessage("¡Respaldo LOCAL completado con éxito!");
 
-                    /*  if ( "Copia en Google Drive".equals(opcionBackup)) {
-                            System.out.println("DRIVE PAPURRI");
-                            updateMessage("Subiendo a Google Drive...");
-                            updateProgress(0.7, 1.0);
-                            GoogleDriveService.subirArchivoADrive(sqlFile);
-                            // Opcional: eliminar archivo temporal local
-                            //sqlFile.delete();
-                            //mensajeAdvertenciaError("Guardado correctamente en Google Drive", this, VariablesEstaticas.imgenExito);
-                        } else {
-                             System.out.println("LAMENTABLEMENTE FALSO");
-                            //updateMessage("Guardado localmente en: " + sqlFile.getAbsolutePath());
-                            // Si es local puro, puedes abrir un DirectoryChooser previamente para moverlo allí.
-                              //mensajeAdvertenciaError("Guardado correctamente en: " + sqlFile.getAbsolutePath(), this, VariablesEstaticas.imgenExito);
-                              updateProgress(1.0, 1.0);
-                                 updateMessage("¡Respaldo LOCAL completado con éxito!");
-                        }*/
+                
                 } catch (Exception e) {
                     updateProgress(1.0, 1.0);
                     updateMessage("¡ERROR!");
@@ -2734,31 +2736,19 @@ public class MenuInicioController extends PacienteController implements Initiali
                             .toURI()
             );
 
-            System.out.println(miJar);
+            
 
             Path otroJar = miJar
                     .resolveSibling("../../actualizacionGestorPaciente/target/actualizador-1.0-SNAPSHOT.jar")
                     .normalize();
 
-            System.out.println(otroJar);
+            
 
             ProcessBuilder pb = new ProcessBuilder("java", "-jar", otroJar.toString());
 
             pb.start();
 
-            /* pb.redirectErrorStream(true);
-
-            Process proceso = pb.start();
-
-            BufferedReader reader = new BufferedReader( new InputStreamReader(proceso.getInputStream()));
-            
-            String linea;
-            while ((linea = reader.readLine()) != null) {
-                System.out.println(linea);
-            }
-
-            int exitCode = proceso.waitFor();
-            System.out.println("Código de salida: " + exitCode);*/
+          
             System.exit(0);
 
         } catch (Exception e) {

@@ -38,12 +38,26 @@ public class AutorizacionesSesionesObraSociales {
         this.idSesion = idSesion;
         this.idPaciente = idPaciente;
     }
+
+    public AutorizacionesSesionesObraSociales(String observacion) {
+        this.observacion = observacion;
+    }
     
     
     
     
 
+    public AutorizacionesSesionesObraSociales(int id, Long numeroAutorizacion, String observacion, LocalDate asociacion, Double copago, CodigoFacturacion codigoFacturacion) {
+        this.id = id;
+        this.numeroAutorizacion = numeroAutorizacion;
+        this.observacion = observacion;
+        this.asociacion = asociacion;
+        this.copago = copago;
+        this.codigoFacturacion = codigoFacturacion;
+    }
+    
     public AutorizacionesSesionesObraSociales(Long numeroAutorizacion, String observacion, LocalDate asociacion, Double copago, CodigoFacturacion codigoFacturacion) {
+        
         this.numeroAutorizacion = numeroAutorizacion;
         this.observacion = observacion;
         this.asociacion = asociacion;

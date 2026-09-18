@@ -23,13 +23,19 @@ public class SesionPaciente {
     private Double honorarioPorSesion;
     private int idPaciente;
 
-   
+    public SesionPaciente(String trabajoSesion, String observacion, AutorizacionesSesionesObraSociales autorizacion) {
+        this.trabajoSesion = trabajoSesion;
+        this.observacion = observacion;
+        this.autorizacion = autorizacion;
+    }
+
+
 
     public SesionPaciente() {
     }
 
-    public SesionPaciente(int idSesion, Integer numeroSesion, LocalDate fecha, String trabajoSesion, String observacion, String motivoTrabajoEmergente, AutorizacionesSesionesObraSociales autorizacion, EstadoFacturacion estado, Double honorarioPorSesion) {
-        this.idSesion = idSesion;
+    public SesionPaciente(Integer numeroSesion, LocalDate fecha, String trabajoSesion, String observacion, String motivoTrabajoEmergente, AutorizacionesSesionesObraSociales autorizacion, EstadoFacturacion estado, Double honorarioPorSesion) {
+       
         this.numeroSesion = numeroSesion;
         this.fecha = fecha;
         this.trabajoSesion = trabajoSesion;
@@ -51,7 +57,8 @@ public class SesionPaciente {
         this.estado = estado;
     }
 
-    public SesionPaciente(Integer numeroSesion, LocalDate fecha, String trabajoSesion, String observacion, Double honorarioPorSesion, AutorizacionesSesionesObraSociales autorizacion, EstadoFacturacion estado) {
+    public SesionPaciente(int idSesion,  Integer numeroSesion, LocalDate fecha, String trabajoSesion, String observacion, Double honorarioPorSesion, AutorizacionesSesionesObraSociales autorizacion, EstadoFacturacion estado) {
+         this.idSesion = idSesion;
         this.numeroSesion = numeroSesion;
         this.fecha = fecha;
         this.trabajoSesion = trabajoSesion;

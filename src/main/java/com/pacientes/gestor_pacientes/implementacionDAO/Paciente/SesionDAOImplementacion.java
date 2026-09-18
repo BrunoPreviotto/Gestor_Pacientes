@@ -29,7 +29,7 @@ public class SesionDAOImplementacion extends PadreDAOImplementacion implements C
 
     @Override
     public List<SesionPaciente> obtenerLista(SesionPaciente objetoParametro) throws SQLException {
-        String sqlListaSesiones = "SELECT sp.numero_sesion, sp.fecha, sp.trabajo_sesion, sp.observacion  AS obsevacionSesion, \n"
+        String sqlListaSesiones = "SELECT  sp.id_sesion_paciente, a.id_autorizacion, sp.numero_sesion, sp.fecha, sp.trabajo_sesion, sp.observacion  AS obsevacionSesion, \n"
                 + "sp.honorarios_por_sesion , a.numero_autorizacion, a.observacion AS observacionAutorizacion,\n"
                 + "a.asociacion, a.copago, cf.nombre, ef.estado \n"
                 + "FROM autorizaciones a JOIN sesiones_pacientes_autorizaciones spa ON a.id_autorizacion = spa.id_autorizacion\n"
@@ -47,12 +47,15 @@ public class SesionDAOImplementacion extends PadreDAOImplementacion implements C
             ResultSet rsSesiones = psSesiones.executeQuery();
             while (rsSesiones.next()) {
 
-                ts.add(new SesionPaciente(rsSesiones.getInt("numero_sesion"),
+                ts.add(new SesionPaciente(rsSesiones.getInt("id_sesion_paciente"),
+                        rsSesiones.getInt("numero_sesion"),
                         LocalDate.parse(rsSesiones.getString("fecha")),
                         rsSesiones.getString("trabajo_sesion"),
                         rsSesiones.getString("obsevacionSesion"),
                         Double.parseDouble(rsSesiones.getString("honorarios_por_sesion")),
-                        new AutorizacionesSesionesObraSociales(rsSesiones.getLong("numero_autorizacion"),
+                        new AutorizacionesSesionesObraSociales(
+                                rsSesiones.getInt("id_autorizacion"), 
+                                rsSesiones.getLong("numero_autorizacion"),
                                 rsSesiones.getString("observacionAutorizacion"),
                                 LocalDate.parse(rsSesiones.getString("asociacion")),
                                 rsSesiones.getDouble("copago"), new CodigoFacturacion(rsSesiones.getString("nombre"))),
@@ -71,7 +74,46 @@ public class SesionDAOImplementacion extends PadreDAOImplementacion implements C
 
     @Override
     public SesionPaciente obtener(SesionPaciente objetoParametro) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         String sqlListaSesiones = "SELECT sp.id_sesion_paciente, a.id_autorizacion, sp.numero_sesion, sp.fecha, sp.trabajo_sesion, sp.observacion  AS obsevacionSesion, \n" +
+"                sp.honorarios_por_sesion , a.numero_autorizacion, a.observacion AS observacionAutorizacion,\n" +
+"                a.asociacion, a.copago, cf.nombre, ef.estado \n" +
+"                FROM gestion_pacientes.autorizaciones a JOIN gestion_pacientes.sesiones_pacientes_autorizaciones spa ON a.id_autorizacion = spa.id_autorizacion\n" +
+"                JOIN gestion_pacientes.sesiones_pacientes sp ON spa.id_sesion_paciente = sp.id_sesion_paciente\n" +
+"               	JOIN gestion_pacientes.codigos_facturaciones cf ON a.id_codigo_facturacion = cf.id_codigo_facturacion\n" +
+"               	JOIN gestion_pacientes.estados_facturacion ef ON ef.id_estado_facturacion = sp.id_estado_facturacion \n" +
+"                WHERE sp.id_sesion_paciente = ? \n" +
+"                ORDER BY sp.numero_sesion ASC;";
+         
+            SesionPaciente sesion;
+       
+
+            PreparedStatement psSesiones = conexion.conexion().prepareStatement(sqlListaSesiones);
+            psSesiones.setInt(1, objetoParametro.getIdSesion());
+            ResultSet rsSesiones = psSesiones.executeQuery();
+            
+            if(rsSesiones.next()){
+                 sesion = new SesionPaciente(rsSesiones.getInt("id_sesion_paciente"),
+                        rsSesiones.getInt("numero_sesion"),
+                        LocalDate.parse(rsSesiones.getString("fecha")),
+                        rsSesiones.getString("trabajo_sesion"),
+                        rsSesiones.getString("obsevacionSesion"),
+                        Double.parseDouble(rsSesiones.getString("honorarios_por_sesion")),
+                        new AutorizacionesSesionesObraSociales(
+                                rsSesiones.getInt("id_autorizacion"), 
+                                rsSesiones.getLong("numero_autorizacion"),
+                                rsSesiones.getString("observacionAutorizacion"),
+                                LocalDate.parse(rsSesiones.getString("asociacion")),
+                                rsSesiones.getDouble("copago"), new CodigoFacturacion(rsSesiones.getString("nombre"))),
+                        new EstadoFacturacion(rsSesiones.getString("estado")));
+            }else{
+                sesion = null;
+            }
+         
+           
+            psSesiones.close();
+            rsSesiones.close();
+            
+            return sesion;
     }
 
     @Override

@@ -7,6 +7,7 @@ package com.pacientes.gestor_pacientes.implementacionDAO.Paciente;
 import com.pacientes.gestor_pacientes.DAO.CRUD;
 import com.pacientes.gestor_pacientes.implementacionDAO.PadreDAOImplementacion;
 import com.pacientes.gestor_pacientes.modelo.AutorizacionesSesionesObraSociales;
+import com.pacientes.gestor_pacientes.modelo.CodigoFacturacion;
 
 import com.pacientes.gestor_pacientes.utilidades.VariablesEstaticas;
 import java.sql.Date;
@@ -84,9 +85,17 @@ public class AutorizacionDAOImplementacion extends PadreDAOImplementacion implem
         String sqlAutorizacion = "INSERT INTO autorizaciones  (id_autorizacion, numero_autorizacion, observacion, asociacion, copago, id_codigo_facturacion, numeroIdentificadorAutorizacion) VALUES(?,?,?,?,?,?,?)";
         daoImplementacion =  new CodigoFacturacionDAOImplementacion();
         int idCodigoFacturacion = daoImplementacion.obtenerId(objetoParametro.getCodigoFacturacion());
-        
+        System.out.println("id1: " + idCodigoFacturacion);
         if(idCodigoFacturacion == 0){
-            idCodigoFacturacion = 5;
+            CodigoFacturacion sinCodigo = new CodigoFacturacion("Sin código", 0);
+            idCodigoFacturacion = daoImplementacion.obtenerId(sinCodigo);
+            System.out.println("id2: " + idCodigoFacturacion);
+           if(idCodigoFacturacion==0){
+               daoImplementacion.insertar(sinCodigo);
+                idCodigoFacturacion = daoImplementacion.obtenerId(sinCodigo);
+                System.out.println("id2: " + idCodigoFacturacion);
+                
+           }
         }
         
         //INSERTAR AUTORIZACION

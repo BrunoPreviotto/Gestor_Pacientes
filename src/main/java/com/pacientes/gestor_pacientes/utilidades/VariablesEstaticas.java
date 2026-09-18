@@ -11,6 +11,7 @@ import com.pacientes.gestor_pacientes.modelo.ObraSocial;
 import com.pacientes.gestor_pacientes.modelo.Paciente;
 import com.pacientes.gestor_pacientes.modelo.TemaAplicacion;
 import com.pacientes.gestor_pacientes.modelo.Usuario;
+import java.util.HashMap;
 
 import java.util.List;
 import java.util.Map;
@@ -212,6 +213,9 @@ public class VariablesEstaticas {
     
     //SESIONES
     public static int actualizarOCrearSesion = 1;
+    public static Map<String, String> mapTrabajoSesionesHTML = new HashMap();
+    public static Map<String, String> mapObservacionSesionesHTML = new HashMap();
+    public static Map<String, String> mapObservacionAutorizacionSesionesHTML = new HashMap();
 
     
     

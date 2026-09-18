@@ -31,6 +31,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -51,8 +53,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.web.WebEngine;
 import javafx.stage.Modality;
 import javafx.stage.StageStyle;
+
 import javax.xml.transform.Source;
 
 /**
@@ -218,9 +222,17 @@ public class SesionesController extends MenuInicioController implements Initiali
 
                     servicioPaciente.rellenarCajasAutorizacionVacias();
                     
-               
                     
+                    
+            
 
+               
+
+
+
+                     
+                      
+                      
                     autorizacionesSesionesObraSociales = new AutorizacionesSesionesObraSociales(
                             Long.parseLong(cajaAutorizacionSesion.getText()),
                             htmlObservacionAutorizacion.getHtmlText(), cajaAsociacionSesionObraSocial.getValue(),
@@ -243,8 +255,8 @@ public class SesionesController extends MenuInicioController implements Initiali
                     int idPaciente = daoImplementacion.obtenerId(new Paciente(Integer.parseInt(cajaBuscarPacientePasado)));
                     sesion.setIdPaciente(idPaciente);
                     autorizacionesSesionesObraSociales.setIdPaciente(idPaciente);
-                    daoImplementacion = new SesionDAOImplementacion();
-                    autorizacionesSesionesObraSociales.setIdSesion(daoImplementacion.obtenerId(sesion));
+                   // daoImplementacion = new SesionDAOImplementacion();
+                    //autorizacionesSesionesObraSociales.setIdSesion(daoImplementacion.obtenerId(sesion));
 
                     sesion.setAutorizacion(autorizacionesSesionesObraSociales);
                     if (!cajaBuscarPacientePasado.isBlank()) {
@@ -254,7 +266,7 @@ public class SesionesController extends MenuInicioController implements Initiali
                                 datosSesionCajasVacios().
                                 datosAutorizacionSesionVacios();
                         daoImplementacion = new SesionDAOImplementacion();
-                        daoImplementacion.insertar(sesion);
+                      daoImplementacion.insertar(sesion);
 
                         mensajeAdvertenciaError("Sesion creado con éxito", this, VariablesEstaticas.imgenExito);
                         
@@ -282,22 +294,42 @@ public class SesionesController extends MenuInicioController implements Initiali
     }
     
     public void rellenarCajasSesionesParaActualizar(){
-         //SESION
-            cajaFechaSesion.setValue(sesioneSeleccionada.getFecha());
-            cajaNumeroSesion.setText(String.valueOf(sesioneSeleccionada.getNumeroSesion()));
-            htmlTrabajoSesion.setHtmlText(sesioneSeleccionada.getTrabajoSesion());
-            htmlObservacionSesion.setHtmlText(sesioneSeleccionada.getObservacion());
-            cajaHonorariosPorSesion.setText(String.valueOf(sesioneSeleccionada.getHonorarioPorSesion()));
-            cajaEstadoFacturacionSesionObraSocial.setText(sesioneSeleccionada.getEstado().getEstado());
+       
+        SesionPaciente sesionHTML;
+        try {
+               daoImplementacion = new SesionDAOImplementacion();
+               sesionHTML = (SesionPaciente)daoImplementacion.obtener(sesioneSeleccionada);
+               if(Objects.nonNull(sesionHTML)){
+                    //SESION
+                  cajaFechaSesion.setValue(sesioneSeleccionada.getFecha());
+                  cajaNumeroSesion.setText(String.valueOf(sesioneSeleccionada.getNumeroSesion()));
+                  htmlTrabajoSesion.setHtmlText(sesionHTML.getTrabajoSesion());
+                  htmlObservacionSesion.setHtmlText(sesionHTML.getObservacion());
+                  cajaHonorariosPorSesion.setText(String.valueOf(sesioneSeleccionada.getHonorarioPorSesion()));
+                  cajaEstadoFacturacionSesionObraSocial.setText(sesioneSeleccionada.getEstado().getEstado());
 
-            //AUTORIZACION
-            
-            cajaAutorizacionSesion.setText(String.valueOf(sesioneSeleccionada.getAutorizacion().getNumeroAutorizacion()));
-            htmlObservacionAutorizacion.setHtmlText(sesioneSeleccionada.getAutorizacion().getObservacion());
-            cajaAsociacionSesionObraSocial.setValue(sesioneSeleccionada.getAutorizacion().getAsociacion());
-            cajaCopagoSesionObraSocial.setText(String.valueOf(sesioneSeleccionada.getAutorizacion().getCopago()));
-            choiseCodigoFactSesionObraSocial.setValue(String.valueOf(sesioneSeleccionada.getAutorizacion().getCodigoFacturacion().getNombre()));
+                  //AUTORIZACION
+
+                  cajaAutorizacionSesion.setText(String.valueOf(sesioneSeleccionada.getAutorizacion().getNumeroAutorizacion()));
+                  htmlObservacionAutorizacion.setHtmlText(sesionHTML.getAutorizacion().getObservacion());
+                  cajaAsociacionSesionObraSocial.setValue(sesioneSeleccionada.getAutorizacion().getAsociacion());
+                  cajaCopagoSesionObraSocial.setText(String.valueOf(sesioneSeleccionada.getAutorizacion().getCopago()));
+                  choiseCodigoFactSesionObraSocial.setValue(String.valueOf(sesioneSeleccionada.getAutorizacion().getCodigoFacturacion().getNombre()));
+            }else{
+                   throw new Exception();
+               }
+               
+        } catch (Exception e) {
+               
+                e.printStackTrace();
+        }
+        
+        
+     
+        
+      
     }
+    
     
     
     

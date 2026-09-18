@@ -327,6 +327,8 @@ public class ClasePadreMenuInicio extends ClasePadreController{
     @FXML
     protected TableView<TablaSesiones> tablaAutorizacion;
         //COLUMN
+       @FXML
+        protected TableColumn<TablaSesiones, String> ColumnaSesionId;
         @FXML
         protected TableColumn<TablaSesiones, String> ColumnaSesionNumero;
         @FXML
@@ -339,6 +341,8 @@ public class ClasePadreMenuInicio extends ClasePadreController{
         protected TableColumn<TablaSesiones, String> ColumnaSesionHonorarioPorSesion;
         @FXML
         protected TableColumn<TablaSesiones, String> ColumnaSesionEstadoFacturacion;
+         @FXML
+        protected TableColumn<TablaSesiones, AutorizacionesSesionesObraSociales>  columnaIdAutorizacion;
         @FXML
         protected TableColumn<TablaSesiones, AutorizacionesSesionesObraSociales> columnaAutorizacionNumero;
         @FXML

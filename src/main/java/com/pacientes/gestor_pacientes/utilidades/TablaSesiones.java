@@ -11,6 +11,7 @@ package com.pacientes.gestor_pacientes.utilidades;
  * @author previotto
  */
 public class TablaSesiones {
+    private String idSesion;
     private String numeroSesion;
     private String fechaSesion;
     private String trabajoSesion;
@@ -18,6 +19,7 @@ public class TablaSesiones {
     private String honorariosPorSesion;
     private String estadoFacturacion;
    
+    private String idAutorizacion;
     private String numeroAutorizacion;
     private String observacionAutorizacion;
     private String asociacion;
@@ -25,18 +27,36 @@ public class TablaSesiones {
     
     private String nombreCodigo;
 
-    public TablaSesiones(String numeroSesion, String fechaSesion, String trabajoSesion, String observacionSesion, String honorariosPorSesion, String estadoFacturacion, String numeroAutorizacion, String observacionAutorizacion, String asociacion, String copago, String nombreCodigo) {
+    public TablaSesiones(String idSesion, String numeroSesion, String fechaSesion, String trabajoSesion, String observacionSesion, String honorariosPorSesion, String estadoFacturacion, String idAutorizacion, String numeroAutorizacion, String observacionAutorizacion, String asociacion, String copago, String nombreCodigo) {
+        this.idSesion = idSesion;
         this.numeroSesion = numeroSesion;
         this.fechaSesion = fechaSesion;
         this.trabajoSesion = trabajoSesion;
         this.observacionSesion = observacionSesion;
         this.honorariosPorSesion = honorariosPorSesion;
         this.estadoFacturacion = estadoFacturacion;
+        this.idAutorizacion = idAutorizacion;
         this.numeroAutorizacion = numeroAutorizacion;
         this.observacionAutorizacion = observacionAutorizacion;
         this.asociacion = asociacion;
         this.copago = copago;
         this.nombreCodigo = nombreCodigo;
+    }
+
+    public String getIdSesion() {
+        return idSesion;
+    }
+
+    public void setIdSesion(String idSesion) {
+        this.idSesion = idSesion;
+    }
+
+    public String getIdAutorizacion() {
+        return idAutorizacion;
+    }
+
+    public void setIdAutorizacion(String idAutorizacion) {
+        this.idAutorizacion = idAutorizacion;
     }
     
 
