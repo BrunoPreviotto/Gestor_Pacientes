@@ -1154,7 +1154,7 @@ public class MenuInicioController extends PacienteController implements Initiali
     private void actualizarPlanTratamientoPaciente(MouseEvent event) {
         
         //SI CAJAS ESTAN HABILITADAS
-        if (botonActualizarPlanTratamiento.getId().equals("1")) {
+        
             //SI SE BUSCO AL PACIENTE
             if (Objects.nonNull(VariablesEstaticas.paciente)) {
                 //SI LAS CAJAS IMPORTATES TIENEN VALOR
@@ -1191,15 +1191,7 @@ public class MenuInicioController extends PacienteController implements Initiali
             } else {
                 mensajeAdvertenciaError("Buscar paciente a actualizar", this, VariablesEstaticas.imgenAdvertencia);
             }
-        } else {
-            botonActualizarPlanTratamiento.setId("1");
-            servicioPaciente.
-                    visibilizarLIstVBox(VariablesEstaticas.vboxsPlanesTratamiento).
-                    ocultarLIstVBox(VariablesEstaticas.vboxsPlanesTratamientoActualizaroVer).
-                    habilitarCajas(VariablesEstaticas.cajasPlanes).
-                    animarCajasAlDarABoton(VariablesEstaticas.cajasPlanes).
-                    animarChoiceAlDarABoton(VariablesEstaticas.choisePlan);
-        }
+      
 
     }
 
