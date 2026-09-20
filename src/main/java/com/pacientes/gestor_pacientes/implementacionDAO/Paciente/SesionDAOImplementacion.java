@@ -225,9 +225,11 @@ public class SesionDAOImplementacion extends PadreDAOImplementacion implements C
              //ASOCIAR AUTORIZACION VACIA CON SESION
                 int idSesion = obtenerId(objetoParametro);
                 daoImplementacion = new AutorizacionDAOImplementacion();
+                objetoParametro.getAutorizacion().setIdSesion(idSesion);
                 daoImplementacion.insertar(objetoParametro.getAutorizacion());
-                int idAutorizacion = daoImplementacion.obtenerId(objetoParametro.getAutorizacion());
                 
+                int idAutorizacion = daoImplementacion.obtenerId(objetoParametro.getAutorizacion());
+                System.out.println("DADADADADADADA: " + idAutorizacion);
                 if(idSesion != 0 && idAutorizacion!=0){
                        PreparedStatement psSesionAutorizacion = conexion.conexion().prepareStatement(sqlSesionAutorizacion);
                     psSesionAutorizacion.setInt(1, idSesion);

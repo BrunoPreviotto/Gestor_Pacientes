@@ -66,7 +66,7 @@ public class AutorizacionDAOImplementacion extends PadreDAOImplementacion implem
                                                                                 objetoParametro.getAsociacion().getMonthValue());
         
         psActualizarAutorizacion.setInt(7, objetoParametro.getId());
-        System.out.println(objetoParametro.getId());
+        
         
         psActualizarAutorizacion.executeUpdate();
     }
@@ -85,15 +85,15 @@ public class AutorizacionDAOImplementacion extends PadreDAOImplementacion implem
         String sqlAutorizacion = "INSERT INTO autorizaciones  (id_autorizacion, numero_autorizacion, observacion, asociacion, copago, id_codigo_facturacion, numeroIdentificadorAutorizacion) VALUES(?,?,?,?,?,?,?)";
         daoImplementacion =  new CodigoFacturacionDAOImplementacion();
         int idCodigoFacturacion = daoImplementacion.obtenerId(objetoParametro.getCodigoFacturacion());
-        System.out.println("id1: " + idCodigoFacturacion);
+        
         if(idCodigoFacturacion == 0){
             CodigoFacturacion sinCodigo = new CodigoFacturacion("Sin código", 0);
             idCodigoFacturacion = daoImplementacion.obtenerId(sinCodigo);
-            System.out.println("id2: " + idCodigoFacturacion);
+            
            if(idCodigoFacturacion==0){
                daoImplementacion.insertar(sinCodigo);
                 idCodigoFacturacion = daoImplementacion.obtenerId(sinCodigo);
-                System.out.println("id2: " + idCodigoFacturacion);
+                
                 
            }
         }
@@ -101,28 +101,31 @@ public class AutorizacionDAOImplementacion extends PadreDAOImplementacion implem
         //INSERTAR AUTORIZACION
         PreparedStatement pstA = conexion.conexion().prepareStatement(sqlAutorizacion);
         
+        int idAutorizacion = obtenerId(objetoParametro);
         
-       
-        pstA.setInt(1,0);
-        pstA.setLong(2, objetoParametro.getNumeroAutorizacion());
-        pstA.setString(3, objetoParametro.getObservacion());
-        pstA.setDate(4, Date.valueOf(objetoParametro.getAsociacion().toString()));
-        pstA.setDouble(5, objetoParametro.getCopago());
-        pstA.setInt(6, idCodigoFacturacion);
-        pstA.setString(7, 
-                String.valueOf(VariablesEstaticas.usuario.getId()) + 
-                        objetoParametro.getIdPaciente() +
-                        objetoParametro.getIdSesion() +
-                        objetoParametro.getNumeroAutorizacion() + 
-                        objetoParametro.getAsociacion().getYear() +
-                        objetoParametro.getAsociacion().getDayOfMonth() +
-                        objetoParametro.getAsociacion().getMonthValue());
-        
-        
-        
-        
-        pstA.executeUpdate();
-        pstA.close();
+        if(idAutorizacion == 0){
+              pstA.setInt(1,0);
+            pstA.setLong(2, objetoParametro.getNumeroAutorizacion());
+            pstA.setString(3, objetoParametro.getObservacion());
+            pstA.setDate(4, Date.valueOf(objetoParametro.getAsociacion().toString()));
+            pstA.setDouble(5, objetoParametro.getCopago());
+            pstA.setInt(6, idCodigoFacturacion);
+            pstA.setString(7, 
+                    String.valueOf(VariablesEstaticas.usuario.getId()) + 
+                            objetoParametro.getIdPaciente() +
+                            objetoParametro.getIdSesion() +
+                            objetoParametro.getNumeroAutorizacion() + 
+                            objetoParametro.getAsociacion().getYear() +
+                            objetoParametro.getAsociacion().getDayOfMonth() +
+                            objetoParametro.getAsociacion().getMonthValue());
+
+
+
+
+            pstA.executeUpdate();
+            pstA.close();
+        }
+      
         
         
         
@@ -137,13 +140,7 @@ public class AutorizacionDAOImplementacion extends PadreDAOImplementacion implem
 
         PreparedStatement psAutorizacion = conexion.conexion().prepareStatement(sqlIdAutorizacion);
         
-        System.out.println(String.valueOf(VariablesEstaticas.usuario.getId()) + 
-                        objetoParametro.getIdPaciente() +
-                        objetoParametro.getIdSesion() +
-                        objetoParametro.getNumeroAutorizacion() + 
-                        objetoParametro.getAsociacion().getYear() +
-                        objetoParametro.getAsociacion().getDayOfMonth() +
-                        objetoParametro.getAsociacion().getMonthValue());
+        System.out.println("us: " + VariablesEstaticas.usuario.getId() + " idPac: " + objetoParametro.getIdPaciente() + " idSes: " + objetoParametro.getIdSesion() + " numAut : " + objetoParametro.getNumeroAutorizacion());
        
       
         psAutorizacion.setString(1, 
@@ -165,6 +162,7 @@ public class AutorizacionDAOImplementacion extends PadreDAOImplementacion implem
 
             return 0;
         }
+        
     }
 
    

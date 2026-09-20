@@ -222,16 +222,6 @@ public class SesionesController extends MenuInicioController implements Initiali
 
                     servicioPaciente.rellenarCajasAutorizacionVacias();
                     
-                    
-                    
-            
-
-               
-
-
-
-                     
-                      
                       
                     autorizacionesSesionesObraSociales = new AutorizacionesSesionesObraSociales(
                             Long.parseLong(cajaAutorizacionSesion.getText()),
@@ -266,7 +256,8 @@ public class SesionesController extends MenuInicioController implements Initiali
                                 datosSesionCajasVacios().
                                 datosAutorizacionSesionVacios();
                         daoImplementacion = new SesionDAOImplementacion();
-                      daoImplementacion.insertar(sesion);
+
+                     daoImplementacion.insertar(sesion);
 
                         mensajeAdvertenciaError("Sesion creado con éxito", this, VariablesEstaticas.imgenExito);
                         
