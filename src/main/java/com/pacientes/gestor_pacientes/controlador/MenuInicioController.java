@@ -1468,13 +1468,13 @@ public class MenuInicioController extends PacienteController implements Initiali
                     sesionBuscar.setNumeroSesion(Integer.parseInt(tableSesiones.getSelectionModel().getSelectedItem().getNumeroSesion()));
 
                     daoImplementacion = new SesionDAOImplementacion();
-                    int idSesion = daoImplementacion.obtenerId(sesionBuscar);
+                    int idSesion = Integer.parseInt(tableSesiones.getSelectionModel().getSelectedItem().getIdSesion());
 
                     LocalDate ldsNuevo = LocalDate.parse(tableSesiones.getSelectionModel().getSelectedItem().getFechaSesion());
                     LocalDate ldsaNuevo = LocalDate.parse(tablaAutorizacion.getSelectionModel().getSelectedItem().getAsociacion());
 
                     daoImplementacion = new AutorizacionDAOImplementacion();
-                    int idAutorizacion = daoImplementacion.obtenerId(new AutorizacionesSesionesObraSociales(Long.parseLong(tableSesiones.getSelectionModel().getSelectedItem().getNumeroAutorizacion()), LocalDate.parse(tableSesiones.getSelectionModel().getSelectedItem().getAsociacion()), idSesion, idPaciente));
+                    int idAutorizacion = Integer.parseInt(tableSesiones.getSelectionModel().getSelectedItem().getIdAutorizacion()); 
                     autorizacion.setId(idAutorizacion);
                     
                     autorizacion.setNumeroAutorizacion(Long.parseLong(tablaAutorizacion.getSelectionModel().getSelectedItem().getNumeroAutorizacion()));

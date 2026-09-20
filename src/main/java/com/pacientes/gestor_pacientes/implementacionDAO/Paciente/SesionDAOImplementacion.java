@@ -176,6 +176,8 @@ public class SesionDAOImplementacion extends PadreDAOImplementacion implements C
         PreparedStatement psEliminarSesion = conexion.conexion().prepareStatement(sqlEliminarSesion);
         psEliminarSesion.setInt(1, objetoParametro.getIdSesion());
         psEliminarSesion.setInt(2, objetoParametro.getAutorizacion().getId());
+        
+        System.out.println("idsesion: " + objetoParametro.getIdSesion() + " idaut: " + objetoParametro.getAutorizacion().getId());
         psEliminarSesion.executeUpdate();
     }
 
