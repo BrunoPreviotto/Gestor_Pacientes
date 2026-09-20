@@ -191,13 +191,12 @@ public class SesionDAOImplementacion extends PadreDAOImplementacion implements C
 
             daoImplementacion = new EstadoFacturacionDAOImplementacion();
             int idEstadoFacturacion = daoImplementacion.obtenerId(objetoParametro.getEstado());
-            daoImplementacion = new AutorizacionDAOImplementacion();
+         
             
             
-            daoImplementacion = new CodigoFacturacionDAOImplementacion();
-            int idCodigoFacturacion = daoImplementacion.obtenerId(objetoParametro.getAutorizacion().getCodigoFacturacion());
+        
 
-            
+           
             
             if (idEstadoFacturacion == 0) {
                 PreparedStatement pstEstado = conexion.conexion().prepareStatement(sqlEstadoFacturacion);
@@ -220,23 +219,24 @@ public class SesionDAOImplementacion extends PadreDAOImplementacion implements C
             pst.setInt(8, daoImplementacion.obtenerId(objetoParametro.getEstado()));
             pst.executeUpdate();
 
-            int idSesion = obtenerId(objetoParametro);
+           
             
             
              //ASOCIAR AUTORIZACION VACIA CON SESION
-                daoImplementacion = new SesionDAOImplementacion();
-                objetoParametro.getAutorizacion().setIdSesion(daoImplementacion.obtenerId(objetoParametro));
+                int idSesion = obtenerId(objetoParametro);
                 daoImplementacion = new AutorizacionDAOImplementacion();
                 daoImplementacion.insertar(objetoParametro.getAutorizacion());
-                
-                
-                
                 int idAutorizacion = daoImplementacion.obtenerId(objetoParametro.getAutorizacion());
                 
-                PreparedStatement psSesionAutorizacion = conexion.conexion().prepareStatement(sqlSesionAutorizacion);
-                psSesionAutorizacion.setInt(1, idSesion);
-                psSesionAutorizacion.setInt(2, idAutorizacion);
-                psSesionAutorizacion.executeUpdate();
+                if(idSesion != 0 && idAutorizacion!=0){
+                       PreparedStatement psSesionAutorizacion = conexion.conexion().prepareStatement(sqlSesionAutorizacion);
+                    psSesionAutorizacion.setInt(1, idSesion);
+                    psSesionAutorizacion.setInt(2, idAutorizacion);
+                    psSesionAutorizacion.executeUpdate();
+                }else{
+                    throw new Exception();
+                }
+             
             
            
 
