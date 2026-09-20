@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -88,7 +89,11 @@ public class TipoSesionPlanDAOImplementacion extends PadreDAOImplementacion impl
     @Override
     public void insertar(TipoSesion objetoParametro) throws Exception {
          String sqlTipoSesion = "INSERT INTO tipos_sesiones (id_tipo_sesion, nombre, descripcion, id_usuario) VALUES (?,?,?,?)";
-
+         
+         if(Objects.isNull(objetoParametro.getDecripcion())){
+             objetoParametro.setDecripcion("-------");
+         }
+         
         int idTipoSesion = obtenerId(objetoParametro);
         if (idTipoSesion == 0) {
             //INSERTAR SESION SI NO EXISTE

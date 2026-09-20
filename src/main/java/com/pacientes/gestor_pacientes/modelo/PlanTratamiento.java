@@ -73,6 +73,11 @@ public class PlanTratamiento {
     public void setTipoSEsion(TipoSesion tipoSEsion) {
         this.tipoSEsion = tipoSEsion;
     }
+
+    @Override
+    public String toString() {
+        return "PlanTratamiento{" + "idPlan=" + idPlan + ", estrategia=" + estrategia + ", frecuenciaSesion=" + frecuenciaSesion.getFrecuencia() + ", tipoSEsion=" + tipoSEsion.getNombre() + ", idPaciente=" + idPaciente + '}';
+    }
     
     
 }

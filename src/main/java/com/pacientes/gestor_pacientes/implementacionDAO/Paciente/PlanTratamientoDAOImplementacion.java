@@ -33,11 +33,14 @@ public class PlanTratamientoDAOImplementacion extends PadreDAOImplementacion imp
     public PlanTratamiento obtener(PlanTratamiento objetoParametro) throws SQLException {
         PlanTratamiento planTratamiento = new PlanTratamiento();
         
-        String sqlPlanes = "SELECT fs.frecuencia, ts.nombre, ts.descripcion, pt.estrategia FROM planes_tratamientos pt JOIN tipos_sesiones ts ON pt.id_tipo_sesion = ts.id_tipo_sesion JOIN frecuencias_sesiones fs ON pt.id_frecuencia_sesion = fs.id_frecuencia_sesion WHERE id_paciente=?";
+            String sqlPlanes = "SELECT fs.frecuencia, ts.nombre, ts.descripcion, pt.estrategia FROM planes_tratamientos pt JOIN tipos_sesiones ts ON pt.id_tipo_sesion = ts.id_tipo_sesion JOIN frecuencias_sesiones fs ON pt.id_frecuencia_sesion = fs.id_frecuencia_sesion WHERE id_paciente=?";
 
         PreparedStatement psPlan = conexion.conexion().prepareStatement(sqlPlanes);
         
         if(Objects.nonNull(VariablesEstaticas.paciente)){
+            
+            System.out.println("KAKAKAKAKAKAKAKAKAKAAKAKKAKAAKAK: AAKAKAKAKAKAKAKAKAK: " + VariablesEstaticas.paciente.getId());
+            
             psPlan.setInt(1, VariablesEstaticas.paciente.getId());
             ResultSet rsPlan = psPlan.executeQuery();
 

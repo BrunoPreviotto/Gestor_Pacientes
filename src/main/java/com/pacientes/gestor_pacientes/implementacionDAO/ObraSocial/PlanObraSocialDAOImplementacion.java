@@ -138,12 +138,10 @@ public class PlanObraSocialDAOImplementacion extends PadreDAOImplementacion impl
         if (obtenerId(objetoParametro) == 0) {
             //vicular obra social con el plan agregado
             PreparedStatement psVicularObraSocialPlan = conexion.conexion().prepareStatement(sqlVincularObraSocialPlan);
-            if (idObraSocial != 0) {
-
+            if (idObraSocial != 0 && idPlan !=0) {
+                System.out.println("SEHJECUTA Y HAY QUE VER SIDOSVECE PUTITO LOCO");
                 psVicularObraSocialPlan.setInt(1, idObraSocial);
-                if (idPlan != 0) {
-                    psVicularObraSocialPlan.setInt(2, idPlan);
-                }
+                psVicularObraSocialPlan.setInt(2, idPlan);
                 psVicularObraSocialPlan.setInt(3, VariablesEstaticas.usuario.getId());
                 psVicularObraSocialPlan.executeUpdate();
             }

@@ -411,7 +411,7 @@ public class MenuInicioController extends PacienteController implements Initiali
             choiseTipoSesionPlan.setValue(plan.getTipoSEsion().getNombre());
             choiseTipoSesionPlan.getSelectionModel().select(0);
             cajaNombreTipoSesionPlan.setText(plan.getTipoSEsion().getNombre());
-
+            System.out.println(plan.toString());
             servicioPaciente.
                     rellenarListaPlan(plan).
                     visibilizarLIstVBox(VariablesEstaticas.vboxsPlanesTratamientoActualizaroVer).
@@ -787,7 +787,7 @@ public class MenuInicioController extends PacienteController implements Initiali
             if (!cajaNombreTipoSesionPlan.getText().isBlank()) {
                 TipoSesion tipo = new TipoSesion();
                 tipo.setNombre(cajaNombreTipoSesionPlan.getText());
-
+                tipo.setDecripcion(cajaDescripcionTipoSesionPlan.getText());
                 daoImplementacion.insertar(tipo);
 
                 choiseTipoSesionPlan.getItems().clear();
@@ -1754,16 +1754,7 @@ public class MenuInicioController extends PacienteController implements Initiali
 
                 mensajeAdvertenciaError("Obra social creada con éxito", this, VariablesEstaticas.imgenExito);
 
-                ObraSocial os = new ObraSocial();
-                
-                os.setPlan("Sin Plan");
-                os.setNombre(obraSocial.getNombre());
-                
-                
-                if(choiceVerPlanesObraSocial.getItems().get(0).isBlank()){
-                       daoImplementacion = new PlanObraSocialDAOImplementacion();
-                       daoImplementacion.insertar(os);
-                }
+               
 
                 buscarObraSocial(event);
 
