@@ -74,7 +74,7 @@ public class PlanObraSocialDAOImplementacion extends PadreDAOImplementacion impl
         String sql = "DELETE FROM obras_sociales_planes_obras_sociales \n" +
                         "WHERE id_obra_social = ? AND id_plan_obra_social = ? AND id_usuario = ?";
         
-        System.out.println("idOs: " + objetoParametro.getId() + " idPlan: " + objetoParametro.getIdPlan());
+        
         
         PreparedStatement ps = conexion.conexion().prepareStatement(sql);
         ps.setInt(1, objetoParametro.getId());
@@ -139,7 +139,7 @@ public class PlanObraSocialDAOImplementacion extends PadreDAOImplementacion impl
             //vicular obra social con el plan agregado
             PreparedStatement psVicularObraSocialPlan = conexion.conexion().prepareStatement(sqlVincularObraSocialPlan);
             if (idObraSocial != 0 && idPlan !=0) {
-                System.out.println("SEHJECUTA Y HAY QUE VER SIDOSVECE PUTITO LOCO");
+                
                 psVicularObraSocialPlan.setInt(1, idObraSocial);
                 psVicularObraSocialPlan.setInt(2, idPlan);
                 psVicularObraSocialPlan.setInt(3, VariablesEstaticas.usuario.getId());

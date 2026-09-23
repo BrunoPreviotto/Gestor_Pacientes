@@ -411,7 +411,7 @@ public class MenuInicioController extends PacienteController implements Initiali
             choiseTipoSesionPlan.setValue(plan.getTipoSEsion().getNombre());
             choiseTipoSesionPlan.getSelectionModel().select(0);
             cajaNombreTipoSesionPlan.setText(plan.getTipoSEsion().getNombre());
-            System.out.println(plan.toString());
+            
             servicioPaciente.
                     rellenarListaPlan(plan).
                     visibilizarLIstVBox(VariablesEstaticas.vboxsPlanesTratamientoActualizaroVer).
@@ -521,9 +521,9 @@ public class MenuInicioController extends PacienteController implements Initiali
 
         } catch (Exception e) {
             cajaBuscarPaciente.setText("");
-            mensajeAdvertenciaError("Error al crear paciente", this, VariablesEstaticas.imgenError);
+            mensajeAdvertenciaError(e.getMessage(), this, VariablesEstaticas.imgenError);
             cajaNombreDatosPrincipales.getStyleClass().add("cajasARellenar");
-            // e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
@@ -1331,6 +1331,7 @@ public class MenuInicioController extends PacienteController implements Initiali
                                 deshabilitarBotones(listaBotonesActualizar).
                                 habilitarBotones(listaBotonesCrear);
                         cajaBuscarPaciente.setText(null);
+                        vaciarTodasLasCajas(event);
                         buscarPLanes();
 
                     } catch (Exception e) {

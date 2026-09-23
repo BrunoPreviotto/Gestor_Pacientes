@@ -223,7 +223,7 @@ public class ObraSocialDAOImplementacion extends PadreDAOImplementacion implemen
             pSAsociarObraSocialUsuario.close();
             
              if(!obraSocial.getNombre().equals(VariablesEstaticas.obraSocial.getNombre())){
-                 System.out.println();
+                 
                  eliminar(VariablesEstaticas.obraSocial);
                  // VariablesEstaticas.obraSocial.setNombre(obraSocial.getNombre());
             }

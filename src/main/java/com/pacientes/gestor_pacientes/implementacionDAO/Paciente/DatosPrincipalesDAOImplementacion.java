@@ -17,6 +17,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -59,6 +60,7 @@ public class DatosPrincipalesDAOImplementacion extends PadreDAOImplementacion im
             }
 
         } catch (SQLException e) {
+            e.printStackTrace();
             return pacienteNull;
         }
         return pacienteNull;
@@ -127,8 +129,14 @@ public class DatosPrincipalesDAOImplementacion extends PadreDAOImplementacion im
             daoImplementacion = new HonorarioDAOImplementacion();
             int hon = daoImplementacion.obtenerId(objetoParametro.getHonorarios());
             pst.setInt(5, daoImplementacion.obtenerId(objetoParametro.getHonorarios()));
-          
-            pst.setInt(6, obtenerIdPacientePOrUsuario(VariablesEstaticas.paciente.getDni()));
+            
+            if(Objects.isNull(VariablesEstaticas.paciente)){
+                pst.setInt(6, obtenerIdPacientePOrUsuario(objetoParametro.getDni()));
+                
+            }else{
+                pst.setInt(6, obtenerIdPacientePOrUsuario(VariablesEstaticas.paciente.getDni()));
+            }
+           
             
            /* System.out.println(
                            " EDAD: " + objetoParametro.getEdad() +
@@ -142,7 +150,7 @@ public class DatosPrincipalesDAOImplementacion extends PadreDAOImplementacion im
                            
            );*/
             
-
+            
            
             pst.executeUpdate();
             pst.close();
@@ -188,6 +196,8 @@ public class DatosPrincipalesDAOImplementacion extends PadreDAOImplementacion im
                     pst.setDouble(2, objetoParametro.getHonorarios().getHonorario());
                     pst.executeUpdate();
                 }
+                
+                
 
                 //si no existe nombre lo crea
                 if (idNombre == 0) {

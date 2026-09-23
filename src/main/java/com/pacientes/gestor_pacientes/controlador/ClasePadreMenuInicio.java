@@ -1540,60 +1540,7 @@ public class ClasePadreMenuInicio extends ClasePadreController{
         
     }
     
-    /*@FXML
-    public void agrandarCajaParaVer(MouseEvent event){
-        /*try {
-            
-            FXMLLoader Loader = new FXMLLoader(App.class.getResource( "CajaVerHtml.fxml"));
-            Parent root = Loader.load();
-            CajaVerHtmlController controller = Loader.getController();
-            
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setScene(scene);
-            stage.initStyle(StageStyle.TRANSPARENT);
-            
-            Node ev = (Node)event.getSource();
-            String textoAVer = "";
-            
-             System.out.println("ID: " + ev.getId());
-            
-            switch (ev.getId()) {
-                case "botonVerDiagnostico":
-                    textoAVer = cajaDiagnosticoDiagnostico.getText();
-                    break;
-                case "botonVerObservacionDiagnostico":
-                    textoAVer = cajaObservacionDiagnostico.getText();
-                    break;
-                case "botonVerTrabajoSesion":
-                    textoAVer = cajaTrabajoSesion.getText();
-                    break;
-                case "botonVerObservacionSesion":
-                    textoAVer = cajaObservacionSesion.getText();
-                    break;
-                case "botonVerObservacionAutorizacion":
-                    textoAVer = cajaObservacionSesionObraSocial.getText();
-                    break;
-                
-            }
-            
-            
-            if(!cajaBuscarPaciente.getText().isEmpty()){
-               
-               controller.llenarCaja(textoAVer);
-               controller.setIdBoton(ev.getId());
-               controller.setNumDNIPaciente(Integer.parseInt(cajaBuscarPaciente.getText()));
-               stage.showAndWait(); 
-            }
-           
-            
-           
-        
-        } catch (IOException ex) {
-            Logger.getLogger(MensajeAdvertenciaController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }*/
+    
     
    @FXML
    public void elegirColorApp(MouseEvent event){
